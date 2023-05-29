@@ -5,21 +5,39 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>AdminAsignacionTurnos</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8"
+	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+	
 </head>
 <body>
-	<form>
-		<h1>Admin Asignación de Turnos</h1> <br> <br>
+	<h1 class="text-center">Asignación de Turnos</h1> 
+	<form class="w-50 m-auto">
 		
-		<label>Especialidad:</label> <br>
-		<select name="ddlEspecialidades"> </select> <br> <br> <br>
-		<label>Médico:</label> <br>
-		<select name="ddlMedicos"> </select> <br> <br> <br>
-		<label>Horarios:</label> <br>
-		<select name="ddlHorarios"> </select> <br> <br> <br>
-		<label>Pacientes:</label> <br>
-		<select name="ddlPacientes"> </select> <br> <br> <br>
+		<div class="row text-center m-4" >		
+			<label>Especialidad:</label> <br>
+			<select class="form-control" name="ddlEspecialidades"> </select>
+		</div>
 		
-		<button type="submit" name="btnAsignar">Asignar turno</button>
+		<div class="row text-center m-4" >	
+			<label>Médico:</label> <br>
+			<select class="form-control" name="ddlMedicos"> </select>
+		</div>
+		
+		<div class="row text-center m-4" >
+			<label>Horarios:</label> <br>
+			<select class="form-control" name="ddlHorarios"> </select>	
+		</div>
+		
+		<div class="row text-center m-4">
+			<label>Pacientes:</label> <br>
+			<select class="form-control" name="ddlPacientes"> </select>
+		</div>
+		
+		<button class="form-control" type="submit" name="btnAsignar">Asignar turno</button>
 	</form>
 </body>
 </html>

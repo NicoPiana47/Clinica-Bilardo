@@ -14,10 +14,20 @@
 
 </head>
 <body>
-
-	<input name="txtFiltro" style="margin-left:200px; margin-top:20px"> 
-	<select name="ddlFiltros"> </select>
-	<button name="btnFiltrar">Filtrar</button>
+	
+	<h1 class="text-center">Administración de médicos</h1>
+	
+	<div class="row m-4">
+		<div class="col-4">
+			<input class="form-control" name="txtFiltro"> 
+		</div>
+		<div class="col-4"> 
+			<select class="form-control" name="ddlFiltros"> </select>
+		</div>
+		<div class="col-4"> 
+			<button  class="form-control" name="btnFiltrar">Filtrar</button>
+		</div>
+	</div>
 	
 	<script>
 	 $(document).ready(function () {
@@ -64,28 +74,112 @@
 	        </div>
       </div>
       
-     <div class="col-md-6">
-     	<div class="form-floating mb-3"> 	
-	     	<input class="form-control-lg" name="txtDNICR">
-	     	<label for="floatingSelect">DNI</label> 
-     	</div>
-     		<input name="txtNombreCR">
-	     	<label for="floatingSelect">Nombre</label> 
-	     	<input name="txtApellidoCR">
-	     	<label for="floatingSelect">Apellido</label>
-     </div>
-     
-     <input name="txtDNICR"> <input name="txtNombreCR"> <input name="txtApellidoCR">
-     <input name="txtSexoCR"> <input name="txtNacionalidadCR"> <input type="date" name="txtFechaNacimientoCR"> <br> <br>
-     <input name="txtDireccionCR"> <select name="ddlProvinciasCR"> </select> <select name="ddlLocalidadesCR"> </select> <br> <br>
-     <input name="txtCorreoCR"> <input name="txtTelefonoCR"> <select name="ddlEspecialidadesCR"> </select> <br> <br>
-     <input name="txtFechaAtencion"> <input name="txtNombreCR"> <input name="txtApellidoCR"> <br> <br>
-     
-     <div class="col-md-6">
-     
-     </div>
-     
-      
-      
+     <div class="col-6">
+        <div class="row m-2">
+            <div class="col-4">
+		     	<label class="form-label">DNI</label>   	
+                <input class="form-control" type="number"  min="0" name="txtDNICR" required>
+            </div>
+            
+            <div class="col-4">
+	     		<label class="form-label">Nombre</label> 
+                <input class="form-control" name="txtNombreCR" oninput="validarLetras(this)" required>
+            </div>
+            
+            <div class="col-4">
+	     		<label class="form-label">Apellido</label>
+                <input class="form-control" name="txtApellidoCR" oninput="validarLetras(this)" required>
+            </div>
+        </div>
+        
+        <div class="row m-2">
+        	<div class="col-4">
+        	<label class="form-label">Sexo</label>
+        		<select class="form-control" name="txtSexoCR">
+        			<option>Masculino</option>
+        			<option>Femenino</option>
+        			<option>Otro</option>
+        		</select> 
+        	</div>
+        	
+        	<div class="col-4">
+        		<label class="form-label">Nacionalidad</label> 
+        		<input class="form-control" name="txtNacionalidadCR" oninput="validarLetras(this)" required> 
+        	</div>
+        	<div class="col-4"> 
+        		<label class="form-label">Fecha de nacimiento</label>
+	        	<input class="form-control" type="date" name="txtFechaNacimientoCR" required>
+        	
+        	</div>
+        </div>
+        
+        <div class="row m-2">
+        	<div class="col-4">
+	        	<label class="form-label">Dirección</label>
+				<input class="form-control" name="txtDireccionCR" required>
+        	</div>
+        	
+        	<div class="col-4">
+        		<label class="form-label">Provincia</label> 
+        		<select class="form-control" name="ddlProvinciaCR">
+        			
+        		</select> 
+        	</div>
+        	<div class="col-4"> 
+        		<label class="form-label">Localidad</label>
+	        	<select class="form-control" name="ddlLocalidadCR">
+        			
+        		</select> 	
+        	</div>
+        </div>
+        
+        <div class="row m-2">
+        	<div class="col-4">
+        		<label class="form-label">Correo</label>
+        		<input class="form-control" type="email" name="txtCorreoCR" required>
+        	</div>
+        	
+        	<div class="col-4">
+        		<label class="form-label">Telefono</label> 
+        		<input class="form-control" type="number"  min="0" name="txtTelefonoCR" required> 
+        	</div>
+        	<div class="col-4"> 
+        		<label class="form-label">Especialidad</label>
+	        	<select class="form-control" name="ddlEspecialidadesCR">
+        			
+        		</select> 	
+        	</div>
+        </div>
+        
+        <div class="row m-2">
+        	<div class="col-4">
+        		<label class="form-label">Fecha de atención</label>
+        		<input class="form-control" type="date" name="txtFechaAtencionCR" required>
+        	</div>
+        	
+        	<div class="col-4">
+        		<label class="form-label">Usuario</label> 
+        		<input class="form-control" name="txtUsuarioCR" required> 
+        	</div>
+        	<div class="col-4"> 
+        		<label class="form-label">Contraseña</label>
+	        	<input class="form-control" type="password" name="txtContraseñaCR" required> 			 	
+        	</div>
+        </div>
+        
+        <div class="row m-2">
+        	<div class="col-4">
+	        	<button class="form-control" type="submit" style="margin-top:10px">Editar Médico</button>
+        	</div>
+        </div>
+    </div>
+     	
+<script>
+	function validarLetras(input) {
+	  	var regex = /[^a-zA-Z]/g;
+	  	input.value = input.value.replace(regex, '');
+	}
+</script>
+    
 </body>
 </html>
