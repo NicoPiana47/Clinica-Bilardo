@@ -4,9 +4,19 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Login</title>
 </head>
 <body>
-
+	<form>
+		<h1>Iniciar sesión</h1> <br> <br>
+		
+		<label>Nombre de usuario:</label> <br>
+		<input name="txtNombreUsuario" required> <br> <br> <br>
+		<label>Contraseña:</label> <br>
+		<input name="txtContraseña" required> <br> <br> <br>
+		
+		<button type="submit" name="btnIngresar">Ingresar</button>
+	</form>
+	
 </body>
 </html>

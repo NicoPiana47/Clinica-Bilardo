@@ -4,9 +4,22 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>AdminAsignacionTurnos</title>
 </head>
 <body>
-
+	<form>
+		<h1>Admin Asignación de Turnos</h1> <br> <br>
+		
+		<label>Especialidad:</label> <br>
+		<select name="ddlEspecialidades"> </select> <br> <br> <br>
+		<label>Médico:</label> <br>
+		<select name="ddlMedicos"> </select> <br> <br> <br>
+		<label>Horarios:</label> <br>
+		<select name="ddlHorarios"> </select> <br> <br> <br>
+		<label>Pacientes:</label> <br>
+		<select name="ddlPacientes"> </select> <br> <br> <br>
+		
+		<button type="submit" name="btnAsignar">Asignar turno</button>
+	</form>
 </body>
 </html>
