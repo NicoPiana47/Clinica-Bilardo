@@ -31,7 +31,7 @@
   	<div class="collapse navbar-collapse" id="navbarScroll">
   	
  	<ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;"></ul>
-    <%if ( true ){%>
+    <%if ( false ){%>
 	    <form class="d-flex">
 	        <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
 	            <li class="nav-item">
@@ -70,29 +70,20 @@
     	<form class="d-flex">
 	        <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
 	            <li class="nav-item">
-	              <a class="nav-link text-white" href="servletCuentasUsr?ParamCuentasUsr=1">
-	              	<i class="fa-solid fa-wallet"></i> Cuentas
+	              <a class="nav-link text-white" href="">
+	              	<i class="fa-solid fa-users"></i> Turnos
 	              	</a>
 	            </li>
-	            <li class="nav-item">
-	              <a class="nav-link text-white" href="servletTransferencias?ParamTransferencias=1">
-		              <i class="fa-solid fa-money-bill-transfer"></i></i> Transferencias
-	              </a>
-	            </li>
-	            <li class="nav-item">
-	              <a class="nav-link text-white" href="ServletPrestamosUsuario?ParamPrestamos=1">
-		              	<i class="fa-solid fa-money-bill"></i> Prestamos
-	            	</a>
-	            </li>
-	            <li class="nav-item">
+	           <li class="nav-item">
 	                <a class="nav-link text-white" href="MiCuenta.jsp"> 
-	                	<i class="fa-solid fa-user"></i>
-	                	
+	                	<i class="fa-solid fa-user"></i> Usuario Prueba
 	                </a>
 	            </li>
-	            <li class="nav-item text-white">
-	                 <a class="nav-link text-white" href="IniciarSesion.jsp" onclick="return confirm('¿Salir?')">Salir</a>
-	              </li>
+	           <li class="nav-item">
+	                <a class="nav-link text-white" href="Login.jsp" onclick="return confirm('¿Salir?');">
+	                	<i class="fa-solid fa-sign-out"></i> Salir
+	                </a>
+	            </li>
 	          </ul>
 	    </form>
      <% } %>
