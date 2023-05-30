@@ -14,6 +14,7 @@
 	
 </head>
 <body>
+	<%@ include file="/MasterPage.jsp" %>
 	<h1 class="text-center">Asignación de Turnos</h1> 
 	<form class="w-50 m-auto">
 		
