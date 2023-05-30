@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>AdminMedicos</title>
+<title>AdminPacientes</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css"
@@ -48,7 +48,7 @@
 </style>
 </head>
 <body>
-	
+	<%@ include file="/MasterPage.jsp" %>
 	<h1 class="text-center">Administración de pacientes</h1>
 	
 	<div class="row m-4">
@@ -189,11 +189,11 @@
 			       <div class="row m-2">
 			        	<div class="col-6">
 			        		<label class="form-label">Activo</label>
-				        	<input class="form-check-input" type="radio" name="rdEstadoED" value="1">
+				        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstadoED" value="1">
 			        	</div>
 			        	<div class="col-6">
 			        		<label class="form-label">Inactivo</label>
-			        		<input class="form-check-input"type="radio" name="rdEstadoED" value="0">
+			        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstadoED" value="0">
 			        	</div>
 			        </div>
 			        
@@ -285,22 +285,22 @@
 			       <div class="row m-2">
 			        	<div class="col-6">
 			        		<label class="form-label">Activo</label>
-				        	<input class="form-check-input" type="radio" name="rdEstadoED" value="1">
+				        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstadoED" value="1">
 			        	</div>
 			        	<div class="col-6">
 			        		<label class="form-label">Inactivo</label>
-			        		<input class="form-check-input"type="radio" name="rdEstadoED" value="0">
+			        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstadoED" value="0">
 			        	</div>
 			        </div>
 			        
 			        <div class="row m-2">
 			        	<div class="col-6">
 			        		<label class="form-label">Normal</label>
-				        	<input class="form-check-input" type="radio" name="rdTipoED" value="0">
+				        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdTipoED" value="0">
 			        	</div>
 			        	<div class="col-6">
 			        		<label class="form-label">Admin</label>
-			        		<input class="form-check-input" type="radio" name="rdTipoED" value="1">
+			        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdTipoED" value="1">
 			        	</div>
 			        </div>
 			        
