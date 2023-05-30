@@ -97,13 +97,15 @@
 						<th>Fecha de atención</th>  
 						<th>Usuario</th>
 						<th>Contraseña</th>
+						<th>Tipo</th>
+						<th>Estado</th>
 					</tr>
 				</thead>
 		        <tbody>
 					<tr onclick="openModal('modalEdit')">
 						<form >
 							<th scope="row">
-								<button type="submit" name ="btnEliminar"class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Esta seguro de que quiere eliminar el usuario?')">
+								<button type="submit" name ="btnEliminar"class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Esta seguro de que quiere eliminar el médico?')">
 									<i class="fa-solid fa-trash"></i>
 								</button>
 		                	</th>
@@ -208,6 +210,17 @@
 			        	<div class="col-4"> 
 			        		<label class="form-label">Contraseña</label>
 				        	<input class="form-control" type="password" name="txtContraseñaCR" required> 			 	
+			        	</div>
+			        </div>
+			        
+			        <div class="row m-2">
+			        	<div class="col-6">
+			        		<label class="form-label">Normal</label>
+				        	<input class="form-control" type="radio" name="rdTipoCR" value="0">
+			        	</div>
+			        	<div class="col-6">
+			        		<label class="form-label">Admin</label>
+			        		<input class="form-control" type="radio" name="rdTipoCR" value="1">
 			        	</div>
 			        </div>
 			        
@@ -317,6 +330,29 @@
 				        	<input class="form-control" type="password" name="txtContraseñaED" required> 			 	
 			        	</div>
 			        </div>
+			        
+			        <div class="row m-2">
+			        	<div class="col-6">
+			        		<label class="form-label">Normal</label>
+				        	<input class="form-check-input" type="radio" name="rdTipoED" value="0">
+			        	</div>
+			        	<div class="col-6">
+			        		<label class="form-label">Admin</label>
+			        		<input class="form-check-input" type="radio" name="rdTipoED" value="1">
+			        	</div>
+			        </div>
+			        
+			        <div class="row m-2">
+			        	<div class="col-6">
+			        		<label class="form-label">Activo</label>
+				        	<input class="form-check-input" type="radio" name="rdEstadoED" value="1">
+			        	</div>
+			        	<div class="col-6">
+			        		<label class="form-label">Inactivo</label>
+			        		<input class="form-check-input"type="radio" name="rdEstadoED" value="0">
+			        	</div>
+			        </div>
+			        
 			        
 			        <div class="row m-2">
 			        	<div class="col-12">
