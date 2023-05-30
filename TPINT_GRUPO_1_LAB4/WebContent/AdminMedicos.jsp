@@ -11,7 +11,41 @@
 	href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8"
 	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-
+<style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            max-width: 80%;
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+</style>
 </head>
 <body>
 	
@@ -29,156 +63,284 @@
 		</div>
 	</div>
 	
+	<div class="row m-4">
+		<div class="col-12">
+			<button class="form-control" onclick="openModal('modalCreate')">Crear Medico</button>
+		</div>
+	</div>
+	
 	<script>
-	 $(document).ready(function () {
-	            $('#table_id_usuarios').DataTable()             
-	 });
-	 
+		$(document).ready(function () {
+			$('#table_id_usuarios').DataTable()             
+		});
 	</script>
+	
 	<div class="container-fluid" style="width:95%; margin-bottom:20px">
-	        <div class="card text-center" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 100px;">
-	            <div class="card-header "><h5>Médicos</h5></div>
-	            <table class="table table-hover" id="table_id_usuarios" style="font-size: 11px;">
-	                <thead>
-	                    <tr>
-	                      <th> </th> 
-	                      <th>DNI</th>   
-	                      <th>Nombre</th> 
-	                      <th>Apellido</th>
-	                      <th>Sexo</th> 
-	                      <th>Nacionalidad</th> 
-	                      <th>Fecha de nacimiento</th> 
-	                      <th>Dirección</th>
-	                      <th>Provincia</th>
-	                      <th>Localidad</th>
-	                      <th>Correo</th>
-	                      <th>Teléfono</th> 
-	                      <th>Especialidad</th>
-	                      <th>Fecha de atención</th>  
-	                      <th>Usuario</th>
-	                      <th>Contraseña</th>
-	                    </tr>
-	                </thead>
-	                <tbody>
-	                 	<tr>
-	                 		<form >
-		                        <th scope="row">
-									<button type="submit" name ="btnEliminar"class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Esta seguro de que quiere eliminar el usuario?')">
-										<i class="fa-solid fa-trash"></i>
-									</button>
-		                        </th>
-				        	</form>
-		                </tr>
-	            	</tbody>                                             
-	            </table>
-	        </div>
-      </div>
+		<div class="card text-center" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 100px;">
+			<div class="card-header "><h5>Médicos</h5></div>
+			<table class="table table-hover" id="table_id_usuarios" style="font-size: 11px;">
+				<thead>
+					<tr>
+						<th> </th> 
+						<th>DNI</th>   
+						<th>Nombre</th> 
+						<th>Apellido</th>
+						<th>Sexo</th> 
+						<th>Nacionalidad</th> 
+						<th>Fecha de nacimiento</th> 
+						<th>Dirección</th>
+						<th>Provincia</th>
+						<th>Localidad</th>
+						<th>Correo</th>
+						<th>Teléfono</th> 
+						<th>Especialidad</th>
+						<th>Fecha de atención</th>  
+						<th>Usuario</th>
+						<th>Contraseña</th>
+					</tr>
+				</thead>
+		        <tbody>
+					<tr onclick="openModal('modalEdit')">
+						<form >
+							<th scope="row">
+								<button type="submit" name ="btnEliminar"class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Esta seguro de que quiere eliminar el usuario?')">
+									<i class="fa-solid fa-trash"></i>
+								</button>
+		                	</th>
+	   					</form>
+		         	</tr>
+		    	</tbody>                                             
+			</table>
+		</div>
+	</div>
       
-     <div class="col-6">
-        <div class="row m-2">
-            <div class="col-4">
-		     	<label class="form-label">DNI</label>   	
-                <input class="form-control" type="number"  min="0" name="txtDNICR" required>
-            </div>
-            
-            <div class="col-4">
-	     		<label class="form-label">Nombre</label> 
-                <input class="form-control" name="txtNombreCR" oninput="validarLetras(this)" required>
-            </div>
-            
-            <div class="col-4">
-	     		<label class="form-label">Apellido</label>
-                <input class="form-control" name="txtApellidoCR" oninput="validarLetras(this)" required>
-            </div>
-        </div>
-        
-        <div class="row m-2">
-        	<div class="col-4">
-        	<label class="form-label">Sexo</label>
-        		<select class="form-control" name="txtSexoCR">
-        			<option>Masculino</option>
-        			<option>Femenino</option>
-        			<option>Otro</option>
-        		</select> 
-        	</div>
-        	
-        	<div class="col-4">
-        		<label class="form-label">Nacionalidad</label> 
-        		<input class="form-control" name="txtNacionalidadCR" oninput="validarLetras(this)" required> 
-        	</div>
-        	<div class="col-4"> 
-        		<label class="form-label">Fecha de nacimiento</label>
-	        	<input class="form-control" type="date" name="txtFechaNacimientoCR" required>
-        	
-        	</div>
-        </div>
-        
-        <div class="row m-2">
-        	<div class="col-4">
-	        	<label class="form-label">Dirección</label>
-				<input class="form-control" name="txtDireccionCR" required>
-        	</div>
-        	
-        	<div class="col-4">
-        		<label class="form-label">Provincia</label> 
-        		<select class="form-control" name="ddlProvinciaCR">
-        			
-        		</select> 
-        	</div>
-        	<div class="col-4"> 
-        		<label class="form-label">Localidad</label>
-	        	<select class="form-control" name="ddlLocalidadCR">
-        			
-        		</select> 	
-        	</div>
-        </div>
-        
-        <div class="row m-2">
-        	<div class="col-4">
-        		<label class="form-label">Correo</label>
-        		<input class="form-control" type="email" name="txtCorreoCR" required>
-        	</div>
-        	
-        	<div class="col-4">
-        		<label class="form-label">Telefono</label> 
-        		<input class="form-control" type="number"  min="0" name="txtTelefonoCR" required> 
-        	</div>
-        	<div class="col-4"> 
-        		<label class="form-label">Especialidad</label>
-	        	<select class="form-control" name="ddlEspecialidadesCR">
-        			
-        		</select> 	
-        	</div>
-        </div>
-        
-        <div class="row m-2">
-        	<div class="col-4">
-        		<label class="form-label">Fecha de atención</label>
-        		<input class="form-control" type="date" name="txtFechaAtencionCR" required>
-        	</div>
-        	
-        	<div class="col-4">
-        		<label class="form-label">Usuario</label> 
-        		<input class="form-control" name="txtUsuarioCR" required> 
-        	</div>
-        	<div class="col-4"> 
-        		<label class="form-label">Contraseña</label>
-	        	<input class="form-control" type="password" name="txtContraseñaCR" required> 			 	
-        	</div>
-        </div>
-        
-        <div class="row m-2">
-        	<div class="col-4">
-	        	<button class="form-control" type="submit" style="margin-top:10px">Editar Médico</button>
-        	</div>
-        </div>
-    </div>
+	<div id="modalCreate" class="modal">
+   		<div class="modal-content">
+        	<span class="close" onclick="closeModal('modalCreate')" >&times;</span>
+        	<div class="d-flex align-items-center justify-content-center">
+	        	<div class="col-6">
+					<div class="row m-2">
+			        	<div class="col-4">
+					     	<label class="form-label">DNI</label>   	
+			                <input class="form-control" type="number"  min="0" name="txtDNICR" required>
+			            </div>
+			            
+			            <div class="col-4">
+				     		<label class="form-label">Nombre</label> 
+			                <input class="form-control" name="txtNombreCR" oninput="validarLetras(this)" required>
+			            </div>
+			            
+			            <div class="col-4">
+				     		<label class="form-label">Apellido</label>
+			                <input class="form-control" name="txtApellidoCR" oninput="validarLetras(this)" required>
+			            </div>
+					</div>
+			        
+			        <div class="row m-2">
+			        	<div class="col-4">
+			        	<label class="form-label">Sexo</label>
+			        		<select class="form-control" name="txtSexoCR">
+			        			<option>Masculino</option>
+			        			<option>Femenino</option>
+			        			<option>Otro</option>
+			        		</select> 
+			        	</div>
+			        	
+			        	<div class="col-4">
+			        		<label class="form-label">Nacionalidad</label> 
+			        		<input class="form-control" name="txtNacionalidadCR" oninput="validarLetras(this)" required> 
+			        	</div>
+			        	<div class="col-4"> 
+			        		<label class="form-label">Fecha de nacimiento</label>
+				        	<input class="form-control" type="date" name="txtFechaNacimientoCR" required>
+			        	
+			        	</div>
+			        </div>
+			        
+			        <div class="row m-2">
+			        	<div class="col-4">
+				        	<label class="form-label">Dirección</label>
+							<input class="form-control" name="txtDireccionCR" required>
+			        	</div>
+			        	
+			        	<div class="col-4">
+			        		<label class="form-label">Provincia</label> 
+			        		<select class="form-control" name="ddlProvinciaCR">
+			        			
+			        		</select> 
+			        	</div>
+			        	<div class="col-4"> 
+			        		<label class="form-label">Localidad</label>
+				        	<select class="form-control" name="ddlLocalidadCR">
+			        			
+			        		</select> 	
+			        	</div>
+			        </div>
+			        
+			        <div class="row m-2">
+			        	<div class="col-4">
+			        		<label class="form-label">Correo</label>
+			        		<input class="form-control" type="email" name="txtCorreoCR" required>
+			        	</div>
+			        	
+			        	<div class="col-4">
+			        		<label class="form-label">Telefono</label> 
+			        		<input class="form-control" type="number"  min="0" name="txtTelefonoCR" required> 
+			        	</div>
+			        	<div class="col-4"> 
+			        		<label class="form-label">Especialidad</label>
+				        	<select class="form-control" name="ddlEspecialidadesCR">
+			        			
+			        		</select> 	
+			        	</div>
+			        </div>
+			        
+			        <div class="row m-2">
+			        	<div class="col-4">
+			        		<label class="form-label">Fecha de atención</label>
+			        		<input class="form-control" type="date" name="txtFechaAtencionCR" required>
+			        	</div>
+			        	
+			        	<div class="col-4">
+			        		<label class="form-label">Usuario</label> 
+			        		<input class="form-control" name="txtUsuarioCR" required> 
+			        	</div>
+			        	<div class="col-4"> 
+			        		<label class="form-label">Contraseña</label>
+				        	<input class="form-control" type="password" name="txtContraseñaCR" required> 			 	
+			        	</div>
+			        </div>
+			        
+			        <div class="row m-2">
+			        	<div class="col-12">
+				        	<button class="form-control" type="submit" style="margin-top:10px">Crear Médico</button>
+			        	</div>
+			        </div>
+				</div>
+			</div>
+		</div>
+	</div>
+      
+    <div id="modalEdit" class="modal">
+   		<div class="modal-content">
+        	<span class="close" onclick="closeModal('modalEdit')" >&times;</span>
+        	<div class="d-flex align-items-center justify-content-center">
+	        	<div class="col-6">
+					<div class="row m-2">
+			        	<div class="col-4">
+					     	<label class="form-label">DNI</label>   	
+			                <input class="form-control" type="number"  min="0" name="txtDNIED" required>
+			            </div>
+			            
+			            <div class="col-4">
+				     		<label class="form-label">Nombre</label> 
+			                <input class="form-control" name="txtNombreED" oninput="validarLetras(this)" required>
+			            </div>
+			            
+			            <div class="col-4">
+				     		<label class="form-label">Apellido</label>
+			                <input class="form-control" name="txtApellidoED" oninput="validarLetras(this)" required>
+			            </div>
+					</div>
+			        
+			        <div class="row m-2">
+			        	<div class="col-4">
+			        	<label class="form-label">Sexo</label>
+			        		<select class="form-control" name="txtSexoED">
+			        			<option>Masculino</option>
+			        			<option>Femenino</option>
+			        			<option>Otro</option>
+			        		</select> 
+			        	</div>
+			        	
+			        	<div class="col-4">
+			        		<label class="form-label">Nacionalidad</label> 
+			        		<input class="form-control" name="txtNacionalidadED" oninput="validarLetras(this)" required> 
+			        	</div>
+			        	<div class="col-4"> 
+			        		<label class="form-label">Fecha de nacimiento</label>
+				        	<input class="form-control" type="date" name="txtFechaNacimientoED" required>
+			        	
+			        	</div>
+			        </div>
+			        
+			        <div class="row m-2">
+			        	<div class="col-4">
+				        	<label class="form-label">Dirección</label>
+							<input class="form-control" name="txtDireccionED" required>
+			        	</div>
+			        	
+			        	<div class="col-4">
+			        		<label class="form-label">Provincia</label> 
+			        		<select class="form-control" name="ddlProvinciaED">
+			        			
+			        		</select> 
+			        	</div>
+			        	<div class="col-4"> 
+			        		<label class="form-label">Localidad</label>
+				        	<select class="form-control" name="ddlLocalidadED">
+			        			
+			        		</select> 	
+			        	</div>
+			        </div>
+			        
+			        <div class="row m-2">
+			        	<div class="col-4">
+			        		<label class="form-label">Correo</label>
+			        		<input class="form-control" type="email" name="txtCorreoED" required>
+			        	</div>
+			        	
+			        	<div class="col-4">
+			        		<label class="form-label">Telefono</label> 
+			        		<input class="form-control" type="number"  min="0" name="txtTelefonoED" required> 
+			        	</div>
+			        	<div class="col-4"> 
+			        		<label class="form-label">Especialidad</label>
+				        	<select class="form-control" name="ddlEspecialidadesED">
+			        			
+			        		</select> 	
+			        	</div>
+			        </div>
+			        
+			        <div class="row m-2">
+			        	<div class="col-4">
+			        		<label class="form-label">Fecha de atención</label>
+			        		<input class="form-control" type="date" name="txtFechaAtencionED" required>
+			        	</div>
+			        	
+			        	<div class="col-4">
+			        		<label class="form-label">Usuario</label> 
+			        		<input class="form-control" name="txtUsuarioED" required> 
+			        	</div>
+			        	<div class="col-4"> 
+			        		<label class="form-label">Contraseña</label>
+				        	<input class="form-control" type="password" name="txtContraseñaED" required> 			 	
+			        	</div>
+			        </div>
+			        
+			        <div class="row m-2">
+			        	<div class="col-12">
+				        	<button class="form-control" type="submit" style="margin-top:10px">Editar Médico</button>
+			        	</div>
+			        </div>
+				</div>
+			</div>
+		</div>
+	</div>
      	
 <script>
 	function validarLetras(input) {
 	  	var regex = /[^a-zA-Z]/g;
 	  	input.value = input.value.replace(regex, '');
 	}
+	
+	function openModal(modal) {
+		document.getElementById(modal).style.display = "block";
+	}
+
+    function closeModal(modal) {
+    	document.getElementById(modal).style.display = "none";
+    }
 </script>
     
 </body>
