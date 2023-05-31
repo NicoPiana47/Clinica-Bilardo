@@ -7,7 +7,7 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">	
    	<script src="https://kit.fontawesome.com/3c33daaf69.js" crossorigin="anonymous"></script>
-    
+    <link rel="stylesheet" href="./src/Style/masterPage.css">
     
     <title>master</title>
     
@@ -23,7 +23,7 @@
 <nav class="navbar navbar-expand-lg navbar-light" style="background: #23313e; border: solid 0.5px #e4f6ff">
 <div class="container-fluid">
 	<a class="navbar-brand">
-	    <img src="assets/BRUSAFA.png"  alt="" width="80" style="border-radius: 80%;" >
+	    <img src="./src/assets/Clinica.svg" class="logo img-fluid " alt="logo"  />
 	</a>
 	
 	<nav class="navbar navbar-expand-lg" style="font-weight: bold; font-size: 18px;">
