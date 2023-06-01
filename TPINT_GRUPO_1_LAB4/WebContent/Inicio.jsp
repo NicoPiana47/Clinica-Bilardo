@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Inicio</title>
 
 <style>
         .modal {
@@ -85,7 +85,7 @@
 					<tr onclick="openModal('modalEdit')">
 						<form >
 							<th scope="row">
-								<button type="submit" name ="btnEliminar"class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Esta seguro de que quiere eliminar el médico?')">
+								<button type="submit" name ="btnCambiarEstado"class="btn btn-outline-danger btn-sm" onclick="">
 									<i class="fa-solid fa-clock"></i>
 								</button>
 		                	</th>

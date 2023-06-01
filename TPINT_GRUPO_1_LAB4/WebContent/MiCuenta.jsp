@@ -26,17 +26,17 @@
 			<div class="row m-2">
 	        	<div class="col-4">
 			     	<label class="form-label">DNI</label>   	
-	                <input class="form-control" type="number"  min="0" name="txtDNI" disabled required>
+	                <input class="form-control" type="number"  min="0" name="txtDNI" disabled>
 	            </div>
 	            
 	            <div class="col-4">
 		     		<label class="form-label">Nombre</label> 
-	                <input class="form-control" name="txtNombreCR" disabled required>
+	                <input class="form-control" name="txtNombreCR" disabled>
 	            </div>
 	            
 	            <div class="col-4">
 		     		<label class="form-label">Apellido</label>
-	                <input class="form-control" name="txtApellido" disabled required>
+	                <input class="form-control" name="txtApellido" disabled>
 	            </div>
 			</div>
 	        
@@ -52,11 +52,11 @@
 	        	
 	        	<div class="col-4">
 	        		<label class="form-label">Nacionalidad</label> 
-	        		<input class="form-control" name="txtNacionalidad" disabled required> 
+	        		<input class="form-control" name="txtNacionalidad" disabled> 
 	        	</div>
 	        	<div class="col-4"> 
 	        		<label class="form-label">Fecha de nacimiento</label>
-		        	<input class="form-control" type="date" name="txtFechaNacimiento" disabled required>
+		        	<input class="form-control" type="date" name="txtFechaNacimiento" disabled>
 	        	
 	        	</div>
 	        </div>
@@ -64,7 +64,7 @@
 	        <div class="row m-2">
 	        	<div class="col-4">
 		        	<label class="form-label">Dirección</label>
-					<input class="form-control" name="txtDireccion" disabled required>
+					<input class="form-control" name="txtDireccion" disabled>
 	        	</div>
 	        	
 	        	<div class="col-4">
@@ -84,12 +84,12 @@
 	        <div class="row m-2">
 	        	<div class="col-4">
 	        		<label class="form-label">Correo</label>
-	        		<input class="form-control" type="email" name="txtCorreo" disabled required>
+	        		<input class="form-control" type="email" name="txtCorreo" disabled>
 	        	</div>
 	        	
 	        	<div class="col-4">
 	        		<label class="form-label">Telefono</label> 
-	        		<input class="form-control" type="number"  min="0" name="txtTelefono" disabled required> 
+	        		<input class="form-control" type="number"  min="0" name="txtTelefono" disabled> 
 	        	</div>
 	        	<div class="col-4"> 
 	        		<label class="form-label">Especialidad</label>
@@ -102,16 +102,16 @@
 	        <div class="row m-2">
 	        	<div class="col-4">
 	        		<label class="form-label">Fecha de atención</label>
-	        		<input class="form-control" type="date" name="txtFechaAtencion" disabled required>
+	        		<input class="form-control" type="date" name="txtFechaAtencion" disabled>
 	        	</div>
 	        	
 	        	<div class="col-4">
 	        		<label class="form-label">Usuario</label> 
-	        		<input class="form-control" name="txtUsuario" disabled required> 
+	        		<input class="form-control" name="txtUsuario" disabled> 
 	        	</div>
 	        	<div class="col-4"> 
 	        		<label class="form-label">Contraseña</label>
-		        	<input class="form-control" type="password" name="txtContraseña" disabled required> 			 	
+		        	<input class="form-control" type="password" name="txtContraseña" disabled> 			 	
 	        	</div>
 	        </div>        
 		</div>

@@ -28,10 +28,14 @@
 			<select class="form-control" name="ddlMedicos"> </select>
 		</div>
 		
-		<div class="row text-center m-4" >
-			<label>Horarios:</label> <br>
-			<select class="form-control" name="ddlHorarios"> </select>	
-		</div>
+		<div class="row text-center m-4">
+            <label>Fecha:</label><br>
+            <input class="form-control" type="date" name="fecha" id="fecha" onchange="generarHorariosDisponibles()" required>
+        </div>
+        <div class="row text-center m-4">
+            <label>Horarios disponibles:</label><br>
+            <select class="form-control" name="ddlHorariosDisponibles" id="ddlHorariosDisponibles" disabled></select>
+        </div>
 		
 		<div class="row text-center m-4">
 			<label>Pacientes:</label> <br>
@@ -41,4 +45,37 @@
 		<button class="form-control" type="submit" name="btnAsignar">Asignar turno</button>
 	</form>
 </body>
+
+<script>
+        function generarHorariosDisponibles() {
+            var fechaSeleccionada = document.getElementById("fecha").value;
+
+            var horariosDisponibles = obtenerHorariosDisponibles(fechaSeleccionada);
+
+            var ddlHorariosDisponibles = document.getElementById("ddlHorariosDisponibles");
+            ddlHorariosDisponibles.innerHTML = "";
+
+            for (var i = 0; i < horariosDisponibles.length; i++) {
+                var option = document.createElement("option");
+                option.value = horariosDisponibles[i];
+                option.text = horariosDisponibles[i];
+                ddlHorariosDisponibles.add(option);
+            }
+
+            ddlHorariosDisponibles.disabled = false;
+        }
+
+        function obtenerHorariosDisponibles(fecha) {
+            // Aquí puedes implementar la lógica para obtener los horarios disponibles basados en la fecha seleccionada.
+            // En este caso, se hardcodea el horario disponible de 10 AM a 11 AM.
+            var horarios = ["10:00 - 11:00"];
+
+            return horarios;
+        }
+
+        function asignarTurno() {
+            // Aquí puedes implementar la lógica para asignar el turno seleccionado.
+            // Puedes obtener los valores seleccionados de los campos correspondientes y realizar las acciones necesarias.
+        }
+    </script>
 </html>

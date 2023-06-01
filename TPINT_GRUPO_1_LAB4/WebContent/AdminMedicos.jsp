@@ -64,7 +64,7 @@
 	</div>
 	
 	<div class="row m-4">
-		<div class="col-12">
+		<div class="col-4 m-auto">
 			<button class="form-control" onclick="openModal('modalCreate')">Crear Medico</button>
 		</div>
 	</div>
