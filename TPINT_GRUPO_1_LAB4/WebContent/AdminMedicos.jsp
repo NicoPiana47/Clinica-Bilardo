@@ -45,6 +45,10 @@
             text-decoration: none;
             cursor: pointer;
         }
+        
+		.selected-row {
+		  background-color: #e0e0e0;
+		}
 </style>
 </head>
 <body>
@@ -166,14 +170,12 @@
 			        	</div>
 			        	
 			        	<div class="col-4">
-  <label class="form-label">Provincia</label>
-  <select class="form-control" name="ddlProvinciaCR" id="ddlProvinciaCR"></select>
-</div>
+						  <label class="form-label">Provincia</label>
+						  <select class="form-control" name="ddlProvinciaCR" id="ddlProvinciaCR"></select>
+						</div>
 			        	<div class="col-4"> 
 			        		<label class="form-label">Localidad</label>
-				        	<select class="form-control" name="ddlLocalidadCR"  id="ddlLocalidadCR">
-			        			
-			        		</select> 	
+				        	<select class="form-control" name="ddlLocalidadCR"  id="ddlLocalidadCR"></select> 	
 			        	</div>
 			        </div>
 			        
@@ -197,8 +199,8 @@
 			        
 			        <div class="row m-2">
 			        	<div class="col-4">
-			        		<label class="form-label">Fecha de atención</label>
-			        		<input class="form-control" type="date" name="txtFechaAtencionCR" required>
+			        		<label class="form-label">Ver</label> 			        		
+			        		<button class="form-control" onclick="openModal('modalHorarios')">Horarios</button>
 			        	</div>
 			        	
 			        	<div class="col-4">
@@ -361,6 +363,96 @@
 			</div>
 		</div>
 	</div>
+	
+	<div id="modalHorarios" class="modal">
+   		<div class="modal-content">
+        	<span class="close" onclick="closeModal('modalHorarios')" >&times;</span>
+        	<div class="d-flex align-items-center justify-content-center">
+        		<div class="container-fluid" style="width:95%; margin-bottom:20px">
+					<div class="card text-center" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 100px;">
+						<div class="card-header "><h5>Horario</h5></div>
+						<table class="table table-hover" id="table_horarios" style="font-size: 11px;">
+							<thead>
+								<tr>
+									<th> </th> 
+									<th>Dia</th>   
+									<th>Horario Desde</th> 
+									<th>Horario Hasta</th>
+									<th>Horas</th> 
+									<th>Estado</th>
+								</tr>
+							</thead>
+					        <tbody>
+								<tr onclick="selectRow(this)">
+									<form >
+										<th scope="row">
+											<button type="submit" name ="btnEliminar"class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Esta seguro de que quiere eliminar el horario?')">
+												<i class="fa-solid fa-trash"></i>
+											</button>
+					                	</th>
+										<th>Dia</th>   
+										<th>Horario Desde</th> 
+										<th>Horario Hasta</th>
+										<th>Horas</th> 
+										<th>Estado</th>
+				   					</form>
+					         	</tr>
+					    	</tbody>                                             
+						</table>
+					</div>
+				</div>
+				
+	        	<div class="col-6">
+					<div class="row m-2">
+			        	<div class="col-4">
+					     	<label class="form-label">Dia</label>   	
+			                <select class="form-control" name="ddlDiaCR">
+			                	<option> --- </option>
+			        			<option>Domingo</option>
+			        			<option>Lunes</option>
+			        			<option>Martes</option>
+			        			<option>Miercoles</option>
+			        			<option>Jueves</option>
+			        			<option>Viernes</option>
+			        			<option>Sabado</option>
+			        		</select> 
+			            </div>
+			            
+			            <div class="col-4">
+				     		<label class="form-label">Horario Desde</label> 
+			                <input class="form-control" name="txtHorarioDesdeCR" required>
+			            </div>
+			            
+			            <div class="col-4">
+				     		<label class="form-label">Horario Hasta</label>
+			                <input class="form-control" name="txtHorarioHastaCR" required>
+			            </div>
+					</div>
+					
+					<div class="row m-2" id="rdEstado" style="display: none;">
+			        	<div class="col-6">
+			        		<label class="form-label">Activo</label>
+				        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstadoED" value="1">
+			        	</div>
+			        	<div class="col-6">
+			        		<label class="form-label">Inactivo</label>
+			        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstadoED" value="0">
+			        	</div>
+			        </div>
+			        
+			        
+					<div class="row m-2">
+				        <div class="col-12">
+			        		<button id="btnModificarHorario" class="form-control btn-primary" style="display: none;" >Modificar</button>
+							<button id="btnAgregarHorario" class="form-control btn-success" style="display: block;" >Agregar</button>
+				        </div>
+			        </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
      	
 <script>
 	function validarLetras(input) {
@@ -376,6 +468,29 @@
     	document.getElementById(modal).style.display = "none";
     }
     
+	function selectRow(row) {
+  		var isSelected = row.classList.contains('selected-row');
+      	var selectedRows = document.getElementsByClassName('selected-row');
+      	var btnModificar = document.getElementById('btnModificarHorario');
+      	var btnCrear = document.getElementById('btnAgregarHorario');
+      	var rdEstado = document.getElementById('rdEstado');
+      
+      	for (var i = 0; i < selectedRows.length; i++) {
+        	selectedRows[i].classList.remove('selected-row');
+      	}
+      
+    	if (!isSelected) {
+	        row.classList.add('selected-row');
+	        btnModificar.style.display = 'block'; 
+	        btnCrear.style.display = 'none'; 
+	        rdEstado.style.display = 'block';
+		} else {
+		    btnModificar.style.display = 'none';
+		    btnCrear.style.display = 'block'; 
+		    rdEstado.style.display = 'none';
+      	}
+    }
+  
     function cargarProvincias() {
     	var provincias = [
     		  {
