@@ -11,6 +11,9 @@
 	href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8"
 	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <style>
         .modal {
             display: none;
@@ -317,8 +320,8 @@
 			        
 			        <div class="row m-2">
 			        	<div class="col-4">
-			        		<label class="form-label">Fecha de atención</label>
-			        		<input class="form-control" type="date" name="txtFechaAtencionED" required>
+			        		<label class="form-label">Ver</label> 			        		
+			        		<button class="form-control" onclick="openModal('modalHorarios')">Horarios</button>
 			        	</div>
 			        	
 			        	<div class="col-4">
@@ -402,7 +405,7 @@
 					</div>
 				</div>
 				
-	        	<div class="col-6">
+				<div id="divHorarioCR" class="col-6" style="display: block;">
 					<div class="row m-2">
 			        	<div class="col-4">
 					     	<label class="form-label">Dia</label>   	
@@ -420,16 +423,50 @@
 			            
 			            <div class="col-4">
 				     		<label class="form-label">Horario Desde</label> 
-			                <input class="form-control" name="txtHorarioDesdeCR" required>
+				     		<input type="time" class="form-control form-control-lg" id="txtHorarioDesdeCR" name="txtHorarioDesdeCR"/>
 			            </div>
 			            
 			            <div class="col-4">
 				     		<label class="form-label">Horario Hasta</label>
-			                <input class="form-control" name="txtHorarioHastaCR" required>
+				     		<input type="time" class="form-control form-control-lg" id="txtHorarioHastaCR" name="txtHorarioHastaCR"/>
+			            </div>
+					</div>
+			        
+					<div class="row m-2">
+				        <div class="col-12">
+			        		<button id="btnAgregarHorario" class="form-control btn-success" >Agregar</button>
+				        </div>
+			        </div>
+				</div>
+				
+	        	<div id="divHorarioED" class="col-6" style="display: none;">
+					<div class="row m-2">
+			        	<div class="col-4">
+					     	<label class="form-label">Dia</label>   	
+			                <select class="form-control" name="ddlDiaED">
+			                	<option> --- </option>
+			        			<option>Domingo</option>
+			        			<option>Lunes</option>
+			        			<option>Martes</option>
+			        			<option>Miercoles</option>
+			        			<option>Jueves</option>
+			        			<option>Viernes</option>
+			        			<option>Sabado</option>
+			        		</select> 
+			            </div>
+			            
+			            <div class="col-4">
+				     		<label class="form-label">Horario Desde</label> 
+				     		<input type="time" class="form-control form-control-lg" id="txtHorarioDesdeED" name="txtHorarioDesdeED"/>
+			            </div>
+			            
+			            <div class="col-4">
+				     		<label class="form-label">Horario Hasta</label>
+				     		<input type="time" class="form-control form-control-lg" id="txtHorarioHastaED" name="txtHorarioHastaED"/>
 			            </div>
 					</div>
 					
-					<div class="row m-2" id="rdEstado" style="display: none;">
+					<div class="row m-2">
 			        	<div class="col-6">
 			        		<label class="form-label">Activo</label>
 				        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstadoED" value="1">
@@ -443,9 +480,8 @@
 			        
 					<div class="row m-2">
 				        <div class="col-12">
-			        		<button id="btnModificarHorario" class="form-control btn-primary" style="display: none;" >Modificar</button>
-							<button id="btnAgregarHorario" class="form-control btn-success" style="display: block;" >Agregar</button>
-				        </div>
+			        		<button id="btnModificarHorario" class="form-control btn-primary">Modificar</button>
+						</div>
 			        </div>
 				</div>
 			</div>
@@ -471,9 +507,8 @@
 	function selectRow(row) {
   		var isSelected = row.classList.contains('selected-row');
       	var selectedRows = document.getElementsByClassName('selected-row');
-      	var btnModificar = document.getElementById('btnModificarHorario');
-      	var btnCrear = document.getElementById('btnAgregarHorario');
-      	var rdEstado = document.getElementById('rdEstado');
+      	var divHorarioCR = document.getElementById('divHorarioCR');
+      	var divHorarioED = document.getElementById('divHorarioED');
       
       	for (var i = 0; i < selectedRows.length; i++) {
         	selectedRows[i].classList.remove('selected-row');
@@ -481,13 +516,11 @@
       
     	if (!isSelected) {
 	        row.classList.add('selected-row');
-	        btnModificar.style.display = 'block'; 
-	        btnCrear.style.display = 'none'; 
-	        rdEstado.style.display = 'block';
+	        divHorarioCR.style.display = 'none';
+	        divHorarioED.style.display = 'block';
 		} else {
-		    btnModificar.style.display = 'none';
-		    btnCrear.style.display = 'block'; 
-		    rdEstado.style.display = 'none';
+			divHorarioCR.style.display = 'block';
+	        divHorarioED.style.display = 'none';
       	}
     }
   
