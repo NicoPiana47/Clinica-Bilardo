@@ -82,45 +82,43 @@
 					</tr>
 				</thead>
 		        <tbody>
-					<tr onclick="openModal('modalEdit')">
-						<form >
-							<th scope="row">
-								<button type="submit" name ="btnCambiarEstado"class="btn btn-outline-danger btn-sm" onclick="">
-									<i class="fa-solid fa-clock"></i>
-								</button>
-		                	</th>
-	   					</form>
+					<tr onclick="openModal('modalDatosPaciente')">
+						<th scope="row">
+							<button name = "btnCambiarEstado" class="btn btn-outline-danger btn-sm" onclick="openModal('modalCambiarEstado')">
+								<i class="fa-solid fa-clock"></i>
+							</button>
+	                	</th>
 		         	</tr>
 		    	</tbody>                                             
 			</table>
 		</div>
 	</div>     
-     <div id="modalEdit" class="modal">
+     <div id="modalDatosPaciente" class="modal">
    		<div class="modal-content">
-        	<span class="close" onclick="closeModal('modalEdit')" >&times;</span>
+        	<span class="close" onclick="closeModal('modalDatosPaciente')" >&times;</span>
         	<div class="d-flex align-items-center justify-content-center">
 	        	<div class="col-6">
 					<div class="row m-2">
 			        	<div class="col-4">
 					     	<label class="form-label">DNI</label>   	
-			                <input class="form-control" type="number"  min="0" name="txtDNICR" disabled required>
+			                <input class="form-control" type="number"  min="0" name="txtDNI" disabled required>
 			            </div>
 			            
 			            <div class="col-4">
 				     		<label class="form-label">Nombre</label> 
-			                <input class="form-control" name="txtNombreCR" disabled oninput="validarLetras(this)" required>
+			                <input class="form-control" name="txtNombre" disabled oninput="validarLetras(this)" required>
 			            </div>
 			            
 			            <div class="col-4">
 				     		<label class="form-label">Apellido</label>
-			                <input class="form-control" name="txtApellidoCR" disabled oninput="validarLetras(this)" required>
+			                <input class="form-control" name="txtApellido" disabled oninput="validarLetras(this)" required>
 			            </div>
 					</div>
 			        
 			        <div class="row m-2">
 			        	<div class="col-4">
 			        	<label class="form-label">Sexo</label>
-			        		<select class="form-control" disabled name="txtSexoCR">
+			        		<select class="form-control" disabled name="txtSexo">
 			        			<option>Masculino</option>
 			        			<option>Femenino</option>
 			        			<option>Otro</option>
@@ -129,11 +127,11 @@
 			        	
 			        	<div class="col-4">
 			        		<label class="form-label">Nacionalidad</label> 
-			        		<input class="form-control" name="txtNacionalidadCR" disabled oninput="validarLetras(this)" required> 
+			        		<input class="form-control" name="txtNacionalidad" disabled oninput="validarLetras(this)" required> 
 			        	</div>
 			        	<div class="col-4"> 
 			        		<label class="form-label">Fecha de nacimiento</label>
-				        	<input class="form-control" type="date" name="txtFechaNacimientoCR" disabled required>
+				        	<input class="form-control" type="date" name="txtFechaNacimiento" disabled required>
 			        	
 			        	</div>
 			        </div>
@@ -141,18 +139,18 @@
 			        <div class="row m-2">
 			        	<div class="col-4">
 				        	<label class="form-label">Dirección</label>
-							<input class="form-control" disabled name="txtDireccionCR" required>
+							<input class="form-control" disabled name="txtDireccion" required>
 			        	</div>
 			        	
 			        	<div class="col-4">
 			        		<label class="form-label">Provincia</label> 
-			        		<select class="form-control" disabled name="ddlProvinciaCR">
+			        		<select class="form-control" disabled name="ddlProvincia">
 			        			
 			        		</select> 
 			        	</div>
 			        	<div class="col-4"> 
 			        		<label class="form-label">Localidad</label>
-				        	<select class="form-control" disabled  name="ddlLocalidadCR">
+				        	<select class="form-control" disabled  name="ddlLocalidad">
 			        			
 			        		</select> 	
 			        	</div>
@@ -161,17 +159,34 @@
 			        <div class="row m-2">
 			        	<div class="col-6">
 			        		<label class="form-label">Correo</label>
-			        		<input class="form-control" type="email" name="txtCorreoCR" disabled required>
+			        		<input class="form-control" type="email" name="txtCorreo" disabled required>
 			        	</div>
 			        	
 			        	<div class="col-6">
 			        		<label class="form-label">Telefono</label> 
-			        		<input class="form-control" type="number"  min="0" name="txtTelefonoCR" disabled required> 
+			        		<input class="form-control" type="number"  min="0" name="txtTelefono" disabled required> 
 			        	</div>					
-			        </div>
-			        
-			       
-			       
+			        </div>			        			   	       
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	 <div id="modalCambiarEstado" class="modal">
+   		<div class="modal-content">
+        	<span class="close" onclick="closeModal('modalCambiarEstado')" >&times;</span>
+        	<div class="d-flex align-items-center justify-content-center">
+	        	<div class="col-6">
+					<div class="row">
+			        	<div class="col-6">
+					     	<label class="form-label">Estados</label>   	
+			                <select class="form-control" name="ddlEstados" required> </select>
+			            </div>
+			            
+			            <div class="col-6">
+							<button  class="form-control" name="btnCambiarEstado" style="margin-top:32px">Cambiar Estado</button>
+			            </div>			          
+					</div>      			   	       
 				</div>
 			</div>
 		</div>
