@@ -72,7 +72,7 @@
 	
 	<div class="row m-4">
 		<div class="col-4 m-auto">
-			<button class="form-control" onclick="openModal('modalCreate')">Crear Medico</button>
+			<button class="form-control" onclick="openModal('modalMedico')">Crear Medico</button>
 		</div>
 	</div>
 	
@@ -109,13 +109,30 @@
 					</tr>
 				</thead>
 		        <tbody>
-					<tr onclick="openModal('modalEdit')">
+					<tr onclick="openModal('modalMedico', true)">
 						<form >
 							<th scope="row">
 								<button type="submit" name ="btnEliminar"class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Esta seguro de que quiere eliminar el médico?')">
 									<i class="fa-solid fa-trash"></i>
 								</button>
 		                	</th>
+		                	<th>DNI</th>   
+							<th>Nombre</th> 
+							<th>Apellido</th>
+							<th>Sexo</th> 
+							<th>Nacionalidad</th> 
+							<th>Fecha de nacimiento</th> 
+							<th>Dirección</th>
+							<th>Provincia</th>
+							<th>Localidad</th>
+							<th>Correo</th>
+							<th>Teléfono</th> 
+							<th>Especialidad</th>
+							<th>Fecha de atención</th>  
+							<th>Usuario</th>
+							<th>Contraseña</th>
+							<th>Tipo</th>
+							<th>Estado</th>
 	   					</form>
 		         	</tr>
 		    	</tbody>                                             
@@ -123,32 +140,32 @@
 		</div>
 	</div>
       
-	<div id="modalCreate" class="modal">
+	<div id="modalMedico" class="modal">
    		<div class="modal-content">
-        	<span class="close" onclick="closeModal('modalCreate')" >&times;</span>
+        	<span class="close" onclick="closeModal('modalMedico', false)" >&times;</span>
         	<div class="d-flex align-items-center justify-content-center">
 	        	<div class="col-6">
 					<div class="row m-2">
 			        	<div class="col-4">
 					     	<label class="form-label">DNI</label>   	
-			                <input class="form-control" type="number"  min="0" name="txtDNICR" required>
+			                <input class="form-control" type="number"  min="0" name="txtDNI" required>
 			            </div>
 			            
 			            <div class="col-4">
 				     		<label class="form-label">Nombre</label> 
-			                <input class="form-control" name="txtNombreCR" oninput="validarLetras(this)" required>
+			                <input class="form-control" name="txtNombre" oninput="validarLetras(this)" required>
 			            </div>
 			            
 			            <div class="col-4">
 				     		<label class="form-label">Apellido</label>
-			                <input class="form-control" name="txtApellidoCR" oninput="validarLetras(this)" required>
+			                <input class="form-control" name="txtApellido" oninput="validarLetras(this)" required>
 			            </div>
 					</div>
 			        
 			        <div class="row m-2">
 			        	<div class="col-4">
 			        	<label class="form-label">Sexo</label>
-			        		<select class="form-control" name="txtSexoCR">
+			        		<select class="form-control" name="txtSexo">
 			        			<option>Masculino</option>
 			        			<option>Femenino</option>
 			        			<option>Otro</option>
@@ -157,11 +174,11 @@
 			        	
 			        	<div class="col-4">
 			        		<label class="form-label">Nacionalidad</label> 
-			        		<input class="form-control" name="txtNacionalidadCR" oninput="validarLetras(this)" required> 
+			        		<input class="form-control" name="txtNacionalidad" oninput="validarLetras(this)" required> 
 			        	</div>
 			        	<div class="col-4"> 
 			        		<label class="form-label">Fecha de nacimiento</label>
-				        	<input class="form-control" type="date" name="txtFechaNacimientoCR" required>
+				        	<input class="form-control" type="date" name="txtFechaNacimiento" required>
 			        	
 			        	</div>
 			        </div>
@@ -169,34 +186,32 @@
 			        <div class="row m-2">
 			        	<div class="col-4">
 				        	<label class="form-label">Dirección</label>
-							<input class="form-control" name="txtDireccionCR" required>
+							<input class="form-control" name="txtDireccion" required>
 			        	</div>
 			        	
 			        	<div class="col-4">
 						  <label class="form-label">Provincia</label>
-						  <select class="form-control" name="ddlProvinciaCR" id="ddlProvinciaCR"></select>
+						  <select class="form-control" name="ddlProvincia" id="ddlProvincia"></select>
 						</div>
 			        	<div class="col-4"> 
 			        		<label class="form-label">Localidad</label>
-				        	<select class="form-control" name="ddlLocalidadCR"  id="ddlLocalidadCR"></select> 	
+				        	<select class="form-control" name="ddlLocalidad"  id="ddlLocalidad"></select> 	
 			        	</div>
 			        </div>
 			        
 			        <div class="row m-2">
 			        	<div class="col-4">
 			        		<label class="form-label">Correo</label>
-			        		<input class="form-control" type="email" name="txtCorreoCR" required>
+			        		<input class="form-control" type="email" name="txtCorreo" required>
 			        	</div>
 			        	
 			        	<div class="col-4">
 			        		<label class="form-label">Telefono</label> 
-			        		<input class="form-control" type="number"  min="0" name="txtTelefonoCR" required> 
+			        		<input class="form-control" type="number"  min="0" name="txtTelefono" required> 
 			        	</div>
 			        	<div class="col-4"> 
 			        		<label class="form-label">Especialidad</label>
-				        	<select class="form-control" name="ddlEspecialidadesCR">
-			        			
-			        		</select> 	
+				        	<select class="form-control" name="ddlEspecialidad"></select> 	
 			        	</div>
 			        </div>
 			        
@@ -208,156 +223,43 @@
 			        	
 			        	<div class="col-4">
 			        		<label class="form-label">Usuario</label> 
-			        		<input class="form-control" name="txtUsuarioCR" required> 
+			        		<input class="form-control" name="txtUsuario" required> 
 			        	</div>
 			        	<div class="col-4"> 
 			        		<label class="form-label">Contraseña</label>
-				        	<input class="form-control" type="password" name="txtContraseñaCR" required> 			 	
+				        	<input class="form-control" type="password" name="txtContraseña" required> 			 	
 			        	</div>
 			        </div>
 			        
 			        <div class="row m-2">
 			        	<div class="col-6">
 			        		<label class="form-label">Normal</label>
-				        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdTipoCR" value="0">
+				        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdTipo" value="0" checked>
 			        	</div>
 			        	<div class="col-6">
 			        		<label class="form-label">Admin</label>
-			        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdTipoCR" value="1">
+			        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdTipo" value="1">
 			        	</div>
 			        </div>
 			        
 			        <div class="row m-2">
+			        	<div class="col-6 editM">
+			        		<label class="form-label">Activo</label>
+				        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstado" value="1" checked>
+			        	</div>
+			        	<div class="col-6 editM">
+			        		<label class="form-label">Inactivo</label>
+			        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstado" value="0">
+			        	</div>
+			        </div>
+			        
+			        <div class="row m-2 createM" >
 			        	<div class="col-12">
 				        	<button class="form-control" type="submit" style="margin-top:10px">Crear Médico</button>
 			        	</div>
 			        </div>
-				</div>
-			</div>
-		</div>
-	</div>
-      
-    <div id="modalEdit" class="modal">
-   		<div class="modal-content">
-        	<span class="close" onclick="closeModal('modalEdit')" >&times;</span>
-        	<div class="d-flex align-items-center justify-content-center">
-	        	<div class="col-6">
-					<div class="row m-2">
-			        	<div class="col-4">
-					     	<label class="form-label">DNI</label>   	
-			                <input class="form-control" type="number"  min="0" name="txtDNIED" required>
-			            </div>
-			            
-			            <div class="col-4">
-				     		<label class="form-label">Nombre</label> 
-			                <input class="form-control" name="txtNombreED" oninput="validarLetras(this)" required>
-			            </div>
-			            
-			            <div class="col-4">
-				     		<label class="form-label">Apellido</label>
-			                <input class="form-control" name="txtApellidoED" oninput="validarLetras(this)" required>
-			            </div>
-					</div>
 			        
-			        <div class="row m-2">
-			        	<div class="col-4">
-			        	<label class="form-label">Sexo</label>
-			        		<select class="form-control" name="txtSexoED">
-			        			<option>Masculino</option>
-			        			<option>Femenino</option>
-			        			<option>Otro</option>
-			        		</select> 
-			        	</div>
-			        	
-			        	<div class="col-4">
-			        		<label class="form-label">Nacionalidad</label> 
-			        		<input class="form-control" name="txtNacionalidadED" oninput="validarLetras(this)" required> 
-			        	</div>
-			        	<div class="col-4"> 
-			        		<label class="form-label">Fecha de nacimiento</label>
-				        	<input class="form-control" type="date" name="txtFechaNacimientoED" required>
-			        	
-			        	</div>
-			        </div>
-			        
-			        <div class="row m-2">
-			        	<div class="col-4">
-				        	<label class="form-label">Dirección</label>
-							<input class="form-control" name="txtDireccionED" required>
-			        	</div>
-			        	
-			        	<div class="col-4">
-			        		<label class="form-label">Provincia</label> 
-			        		<select class="form-control" name="ddlProvinciaED">
-			        			
-			        		</select> 
-			        	</div>
-			        	<div class="col-4"> 
-			        		<label class="form-label">Localidad</label>
-				        	<select class="form-control" name="ddlLocalidadED">
-			        			
-			        		</select> 	
-			        	</div>
-			        </div>
-			        
-			        <div class="row m-2">
-			        	<div class="col-4">
-			        		<label class="form-label">Correo</label>
-			        		<input class="form-control" type="email" name="txtCorreoED" required>
-			        	</div>
-			        	
-			        	<div class="col-4">
-			        		<label class="form-label">Telefono</label> 
-			        		<input class="form-control" type="number"  min="0" name="txtTelefonoED" required> 
-			        	</div>
-			        	<div class="col-4"> 
-			        		<label class="form-label">Especialidad</label>
-				        	<select class="form-control" name="ddlEspecialidadesED">
-			        			
-			        		</select> 	
-			        	</div>
-			        </div>
-			        
-			        <div class="row m-2">
-			        	<div class="col-4">
-			        		<label class="form-label">Ver</label> 			        		
-			        		<button class="form-control" onclick="openModal('modalHorarios')">Horarios</button>
-			        	</div>
-			        	
-			        	<div class="col-4">
-			        		<label class="form-label">Usuario</label> 
-			        		<input class="form-control" name="txtUsuarioED" required> 
-			        	</div>
-			        	<div class="col-4"> 
-			        		<label class="form-label">Contraseña</label>
-				        	<input class="form-control" type="password" name="txtContraseñaED" required> 			 	
-			        	</div>
-			        </div>
-			        
-			        <div class="row m-2">
-			        	<div class="col-6">
-			        		<label class="form-label">Normal</label>
-				        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdTipoED" value="0">
-			        	</div>
-			        	<div class="col-6">
-			        		<label class="form-label">Admin</label>
-			        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdTipoED" value="1">
-			        	</div>
-			        </div>
-			        
-			        <div class="row m-2">
-			        	<div class="col-6">
-			        		<label class="form-label">Activo</label>
-				        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstadoED" value="1">
-			        	</div>
-			        	<div class="col-6">
-			        		<label class="form-label">Inactivo</label>
-			        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstadoED" value="0">
-			        	</div>
-			        </div>
-			        
-			        
-			        <div class="row m-2">
+			        <div class="row m-2 editM" >
 			        	<div class="col-12">
 				        	<button class="form-control" type="submit" style="margin-top:10px">Editar Médico</button>
 			        	</div>
@@ -369,7 +271,7 @@
 	
 	<div id="modalHorarios" class="modal">
    		<div class="modal-content">
-        	<span class="close" onclick="closeModal('modalHorarios')" >&times;</span>
+        	<span class="close" onclick="closeModal('modalHorarios', true)" >&times;</span>
         	<div class="d-flex align-items-center justify-content-center">
         		<div class="container-fluid" style="width:95%; margin-bottom:20px">
 					<div class="card text-center" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 100px;">
@@ -405,11 +307,11 @@
 					</div>
 				</div>
 				
-				<div id="divHorarioCR" class="col-6" style="display: block;">
+				<div id="divHorario" class="col-6" style="display: block;">
 					<div class="row m-2">
 			        	<div class="col-4">
 					     	<label class="form-label">Dia</label>   	
-			                <select class="form-control" name="ddlDiaCR">
+			                <select class="form-control" name="ddlDia">
 			                	<option> --- </option>
 			        			<option>Domingo</option>
 			        			<option>Lunes</option>
@@ -423,64 +325,35 @@
 			            
 			            <div class="col-4">
 				     		<label class="form-label">Horario Desde</label> 
-				     		<input type="time" class="form-control form-control-lg" id="txtHorarioDesdeCR" name="txtHorarioDesdeCR"/>
+				     		<input type="time" class="form-control form-control-lg" name="txtHorarioDesde"/>
 			            </div>
 			            
 			            <div class="col-4">
 				     		<label class="form-label">Horario Hasta</label>
-				     		<input type="time" class="form-control form-control-lg" id="txtHorarioHastaCR" name="txtHorarioHastaCR"/>
-			            </div>
-					</div>
-			        
-					<div class="row m-2">
-				        <div class="col-12">
-			        		<button id="btnAgregarHorario" class="form-control btn-success" >Agregar</button>
-				        </div>
-			        </div>
-				</div>
-				
-	        	<div id="divHorarioED" class="col-6" style="display: none;">
-					<div class="row m-2">
-			        	<div class="col-4">
-					     	<label class="form-label">Dia</label>   	
-			                <select class="form-control" name="ddlDiaED">
-			                	<option> --- </option>
-			        			<option>Domingo</option>
-			        			<option>Lunes</option>
-			        			<option>Martes</option>
-			        			<option>Miercoles</option>
-			        			<option>Jueves</option>
-			        			<option>Viernes</option>
-			        			<option>Sabado</option>
-			        		</select> 
-			            </div>
-			            
-			            <div class="col-4">
-				     		<label class="form-label">Horario Desde</label> 
-				     		<input type="time" class="form-control form-control-lg" id="txtHorarioDesdeED" name="txtHorarioDesdeED"/>
-			            </div>
-			            
-			            <div class="col-4">
-				     		<label class="form-label">Horario Hasta</label>
-				     		<input type="time" class="form-control form-control-lg" id="txtHorarioHastaED" name="txtHorarioHastaED"/>
+				     		<input type="time" class="form-control form-control-lg" name="txtHorarioHasta"/>
 			            </div>
 					</div>
 					
-					<div class="row m-2">
-			        	<div class="col-6">
+					<div class="row m-2" >
+			        	<div class="col-6 editH" style="display: none;">
 			        		<label class="form-label">Activo</label>
-				        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstadoED" value="1">
+				        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstado" value="1" checked>
 			        	</div>
-			        	<div class="col-6">
+			        	<div class="col-6 editH" style="display: none;">
 			        		<label class="form-label">Inactivo</label>
-			        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstadoED" value="0">
+			        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstado" value="0">
 			        	</div>
 			        </div>
 			        
-			        
-					<div class="row m-2">
+					<div class="row m-2 createH">
 				        <div class="col-12">
-			        		<button id="btnModificarHorario" class="form-control btn-primary">Modificar</button>
+			        		<button class="form-control btn-success" >Agregar</button>
+				        </div>
+			        </div>
+			        
+			        <div class="row m-2 editH" style="display: none;">
+				        <div class="col-12">
+			        		<button class="form-control btn-primary">Modificar</button>
 						</div>
 			        </div>
 				</div>
@@ -496,32 +369,75 @@
 	  	input.value = input.value.replace(regex, '');
 	}
 	
-	function openModal(modal) {
+	function openModal(modal, isEdit) {
 		document.getElementById(modal).style.display = "block";
+		var cName = modal === 'modalMedico' ? 'M' : 'H';
+		
+	 	if (isEdit) {
+	        hideElements(true, cName);
+		} 
+    	else {
+    		hideElements(false, cName);
+    	}
+	}
+	
+	function hideElements(isEdit, cName) {
+		var createElements = document.querySelectorAll(".create" + cName);
+		var editElements = document.querySelectorAll(".edit" + cName);
+		
+		createElements.forEach(function(element) {
+		  element.style.display = isEdit ? "none" : "block";
+		});
+		
+		editElements.forEach(function(element) {
+		  element.style.display = isEdit ? "block" : "none";
+		});
 	}
 
-    function closeModal(modal) {
-    	document.getElementById(modal).style.display = "none";
-    }
-    
 	function selectRow(row) {
   		var isSelected = row.classList.contains('selected-row');
-      	var selectedRows = document.getElementsByClassName('selected-row');
-      	var divHorarioCR = document.getElementById('divHorarioCR');
-      	var divHorarioED = document.getElementById('divHorarioED');
+  		selectedRows();
       
+    	if (isSelected) {
+    		hideElements(false, 'H');
+		} 
+    	else {
+    		row.classList.add('selected-row');
+        	hideElements(true, 'H');
+    	}
+    }
+	
+	function selectedRows() {
+		var selectedRows = document.getElementsByClassName('selected-row');
+	      
       	for (var i = 0; i < selectedRows.length; i++) {
         	selectedRows[i].classList.remove('selected-row');
       	}
-      
-    	if (!isSelected) {
-	        row.classList.add('selected-row');
-	        divHorarioCR.style.display = 'none';
-	        divHorarioED.style.display = 'block';
-		} else {
-			divHorarioCR.style.display = 'block';
-	        divHorarioED.style.display = 'none';
-      	}
+	}
+	
+	function closeModal(modal, isHorarios) {
+		document.getElementById(modal).style.display = "none";
+    	
+    	if(isHorarios){
+    		selectedRows();
+    		document.getElementsByName('ddlDia')[0].selectedIndex = 0;
+    		document.getElementsByName('txtHorarioDesde')[0].value = "";
+    		document.getElementsByName('txtHorarioHasta')[0].value = "";
+    	}
+    	else{
+    		document.getElementsByName('txtDNI')[0].selectedIndex = 0;
+    		document.getElementsByName('txtNombre')[0].value = "";
+    		document.getElementsByName('txtApellido')[0].value = "";
+    		document.getElementsByName('ddlSexo')[0].selectedIndex = 0;
+    		document.getElementsByName('txtNacionalidad')[0].value = "";
+    		document.getElementsByName('txtFechaNacimiento')[0].value = "";
+    		document.getElementsByName('txtDireccion')[0].value = "";
+    		document.getElementsByName('ddlProvincia')[0].selectedIndex = 0;
+    		document.getElementsByName('ddlLocalidad')[0].selectedIndex = 0;
+    		document.getElementsByName('txtCorreo')[0].value = "";
+    		document.getElementsByName('txtTelefono')[0].value = "";
+    		document.getElementsByName('ddlEspecialidad')[0].selectedIndex = 0;
+    	}
     }
   
     function cargarProvincias() {
@@ -758,8 +674,8 @@
     		    ]
     		  }
     		];
-        var ddlProvincia = document.getElementById('ddlProvinciaCR');
-        var ddlLocalidad = document.getElementById('ddlLocalidadCR');
+        var ddlProvincia = document.getElementById('ddlProvincia');
+        var ddlLocalidad = document.getElementById('ddlLocalidad');
 
         // Agrega una opción por defecto para provincia y localidad
         var optionDefaultProvincia = document.createElement('option');
