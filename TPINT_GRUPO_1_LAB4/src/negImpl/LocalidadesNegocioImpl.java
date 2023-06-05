@@ -1,5 +1,7 @@
 package negImpl;
 
-public class LocalidadesNegocioImpl {
+import neg.LocalidadesNegocio;
+
+public class LocalidadesNegocioImpl implements LocalidadesNegocio{
 
 }

@@ -1,5 +1,7 @@
 package negImpl;
 
-public class PacientesNegocioImpl {
+import neg.PacientesNegocio;
+
+public class PacientesNegocioImpl implements PacientesNegocio{
 
 }

@@ -19,7 +19,7 @@ import daoImpl.MedicosDaoImpl;
 @WebServlet("/servletMedicos")
 public class servletMedicos extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	MedicosDao mDao = new MedicosDaoImpl();
+	MedicosNegocio mNeg = new MedicosNegImpl();
        
     public servletMedicos() {
         super();

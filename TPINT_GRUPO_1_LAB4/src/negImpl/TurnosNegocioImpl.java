@@ -1,5 +1,7 @@
 package negImpl;
 
-public class TurnosNegocioImpl {
+import neg.TurnosNegocio;
+
+public class TurnosNegocioImpl implements TurnosNegocio{
 
 }
