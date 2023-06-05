@@ -1,5 +1,5 @@
 package dao;
 
-public interface TurnosDao {
+public interface TurnosDao{
 
 }
