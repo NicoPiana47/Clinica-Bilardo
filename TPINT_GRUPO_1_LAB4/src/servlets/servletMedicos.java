@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dominio.Seguro;
 
 /**
  * Servlet implementation class servletMedicos
@@ -17,6 +16,7 @@ import dominio.Seguro;
 @WebServlet("/servletMedicos")
 public class servletMedicos extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	MedicosDao sdao = new MedicosDaoImpl();
        
     public servletMedicos() {
         super();
@@ -36,8 +36,7 @@ public class servletMedicos extends HttpServlet {
         	if (!(request.getParameter("txtNombreUsuario").isEmpty() || request.getParameter("txtContraseña").isEmpty())) {
         		
         	}
-        	
-        	
+        	      	
         	request.setAttribute("cantFilas", filas);
         	RequestDispatcher rd = request.getRequestDispatcher("/AgregarSeguros.jsp");
         	rd.forward(request, response);

@@ -76,7 +76,7 @@ CREATE TABLE Medicos (
     FechaNacimiento_MED DATE NULL,
     Direccion_MED VARCHAR(100) NULL,
     Telefono_MED VARCHAR(15) NULL,
-    Tipo_MED VARCHAR(50) NOT NULL DEFAULT 0,
+    Tipo_MED BOOLEAN NOT NULL DEFAULT 0,
     Estado_MED BOOLEAN NOT NULL DEFAULT 1,
     
     CONSTRAINT PK_MEDICOS PRIMARY KEY (CodMed_MED),
@@ -2539,34 +2539,36 @@ VALUES
 ('37626304','1','99','Franco','Alvarez','FAlvarez@hotmail.com','Masculino','Argentina', "1997-08-27", 'Av. Cabildo 1700', 1125948630, 1),
 ('44298829','1','25','Nicolás','Piana Sampietro','npianasampietro@gmail.com','Masculino','Argentina', "2002-08-31", 'Saavedra 2136', 1168822123, 1),
 ('16777121','1','77','Germán','Piana','gpiana@gmail.com','Masculino','Argentina', "1965-02-24", ' 2232', 1122334455, 1),
-('43818699','25','2366','Micaela','Caruzzo','mcaruzzo@gmail.com','Femenino','Argentina', "1999-03-15", 'DireccionP 1212', 1131112222, 1),
-('43818699','15','1507','Pilar','Martínez','pmartniez@gmail.com','Femenino','Argentina', "1965-03-20", 'Rivadavia 22', 1167865755, 1),
-('98765432', '1', '2', 'María', 'González', 'mgonzalez@gmail.com', 'Femenino', 'Argentina', "1990-05-1990", 'Av. Libertador 200', '1122334455', 1),
+('43818622','25','2366','Micaela','Caruzzo','mcaruzzo@gmail.com','Femenino','Argentina', "1999-03-15", 'DireccionP 1212', 1131112222, 1),
+('43818633','15','1507','Pilar','Martínez','pmartniez@gmail.com','Femenino','Argentina', "1965-03-20", 'Rivadavia 22', 1167865755, 1),
+('98765432', '1', '2', 'María', 'González', 'mgonzalez@gmail.com', 'Femenino', 'Argentina', "1990-05-22", 'Av. Libertador 200', '1122334455', 1),
 ('40202467','1','28','Nicole','Thomsen','NicoleT@outlook.com','Femenino','Argentina', "2000-12-03", 'Callao 500', 1147526389, 1),
 ('32887018','25','2377','Leopoldo','Rodríguez','lrodriguez@hotmail.com','Masculino','Argentina', "1987-01-23", 'Av. Cramer 2233', 1125684789, 1),
-('43818699','8','957','Carolina','Pérez','cperez.com','Otro','Argentina', "2001-08-01", 'Juan b. Justo 112', 116618545, 1),
+('42677146','8','957','Carolina','Pérez','cperez.com','Otro','Argentina', "2001-08-01", 'Juan b. Justo 112', 116618545, 1),
 ('42300555', '1', '62', 'Enzo', 'Conde', 'enzofconde@outlook.com.ar', 'Masculino', 'Argentina', "2000-01-08", 'Belgrano 912', '1109122018', 1),
-('43818699','1','22','Marcos','Roma','mroma@gmail.com','Masculino','Argentina', "1992-08-10", 'Quilmes 64', 1134656767, 1),
-('44334234','2363','25','Pepe','Problemas','ppproblemas@hotmail.com','Masculino','Argentina', "2001-01-23", 'Av. Rivadavia', 1166846979, 1),
+('43816641','1','22','Marcos','Roma','mroma@gmail.com','Masculino','Argentina', "1992-08-10", 'Quilmes 64', 1134656767, 1),
+('44334234','25','2363','Pepe','Problemas','ppproblemas@hotmail.com','Masculino','Argentina', "2001-01-23", 'Av. Rivadavia', 1166846979, 1),
 ('42626176','1','88','Ciro','Romano','cromano@hotmail.com','Masculino','Argentina', "2002-5-19", 'Bermudez 2651', 1145627845, 1),
 ('33918455', '1', '15', 'Carlos', 'Izquierdoz', 'carlosrizquierdoz@gmail.com', 'Masculino', 'Argentina', "1988-11-03", 'Luis Falco 32203', '1103561122', 1);
 
-INSERT INTO Medicos (DNI_MED, CodEspecialidad_MED, CodLocalidad_MED, CodProvincia_MED, Correo_MED, Username_MED, Contraseña_MED, Nombre_MED, Apellido_MED, Sexo_MED, Nacionalidad_MED, FechaNacimiento_MED, Dirección_MED, Teléfono_MED, Tipo_MED, Estado_MED)
+INSERT INTO Medicos (DNI_MED, CodEspecialidad_MED, CodProvincia_MED, CodLocalidad_MED, Correo_MED, Username_MED, Contraseña_MED, Nombre_MED, Apellido_MED, Sexo_MED, Nacionalidad_MED, FechaNacimiento_MED, Direccion_MED, Telefono_MED, Tipo_MED, Estado_MED)
 VALUES
-('12345678', 1, '1', '122', 'carlos@gmail.com', 'carlos123', '123456', 'Carlos', 'Pérez', 'Masculino', 'Argentina', "01-01-1980", 'Calle Principal 123', '123456789', 0, 1),
-('23456789', 2, '1', '32', 'juan@gmail.com', 'juan567', '654321', 'Juan', 'Gómez', 'Masculino', 'Argentina', "15-02-1985", 'Avenida Central 456', '987654321', 0, 1),
-('34567890', 3, '1', '99', 'luis@gmail.com', 'luis789', '987654', 'Luis', 'López', 'Masculino', 'Argentina', "10-05-1990", 'Plaza Mayor 789', '456789123', 0, 1),
-('98765432', 4, '1', '25', 'carolina@gmail.com', 'carolina789', '987654', 'Carolina', 'Ramírez', 'Femenino', 'Argentina', "12-09-1992", 'Calle Mayor 456', '123456789',0, 1),
-('01234567', 1, '1', '77', 'pedro@gmail.com', 'pedro234', '321654', 'Pedro', 'González', 'Masculino', 'Argentina', "05-04-1983", 'Plaza Central 123', '987654321',0, 1),
-('12345678', 1, '25', '2366', 'lucia@gmail.com', 'lucia567', '654987', 'Lucía', 'Fernández', 'Femenino', 'Argentina', "20-07-1995", 'Avenida Principal 789', '321654987', 0, 1),
-('23456789', 12, '15', '1507', 'mariano@gmail.com', 'mariano901', '987123', 'Mariano', 'García', 'Masculino', 'Argentina', "18-03-1987", 'Avenida Principal 789', '987654321', 0, 1),
-('34567890', 13, '1', '2', 'valeria@gmail.com', 'valeria234', '321789', 'Valeria', 'Luna', 'Femenino', 'Argentina', "25-06-1991", 'Plaza Central 123', '321654987', 0, 1),
-('45678901', 5, '25', '2377', 'diego@gmail.com', 'diego567', '123987', 'Diego', 'Silva', 'Masculino', 'Argentina', "08-02-1986", 'Calle Mayor 456', '789123456', 0, 1),
-('56789012', 10, '8', '957', 'carolina2@gmail.com', 'carolina234', '987123', 'Carolina', 'Pereira', 'Femenino', 'Argentina', "15-12-1994", 'Avenida Principal 789', '123456789', 0, 1),
-('67890123', 14, '1', '62', 'gonzalo@gmail.com', 'gonzalo567', '321789', 'Gonzalo', 'Rojas', 'Masculino', 'Argentina', "22-08-1984", 'Plaza Central 123', '987654321',0, 1),
-('78901234', 15, '1', '22', 'florencia@gmail.com', 'florencia901', '789321', 'Florencia', 'Sánchez', 'Femenino', 'Argentina', "29-03-1993", 'Calle Mayor 456', '321654987', 0, 1),
-('89012345', 2, '2363', '25', 'pedro2@gmail.com', 'pedro2345', '123987', 'Pedro', 'Molina', 'Masculino', 'Argentina', "07-07-1989", 'Avenida Principal 789', '789123456', 0, 1),
-('90123456', 6, '1', '88', 'romina@gmail.com', 'romina567', '987123', 'Romina', 'Ortega', 'Femenino', 'Argentina', "24-04-1996", 'Plaza Central 123', '123456789',0, 1),
-('24976295', 1, '1', '24', 'marcelo912', 'mg_rp31', 'Marcelo', 'Gallardo', 'Masculino', 'Argentina', "18-01-1976", 'mgallardo@riverid.com','18-01-1976', 'Figueroa Alcorta 7597','1127081031',1, 1);
+('12345678', 1, '1', '122', 'carlos@gmail.com', 'carlos123', '123', 'Carlos', 'Pérez', 'Masculino', 'Argentina', "1980-01-01", 'Calle Principal 123', '123456789', 0, 1),
+('23456789', 2, '1', '32', 'juan@gmail.com', 'juan567', '654321', 'Juan', 'Gómez', 'Masculino', 'Argentina', "1985-02-15", 'Avenida Central 456', '987654321', 0, 1),
+('34567890', 3, '1', '99', 'luis@gmail.com', 'luis789', '987654', 'Luis', 'López', 'Masculino', 'Argentina', "1990-05-10", 'Plaza Mayor 789', '456789123', 0, 1),
+('98765432', 4, '1', '25', 'carolina@gmail.com', 'carolina789', '987654', 'Carolina', 'Ramírez', 'Femenino', 'Argentina', "1992-09-12", 'Calle Mayor 456', '123456789',0, 1),
+('21234567', 1, '1', '77', 'pedro@gmail.com', 'pedro234', '321654', 'Pedro', 'González', 'Masculino', 'Argentina', "1983-04-05", 'Plaza Central 123', '987654321',0, 1),
+('44212123', 1, '25', '2336', 'lucia@gmail.com', 'lucia567', '654987', 'Lucía', 'Fernández', 'Femenino', 'Argentina', "1995-07-20", 'Avenida Principal 789', '321654987', 0, 1),
+('63456789', 12, '15', '1507', 'mariano@gmail.com', 'mariano901', '987123', 'Mariano', 'García', 'Masculino', 'Argentina', "1987-03-18", 'Avenida Principal 789', '987654321', 0, 1),
+('34567560', 13, '1', '2', 'valeria@gmail.com', 'valeria234', '321789', 'Valeria', 'Luna', 'Femenino', 'Argentina', "1991-06-25", 'Plaza Central 123', '321654987', 0, 1),
+('45678901', 5, '25', '2377', 'diego@gmail.com', 'diego567', '123987', 'Diego', 'Silva', 'Masculino', 'Argentina', "1986-02-08", 'Calle Mayor 456', '789123456', 0, 1),
+('46789012', 10, '8', '957', 'carolina2@gmail.com', 'carolina234', '987123', 'Carolina', 'Pereira', 'Femenino', 'Argentina', "1994-12-15", 'Avenida Principal 789', '123456789', 0, 1),
+('41890123', 14, '1', '62', 'gonzalo@gmail.com', 'gonzalo567', '321789', 'Gonzalo', 'Rojas', 'Masculino', 'Argentina', "1984-08-22", 'Plaza Central 123', '987654321',0, 1),
+('44901234', 15, '1', '22', 'florencia@gmail.com', 'florencia901', '789321', 'Florencia', 'Sánchez', 'Femenino', 'Argentina', "1993-03-29", 'Calle Mayor 456', '321654987', 0, 1),
+('43012345', 2, '25', '2363', 'pedro2@gmail.com', 'pedro2345', '123987', 'Pedro', 'Molina', 'Masculino', 'Argentina', "1989-07-07", 'Avenida Principal 789', '789123456', 0, 1),
+('41123456', 6, '1', '88', 'romina@gmail.com', 'romina567', '987123', 'Romina', 'Ortega', 'Femenino', 'Argentina', "1996-04-24", 'Plaza Central 123', '123456789',0, 1),
+('24976295', 1, '1', '24', 'mgallardo@riverid.com', 'marcelo912', 'mg_rp31', 'Marcelo', 'Gallardo', 'Masculino', 'Argentina', "1976-01-18", 'Figueroa Alcorta 7597','1127081031',1, 1),
+('23589462', 1, '1', '16', 'admin@gmail.com', 'admin', '123', 'Admin','Senior', 'Masculino', 'Argentina', "1971-10-06", 'Sarmiento 561', '1159536412', 1, 1);
+
 
 
