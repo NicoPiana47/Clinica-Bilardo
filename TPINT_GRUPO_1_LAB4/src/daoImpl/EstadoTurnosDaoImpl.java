@@ -1,5 +1,7 @@
 package daoImpl;
 
-public class EstadoTurnosDaoImpl {
+import dao.EstadoTurnosDao;
+
+public class EstadoTurnosDaoImpl implements EstadoTurnosDao {
 
 }

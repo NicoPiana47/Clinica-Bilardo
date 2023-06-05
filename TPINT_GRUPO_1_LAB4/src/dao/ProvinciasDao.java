@@ -1,5 +1,5 @@
 package dao;
 
-public class ProvinciasDao {
+public interface ProvinciasDao {
 
 }

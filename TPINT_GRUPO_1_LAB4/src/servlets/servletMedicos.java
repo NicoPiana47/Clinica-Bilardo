@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.MedicosDao;
+import daoImpl.MedicosDaoImpl;
+
 
 /**
  * Servlet implementation class servletMedicos
@@ -16,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/servletMedicos")
 public class servletMedicos extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	MedicosDao sdao = new MedicosDaoImpl();
+	MedicosDao mDao = new MedicosDaoImpl();
        
     public servletMedicos() {
         super();

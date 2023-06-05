@@ -1,5 +1,7 @@
 package daoImpl;
 
-public class MedicosDaoImpl {
+import dao.MedicosDao;
+
+public class MedicosDaoImpl implements MedicosDao {
 
 }

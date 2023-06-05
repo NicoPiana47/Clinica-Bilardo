@@ -1,5 +1,5 @@
 package daoImpl;
 
-public class TurnosDaoImpl {
+public class TurnosDaoImpl implements TurnosDao{
 
 }

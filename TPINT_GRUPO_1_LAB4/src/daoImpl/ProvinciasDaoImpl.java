@@ -1,5 +1,7 @@
 package daoImpl;
 
-public class ProvinciasDaoImpl {
+import dao.ProvinciasDao;
+
+public class ProvinciasDaoImpl implements ProvinciasDao{
 
 }

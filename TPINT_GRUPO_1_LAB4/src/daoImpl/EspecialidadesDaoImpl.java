@@ -1,5 +1,7 @@
 package daoImpl;
 
-public class EspecialidadesDaoImpl {
+import dao.EspecialidadesDao;
+
+public class EspecialidadesDaoImpl implements EspecialidadesDao{
 
 }
