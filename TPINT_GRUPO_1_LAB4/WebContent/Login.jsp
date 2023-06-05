@@ -32,7 +32,7 @@ background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);">
             <div class="col-md-6 col-lg-7 d-flex align-items-center">
               <div class="card-body p-4 p-lg-5 text-black">
 
-                <form>
+                <form action= 'servletMedicos' method='post' >
 
                   <div class="d-flex align-items-center mb-3 pb-1">
                    
@@ -53,8 +53,13 @@ background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);">
                   </div>
 
                   <div class="pt-1 mb-4">
-                    <button class="btn btn-dark btn-lg btn-block" >Ingresar</button>
+                    <button class="btn btn-dark btn-lg btn-block" name="btnIngresar" >Ingresar</button>
                   </div>
+                  
+                  <%if(request.getAttribute("btnIngresar") != null) 
+                  	
+                  
+                  %>
 
                   
                 </form>
