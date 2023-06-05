@@ -8,9 +8,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import dao.MedicosDao;
-import daoImpl.MedicosDaoImpl;
+import entidades.Medico;
+import negImpl.MedicosNegocioImpl;
+import neg.MedicosNegocio;
 
 
 /**
@@ -19,7 +21,7 @@ import daoImpl.MedicosDaoImpl;
 @WebServlet("/servletMedicos")
 public class servletMedicos extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	MedicosNegocio mNeg = new MedicosNegImpl();
+	MedicosNegocio mNeg = new MedicosNegocioImpl();
        
     public servletMedicos() {
         super();
@@ -33,11 +35,15 @@ public class servletMedicos extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(request.getParameter("btnAceptar")!=null)
+		HttpSession session = request.getSession();
+		int filas = 0;
+		if(request.getParameter("btnIngresar")!=null)
         {
-        	int filas=0;
-        	if (!(request.getParameter("txtNombreUsuario").isEmpty() || request.getParameter("txtContraseña").isEmpty())) {
+        	
+        	Medico med = mNeg.iniciarSesion(request.getParameter("txtNombreUsuario"), request.getParameter("txtContraseña"));
         		
+        	if(med != null) {
+        		session.setAttribute("medico", med);
         	}
         	      	
         	request.setAttribute("cantFilas", filas);

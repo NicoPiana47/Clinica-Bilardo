@@ -1,5 +1,7 @@
 package entidades;
 
+import java.util.Date;;
+
 public class Medico {
 	private int codMed_MED;
 	private String DNI_MED;
@@ -13,7 +15,7 @@ public class Medico {
     private String apellido_MED;
     private String sexo_MED;
     private String nacionalidad_MED;
-    private String fechaNacimiento_MED;
+    private Date fechaNacimiento_MED;
     private String direccion_MED;
     private String telefono_MED;
     private boolean tipo_MED;
@@ -97,10 +99,10 @@ public class Medico {
 	public void setNacionalidad_MED(String nacionalidad_MED) {
 		this.nacionalidad_MED = nacionalidad_MED;
 	}
-	public String getFechaNacimiento_MED() {
+	public Date getFechaNacimiento_MED() {
 		return fechaNacimiento_MED;
 	}
-	public void setFechaNacimiento_MED(String fechaNacimiento_MED) {
+	public void setFechaNacimiento_MED(Date fechaNacimiento_MED) {
 		this.fechaNacimiento_MED = fechaNacimiento_MED;
 	}
 	public String getDireccion_MED() {
@@ -115,13 +117,13 @@ public class Medico {
 	public void setTelefono_MED(String telefono_MED) {
 		this.telefono_MED = telefono_MED;
 	}
-	public boolean isTipo_MED() {
+	public boolean getTipo_MED() {
 		return tipo_MED;
 	}
 	public void setTipo_MED(boolean tipo_MED) {
 		this.tipo_MED = tipo_MED;
 	}
-	public boolean isEstado_MED() {
+	public boolean getEstado_MED() {
 		return estado_MED;
 	}
 	public void setEstado_MED(boolean estado_MED) {

@@ -7,6 +7,10 @@ import java.sql.SQLException;
 public class Conexion {
 	public static Conexion instancia;
     private Connection connection;
+	private String host = "jdbc:mysql://localhost:3306/"; //DONDE ESTA LA BASE DE DATOS
+	private String user = "root"; 
+	private String pass = "root";
+	private String dbName = "BD_TPINT_GRUPO_1_LAB4";
 
     private Conexion()
     {
