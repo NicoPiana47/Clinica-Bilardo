@@ -16,7 +16,6 @@ import entidades.Medico;
 public class MedicosDaoImpl implements MedicosDao {
 
 
-	@Override
 	public Medico traerMedicoPorNombreUsuario(String username) {		
 		Connection cn = Conexion.getConexion().getSQLConexion();
 		Medico x = new Medico();
@@ -33,8 +32,8 @@ public class MedicosDaoImpl implements MedicosDao {
 					x.setCodMed_MED(rs.getInt("CodMed_MED")); 
 					x.setDNI_MED(rs.getString("DNI_MED"));
 					x.getEspecialidad_MED().setCodEspecialidad_ESP(rs.getInt("CodEspecialidad_MED")); 
-					x.getLocalidad_MED().setCodLocalidad_LOC(rs.getInt("CodLocalidad_MED"));
-					x.getLocalidad_MED().getProvincia_LOC().setCodProvincia_PROV(rs.getInt("CodProvincia_MED"));
+					x.getLocalidad_MED().setCodLocalidad(rs.getInt("CodLocalidad_MED"));
+					x.getProvincia_MED().setCodProvincia(rs.getInt("CodProvincia_MED"));
 					x.setCorreo_MED(rs.getString("Correo_MED")); 
 					x.setUsername_MED(rs.getString("Username_MED")); 
 					x.setContraseña_MED(rs.getString("Contraseña_MED")); 
