@@ -44,33 +44,6 @@
 <body>
 	<%@ include file="/MasterPage.jsp" %>
 	<h1 class="text-center">Reportes</h1>
-	<script>
-	$('#table_id_reportes').DataTable({
-		language: {
-	        processing: "Tratamiento en curso...",
-	        search: "Buscar&nbsp;:",
-	        infoEmpty: "No existen datos.",
-	        infoPostFix: "",
-	        loadingRecords: "Cargando...",
-	        zeroRecords: "No se encontraron datos con tu busqueda",
-	        emptyTable: "No hay datos disponibles en la tabla.",
-	        paginate: {
-	            first: "Primero",
-	            previous: "Anterior",
-	            next: "Siguiente",
-	            last: "Ultimo"
-	        },
-	        aria: {
-	            sortAscending: ": active para ordenar la columna en orden ascendente",
-	            sortDescending: ": active para ordenar la columna en orden descendente"
-	        }
-	    },
-	    scrollY: "auto",
-	    lengthMenu: [ [5, 25, -1], [10, 25, "All"] ],
-	    "bLengthChange" : false,
-	    "bInfo": false
-    });
-		</script>
 		
 	<div class="row m-4">
 		<div class="col-4">
@@ -91,8 +64,8 @@
 	</div>
 
 	<div class="container-fluid" style="width:95%; margin-bottom:20px">
-		<div class="card text-center" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 100px;">
-			<div class="card-header "><h5>Turnos</h5></div>
+		<div class="card" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 100px;">
+			<div class="card-header  text-center"><h5>Turnos</h5></div>
 			<table class="table table-hover" id="table_id_reportes" style="font-size: 11px;">
 				<thead>
 					<tr>
@@ -145,6 +118,32 @@
 	    function closeModal(modal) {
 	    	document.getElementById(modal).style.display = "none";
 	    }
+	    
+		$('#table_id_reportes').DataTable({
+			language: {
+		        processing: "Tratamiento en curso...",
+		        search: "Buscar&nbsp;:",
+		        infoEmpty: "No existen datos.",
+		        infoPostFix: "",
+		        loadingRecords: "Cargando...",
+		        zeroRecords: "No se encontraron datos con tu busqueda",
+		        emptyTable: "No hay datos disponibles en la tabla.",
+		        paginate: {
+		            first: "Primero",
+		            previous: "Anterior",
+		            next: "Siguiente",
+		            last: "Ultimo"
+		        },
+		        aria: {
+		            sortAscending: ": active para ordenar la columna en orden ascendente",
+		            sortDescending: ": active para ordenar la columna en orden descendente"
+		        }
+		    },
+		    scrollY: "auto",
+		    lengthMenu: [ [5, 25, -1], [10, 25, "All"] ],
+		    "bLengthChange" : false,
+		    "bInfo": false
+	    });
 	</script>    
 </body>
 </html>
