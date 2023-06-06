@@ -45,12 +45,31 @@
 	<%@ include file="/MasterPage.jsp" %>
 	<h1 class="text-center">Reportes</h1>
 	<script>
-	 $(document).ready(function() {
-	        $('#table_id_reportes').DataTable({
-	            "paging": true,
-	            "pageLength": 10
-	        });
-	    });
+	$('#table_id_reportes').DataTable({
+		language: {
+	        processing: "Tratamiento en curso...",
+	        search: "Buscar&nbsp;:",
+	        infoEmpty: "No existen datos.",
+	        infoPostFix: "",
+	        loadingRecords: "Cargando...",
+	        zeroRecords: "No se encontraron datos con tu busqueda",
+	        emptyTable: "No hay datos disponibles en la tabla.",
+	        paginate: {
+	            first: "Primero",
+	            previous: "Anterior",
+	            next: "Siguiente",
+	            last: "Ultimo"
+	        },
+	        aria: {
+	            sortAscending: ": active para ordenar la columna en orden ascendente",
+	            sortDescending: ": active para ordenar la columna en orden descendente"
+	        }
+	    },
+	    scrollY: "auto",
+	    lengthMenu: [ [5, 25, -1], [10, 25, "All"] ],
+	    "bLengthChange" : false,
+	    "bInfo": false
+    });
 		</script>
 		
 	<div class="row m-4">

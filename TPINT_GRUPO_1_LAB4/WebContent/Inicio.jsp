@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Inicio</title>
-
+ 
 <style>
         .modal {
             display: none;
@@ -50,15 +50,7 @@
 <body>
 <%@ include file="/MasterPage.jsp" %>
 <h1 class="text-center">Administración de Turnos</h1>
-<script>
-$(document).ready(function() {
-    $('#table_id_turnos').DataTable({
-        "paging": true,
-        "pageLength": 10
-    });
-});
-	</script>
-	
+
 <div class="row m-4">
 		<div class="col-4">
 			<input class="form-control" name="txtFiltro"> 
@@ -73,7 +65,7 @@ $(document).ready(function() {
 
 	<div class="container-fluid" style="width:95%; margin-bottom:20px">
 		<div class="card text-center" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 100px;">
-			<div class="card-header "><h5>Turnos</h5></div>
+			<div class="card-header "><h5>Turnos</h5></div>		
 			<table class="table table-hover" id="table_id_turnos" style="font-size: 11px;">
 				<thead>
 					<tr>
@@ -91,7 +83,13 @@ $(document).ready(function() {
 								<i class="fa-solid fa-clock"></i>
 							</button>
 	                	</th>
+	                	<th>Médico</th>   
+						<th>Paciente</th> 
+						<th>Turno</th>
+						<th>Estado</th>
+	                	
 		         	</tr>
+		         	
 		    	</tbody>                                             
 			</table>
 		</div>
@@ -196,6 +194,32 @@ $(document).ready(function() {
 	</div>
 	
 	<script>
+	$('#table_id_turnos').DataTable({
+	    language: {
+	        processing: "Tratamiento en curso...",
+	        search: "Buscar&nbsp;:",
+	        infoEmpty: "No existen datos.",
+	        infoPostFix: "",
+	        loadingRecords: "Cargando...",
+	        zeroRecords: "No se encontraron datos con tu busqueda",
+	        emptyTable: "No hay datos disponibles en la tabla.",
+	        paginate: {
+	            first: "Primero",
+	            previous: "Anterior",
+	            next: "Siguiente",
+	            last: "Ultimo"
+	        },
+	        aria: {
+	            sortAscending: ": active para ordenar la columna en orden ascendente",
+	            sortDescending: ": active para ordenar la columna en orden descendente"
+	        }
+	    },
+	    scrollY: "auto",
+	    lengthMenu: [ [5, 25, -1], [10, 25, "All"] ],
+	    "bLengthChange" : false,
+	    "bInfo": false
+	});
+	
 	function validarLetras(input) {
 	  	var regex = /[^a-zA-Z]/g;
 	  	input.value = input.value.replace(regex, '');
