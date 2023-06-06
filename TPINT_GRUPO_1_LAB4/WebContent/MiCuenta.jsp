@@ -8,6 +8,7 @@
 <title>MiCuenta</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
 
 </head>
 <style>
@@ -16,6 +17,25 @@
 		justify-content: center;
 		align-items: center;
 	}
+	 .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            max-width: 80%;
+        }
 
 </style>
 
@@ -105,21 +125,30 @@
             <div class="row m-2">
                 
                 
-                <div class="col-4">
+                <div class="col-6">
                     <label class="form-label">Usuario</label> 
                     <input class="form-control" name="txtUsuario" value="<%= med.getUsername() %>" disabled> 
                 </div>
-                <div class="col-4"> 
-                    <label class="form-label">Contraseña</label>
-                    <input class="form-control" type="password" name="txtContraseña" value="<%= med.getContraseña() %>" disabled>              
-                </div>
+              <div class="col-6"> 
+    <label class="form-label">Contraseña</label>
+    <div class="input-group">
+        <input class="form-control" type="password" name="txtContraseña" value="<%= med.getContraseña() %>" disabled> 
+        <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+            <i class="bi bi-eye"></i>
+        </button>
+    </div>
+</div>
+
             </div>        
         </div>
     </form>
-    <div class="col-4">
-                    <label class="form-label">Ver horarios</label> 			        		
+    <div class="row">
+     <div class="col-4 m-auto">
+                          		
 	        		<button class="form-control" onclick="openModal('modalHorarios')">Horarios</button>
                 </div>
+    </div>
+   
    <div id="modalHorarios" class="modal">
 	<div class="modal-content">
 		<span class="close" onclick="closeModal('modalHorarios')">&times;</span>
@@ -162,6 +191,19 @@
 	function closeModal(modal) {
 		document.getElementById(modal).style.display = "none";
 	}
+	
+	const passwordInput = document.querySelector("input[name='txtContraseña']");
+    const togglePasswordButton = document.getElementById("togglePassword");
+
+    togglePasswordButton.addEventListener("click", function() {
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            togglePasswordButton.innerHTML = '<i class="bi bi-eye-slash"></i>';
+        } else {
+            passwordInput.type = "password";
+            togglePasswordButton.innerHTML = '<i class="bi bi-eye"></i>';
+        }
+    });
 </script>
     
     
