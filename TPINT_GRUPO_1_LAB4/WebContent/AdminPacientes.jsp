@@ -7,11 +7,20 @@
 <title>AdminPacientes</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-<link rel="stylesheet" type="text/css"
-	href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
-<script type="text/javascript" charset="utf8"
-	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
 <style>
+
+	table,
+thead,
+tr,
+tbody,
+th,
+td {
+  text-align: center;
+}
         .modal {
             display: none;
             position: fixed;
@@ -50,8 +59,14 @@
 <%@ page import="entidades.Paciente" %>
 </head>
 
+
 <body>
 	<%@ include file="/MasterPage.jsp" %>
+	
+
+	
+	
+	
 	<h1 class="text-center">Administración de pacientes</h1>
 	
 	<div class="row m-4">
@@ -75,12 +90,12 @@
 	<div class="container-fluid" style="width:95%; margin-bottom:20px">
 		<div class="card text-center" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 100px;">
 			<div class="card-header "><h5>Pacientes</h5></div>
-			<table class="table table-hover" id="table_id_usuarios" style="font-size: 11px;">
+			<table class="table table-hover text-center" id="table_id_usuarios" style="font-size: 11px;">
 				<thead>
 					<tr>
-						<th> </th> 
-						<th>DNI</th>   
-						<th>Nombre</th> 
+						<th></th> 
+						<th scope="col">DNI</th>   
+						<th scope="col">Nombre</th> 
 						<th>Apellido</th>
 						<th>Sexo</th> 
 						<th>Nacionalidad</th> 
@@ -101,7 +116,7 @@
 					%>
 				    <tr onclick="openModal('modalPaciente', true)">
 				            <td scope="row">
-				                <button type="submit" name="idPaciente" value="<%= paciente.getCodPac() %>" class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Estás paciente de que quieres eliminar al paciente?')">
+				                <button style="position:relative;" type="submit" name="idPaciente" value="<%= paciente.getCodPac() %>" class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Estás paciente de que quieres eliminar al paciente?')">
 				                    <i class="fa-solid fa-trash"></i>
 				                </button>
 				            </td>
@@ -282,6 +297,14 @@
    		document.getElementsByName('txtTelefono')[0].value = "";
     }
 	
+	 
+    $(document).ready(function() {
+        $('#table_id_usuarios').DataTable({
+            "paging": true,
+            "pageLength": 10
+        });
+    });
+
 </script>
     
 </body>
