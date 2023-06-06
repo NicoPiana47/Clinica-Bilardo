@@ -23,7 +23,9 @@ public class Medico {
     
     
     public Medico() {
-    	
+    	especialidad_MED = new Especialidad();
+    	localidad_MED = new Localidad();
+    	provincia_MED = new Provincia();
     }
     
     //GETTERS AND SETTERS

@@ -42,8 +42,8 @@ background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);">
                   <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Iniciar Sesión</h5>
 
                   <div class="form-outline mb-4">
-                    <input type="text" id="" class="form-control form-control-lg" required/>
-                    <label class="form-label"  name="txtNombreUsuario">Nombre de usuario</label>
+                    <input type="text" name="txtNombreUsuario" id="" class="form-control form-control-lg" required/>
+                    <label class="form-label" >Nombre de usuario</label>
                   </div>
 
                   <div class="form-outline mb-4">
@@ -57,7 +57,7 @@ background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);">
                   
                 </form>
                 
-                  <%if((Boolean)request.getAttribute("cantFilas") != null){
+                  <%if((Boolean)request.getAttribute("inicioSesion") != null){
                 	  
                 	  boolean inicioSesion = (boolean)request.getAttribute("inicioSesion");
 

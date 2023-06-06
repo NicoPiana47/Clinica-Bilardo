@@ -6,7 +6,7 @@ public class Localidad {
 	private String descripcion_LOC;
 	
 	public Localidad() {
-		
+		provincia_LOC = new Provincia();
 	}
 
 	public int getCodLocalidad_LOC() {

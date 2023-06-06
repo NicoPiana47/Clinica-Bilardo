@@ -2,10 +2,12 @@ package daoImpl;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
 
 import conexión.Conexion;
 import dao.MedicosDao;
@@ -21,10 +23,11 @@ public class MedicosDaoImpl implements MedicosDao {
 		  try
 		  {
 			 Class.forName("com.mysql.jdbc.Driver");
-			 String query = "select * from Medicos where Username_MED = " + username;
+			 String query = "select * from Medicos where Username_MED = ?";
 			 
-			 Statement st = cn.createStatement();
-			 ResultSet rs = st.executeQuery(query);
+			 PreparedStatement st = cn.prepareStatement(query);
+			 st.setString(1, username);
+			 ResultSet rs = st.executeQuery();
 			
 			 while(rs.next()) {
 					x.setCodMed_MED(rs.getInt("CodMed_MED")); 
