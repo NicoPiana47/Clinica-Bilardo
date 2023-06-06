@@ -9,7 +9,7 @@ public class Conexion {
     private Connection connection;
 	private String host = "jdbc:mysql://localhost:3306/"; //DONDE ESTA LA BASE DE DATOS
 	private String user = "root"; 
-	private String pass = "1234";
+	private String pass = "root";
 	private String dbName = "BD_TPINT_GRUPO_1_LAB4";
 
     private Conexion()
@@ -17,7 +17,7 @@ public class Conexion {
         try
         {
             Class.forName("com.mysql.jdbc.Driver"); // quitar si no es necesario
-            this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/BD_TPINT_GRUPO_1_LAB4","root","1234");
+            this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/BD_TPINT_GRUPO_1_LAB4","root","root");
             this.connection.setAutoCommit(false);
         }
         catch(Exception e)

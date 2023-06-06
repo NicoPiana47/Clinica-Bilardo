@@ -57,7 +57,7 @@
 	            </li>
 	            <li class="nav-item">
 	                <a class="nav-link text-white" href="MiCuenta.jsp"> 
-	                	<i class="fa-solid fa-user"></i> <%med.getNombre();%>
+	                	<i class="fa-solid fa-user"></i> <%=med.getNombre()%>
 	                </a>
 	            </li>
 	            <li class="nav-item">
@@ -77,7 +77,7 @@
 	            </li>
 	           <li class="nav-item">
 	                <a class="nav-link text-white" href="MiCuenta.jsp"> 
-	                	<i class="fa-solid fa-user"></i> <%med.getNombre();%>
+	                	<i class="fa-solid fa-user"></i> <%=med.getNombre()%>
 	                </a>
 	            </li>
 	           <li class="nav-item">
