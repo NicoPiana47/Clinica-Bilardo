@@ -33,7 +33,7 @@ public class MedicosDaoImpl implements MedicosDao {
 					x.setDNI_MED(rs.getString("DNI_MED"));
 					x.getEspecialidad_MED().setCodEspecialidad_ESP(rs.getInt("CodEspecialidad_MED")); 
 					x.getLocalidad_MED().setCodLocalidad(rs.getInt("CodLocalidad_MED"));
-					x.getProvincia_MED().setCodProvincia(rs.getInt("CodProvincia_MED"));
+					x.getLocalidad_MED().getProvincia().setCodProvincia(rs.getInt("CodProvincia_MED"));
 					x.setCorreo_MED(rs.getString("Correo_MED")); 
 					x.setUsername_MED(rs.getString("Username_MED")); 
 					x.setContraseña_MED(rs.getString("Contraseña_MED")); 
