@@ -32,7 +32,7 @@
   	<div class="collapse navbar-collapse" id="navbarScroll">
   	
  	<ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;"></ul>
-    <%if ( med.getTipo() || true){%>
+    <%if ( med.getTipo() ){%>
 	    <form class="d-flex">
 	        <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
 	            <li class="nav-item">
