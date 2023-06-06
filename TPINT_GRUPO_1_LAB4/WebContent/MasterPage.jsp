@@ -55,7 +55,7 @@
               		</a>
 	            </li>
 	            <li class="nav-item">
-	              <a class="nav-link text-white" href="">
+	              <a class="nav-link text-white" href="servletTurnos?cargaTabla">
 	              	<i class="fa-brands fa-wpforms"></i> Reportes
 	              </a>
 	            </li>

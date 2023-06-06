@@ -125,8 +125,8 @@ td {
 					        <td><%= paciente.getNacionalidad() %></td>
 					        <td><%= paciente.getFechaNacimiento() %></td>
 					        <td><%= paciente.getDireccion() %></td>
-					        <td><%= paciente.getProvincia().toString() %></td>
-					        <td><%= paciente.getLocalidad().toString() %></td>
+					        <td><%= paciente.getProvincia() %></td>
+					        <td><%= paciente.getLocalidad() %></td>
 					        <td><%= paciente.getCorreo() %></td>
 					        <td><%= paciente.getTelefono() %></td>
 					        <td><%= paciente.getEstado() %></td>

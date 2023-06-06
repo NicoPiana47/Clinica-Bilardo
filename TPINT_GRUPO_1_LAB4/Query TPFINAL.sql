@@ -89,6 +89,36 @@ CREATE TABLE Medicos (
     CONSTRAINT UK_MEDICOS_CORREO UNIQUE KEY (Correo_MED)
 );
 
+CREATE TABLE MedicosXDias (
+	CodMed_MXD INT NOT NULL,
+	Dia_MXD VARCHAR(10) NOT NULL,
+    HoraDesde_MXD TIME NOT NULL,
+	HoraHasta_MXD TIME NOT NULL,
+	Estado_MXD BOOLEAN NOT NULL DEFAULT 1,
+    
+    CONSTRAINT PK_MEDICOSXDIAS PRIMARY KEY (CodMed_MXD, Dia_MXD),
+    CONSTRAINT FK_MEDICOSXDIAS_MEDICOS FOREIGN KEY (CodMed_MXD)
+		REFERENCES Medicos(CodMed_MED)
+);
+
+CREATE TABLE Turnos (
+    CodTurno_TURN INT AUTO_INCREMENT NOT NULL,
+    CodMed_TURN INT NOT NULL,
+    CodPac_TURN INT NOT NULL,
+    CodEstado_TURN INT NOT NULL,
+    FechaTurno_TURN DATETIME NOT NULL,
+    
+    CONSTRAINT PK_TURNOS PRIMARY KEY (CodTurno_TURN),
+    CONSTRAINT FK_MEDICOS_TURNOS FOREIGN KEY (CodMed_TURN)
+		REFERENCES Medicos(CodMed_MED),
+	CONSTRAINT FK_PACIENTE_TURNOS FOREIGN KEY (CodPac_TURN)
+		REFERENCES Pacientes(CodPac_PAC),
+	CONSTRAINT FK_ESTADOS_TURNOS FOREIGN KEY (CodEstado_TURN)
+		REFERENCES EstadosTurno(CodEstado_EST)
+);
+
+
+
 
 
 INSERT INTO Provincias (CodProvincia_PROV, Descripcion_PROV) VALUES
@@ -2569,6 +2599,50 @@ VALUES
 ('41123456', 6, '1', '88', 'romina@gmail.com', 'romina567', '987123', 'Romina', 'Ortega', 'Femenino', 'Argentina', "1996-04-24", 'Plaza Central 123', '123456789',0, 1),
 ('24976295', 1, '1', '24', 'mgallardo@riverid.com', 'marcelo912', 'mg_rp31', 'Marcelo', 'Gallardo', 'Masculino', 'Argentina', "1976-01-18", 'Figueroa Alcorta 7597','1127081031',1, 1),
 ('23589462', 1, '1', '16', 'admin@gmail.com', 'admin', '123', 'Admin','Senior', 'Masculino', 'Argentina', "1971-10-06", 'Sarmiento 561', '1159536412', 1, 1);
+
+INSERT INTO MedicosXDias(CodMed_MXD, Dia_MXD, HoraDesde_MXD, HoraHasta_MXD)
+VALUES 
+(1, 'Lunes', "09:00:00", "18:00:00"),
+(1, 'Jueves', "09:00:00", "15:00:00"),
+(2, 'Lunes', "09:00:00", "18:00:00"),
+(2, 'Jueves', "09:00:00", "15:00:00"),
+(3, 'Lunes', "09:00:00", "18:00:00"),
+(3, 'Jueves', "09:00:00", "15:00:00"),
+(4, 'Lunes', "09:00:00", "18:00:00"),
+(4, 'Jueves', "09:00:00", "15:00:00"),
+(5, 'Lunes', "09:00:00", "18:00:00"),
+(6, 'Jueves', "09:00:00", "15:00:00"),
+(7, 'Lunes', "09:00:00", "18:00:00"),
+(8, 'Jueves', "09:00:00", "20:00:00"),
+(9, 'Lunes', "09:00:00", "18:00:00"),
+(10, 'Jueves', "14:00:00", "21:00:00"),
+(11, 'Lunes', "09:00:00", "18:00:00"),
+(12, 'Lunes', "09:00:00", "16:00:00"),
+(13, 'Miercoles', "09:00:00", "17:00:00"),
+(14, 'Lunes', "09:00:00", "14:00:00"),
+(15, 'Miercoles', "09:00:00", "13:00:00");
+
+INSERT INTO Turnos (CodMed_TURN, CodPac_TURN, CodEstado_TURN, FechaTurno_TURN)
+VALUES 
+(1, 1, 3, '2023-05-29 9:00:00'),
+(1, 2, 4, '2023-05-22 13:00:00'),
+(1, 3, 2, '2023-10-9 11:00:00'),
+(1, 4, 2, '2023-10-16 19:00:00'),
+(1, 5, 2, '2023-11-6 17:00:00'),
+(2, 6, 2, '2023-10-30 14:00:00'),
+(3, 7, 2, '2023-11-12 10:00:00'),
+(4, 8, 2, '2023-10-9 11:00:00'),
+(5, 9, 2, '2023-09-18 17:00:00'),
+(6, 10, 2, '2023-11-23 13:00:00'),
+(7, 11, 4, '2023-07-17 15:00:00'),
+(8, 12, 3, '2023-03-23 19:00:00'),
+(9, 13, 2, '2023-08-21 13:00:00'),
+(10, 14, 2, '2023-12-8 20:00:00'),
+(11, 15, 2, '2023-10-2 11:00:00')
+
+
+
+
 
 
 
