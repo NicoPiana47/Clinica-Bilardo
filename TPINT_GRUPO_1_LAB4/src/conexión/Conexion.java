@@ -9,7 +9,7 @@ public class Conexion {
     private Connection connection;
 	private String host = "jdbc:mysql://localhost:3306/"; //DONDE ESTA LA BASE DE DATOS
 	private String user = "root"; 
-	private String pass = "root";
+	private String pass = "1234";
 	private String dbName = "BD_TPINT_GRUPO_1_LAB4";
 
     private Conexion()

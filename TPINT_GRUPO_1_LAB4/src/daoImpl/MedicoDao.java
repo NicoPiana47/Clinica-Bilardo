@@ -17,7 +17,6 @@ public class MedicoDao implements IMedicoDao {
 		Medico x = new Medico();
 		  try
 		  {
-			 Class.forName("com.mysql.jdbc.Driver");
 			 String query = "select * from Medicos where Username_MED = ?";
 			 
 			 PreparedStatement st = cn.prepareStatement(query);
@@ -46,15 +45,10 @@ public class MedicoDao implements IMedicoDao {
 		  }
 		  catch (Exception e) {
 				e.printStackTrace();
-			}
-			  finally {
-					try {
-						cn.close();
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
+		  }
+		  finally  {
+			  
+		  }
 		return x;
 		
 	}

@@ -47,8 +47,8 @@ public class servletMedicos extends HttpServlet {
         {
 			sessionMedico.setAttribute("sessionMedico", null);
         	
-        	Medico med = mNeg.iniciarSesion(request.getParameter("txtNombreUsuario_MED"), request.getParameter("txtContraseña_MED"));
-        		
+			Medico med = mNeg.iniciarSesion(request.getParameter("txtNombreUsuario"), request.getParameter("txtContraseña"));
+			
         	if(med != null) {
         		sessionMedico.setAttribute("sessionMedico", med);
         		filas = true;

@@ -15,7 +15,7 @@ public class MedicoNegocio implements IMedicoNegocio{
 		if (!username.isEmpty() || !contraseña.isEmpty()) {
     		
 			med= mDao.traerMedicoPorNombreUsuario(username);
-			if(med != null && med.getContraseña().equals(contraseña)) {
+			if(med != null && med.getContraseña() != null && med.getContraseña().equals(contraseña)) {
 				return med;
 			}
     	}
