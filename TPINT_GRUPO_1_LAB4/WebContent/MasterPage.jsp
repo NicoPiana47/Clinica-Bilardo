@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@ page import="entidades.Medico" %>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -12,10 +13,10 @@
     <title>master</title>
     
     <% 
-		//Usuarios UsuarioActual = new Usuarios();
-		//if(session.getAttribute("sessionUser") != null){
-		//	UsuarioActual = (Usuarios)session.getAttribute("sessionUser");
-		//}
+	    Medico med = new Medico();
+		if(session.getAttribute("sessionMedico") != null){
+			med = (Medico)session.getAttribute("sessionMedico");
+		} 
 	%>
 <body>
 
@@ -31,7 +32,7 @@
   	<div class="collapse navbar-collapse" id="navbarScroll">
   	
  	<ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;"></ul>
-    <%if ( false ){%>
+    <%if ( med.getTipo_MED()){%>
 	    <form class="d-flex">
 	        <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
 	            <li class="nav-item">
@@ -56,7 +57,7 @@
 	            </li>
 	            <li class="nav-item">
 	                <a class="nav-link text-white" href="MiCuenta.jsp"> 
-	                	<i class="fa-solid fa-user"></i> Usuario Prueba
+	                	<i class="fa-solid fa-user"></i> <%med.getNombre_MED();%>
 	                </a>
 	            </li>
 	            <li class="nav-item">
@@ -76,7 +77,7 @@
 	            </li>
 	           <li class="nav-item">
 	                <a class="nav-link text-white" href="MiCuenta.jsp"> 
-	                	<i class="fa-solid fa-user"></i> Usuario Prueba
+	                	<i class="fa-solid fa-user"></i> <%med.getNombre_MED();%>
 	                </a>
 	            </li>
 	           <li class="nav-item">

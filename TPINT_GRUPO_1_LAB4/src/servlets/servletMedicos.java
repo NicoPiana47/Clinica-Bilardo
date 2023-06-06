@@ -35,28 +35,45 @@ public class servletMedicos extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		int filas = 0;
-		if(request.getParameter("btnIngresar")!=null)
-        {
-        	
-        	Medico med = mNeg.iniciarSesion(request.getParameter("txtNombreUsuario"), request.getParameter("txtContraseña"));
-        		
-        	if(med != null) {
-        		session.setAttribute("medico", med);
-        	}
-        	      	
-        	request.setAttribute("cantFilas", filas);
-        	RequestDispatcher rd = request.getRequestDispatcher("/AgregarSeguros.jsp");
-        	rd.forward(request, response);
-        }
+		iniciarSesion(request, response);
 
 	}
 	
 	
-	public void iniciarSesion() {
+	public void iniciarSesion(HttpServletRequest request, HttpServletResponse response) {
 		
-		
+		HttpSession sessionMedico = request.getSession();
+		Boolean filas = false;
+		if(request.getParameter("btnIngresar")!=null)
+        {
+			sessionMedico.setAttribute("sessionMedico", null);
+        	
+        	Medico med = mNeg.iniciarSesion(request.getParameter("txtNombreUsuario"), request.getParameter("txtContraseña"));
+        		
+        	if(med != null) {
+        		sessionMedico.setAttribute("sessionMedico", med);
+        		filas = true;
+        	}
+        	
+        	RequestDispatcher rd = null;
+        	
+        	if(filas) {
+        		if(med.getTipo_MED()) rd = request.getRequestDispatcher("/AdminMedicos.jsp");
+        		else rd = request.getRequestDispatcher("/Inicio.jsp");
+        	}
+        	else rd = request.getRequestDispatcher("/Login.jsp");
+        	      	
+        	request.setAttribute("inicioSesion", filas);
+        	try {
+				rd.forward(request, response);
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
 	}
 
 }

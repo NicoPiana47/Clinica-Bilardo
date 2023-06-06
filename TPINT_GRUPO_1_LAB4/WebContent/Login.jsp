@@ -1,3 +1,4 @@
+<%@ page import="entidades.Medico" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -16,8 +17,6 @@
 </head>
 <body>
 
-
-
 	<section class="vh-100" style="background-color: #2a2a72;
 background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);">
   <div class="container py-5 h-100">
@@ -32,7 +31,7 @@ background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);">
             <div class="col-md-6 col-lg-7 d-flex align-items-center">
               <div class="card-body p-4 p-lg-5 text-black">
 
-                <form action= 'servletMedicos' method='post' >
+                <form action= "servletMedicos" method="post" name="formInicioSesion" >
 
                   <div class="d-flex align-items-center mb-3 pb-1">
                    
@@ -53,16 +52,28 @@ background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);">
                   </div>
 
                   <div class="pt-1 mb-4">
-                    <button class="btn btn-dark btn-lg btn-block" name="btnIngresar" >Ingresar</button>
+                    <button type = "submit" class="btn btn-dark btn-lg btn-block" name="btnIngresar" >Ingresar</button>
                   </div>
                   
-                  <%if(request.getAttribute("btnIngresar") != null) 
-                  		
-                  	
+                </form>
+                
+                  <%if((Boolean)request.getAttribute("cantFilas") != null){
+                	  
+                	  boolean inicioSesion = (boolean)request.getAttribute("inicioSesion");
+
+                	  if(!inicioSesion){
+                		  %><div style="display: flex; justify-content: center; visibility="hidden";>
+						        <div ID="MsgErrorDiv" class="col-md-4 alert alert-danger">
+						            <strong>Error</strong> Usuario o contraseña incorrecta!
+						            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+						        </div>
+						    </div>
+					    <% 
+					    }    
+                	  }                                             	
                   %>
 
                   
-                </form>
 
               </div>
             </div>
