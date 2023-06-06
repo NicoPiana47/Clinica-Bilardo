@@ -32,11 +32,11 @@
   	<div class="collapse navbar-collapse" id="navbarScroll">
   	
  	<ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;"></ul>
-    <%if ( med.getTipo_MED()){%>
+    <%if ( med.getTipo() || true){%>
 	    <form class="d-flex">
 	        <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
 	            <li class="nav-item">
-	              <a class="nav-link text-white" href="">
+	              <a class="nav-link text-white" href="servletPacientes">
 	              	<i class="fa-solid fa-users"></i> Administrar Pacientes
           			</a>
 	            </li>
@@ -57,7 +57,7 @@
 	            </li>
 	            <li class="nav-item">
 	                <a class="nav-link text-white" href="MiCuenta.jsp"> 
-	                	<i class="fa-solid fa-user"></i> <%med.getNombre_MED();%>
+	                	<i class="fa-solid fa-user"></i> <%med.getNombre();%>
 	                </a>
 	            </li>
 	            <li class="nav-item">
@@ -77,7 +77,7 @@
 	            </li>
 	           <li class="nav-item">
 	                <a class="nav-link text-white" href="MiCuenta.jsp"> 
-	                	<i class="fa-solid fa-user"></i> <%med.getNombre_MED();%>
+	                	<i class="fa-solid fa-user"></i> <%med.getNombre();%>
 	                </a>
 	            </li>
 	           <li class="nav-item">

@@ -11,8 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import entidades.Medico;
-import negImpl.MedicosNegocioImpl;
-import neg.MedicosNegocio;
+import negImpl.MedicoNegocio;
 
 
 /**
@@ -21,7 +20,7 @@ import neg.MedicosNegocio;
 @WebServlet("/servletMedicos")
 public class servletMedicos extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	MedicosNegocio mNeg = new MedicosNegocioImpl();
+	MedicoNegocio mNeg = new MedicoNegocio();
        
     public servletMedicos() {
         super();
@@ -48,7 +47,7 @@ public class servletMedicos extends HttpServlet {
         {
 			sessionMedico.setAttribute("sessionMedico", null);
         	
-        	Medico med = mNeg.iniciarSesion(request.getParameter("txtNombreUsuario"), request.getParameter("txtContraseña"));
+        	Medico med = mNeg.iniciarSesion(request.getParameter("txtNombreUsuario_MED"), request.getParameter("txtContraseña_MED"));
         		
         	if(med != null) {
         		sessionMedico.setAttribute("sessionMedico", med);
@@ -58,7 +57,7 @@ public class servletMedicos extends HttpServlet {
         	RequestDispatcher rd = null;
         	
         	if(filas) {
-        		if(med.getTipo_MED()) rd = request.getRequestDispatcher("/AdminMedicos.jsp");
+        		if(med.getTipo()) rd = request.getRequestDispatcher("/AdminMedicos.jsp");
         		else rd = request.getRequestDispatcher("/Inicio.jsp");
         	}
         	else rd = request.getRequestDispatcher("/Login.jsp");

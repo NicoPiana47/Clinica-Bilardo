@@ -1,14 +1,11 @@
 package negImpl;
 
-import neg.MedicosNegocio;
-
-
-import dao.MedicosDao;
-import daoImpl.MedicosDaoImpl;
+import daoImpl.MedicoDao;
 import entidades.Medico;
+import neg.IMedicoNegocio;
 
-public class MedicosNegocioImpl implements MedicosNegocio{
-	MedicosDao mDao = new MedicosDaoImpl ();
+public class MedicoNegocio implements IMedicoNegocio{
+	MedicoDao mDao = new MedicoDao();
 	
 	
 	@Override
@@ -18,7 +15,7 @@ public class MedicosNegocioImpl implements MedicosNegocio{
 		if (!username.isEmpty() || !contraseña.isEmpty()) {
     		
 			med= mDao.traerMedicoPorNombreUsuario(username);
-			if(med != null && med.getContraseña_MED().equals(contraseña)) {
+			if(med != null && med.getContraseña().equals(contraseña)) {
 				return med;
 			}
     	}

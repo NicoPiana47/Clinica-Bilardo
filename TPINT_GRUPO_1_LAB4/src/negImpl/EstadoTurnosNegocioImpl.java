@@ -1,7 +1,7 @@
 package negImpl;
 
-import neg.EstadoTurnosNegocio;
+import neg.IEstadoTurnosNegocio;
 
-public class EstadoTurnosNegocioImpl implements EstadoTurnosNegocio{
+public class EstadoTurnosNegocioImpl implements IEstadoTurnosNegocio{
 
 }

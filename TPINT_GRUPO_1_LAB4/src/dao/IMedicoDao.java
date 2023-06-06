@@ -2,7 +2,7 @@ package dao;
 
 import entidades.Medico;
 
-public interface MedicosDao {
+public interface IMedicoDao {
 
 	public Medico traerMedicoPorNombreUsuario (String username);
 

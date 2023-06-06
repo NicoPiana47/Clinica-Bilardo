@@ -3,143 +3,143 @@ package entidades;
 import java.util.Date;;
 
 public class Medico {
-	private int codMed_MED;
-	private String DNI_MED;
-    private Especialidad especialidad_MED;
-    private Localidad localidad_MED;
-    private Provincia provincia_MED;
-    private String correo_MED;
-    private String username_MED;
-    private String contraseña_MED;
-    private String nombre_MED;
-    private String apellido_MED;
-    private String sexo_MED;
-    private String nacionalidad_MED;
-    private Date fechaNacimiento_MED;
-    private String direccion_MED;
-    private String telefono_MED;
-    private boolean tipo_MED;
-    private boolean estado_MED;
+	private int codMed;
+	private String DNI;
+    private Especialidad especialidad;
+    private Localidad localidad;
+    private Provincia provincia;
+    private String correo;
+    private String username;
+    private String contraseña;
+    private String nombre;
+    private String apellido;
+    private String sexo;
+    private String nacionalidad;
+    private Date fechaNacimiento;
+    private String direccion;
+    private String telefono;
+    private boolean tipo;
+    private boolean estado;
     
     
     public Medico() {
-    	especialidad_MED = new Especialidad();
-    	localidad_MED = new Localidad();
-    	provincia_MED = new Provincia();
+    	especialidad = new Especialidad();
+    	localidad = new Localidad();
+    	provincia = new Provincia();
     }
     
     //GETTERS AND SETTERS
-    public int getCodMed_MED() {
-		return codMed_MED;
+    public int getCodMed() {
+		return codMed;
 	}
-	public void setCodMed_MED(int codMed_MED) {
-		this.codMed_MED = codMed_MED;
+	public void setCodMed(int codMed) {
+		this.codMed = codMed;
 	}
-	public String getDNI_MED() {
-		return DNI_MED;
+	public String getDNI() {
+		return DNI;
 	}
-	public void setDNI_MED(String dNI_MED) {
-		DNI_MED = dNI_MED;
+	public void setDNI(String dNI) {
+		DNI = dNI;
 	}
-	public Especialidad getEspecialidad_MED() {
-		return especialidad_MED;
+	public Especialidad getEspecialidad() {
+		return especialidad;
 	}
-	public void setEspecialidad_MED(Especialidad especialidad_MED) {
-		this.especialidad_MED = especialidad_MED;
+	public void setEspecialidad(Especialidad especialidad) {
+		this.especialidad = especialidad;
 	}
-	public Localidad getLocalidad_MED() {
-		return localidad_MED;
+	public Localidad getLocalidad() {
+		return localidad;
 	}
-	public void setLocalidad_MED(Localidad localidad_MED) {
-		this.localidad_MED = localidad_MED;
+	public void setLocalidad(Localidad localidad) {
+		this.localidad = localidad;
 	}
-	public Provincia getProvincia_MED() {
-		return provincia_MED;
+	public Provincia getProvincia() {
+		return provincia;
 	}
-	public void setProvincia_MED(Provincia provincia_MED) {
-		this.provincia_MED = provincia_MED;
+	public void setProvincia(Provincia provincia) {
+		this.provincia = provincia;
 	}
-	public String getCorreo_MED() {
-		return correo_MED;
+	public String getCorreo() {
+		return correo;
 	}
-	public void setCorreo_MED(String correo_MED) {
-		this.correo_MED = correo_MED;
+	public void setCorreo(String correo) {
+		this.correo = correo;
 	}
-	public String getUsername_MED() {
-		return username_MED;
+	public String getUsername() {
+		return username;
 	}
-	public void setUsername_MED(String username_MED) {
-		this.username_MED = username_MED;
+	public void setUsername(String username) {
+		this.username = username;
 	}
-	public String getContraseña_MED() {
-		return contraseña_MED;
+	public String getContraseña() {
+		return contraseña;
 	}
-	public void setContraseña_MED(String contraseña_MED) {
-		this.contraseña_MED = contraseña_MED;
+	public void setContraseña(String contraseña) {
+		this.contraseña = contraseña;
 	}
-	public String getNombre_MED() {
-		return nombre_MED;
+	public String getNombre() {
+		return nombre;
 	}
-	public void setNombre_MED(String nombre_MED) {
-		this.nombre_MED = nombre_MED;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
-	public String getApellido_MED() {
-		return apellido_MED;
+	public String getApellido() {
+		return apellido;
 	}
-	public void setApellido_MED(String apellido_MED) {
-		this.apellido_MED = apellido_MED;
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
 	}
-	public String getSexo_MED() {
-		return sexo_MED;
+	public String getSexo() {
+		return sexo;
 	}
-	public void setSexo_MED(String sexo_MED) {
-		this.sexo_MED = sexo_MED;
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
 	}
-	public String getNacionalidad_MED() {
-		return nacionalidad_MED;
+	public String getNacionalidad() {
+		return nacionalidad;
 	}
-	public void setNacionalidad_MED(String nacionalidad_MED) {
-		this.nacionalidad_MED = nacionalidad_MED;
+	public void setNacionalidad(String nacionalidad) {
+		this.nacionalidad = nacionalidad;
 	}
-	public Date getFechaNacimiento_MED() {
-		return fechaNacimiento_MED;
+	public Date getFechaNacimiento() {
+		return fechaNacimiento;
 	}
-	public void setFechaNacimiento_MED(Date fechaNacimiento_MED) {
-		this.fechaNacimiento_MED = fechaNacimiento_MED;
+	public void setFechaNacimiento(Date fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
 	}
-	public String getDireccion_MED() {
-		return direccion_MED;
+	public String getDireccion() {
+		return direccion;
 	}
-	public void setDireccion_MED(String direccion_MED) {
-		this.direccion_MED = direccion_MED;
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
 	}
-	public String getTelefono_MED() {
-		return telefono_MED;
+	public String getTelefono() {
+		return telefono;
 	}
-	public void setTelefono_MED(String telefono_MED) {
-		this.telefono_MED = telefono_MED;
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
 	}
-	public boolean getTipo_MED() {
-		return tipo_MED;
+	public boolean getTipo() {
+		return tipo;
 	}
-	public void setTipo_MED(boolean tipo_MED) {
-		this.tipo_MED = tipo_MED;
+	public void setTipo(boolean tipo) {
+		this.tipo = tipo;
 	}
-	public boolean getEstado_MED() {
-		return estado_MED;
+	public boolean getEstado() {
+		return estado;
 	}
-	public void setEstado_MED(boolean estado_MED) {
-		this.estado_MED = estado_MED;
+	public void setEstado(boolean estado) {
+		this.estado = estado;
 	}
 
 	@Override
 	public String toString() {
-		return "Medico [codMed_MED=" + codMed_MED + ", DNI_MED=" + DNI_MED + ", especialidad_MED=" + especialidad_MED
-				+ ", localidad_MED=" + localidad_MED + ", provincia_MED=" + provincia_MED + ", correo_MED=" + correo_MED
-				+ ", username_MED=" + username_MED + ", contraseña_MED=" + contraseña_MED + ", nombre_MED=" + nombre_MED
-				+ ", apellido_MED=" + apellido_MED + ", sexo_MED=" + sexo_MED + ", nacionalidad_MED=" + nacionalidad_MED
-				+ ", fechaNacimiento_MED=" + fechaNacimiento_MED + ", direccion_MED=" + direccion_MED
-				+ ", telefono_MED=" + telefono_MED + ", tipo_MED=" + tipo_MED + ", estado_MED=" + estado_MED + "]";
+		return "Medico [codMed=" + codMed + ", DNI=" + DNI + ", especialidad=" + especialidad
+				+ ", localidad=" + localidad + ", provincia=" + provincia + ", correo=" + correo
+				+ ", username=" + username + ", contraseña=" + contraseña + ", nombre=" + nombre
+				+ ", apellido=" + apellido + ", sexo=" + sexo + ", nacionalidad=" + nacionalidad
+				+ ", fechaNacimiento=" + fechaNacimiento + ", direccion=" + direccion
+				+ ", telefono=" + telefono + ", tipo=" + tipo + ", estado=" + estado + "]";
 	}
 	
 }

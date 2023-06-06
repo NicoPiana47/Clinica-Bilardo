@@ -33,34 +33,6 @@ public class servletPacientes extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-	
-		
-			PacienteNegocio pacienteNegocio = new PacienteNegocio();
-    	List<Paciente> listaSeguros = pacienteNegocio.obtenerPacientes();
-		request.setAttribute("listaPacientes", listaSeguros);
-		    
-	    RequestDispatcher rd = request.getRequestDispatcher("/AdminPacientes.jsp");
-		rd.forward(request, response);
-
-			/*PacienteNegocio pacienteNegocio = new PacienteNegocio();
-			
-			int tipoDeSeguroId = Integer.parseInt(request.getParameter("selectTipoDeSeguro"));
-			List<Paciente> listaSeguros = pacienteNegocio.obtenerSeguroPorTipoDeSeguro(tipoDeSeguroId);
-    		request.setAttribute("listaSeguros", listaSeguros);
-			
-    		inicializarTiposDeSeguro(request, pacienteNegocio);
-    		
-			RequestDispatcher rd = request.getRequestDispatcher("/ListarSeguros.jsp");   
-	        rd.forward(request, response);    */
 	}
-	
-	private void inicializarAgregarSeguro(HttpServletRequest request, PacienteNegocio seguroDao, int idSeguro) {
-		request.setAttribute("idSeguro", idSeguro+1);
-	}
-
-	/*private void inicializarTiposDeSeguro(HttpServletRequest request, PacienteNegocio seguroDao) {
-		List<TipoDeSeguro> tiposDeSeguro = seguroDao.obtenerTiposDeSeguro();
-        request.setAttribute("tipoDeSeguro", tiposDeSeguro);
-	}*/
 
 }
