@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
 <head>
 <meta charset="UTF-8">
@@ -9,14 +10,13 @@
    	<script src="https://kit.fontawesome.com/3c33daaf69.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./src/Style/masterPage.css">
     
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+      <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css"> 
+   
     <title>master</title>
     
-    <% 
-		//Usuarios UsuarioActual = new Usuarios();
-		//if(session.getAttribute("sessionUser") != null){
-		//	UsuarioActual = (Usuarios)session.getAttribute("sessionUser");
-		//}
-	%>
+   
 <body>
 
 
@@ -31,11 +31,11 @@
   	<div class="collapse navbar-collapse" id="navbarScroll">
   	
  	<ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;"></ul>
-    <%if ( false ){%>
+    <%if ( true){%>
 	    <form class="d-flex">
 	        <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
 	            <li class="nav-item">
-	              <a class="nav-link text-white" href="">
+	              <a class="nav-link text-white" href="servletPacientes">
 	              	<i class="fa-solid fa-users"></i> Administrar Pacientes
           			</a>
 	            </li>
@@ -56,7 +56,7 @@
 	            </li>
 	            <li class="nav-item">
 	                <a class="nav-link text-white" href="MiCuenta.jsp"> 
-	                	<i class="fa-solid fa-user"></i> Usuario Prueba
+	                	<i class="fa-solid fa-user"></i>Usuario Prueba 
 	                </a>
 	            </li>
 	            <li class="nav-item">
@@ -76,7 +76,7 @@
 	            </li>
 	           <li class="nav-item">
 	                <a class="nav-link text-white" href="MiCuenta.jsp"> 
-	                	<i class="fa-solid fa-user"></i> Usuario Prueba
+	                	<i class="fa-solid fa-user"></i>Usuario Prueba
 	                </a>
 	            </li>
 	           <li class="nav-item">

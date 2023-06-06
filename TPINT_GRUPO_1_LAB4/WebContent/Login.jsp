@@ -16,8 +16,6 @@
 </head>
 <body>
 
-
-
 	<section class="vh-100" style="background-color: #2a2a72;
 background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);">
   <div class="container py-5 h-100">
@@ -32,7 +30,7 @@ background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);">
             <div class="col-md-6 col-lg-7 d-flex align-items-center">
               <div class="card-body p-4 p-lg-5 text-black">
 
-                <form>
+                <form action= "servletMedicos" method="post" name="formInicioSesion" >
 
                   <div class="d-flex align-items-center mb-3 pb-1">
                    
@@ -43,8 +41,8 @@ background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);">
                   <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Iniciar Sesión</h5>
 
                   <div class="form-outline mb-4">
-                    <input type="text" id="" class="form-control form-control-lg" required/>
-                    <label class="form-label"  name="txtNombreUsuario">Nombre de usuario</label>
+                    <input type="text" name="txtNombreUsuario" id="" class="form-control form-control-lg" required/>
+                    <label class="form-label" >Nombre de usuario</label>
                   </div>
 
                   <div class="form-outline mb-4">
@@ -53,11 +51,12 @@ background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);">
                   </div>
 
                   <div class="pt-1 mb-4">
-                    <button class="btn btn-dark btn-lg btn-block" >Ingresar</button>
+                    <button type = "submit" class="btn btn-dark btn-lg btn-block" name="btnIngresar" >Ingresar</button>
                   </div>
-
                   
                 </form>
+                
+                
 
               </div>
             </div>
