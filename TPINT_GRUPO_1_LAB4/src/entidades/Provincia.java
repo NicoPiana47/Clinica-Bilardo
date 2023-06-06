@@ -1,29 +1,29 @@
 package entidades;
 
 public class Provincia {
-	private int codProvincia_PROV;
-	private String descripcion_PROV;
+	private int codProvincia;
+	private String descripcion;
 	
 	public Provincia () {
 		
 	}
 	
-	public int getCodProvincia_PROV() {
-		return codProvincia_PROV;
+	public int getCodProvincia() {
+		return codProvincia;
 	}
-	public void setCodProvincia_PROV(int codProvincia_PROV) {
-		this.codProvincia_PROV = codProvincia_PROV;
+	public void setCodProvincia(int codProvincia) {
+		this.codProvincia = codProvincia;
 	}
-	public String getDescripcion_PROV() {
-		return descripcion_PROV;
+	public String getDescripcion() {
+		return descripcion;
 	}
-	public void setDescripcion_PROV(String descripcion_PROV) {
-		this.descripcion_PROV = descripcion_PROV;
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 	@Override
 	public String toString() {
-		return "Provincia [codProvincia_PROV=" + codProvincia_PROV + ", descripcion_PROV=" + descripcion_PROV + "]";
+		return descripcion;
 	}
 	
 	

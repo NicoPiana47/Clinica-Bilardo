@@ -1,42 +1,41 @@
 package entidades;
 
 public class Localidad {
-	private int codLocalidad_LOC;
-	private Provincia provincia_LOC;
-	private String descripcion_LOC;
+	private int codLocalidad;
+	private Provincia provincia;
+	private String descripcion;
 	
 	public Localidad() {
-		provincia_LOC = new Provincia();
+		provincia = new Provincia();
 	}
 
-	public int getCodLocalidad_LOC() {
-		return codLocalidad_LOC;
+	public int getCodLocalidad() {
+		return codLocalidad;
 	}
 
-	public void setCodLocalidad_LOC(int codLocalidad_LOC) {
-		this.codLocalidad_LOC = codLocalidad_LOC;
+	public void setCodLocalidad(int codLocalidad) {
+		this.codLocalidad = codLocalidad;
 	}
 
-	public Provincia getProvincia_LOC() {
-		return provincia_LOC;
+	public Provincia getProvincia() {
+		return provincia;
 	}
 
-	public void setProvincia_LOC(Provincia provincia_LOC) {
-		this.provincia_LOC = provincia_LOC;
+	public void setProvincia(Provincia provincia) {
+		this.provincia = provincia;
 	}
 
-	public String getDescripcion_LOC() {
-		return descripcion_LOC;
+	public String getDescripcion() {
+		return descripcion;
 	}
 
-	public void setDescripcion_LOC(String descripcion_LOC) {
-		this.descripcion_LOC = descripcion_LOC;
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 	@Override
 	public String toString() {
-		return "Localidad [codLocalidad_LOC=" + codLocalidad_LOC + ", provincia_LOC=" + provincia_LOC
-				+ ", descripcion_LOC=" + descripcion_LOC + "]";
+		return descripcion;
 	}
 	
 	
