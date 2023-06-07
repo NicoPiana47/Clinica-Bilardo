@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ page import="java.util.List" %>
+<%@ page import="entidades.Turno" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -40,6 +42,7 @@
             cursor: pointer;
         }
 </style>
+
 </head>
 <body>
 	<%@ include file="/MasterPage.jsp" %>
@@ -69,7 +72,7 @@
 			<table class="table table-hover" id="table_id_reportes" style="font-size: 11px;">
 				<thead>
 					<tr>
-						<th> </th> 
+						
 						<th>Médico</th>   
 						<th>Paciente</th> 
 						<th>Turno</th>
@@ -77,7 +80,28 @@
 					</tr>
 				</thead>
 		        <tbody>
+		        	<% 
+				    if (request.getAttribute("listaTurnos") instanceof List) {
+				        List<Turno> listaTurnos = (List<Turno>) request.getAttribute("listaTurnos");
+				        for (Turno turno : listaTurnos) { 
+				        
+					%>
+					
+					  <tr>
 
+					        <td><%= turno.getMedico().getNombre()%></td>
+					        <td><%= turno.getPaciente().getNombre()%></td>
+					        <td><%= turno.getFechaTurno()%></td>
+					        <td><%= turno.getEstado().getDescripcion_EST()%></td>
+				    </tr>
+					<% 
+			        	} 
+				    }
+					%>
+					
+					
+					
+					
 		    	</tbody>                                             
 			</table>
 		</div>

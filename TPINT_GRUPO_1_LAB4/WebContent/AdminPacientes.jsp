@@ -61,6 +61,7 @@ td {
 <body>
 	<%@ include file="/MasterPage.jsp" %>
 	
+	
 
 	
 	
@@ -85,7 +86,7 @@ td {
 		</div>
 	</div>
 	
-	<div class="container-fluid" style="width:95%; margin-bottom:20px">
+	<div class="container-fluid " style="width:95%;">
 		<div class="card text-center" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 100px;">
 			<div class="card-header "><h5>Pacientes</h5></div>
 			<table class="table table-hover text-center" id="table_id_usuarios" style="font-size: 11px;">
