@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,16 +24,46 @@ public class servletPacientes extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		PacienteNegocio pacienteNegocio = new PacienteNegocio();
     	List<Paciente> listaPacientes = pacienteNegocio.obtenerPacientes();
-		request.setAttribute("listaPacientes", listaPacientes);
+		inicializarModuloPacientes(request, pacienteNegocio, listaPacientes);
 		    
-	    RequestDispatcher rd = request.getRequestDispatcher("/AdminPacientes.jsp");
-		rd.forward(request, response);
+	    forwardToPage(request, response, "/AdminPacientes.jsp");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-	}
 
+		PacienteNegocio pacienteNegocio = new PacienteNegocio();
+	    List<Paciente> listaPacientes = null;
+	    
+		if(request.getParameter("btnFiltrar")!=null) {
+			String texto = request.getParameter("txtFiltro");
+			String columna = request.getParameter("ddlFiltros");
+			listaPacientes = pacienteNegocio.obtenerPacientesPorFiltro(columna, texto);
+		}
+		
+		if(request.getParameter("btnLimpiarFiltros")!=null) {
+			listaPacientes = pacienteNegocio.obtenerPacientes();
+		}
+
+		inicializarModuloPacientes(request, pacienteNegocio, listaPacientes);
+	    forwardToPage(request, response, "/AdminPacientes.jsp");
+	}
+	
+	private void forwardToPage(HttpServletRequest request, HttpServletResponse response, String page) throws ServletException, IOException {
+	    RequestDispatcher rd = request.getRequestDispatcher(page);
+	    rd.forward(request, response);
+	}
+	
+	private void inicializarModuloPacientes(HttpServletRequest request, PacienteNegocio pacienteNegocio, List<Paciente> listaPacientes) {
+		inicializarListaFiltros(request, pacienteNegocio);
+		request.setAttribute("listaPacientes", listaPacientes);
+	}
+	
+	private void inicializarListaFiltros(HttpServletRequest request, PacienteNegocio pacienteNegocio) {
+		Map<String, String> listaFiltros = pacienteNegocio.obtenerColumnas();
+	    request.setAttribute("listaFiltros", listaFiltros);
+	}
+	
 }

@@ -7,53 +7,9 @@
 <title>AdminPacientes</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-
-
-<style>
-
-	table,
-thead,
-tr,
-tbody,
-th,
-td {
-  text-align: center;
-}
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-        
-        .modal-content {
-            background-color: #fefefe;
-            margin: 10% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            max-width: 80%;
-        }
-        
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-</style>
+<link rel="stylesheet" type="text/css" href="./src/Style/estilos.css">
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
 <%@ page import="entidades.Paciente" %>
 </head>
 
@@ -61,50 +17,67 @@ td {
 <body>
 	<%@ include file="/MasterPage.jsp" %>
 	
-	
-
-	
-	
-	
 	<h1 class="text-center">Administración de pacientes</h1>
-	
-	<div class="row m-4">
-		<div class="col-4">
-			<input class="form-control" name="txtFiltro"> 
-		</div>
-		<div class="col-4"> 
-			<select class="form-control" name="ddlFiltros"> </select>
-		</div>
-		<div class="col-4"> 
-			<button  class="form-control" name="btnFiltrar">Filtrar</button>
-		</div>
-	</div>
-	
+
 	<div class="row m-4">
 		<div class="col-4 m-auto">
 			<button class="form-control" onclick="openModal('modalPaciente')">Crear Paciente</button>
 		</div>
 	</div>
 	
-	<div class="container-fluid " style="width:95%;">
+	<form method="post" action="servletPacientes">
+		<div class="row m-4">
+			<div class="col-4">
+				<input class="form-control" name="txtFiltro" placeholder="Ingrese para filtrar"> 
+			</div>
+			<div class="col-4"> 
+			    <select class="form-control" name="ddlFiltros">
+			        <% 
+				    if (request.getAttribute("listaFiltros") instanceof Map) {
+				        Map<String, String> listaFiltros = (Map<String, String>) request.getAttribute("listaFiltros");
+				        for (Map.Entry<String, String> entry : listaFiltros.entrySet()) { 
+				            String campo = entry.getKey();
+				            String descripcion = entry.getValue();
+					%>
+	           			<option value="<%= campo %>"><%= descripcion %></option>
+					<% 
+				        } 
+				    }
+					%>
+			    </select>
+			</div>
+			<div class="col-2"> 
+				<button  class="form-control" name="btnFiltrar">Filtrar</button>
+			</div>
+			<div class="col-2"> 
+				<button  class="form-control" name="btnLimpiarFiltros">Limpiar Filtro</button>
+			</div>
+		</div>
+	</form>
+	
+	<div class="input-group col-6 m-auto">
+  		<input type="search" class="form-control rounded" placeholder="Buscar en la grilla" aria-label="Search" id="search-input" aria-describedby="search-addon" />
+	</div>
+	
+	<div class="container-fluid mt-5" style="width:95%; margin-bottom:20px">
 		<div class="card text-center" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 100px;">
 			<div class="card-header "><h5>Pacientes</h5></div>
 			<table class="table table-hover text-center" id="table_id_usuarios" style="font-size: 11px;">
 				<thead>
-					<tr>
+					<tr class="center-header">
 						<th></th> 
-						<th scope="col">DNI</th>   
-						<th scope="col">Nombre</th> 
-						<th>Apellido</th>
-						<th>Sexo</th> 
-						<th>Nacionalidad</th> 
-						<th>Fecha de nacimiento</th> 
-						<th>Dirección</th>
-						<th>Provincia</th>
-						<th>Localidad</th>
-						<th>Correo</th>
-						<th>Teléfono</th> 
-						<th>Estado</th>
+				        <th>DNI</th>   
+				        <th>Nombre</th> 
+				        <th>Apellido</th>
+				        <th>Sexo</th> 
+				        <th>Nacionalidad</th> 
+				        <th>Fecha de nacimiento</th> 
+				        <th>Dirección</th>
+				        <th>Provincia</th>
+				        <th>Localidad</th>
+				        <th>Correo</th>
+				        <th>Teléfono</th> 
+				        <th>Estado</th>
 					</tr>
 				</thead>
 		        <tbody>
@@ -130,7 +103,12 @@ td {
 					        <td><%= paciente.getLocalidad() %></td>
 					        <td><%= paciente.getCorreo() %></td>
 					        <td><%= paciente.getTelefono() %></td>
-					        <td><%= paciente.getEstado() %></td>
+					        <td>
+						        <label class="checkbox-label">
+						            <input type="checkbox" <%= paciente.getEstado() ? "checked" : "" %> disabled>
+						            <span class="checkmark"></span>
+						        </label>
+						    </td>
 				    </tr>
 					<% 
 			        	} 
@@ -296,31 +274,45 @@ td {
    		document.getElementsByName('txtTelefono')[0].value = "";
     }
 	
-	$('#table_id_usuarios').DataTable({
-		language: {
-	        processing: "Tratamiento en curso...",
-	        search: "Buscar&nbsp;:",
-	        infoEmpty: "No existen datos.",
-	        infoPostFix: "",
-	        loadingRecords: "Cargando...",
-	        zeroRecords: "No se encontraron datos con tu busqueda",
-	        emptyTable: "No hay datos disponibles en la tabla.",
-	        paginate: {
-	            first: "Primero",
-	            previous: "Anterior",
-	            next: "Siguiente",
-	            last: "Ultimo"
+	$(document).ready(function() {
+	    var table = $('#table_id_usuarios').DataTable({
+	        language: {
+	            processing: "Tratamiento en curso...",
+	            infoEmpty: "No existen datos.",
+	            infoPostFix: "",
+	            loadingRecords: "Cargando...",
+	            zeroRecords: "No se encontraron datos con tu búsqueda",
+	            emptyTable: "No hay datos disponibles en la tabla.",
+	            paginate: {
+	                first: "Primero",
+	                previous: "Anterior",
+	                next: "Siguiente",
+	                last: "Último"
+	            },
+	            aria: {
+	                sortAscending: ": activar para ordenar la columna en orden ascendente",
+	                sortDescending: ": activar para ordenar la columna en orden descendente"
+	            }
 	        },
-	        aria: {
-	            sortAscending: ": active para ordenar la columna en orden ascendente",
-	            sortDescending: ": active para ordenar la columna en orden descendente"
+	        scrollY: "auto",
+	        lengthMenu: [[5, 25, -1], [10, 25, "Todos"]],
+	        "bLengthChange": false,
+	        "bInfo": false,
+	        dom: 'lrtip', // Mostrar solo los componentes necesarios
+	        initComplete: function(settings, json) {
+	            // Ocultar el campo de búsqueda predeterminado
+	            $('.dataTables_filter').hide();
 	        }
-	    },
-	    scrollY: "auto",
-	    lengthMenu: [ [5, 25, -1], [10, 25, "All"] ],
-	    "bLengthChange" : false,
-	    "bInfo": false
-    });
+	    });
+
+	 	// Agregar evento de cambio al campo de búsqueda
+	    $('#search-input').on('input', function() {
+	        var searchValue = $(this).val();
+
+	        // Aplicar el filtro de búsqueda al DataTable
+	        table.search(searchValue).draw();
+	    });
+	});
 
 </script>
     

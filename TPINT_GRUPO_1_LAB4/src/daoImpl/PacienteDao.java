@@ -1,6 +1,7 @@
 package daoImpl;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,17 +14,17 @@ import dao.IPacienteDao;
 import entidades.Localidad;
 import entidades.Paciente;
 import entidades.Provincia;
-import negImpl.LocalidadNegocio;
 
 public class PacienteDao implements IPacienteDao {
 	private static final String insert = "INSERT INTO personas(dni, nombre, apellido) VALUES(?, ?, ?)";
 	private static final String delete = "DELETE FROM personas WHERE dni = ?";
 	private static final String readall = "SELECT * FROM pacientes";
+	private static final String filterWhere = "SELECT * FROM pacientes WHERE ";
+	private static final String filterLike = "LIKE ?";
 	private static final String existeDni = "SELECT * FROM personas WHERE dni = ?";
 	private static final String update = "UPDATE personas SET nombre = ?, apellido = ? WHERE dni = ?";
 
-	public List<Paciente> readAll()
-	{
+	public List<Paciente> readAll() {
 		PreparedStatement statement;
 		ResultSet resultSet; 
 		ArrayList<Paciente> pacientes = new ArrayList<Paciente>();
@@ -38,12 +39,54 @@ public class PacienteDao implements IPacienteDao {
 		} 
 		catch (SQLException e) {
 			e.printStackTrace();
-			try {
-				conexion.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
+		}
+		return pacientes;
+	}
+	
+	public List<String> getColumns() {
+		List<String> nombresColumnas = new ArrayList<>();
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+
+	    try {
+	        DatabaseMetaData metaData = conexion.getMetaData();
+	        ResultSet rs = metaData.getColumns(null, null, "pacientes", null);
+	        
+	        while (rs.next()) {
+	            String nombreColumna = rs.getString("COLUMN_NAME");
+	            
+	            if(!nombreColumna.equals("CodPac_PAC")) {
+		            nombresColumnas.add(nombreColumna);
+	            }
+	        }
+	    } 
+	    catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return nombresColumnas;
+	}
+	
+	public List<Paciente> getPacientesByFilter(String column, String text) {
+
+		PreparedStatement statement;
+		ResultSet resultSet; 
+		ArrayList<Paciente> pacientes = new ArrayList<Paciente>();
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		try{
+			String query = "SELECT * FROM pacientes WHERE " + column + " LIKE ?";
+			statement = conexion.prepareStatement(query);
+	        statement.setString(1, "%" + text + "%");
+	        
+	        resultSet = statement.executeQuery();      
+			
+			while(resultSet.next()){
+				pacientes.add(getPaciente(resultSet));
 			}
 		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
 		return pacientes;
 	}
 	
@@ -68,9 +111,7 @@ public class PacienteDao implements IPacienteDao {
 		String telefono = resultSet.getString("Telefono_PAC");
 		boolean estado = resultSet.getBoolean("Estado_PAC");
 		
-		
-		
-
 		return new Paciente(codPac, DNI, provincia, localidad, nombre, apellido, correo, sexo, nacionalidad, fechaNacimiento, direccion, telefono, estado);
 	}
+	
 }

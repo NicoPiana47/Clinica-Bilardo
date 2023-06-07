@@ -10,4 +10,8 @@ public interface IPacienteDao {
     public boolean delete(String dni);
     public boolean existeDni(String dni);*/
     public List<Paciente> readAll();
+    public List<String> getColumns();
+    public List<Paciente> getPacientesByFilter(String column, String text);
+    
+    
 }
