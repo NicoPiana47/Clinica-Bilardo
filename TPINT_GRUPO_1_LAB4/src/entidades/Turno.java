@@ -11,7 +11,9 @@ public class Turno {
 	
 	
 	public Turno() {
-		
+		medico = new Medico();
+		paciente = new Paciente();
+		estado = new EstadoTurno();
 	}
 	
 	public int getCodTurno() {

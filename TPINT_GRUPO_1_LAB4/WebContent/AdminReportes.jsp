@@ -2,6 +2,7 @@
     pageEncoding="ISO-8859-1"%>
     <%@ page import="java.util.List" %>
 <%@ page import="entidades.Turno" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -47,18 +48,19 @@
 <body>
 	<%@ include file="/MasterPage.jsp" %>
 	<h1 class="text-center">Reportes</h1>
-		
-	<div class="row m-4">
-		<div class="col-4">
-			<input class="form-control" type="date" name="txtFechaDesde"> 
+	<form action="servletTurnos" method="post">
+		<div class="row m-4">
+			<div class="col-4">
+				<input class="form-control" type="date" name="txtFechaDesde"> 
+			</div>
+			<div class="col-4"> 
+				<input class="form-control" type="date" name="txtFechaHasta"> 
+			</div>
+			<div class="col-4"> 
+				<button  class="form-control" name="btnFiltrar">Filtrar</button>
+			</div>
 		</div>
-		<div class="col-4"> 
-			<input class="form-control" type="date" name="txtFechaHasta"> 
-		</div>
-		<div class="col-4"> 
-			<button  class="form-control" name="btnFiltrar">Filtrar</button>
-		</div>
-	</div>
+	</form>
 	
 	<div class="row"> 
 		<div class="col-4 m-auto" > 
@@ -83,6 +85,7 @@
 		        	<% 
 				    if (request.getAttribute("listaTurnos") instanceof List) {
 				        List<Turno> listaTurnos = (List<Turno>) request.getAttribute("listaTurnos");
+				        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 				        for (Turno turno : listaTurnos) { 
 				        
 					%>
@@ -91,7 +94,7 @@
 
 					        <td><%= turno.getMedico().getNombre()%></td>
 					        <td><%= turno.getPaciente().getNombre()%></td>
-					        <td><%= turno.getFechaTurno()%></td>
+					        <td><%= formatter.format(turno.getFechaTurno())%></td>
 					        <td><%= turno.getEstado().getDescripcion_EST()%></td>
 				    </tr>
 					<% 
@@ -166,7 +169,7 @@
 		    scrollY: "auto",
 		    lengthMenu: [ [5, 25, -1], [10, 25, "All"] ],
 		    "bLengthChange" : false,
-		    "bInfo": false
+		    "bInfo": false,		    
 	    });
 	</script>    
 </body>
