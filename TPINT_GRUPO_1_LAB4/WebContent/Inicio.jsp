@@ -79,7 +79,7 @@
 		        <tbody>
 					<tr onclick="openModal('modalDatosPaciente')">
 						<th scope="row">
-							<button name = "btnCambiarEstado" class="btn btn-outline-danger btn-sm" onclick="openModal('modalCambiarEstado')">
+							<button name = "btnCambiarEstado" class="btn btn-outline-danger btn-sm"  onclick="event.stopPropagation(); openModal('modalCambiarEstado')">
 								<i class="fa-solid fa-clock"></i>
 							</button>
 	                	</th>
