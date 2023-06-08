@@ -66,16 +66,13 @@
         }
 
         function obtenerHorariosDisponibles(fecha) {
-            // Aquí puedes implementar la lógica para obtener los horarios disponibles basados en la fecha seleccionada.
-            // En este caso, se hardcodea el horario disponible de 10 AM a 11 AM.
             var horarios = ["10:00 - 11:00"];
 
             return horarios;
         }
 
         function asignarTurno() {
-            // Aquí puedes implementar la lógica para asignar el turno seleccionado.
-            // Puedes obtener los valores seleccionados de los campos correspondientes y realizar las acciones necesarias.
+
         }
     </script>
 </html>
