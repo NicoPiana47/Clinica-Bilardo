@@ -1,6 +1,7 @@
 package daoImpl;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,23 +32,7 @@ public class MedicoDao implements IMedicoDao {
 			 ResultSet rs = st.executeQuery();
 			
 			 while(rs.next()) {
-					x.setCodMed(rs.getInt("CodMed_MED")); 
-					x.setDNI(rs.getString("DNI_MED"));
-					x.getEspecialidad().setCodEspecialidad_ESP(rs.getInt("CodEspecialidad_MED")); 
-					x.getLocalidad().setCodLocalidad(rs.getInt("CodLocalidad_MED"));
-					x.getLocalidad().getProvincia().setCodProvincia(rs.getInt("CodProvincia_MED"));
-					x.setCorreo(rs.getString("Correo_MED")); 
-					x.setUsername(rs.getString("Username_MED")); 
-					x.setContraseña(rs.getString("Contraseña_MED")); 
-					x.setNombre(rs.getString("Nombre_MED")); 
-					x.setApellido(rs.getString("Apellido_MED"));
-					x.setSexo(rs.getString("Sexo_MED")); 
-					x.setNacionalidad(rs.getString("Nacionalidad_MED")); 
-					x.setFechaNacimiento(rs.getDate("FechaNacimiento_MED"));
-					x.setDireccion(rs.getString("Direccion_MED"));
-					x.setTelefono(rs.getString("Telefono_MED"));
-					x.setTipo(rs.getBoolean("Tipo_MED"));
-					x.setEstado(rs.getBoolean("Estado_MED"));					
+				x = getMedico(rs);				
 			 }				 
 		  }
 		  catch (Exception e) {
@@ -80,6 +65,30 @@ public class MedicoDao implements IMedicoDao {
 		return medicos;
 	}
 	
+	@Override
+	public List<String> getColumns() {
+		List<String> nombresColumnas = new ArrayList<>();
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+
+	    try {
+	        DatabaseMetaData metaData = conexion.getMetaData();
+	        ResultSet rs = metaData.getColumns(null, null, "Medicos", null);
+	        
+	        while (rs.next()) {
+	            String nombreColumna = rs.getString("COLUMN_NAME");
+	            
+	            if(!nombreColumna.equals("CodMed_MED")) {
+		            nombresColumnas.add(nombreColumna);
+	            }
+	        }
+	    } 
+	    catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return nombresColumnas;
+	}
+	
 	private Medico getMedico(ResultSet resultSet) throws SQLException {
 		
 		int codigoMedico = resultSet.getInt("CodMed_MED");
@@ -110,4 +119,29 @@ public class MedicoDao implements IMedicoDao {
 		
 		return new Medico(codMed, DNI, especialidad, localidad, provincia, correo, username, contraseña, nombre, apellido, sexo, nacionalidad, fechaNacimiento, direccion, telefono, tipo, estado);
 	}
+
+	@Override
+	public List<Medico> getMedicosByFilter(String column, String text) {
+		PreparedStatement statement;
+		ResultSet resultSet; 
+		ArrayList<Medico> medicos = new ArrayList<Medico>();
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		try{
+			String query = "SELECT * FROM Medicos WHERE " + column + " LIKE ?";
+			statement = conexion.prepareStatement(query);
+	        statement.setString(1, "%" + text + "%");
+	        
+	        resultSet = statement.executeQuery();      
+			
+			while(resultSet.next()){
+				medicos.add(getMedico(resultSet));
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return medicos;
+	}
+
 }

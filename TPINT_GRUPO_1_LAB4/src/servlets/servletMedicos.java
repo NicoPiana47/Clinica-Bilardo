@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -37,11 +38,11 @@ public class servletMedicos extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		iniciarSesion(request, response);
-
+		listarMedicosConFiltro(request, response);
 	}
 	
 	
-	public void iniciarSesion(HttpServletRequest request, HttpServletResponse response) {
+	public void iniciarSesion(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		HttpSession sessionMedico = request.getSession();
 		Boolean filas = false;
@@ -68,30 +69,51 @@ public class servletMedicos extends HttpServlet {
         	else rd = request.getRequestDispatcher("/Login.jsp");
         	      	
         	request.setAttribute("inicioSesion", filas);
-        	
-        	try {
-				rd.forward(request, response);
-			} catch (ServletException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			rd.forward(request, response);
+
         }
 	}
 	
-	public void inicializarModuloMedicos(HttpServletRequest request, HttpServletResponse response) {
+	public void inicializarModuloMedicos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		List<Medico> listaMedicos = mNeg.obtenerMedicos();
+		Map<String, String> listaFiltros = inicializarListaFiltros(request);
     	
     	RequestDispatcher rd = request.getRequestDispatcher("/AdminMedicos.jsp");    	
-    	request.setAttribute("listaMedicos", listaMedicos);   	
-		try {
-			rd.forward(request, response);
-		} catch (ServletException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+    	request.setAttribute("listaMedicos", listaMedicos);
+    	request.setAttribute("listaFiltros", listaFiltros);
+    	
+		rd.forward(request, response);
 	}
-
+	
+	private Map<String, String> inicializarListaFiltros(HttpServletRequest request) {
+		Map<String, String> listaFiltros = mNeg.obtenerColumnas();
+		return listaFiltros;
+	}
+	
+	public void listarMedicosConFiltro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	    
+	    if(request.getParameter("btnFiltrar")!=null || request.getParameter("btnLimpiarFiltros")!=null) {
+	    	List<Medico> listaMedicos = null;
+	    	
+	    	if(request.getParameter("btnFiltrar")!=null) {
+	    		String texto = request.getParameter("txtFiltro");
+	    		String columna = request.getParameter("ddlFiltros");
+	    		listaMedicos = mNeg.obtenerMedicosPorFiltro(columna, texto);
+	    	}
+	    	
+	    	if(request.getParameter("btnLimpiarFiltros")!=null) {
+	    		listaMedicos = mNeg.obtenerMedicos();
+	    	}
+	    	
+	    	Map<String, String> listaFiltros = inicializarListaFiltros(request);
+	    	
+	    	RequestDispatcher rd = request.getRequestDispatcher("/AdminMedicos.jsp");   
+	    	request.setAttribute("listaMedicos", listaMedicos);
+	    	request.setAttribute("listaFiltros", listaFiltros);
+	    	
+	    	rd.forward(request, response);
+	    }
+	}
 }
+

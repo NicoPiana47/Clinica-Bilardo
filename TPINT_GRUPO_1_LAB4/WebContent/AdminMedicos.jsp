@@ -57,22 +57,40 @@
 	<h1 class="text-center">Administración de médicos</h1>
 	
 	<div class="row m-4">
-		<div class="col-4">
-			<input class="form-control" name="txtFiltro"> 
-		</div>
-		<div class="col-4"> 
-			<select class="form-control" name="ddlFiltros"> </select>
-		</div>
-		<div class="col-4"> 
-			<button  class="form-control" name="btnFiltrar">Filtrar</button>
-		</div>
-	</div>
-	
-	<div class="row m-4">
 		<div class="col-4 m-auto">
 			<button class="form-control" onclick="openModal('modalMedico')">Crear Medico</button>
 		</div>
 	</div>
+	
+	<form method="post" action="servletMedicos">
+		<div class="row m-4">
+			<div class="col-4">
+				<input class="form-control" name="txtFiltro" placeholder="Ingrese para filtrar"> 
+			</div>
+			<div class="col-4"> 
+			    <select class="form-control" name="ddlFiltros">
+			        <% 
+				    if (request.getAttribute("listaFiltros") instanceof Map) {
+				        Map<String, String> listaFiltros = (Map<String, String>) request.getAttribute("listaFiltros");
+				        for (Map.Entry<String, String> entry : listaFiltros.entrySet()) { 
+				            String campo = entry.getKey();
+				            String descripcion = entry.getValue();
+					%>
+	           			<option value="<%= campo %>"><%= descripcion %></option>
+					<% 
+				        } 
+				    }
+					%>
+			    </select>
+			</div>
+			<div class="col-2"> 
+				<button  class="form-control" name="btnFiltrar">Filtrar</button>
+			</div>
+			<div class="col-2"> 
+				<button  class="form-control" name="btnLimpiarFiltros">Limpiar Filtro</button>
+			</div>
+		</div>
+	</form>
 	
 	<script>
 		$(document).ready(function () {
