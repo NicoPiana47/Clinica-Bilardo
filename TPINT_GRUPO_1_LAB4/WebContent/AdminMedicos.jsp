@@ -7,6 +7,9 @@
 <title>AdminMedicos</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="entidades.Medico" %>
 
 
 <style>
@@ -104,32 +107,49 @@
 					</tr>
 				</thead>
 		        <tbody>
+		       		<% 
+				    if (request.getAttribute("listaMedicos") instanceof List) {
+				        List<Medico> listaMedicos = (List<Medico>) request.getAttribute("listaMedicos");
+				        for (Medico medico : listaMedicos) { 
+				    	
+					%>
 					<tr onclick="openModal('modalMedico', true)">
-						<form >
-							<th scope="row">
-								<button type="submit" name ="btnEliminar"class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Esta seguro de que quiere eliminar el médico?')">
-									<i class="fa-solid fa-trash"></i>
-								</button>
-		                	</th>
-		                	<th>DNI</th>   
-							<th>Nombre</th> 
-							<th>Apellido</th>
-							<th>Sexo</th> 
-							<th>Nacionalidad</th> 
-							<th>Fecha de nacimiento</th> 
-							<th>Dirección</th>
-							<th>Provincia</th>
-							<th>Localidad</th>
-							<th>Correo</th>
-							<th>Teléfono</th> 
-							<th>Especialidad</th>
-							<th>Fecha de atención</th>  
-							<th>Usuario</th>
-							<th>Contraseña</th>
-							<th>Tipo</th>
-							<th>Estado</th>
-	   					</form>
+						<th scope="row">
+							<button type="submit" name ="btnEliminar"class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Esta seguro de que quiere eliminar el médico?')">
+								<i class="fa-solid fa-trash"></i>
+							</button>
+	                	</th>
+	                	<td><%=medico.getDNI()%></td>   
+						<td><%=medico.getNombre()%></td> 
+						<td><%=medico.getApellido()%></td>
+						<td><%=medico.getSexo()%></td> 
+						<td><%=medico.getNacionalidad()%></td> 
+						<td><%=medico.getFechaNacimiento()%></td> 
+						<td><%=medico.getDireccion()%></td>
+						<td><%=medico.getProvincia().getDescripcion()%></td>
+						<td><%=medico.getLocalidad().getDescripcion()%></td>
+						<td><%=medico.getCorreo()%></td>
+						<td><%=medico.getTelefono()%></td> 
+						<td><%=medico.getEspecialidad().getDescripcion_ESP()%></td>
+						<td>Ver registro</td>  
+						<td><%=medico.getUsername()%></td>
+						<td><%=medico.getContraseña()%></td>
+						<td>
+							<label class="checkbox-label">
+					            <input type="checkbox" <%= medico.getTipo() ? "checked" : "" %> disabled>
+					            <span class="checkmark"></span>
+					        </label></td>
+						<td>
+					        <label class="checkbox-label">
+					            <input type="checkbox" <%= medico.getEstado() ? "checked" : "" %> disabled>
+					            <span class="checkmark"></span>
+					        </label>
+					    </td>
 		         	</tr>
+		         	<% 
+			        	} 
+				    }
+					%>
 		    	</tbody>                                             
 			</table>
 		</div>

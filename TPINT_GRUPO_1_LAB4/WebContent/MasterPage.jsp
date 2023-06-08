@@ -45,7 +45,7 @@
           			</a>
 	            </li>
 	            <li class="nav-item">
-	              <a class="nav-link text-white" href="">
+	              <a class="nav-link text-white" href="servletMedicos">
 	              	<i class="fa-solid fa-hospital"></i> Administrar Médicos
 	              </a>
 	            </li>

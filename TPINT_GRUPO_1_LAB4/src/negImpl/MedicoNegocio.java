@@ -1,5 +1,7 @@
 package negImpl;
 
+import java.util.List;
+
 import daoImpl.MedicoDao;
 import entidades.Medico;
 import neg.IMedicoNegocio;
@@ -21,6 +23,12 @@ public class MedicoNegocio implements IMedicoNegocio{
     	}
 		
 		return null;
+	}
+
+
+	@Override
+	public List<Medico> obtenerMedicos() {
+		return mDao.readAll();
 	}
 
 }

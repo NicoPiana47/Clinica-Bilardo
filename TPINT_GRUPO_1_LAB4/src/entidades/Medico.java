@@ -28,6 +28,29 @@ public class Medico {
     	provincia = new Provincia();
     }
     
+    public Medico(int codMed, String DNI, Especialidad esp, Localidad loc, Provincia prov, String corr, String user,
+	String contr, String nombre, String apell, String sexo, String nac, Date fechaNac, String direc, String tel, 
+	boolean tipo, boolean estado) {
+    	this.codMed = codMed;
+    	this.DNI = DNI;
+    	this.especialidad = esp;
+    	this.localidad = loc;
+    	this.provincia = prov;
+    	this.correo = corr;
+    	this.username = user;
+    	this.contraseña = contr;
+    	this.nombre = nombre;
+    	this.apellido = apell;
+    	this.sexo = sexo;
+    	this.nacionalidad = nac;
+    	this.fechaNacimiento = fechaNac;
+    	this.direccion = direc;
+    	this.telefono = tel;
+    	this.tipo = tipo;
+    	this.estado = estado;
+    	
+    }
+    
     //GETTERS AND SETTERS
     public int getCodMed() {
 		return codMed;

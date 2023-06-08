@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import entidades.Medico;
+import entidades.Paciente;
 import negImpl.MedicoNegocio;
+import negImpl.PacienteNegocio;
 
 
 /**
@@ -28,8 +31,7 @@ public class servletMedicos extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-
+		inicializarModuloMedicos(request, response);
 	}
 
 
@@ -57,22 +59,39 @@ public class servletMedicos extends HttpServlet {
         	RequestDispatcher rd = null;
         	
         	if(filas) {
-        		if(med.getTipo()) rd = request.getRequestDispatcher("/AdminMedicos.jsp");
+        		if(med.getTipo()) {
+        			inicializarModuloMedicos(request, response);
+        			return;
+        		}
         		else rd = request.getRequestDispatcher("/Inicio.jsp");
         	}
         	else rd = request.getRequestDispatcher("/Login.jsp");
         	      	
         	request.setAttribute("inicioSesion", filas);
+        	
         	try {
 				rd.forward(request, response);
 			} catch (ServletException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
         }
+	}
+	
+	public void inicializarModuloMedicos(HttpServletRequest request, HttpServletResponse response) {
+		
+		List<Medico> listaMedicos = mNeg.obtenerMedicos();
+    	
+    	RequestDispatcher rd = request.getRequestDispatcher("/AdminMedicos.jsp");    	
+    	request.setAttribute("listaMedicos", listaMedicos);   	
+		try {
+			rd.forward(request, response);
+		} catch (ServletException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

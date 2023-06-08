@@ -94,7 +94,7 @@ public class PacienteDao implements IPacienteDao {
 		
 		int codigoPaciente = resultSet.getInt("CodPac_PAC");
 		LocalidadDao localidadNeg = new LocalidadDao();
-		Localidad unaLocalidad = localidadNeg.obtenerLocalidadPorCodigo(codigoPaciente);
+		Localidad unaLocalidad = localidadNeg.obtenerLocalidadPorCodigo(resultSet.getInt("CodLocalidad_PAC"));
 		Provincia unaProvincia = unaLocalidad.getProvincia();
 		
 		int codPac = codigoPaciente;
