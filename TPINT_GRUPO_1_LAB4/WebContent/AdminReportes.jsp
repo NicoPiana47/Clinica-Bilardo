@@ -62,11 +62,13 @@
 		</div>
 	</form>
 	
-	<div class="row"> 
-		<div class="col-4 m-auto" > 
-			<button class="form-control" name="btnReportes" onclick="openModal('modalReportes')" style="margin-bottom:10px"> Reportes </button>
-		</div>
-	</div>
+	<form action="servletTurnos" method="post">
+		<div class="row"> 
+			<div class="col-4 m-auto" > 
+				<button class="form-control" name="btnReportes" onclick="openModal('modalReportes')" style="margin-bottom:10px"> Reportes </button>
+			</div>
+		</div>	
+	</form>
 
 	<div class="container-fluid" style="width:95%; margin-bottom:20px">
 		<div class="card" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 100px;">
@@ -110,6 +112,16 @@
 		</div>
 	</div> 
 	
+	<% 
+		long cantTurnos = 0;
+		String medicoConMasTurnos = "";
+	    if (request.getAttribute("cantTurnos") != null &&  request.getAttribute("medicoConMasTurnos") != null) {
+				cantTurnos = (long)request.getAttribute("cantTurnos");
+				medicoConMasTurnos = (String)request.getAttribute("medicoConMasTurnos");
+	    }
+				        
+	%>
+	
 	<div id="modalReportes" class="modal">
    		<div class="modal-content">
         	<span class="close" onclick="closeModal('modalReportes')" >&times;</span>
@@ -120,7 +132,7 @@
 		            </div>
 		            
 		            <div class="col-4">
-		                <input class="form-control" name="txtTurnosAsignados" disabled>
+		                <input class="form-control" name="txtTurnosAsignados" value=<%=cantTurnos%> disabled> 
 		            </div>
 				</div>
 				
@@ -130,12 +142,14 @@
 		            </div>
 		            
 		            <div class="col-4">
-		                <input class="form-control" name="txtMedicoTurnosAsignados" disabled>
+		                <input class="form-control" name="txtMedicoTurnosAsignados" value= <%=medicoConMasTurnos%> disabled>
 		            </div>
 				</div>
 			</div>
 		</div>
 	</div>
+	
+	
 	
 	<script type="text/javascript">
 		function openModal(modal) {

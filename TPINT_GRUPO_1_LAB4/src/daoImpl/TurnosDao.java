@@ -65,21 +65,6 @@ public class TurnosDao implements ITurnosDao{
 	                 String nombrePaciente = resultSet.getString("Nombre_PAC");
 	                 java.sql.Timestamp fechaTurnoTimestamp = resultSet.getTimestamp("FechaTurno_TURN");
 	                 String descripcionEstado = resultSet.getString("Descripcion_EST");
-	
-	                 /*Medico medico = new Medico();
-	                 medico.setNombre(nombreMedico);
-	
-	                 Paciente paciente = new Paciente();
-	                 paciente.setNombre(nombrePaciente);
-	 
-	                 EstadoTurno estado = new EstadoTurno();
-	                 estado.setDescripcion_EST(descripcionEstado);
-	
-	                 Turno turno = new Turno();
-	                 turno.setMedico(medico);
-	                 turno.setPaciente(paciente);
-	                 turno.setFechaTurno(fechaTurno);
-	                 turno.setEstado(estado);*/
 	                 
 	                 Date fechaTurno = new Date(fechaTurnoTimestamp.getTime());
 	                 Turno turno = new Turno();
@@ -100,6 +85,5 @@ public class TurnosDao implements ITurnosDao{
 			  
 		  }
 		return turnos;
-	}
-	
+	}	
 }
