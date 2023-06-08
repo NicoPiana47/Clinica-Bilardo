@@ -62,13 +62,12 @@
 		</div>
 	</form>
 	
-	<form action="servletTurnos" method="post">
-		<div class="row"> 
-			<div class="col-4 m-auto" > 
-				<button class="form-control" name="btnReportes" onclick="openModal('modalReportes')" style="margin-bottom:10px"> Reportes </button>
-			</div>
-		</div>	
-	</form>
+
+	<div class="row"> 
+		<div class="col-4 m-auto" > 
+			<button class="form-control" name="btnReportes" onclick="openModal('modalReportes')" style="margin-bottom:10px"> Reportes </button>
+		</div>
+	</div>	
 
 	<div class="container-fluid" style="width:95%; margin-bottom:20px">
 		<div class="card" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 100px;">

@@ -28,7 +28,6 @@ import negImpl.TurnosNegocio;
 public class servletTurnos extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	TurnosNegocio turnoNegocio = new TurnosNegocio();
-	List<Turno> listaTurnosAll = null;
        
     public servletTurnos() {
 
@@ -38,18 +37,21 @@ public class servletTurnos extends HttpServlet {
 		
 		TurnosNegocio turnoNegocio = new TurnosNegocio();
     	List<Turno> listaTurnos = turnoNegocio.obtenerTurnos();
-    	listaTurnosAll = listaTurnos;
+    	String medicoConMasTurnos = listarReportesMedicoConMasTurnos(request, response, listaTurnos);
+    	long cantTurnos = listaTurnos.stream().count();
+    	
 		request.setAttribute("listaTurnos", listaTurnos);
+		request.setAttribute("medicoConMasTurnos", medicoConMasTurnos);
+		request.setAttribute("cantTurnos", cantTurnos);
 		    
 	    RequestDispatcher rd = request.getRequestDispatcher("/AdminReportes.jsp");
 		rd.forward(request, response);
 		
-			
+				
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		listarTurnosConFechas(request, response);
-		listarReportes(request, response);
 	}
 	
 	
@@ -63,9 +65,12 @@ public class servletTurnos extends HttpServlet {
 			else {											
 				listaTurnos = turnoNegocio.obtenerTurnosEntreFechas(request.getParameter("txtFechaDesde"), request.getParameter("txtFechaHasta"));
 			}
+			String medicoConMasTurnos = listarReportesMedicoConMasTurnos(request, response, listaTurnos);
+			long cantTurnos = listaTurnos.stream().count();
 			
-			listaTurnosAll = listaTurnos;
 			request.setAttribute("listaTurnos", listaTurnos);
+			request.setAttribute("medicoConMasTurnos", medicoConMasTurnos);
+			request.setAttribute("cantTurnos", cantTurnos);
 			
 			RequestDispatcher rd = request.getRequestDispatcher("/AdminReportes.jsp");
 			rd.forward(request, response);
@@ -73,43 +78,36 @@ public class servletTurnos extends HttpServlet {
 		}
 	}
 	
-	public void listarReportes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(request.getParameter("btnReportes") != null) {
-					
-			Map<String, Integer> conteoMedicos = new HashMap<>();
-			
-			for (Turno turno : listaTurnosAll) {
-			    String medico = turno.getMedico().getNombre();
-			    if (conteoMedicos.containsKey(medico)) {
-			    	
-			        int cantidadTurnos = conteoMedicos.get(medico);
-			        conteoMedicos.put(medico, cantidadTurnos + 1);
-			    } else {
-			    	
-			        conteoMedicos.put(medico, 1);
-			    }
-			}
-			
-			String medicoConMasTurnos = null;
-			int maximoTurnos = 0;
-			
-			for (Map.Entry<String, Integer> entry : conteoMedicos.entrySet()) {
-			    String medico = entry.getKey();
-			    int cantidadTurnos = entry.getValue();
-
-			    if (cantidadTurnos > maximoTurnos) {
-			        medicoConMasTurnos = medico;
-			        maximoTurnos = cantidadTurnos;
-			    }
-			}
-			
-			long cantTurnos = listaTurnosAll.stream().count();
-			
-			request.setAttribute("medicoConMasTurnos", medicoConMasTurnos);
-			request.setAttribute("cantTurnos", cantTurnos);
- 			RequestDispatcher rd = request.getRequestDispatcher("/AdminReportes.jsp");
-			rd.forward(request, response);
-			
+	
+	public String listarReportesMedicoConMasTurnos(HttpServletRequest request, HttpServletResponse response, List<Turno> listaTurnos) throws ServletException, IOException {
+		
+		Map<String, Integer> conteoMedicos = new HashMap<>();
+		
+		for (Turno turno : listaTurnos) {
+		    String medico = turno.getMedico().getNombre();
+		    if (conteoMedicos.containsKey(medico)) {
+		    	
+		        int cantidadTurnos = conteoMedicos.get(medico);
+		        conteoMedicos.put(medico, cantidadTurnos + 1);
+		    } else {
+		    	
+		        conteoMedicos.put(medico, 1);
+		    }
 		}
+		
+		String medicoConMasTurnos = null;
+		int maximoTurnos = 0;
+		
+		for (Map.Entry<String, Integer> entry : conteoMedicos.entrySet()) {
+		    String medico = entry.getKey();
+		    int cantidadTurnos = entry.getValue();
+
+		    if (cantidadTurnos > maximoTurnos) {
+		        medicoConMasTurnos = medico;
+		        maximoTurnos = cantidadTurnos;
+		    }
+		}
+	
+		return medicoConMasTurnos;
 	}
 }
