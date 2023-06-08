@@ -157,7 +157,7 @@
 					<table class="table table-hover" id="table_horarios" style="font-size: 11px;">
 						<thead>
 							<tr>
-								<th></th>
+								 
 								<th>Día</th>
 								<th>Horario Desde</th>
 								<th>Horario Hasta</th>

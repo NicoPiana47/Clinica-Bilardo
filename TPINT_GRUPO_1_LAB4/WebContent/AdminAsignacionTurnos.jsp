@@ -25,21 +25,21 @@
 		
 		<div class="row text-center m-4" >	
 			<label>Médico:</label> <br>
-			<select class="form-control" name="ddlMedicos"> </select>
+			<select class="form-control " name="ddlMedicos"> </select>
 		</div>
 		
 		<div class="row text-center m-4">
             <label>Fecha:</label><br>
-            <input class="form-control" type="date" name="fecha" id="fecha" onchange="generarHorariosDisponibles()" required>
+            <input class="form-control text-center" type="date" name="fecha" id="fecha" onchange="generarHorariosDisponibles()" required>
         </div>
         <div class="row text-center m-4">
             <label>Horarios disponibles:</label><br>
-            <select class="form-control" name="ddlHorariosDisponibles" id="ddlHorariosDisponibles" disabled></select>
+            <select class="form-control text-center" name="ddlHorariosDisponibles" id="ddlHorariosDisponibles" disabled></select>
         </div>
 		
 		<div class="row text-center m-4">
 			<label>Pacientes:</label> <br>
-			<select class="form-control" name="ddlPacientes"> </select>
+			<select class="form-control text-center" name="ddlPacientes"> </select>
 		</div>
 		
 		<button class="form-control" type="submit" name="btnAsignar">Asignar turno</button>

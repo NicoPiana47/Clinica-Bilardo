@@ -3,6 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Inicio</title>
  
@@ -46,133 +47,132 @@
 
 
 
-</head>
+</head> 
 <body>
 <%@ include file="/MasterPage.jsp" %>
 <h1 class="text-center">Administración de Turnos</h1>
 
-<div class="row m-4">
-		<div class="col-4">
-			<input class="form-control" name="txtFiltro"> 
-		</div>
-		<div class="col-4"> 
-			<select class="form-control" name="ddlFiltros"> </select>
-		</div>
-		<div class="col-4"> 
-			<button  class="form-control" name="btnFiltrar">Filtrar</button>
-		</div>
-	</div>
 
-	<div class="container-fluid" style="width:95%; margin-bottom:20px">
-		<div class="card text-center" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 100px;">
-			<div class="card-header "><h5>Turnos</h5></div>		
-			<table class="table table-hover" id="table_id_turnos" style="font-size: 11px;">
-				<thead>
-					<tr>
-						<th> </th> 
-						<th>Médico</th>   
-						<th>Paciente</th> 
-						<th>Turno</th>
-						<th>Estado</th>
-					</tr>
-				</thead>
-		        <tbody>
-					<tr onclick="openModal('modalDatosPaciente')">
-						<th scope="row">
-							<button name = "btnCambiarEstado" class="btn btn-outline-danger btn-sm" onclick="openModal('modalCambiarEstado')">
-								<i class="fa-solid fa-clock"></i>
-							</button>
-	                	</th>
-	                	<th>Médico</th>   
-						<th>Paciente</th> 
-						<th>Turno</th>
-						<th>Estado</th>
-	                	
-		         	</tr>
-		         	
-		    	</tbody>                                             
-			</table>
-		</div>
-	</div>     
-     <div id="modalDatosPaciente" class="modal">
-   		<div class="modal-content">
-        	<span class="close" onclick="closeModal('modalDatosPaciente')" >&times;</span>
-        	<div class="d-flex align-items-center justify-content-center">
-	        	<div class="col-6">
-					<div class="row m-2">
-			        	<div class="col-4">
-					     	<label class="form-label">DNI</label>   	
-			                <input class="form-control" type="number"  min="0" name="txtDNI" disabled required>
-			            </div>
-			            
-			            <div class="col-4">
-				     		<label class="form-label">Nombre</label> 
-			                <input class="form-control" name="txtNombre" disabled oninput="validarLetras(this)" required>
-			            </div>
-			            
-			            <div class="col-4">
-				     		<label class="form-label">Apellido</label>
-			                <input class="form-control" name="txtApellido" disabled oninput="validarLetras(this)" required>
-			            </div>
-					</div>
-			        
-			        <div class="row m-2">
-			        	<div class="col-4">
-			        	<label class="form-label">Sexo</label>
-			        		<select class="form-control" disabled name="txtSexo">
-			        			<option>Masculino</option>
-			        			<option>Femenino</option>
-			        			<option>Otro</option>
-			        		</select> 
-			        	</div>
-			        	
-			        	<div class="col-4">
-			        		<label class="form-label">Nacionalidad</label> 
-			        		<input class="form-control" name="txtNacionalidad" disabled oninput="validarLetras(this)" required> 
-			        	</div>
-			        	<div class="col-4"> 
-			        		<label class="form-label">Fecha de nacimiento</label>
-				        	<input class="form-control" type="date" name="txtFechaNacimiento" disabled required>
-			        	
-			        	</div>
-			        </div>
-			        
-			        <div class="row m-2">
-			        	<div class="col-4">
-				        	<label class="form-label">Dirección</label>
-							<input class="form-control" disabled name="txtDireccion" required>
-			        	</div>
-			        	
-			        	<div class="col-4">
-			        		<label class="form-label">Provincia</label> 
-			        		<select class="form-control" disabled name="ddlProvincia">
-			        			
-			        		</select> 
-			        	</div>
-			        	<div class="col-4"> 
-			        		<label class="form-label">Localidad</label>
-				        	<select class="form-control" disabled  name="ddlLocalidad">
-			        			
-			        		</select> 	
-			        	</div>
-			        </div>
-			        
-			        <div class="row m-2">
-			        	<div class="col-6">
-			        		<label class="form-label">Correo</label>
-			        		<input class="form-control" type="email" name="txtCorreo" disabled required>
-			        	</div>
-			        	
-			        	<div class="col-6">
-			        		<label class="form-label">Telefono</label> 
-			        		<input class="form-control" type="number"  min="0" name="txtTelefono" disabled required> 
-			        	</div>					
-			        </div>			        			   	       
-				</div>
-			</div>
-		</div>
-	</div>
-	
+<div class="row m-4">
+    <div class="col-4">
+        <input class="form-control" name="txtFiltro"> 
+    </div>
+    <div class="col-4"> 
+        <select class="form-control" name="ddlFiltros"> </select>
+    </div>
+    <div class="col-4"> 
+        <button class="form-control" name="btnFiltrar">Filtrar</button>
+    </div>
+</div>
+
+<div class="container-fluid" style="width:95%; margin-bottom:20px">
+    <div class="card text-center" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 100px;">
+        <div class="card-header "><h5>Turnos</h5></div>		
+        <table class="table table-hover" id="table_id_turnos" style="font-size: 11px;">
+            <thead>
+                <tr>
+                    <th> </th> 
+                    <th>Médico</th>   
+                    <th>Paciente</th> 
+                    <th>Turno</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr onclick="openModal('modalDatosPaciente')">
+                    <td scope="row">
+                        <button onclick="event.stopPropagation(); openModal('modalCambiarEstado')"name="btnCambiarEstado" class="btn btn-outline-danger btn-sm">
+                            <i class="fa-solid fa-clock"></i>
+                        </button>
+                    </td>
+                    <td>Médico</td>
+                    <td>Paciente</td>
+                    <td>Turno</td> 
+                    <td>Estado</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>     
+
+<div id="modalDatosPaciente" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('modalDatosPaciente')">&times;</span>
+        <div class="d-flex align-items-center justify-content-center">
+            <div class="col-6">
+                <div class="row m-2">
+                    <div class="col-4">
+                        <label class="form-label">DNI</label>   	
+                        <input class="form-control" type="number" min="0" name="txtDNI" disabled required>
+                    </div>
+                    
+                    <div class="col-4">
+                        <label class="form-label">Nombre</label> 
+                        <input class="form-control" name="txtNombre" disabled oninput="validarLetras(this)" required>
+                    </div>
+                    
+                    <div class="col-4">
+                        <label class="form-label">Apellido</label>
+                        <input class="form-control" name="txtApellido" disabled oninput="validarLetras(this)" required>
+                    </div>
+                </div>
+                
+                <div class="row m-2">
+                    <div class="col-4">
+                        <label class="form-label">Sexo</label>
+                        <select class="form-control" disabled name="txtSexo">
+                            <option>Masculino</option>
+                            <option>Femenino</option>
+                            <option>Otro</option>
+                        </select> 
+                    </div>
+                    
+                    <div class="col-4">
+                        <label class="form-label">Nacionalidad</label> 
+                        <input class="form-control" name="txtNacionalidad" disabled oninput="validarLetras(this)" required> 
+                    </div>
+                    
+                    <div class="col-4"> 
+                        <label class="form-label">Fecha de nacimiento</label>
+                        <input class="form-control" type="date" name="txtFechaNacimiento" disabled required>
+                    </div>
+                </div>
+                
+                <div class="row m-2">
+                    <div class="col-4">
+                        <label class="form-label">Dirección</label>
+                        <input class="form-control" disabled name="txtDireccion" required>
+                    </div>
+                    
+                    <div class="col-4">
+                        <label class="form-label">Provincia</label> 
+                        <select class="form-control" disabled name="ddlProvincia">
+                            
+                        </select> 
+                    </div>
+                    <div class="col-4"> 
+                        <label class="form-label">Localidad</label>
+                        <select class="form-control" disabled name="ddlLocalidad">
+                            
+                        </select> 	
+                    </div>
+                </div>
+                
+                <div class="row m-2">
+                    <div class="col-6">
+                        <label class="form-label">Correo</label>
+                        <input class="form-control" type="email" name="txtCorreo" disabled required>
+                    </div>
+                    
+                    <div class="col-6">
+                        <label class="form-label">Telefono</label> 
+                        <input class="form-control" type="number" min="0" name="txtTelefono" disabled required> 
+                    </div>					
+                </div>			        			   	       
+            </div>
+        </div>
+    </div> 
+</div>
 	 <div id="modalCambiarEstado" class="modal">
    		<div class="modal-content">
         	<span class="close" onclick="closeModal('modalCambiarEstado')" >&times;</span>
@@ -192,7 +192,6 @@
 			</div>
 		</div>
 	</div>
-	
 	<script>
 	$('#table_id_turnos').DataTable({
 	    language: {
@@ -221,17 +220,16 @@
 	});
 	
 	function validarLetras(input) {
-	  	var regex = /[^a-zA-Z]/g;
+	  	var regex = /[^a-zA-Z]/g; 
 	  	input.value = input.value.replace(regex, '');
 	}
-	
-	function openModal(modal) {
-		document.getElementById(modal).style.display = "block";
+	 
+	function openModal(modalId) {
+	    $("#" + modalId).css("display", "block");
 	}
-
-    function closeModal(modal) {
-    	document.getElementById(modal).style.display = "none";
-    }
+	function closeModal(modalId) {
+	    $("#" + modalId).css("display", "none");
+	}
 </script>
 
 </body>
