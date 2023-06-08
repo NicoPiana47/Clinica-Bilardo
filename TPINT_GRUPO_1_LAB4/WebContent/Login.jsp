@@ -12,7 +12,7 @@
 <script type="text/javascript" charset="utf8"
 	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 		<script src="https://kit.fontawesome.com/3c33daaf69.js" crossorigin="anonymous"></script>
-		<link rel="stylesheet" href="./src/Style/login.css">
+		
 </head>
 <body>
 
