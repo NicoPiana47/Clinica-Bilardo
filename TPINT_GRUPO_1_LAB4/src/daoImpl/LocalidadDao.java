@@ -12,8 +12,7 @@ import entidades.Provincia;
 
 public class LocalidadDao implements ILocalidadDao {
 	private static final String obtenerLocalidad = "SELECT * FROM localidades WHERE CodLocalidad_LOC = ?";
-	private static final String obtenerProvincia = " SELECT CodProvincia_PROV, Descripcion_PROV FROM Provincias INNER JOIN "
-				                                   + "Localidades ON CodProvincia_PROV = CodProvincia_LOC WHERE CodLocalidad_LOC = ?";
+	private static final String obtenerProvincia = "SELECT * FROM provincias WHERE CodProvincia_PROV = ?";
 
 	@Override
 	public Localidad obtenerLocalidadPorCodigo(int codLocalidad) {
@@ -28,7 +27,7 @@ public class LocalidadDao implements ILocalidadDao {
 	        if (resultado.next()) {
 	        	unaLocalidad.setCodLocalidad(resultado.getInt("CodLocalidad_LOC"));
 	            unaLocalidad.setDescripcion(resultado.getString("Descripcion_LOC"));
-	            unaLocalidad.setProvincia(obtenerProvinciaPorLocalidad(resultado.getInt("CodLocalidad_LOC")));
+	            unaLocalidad.setProvincia(obtenerProvinciaPorLocalidad(resultado.getInt("CodProvincia_LOC")));
 	        }
 
 		}
