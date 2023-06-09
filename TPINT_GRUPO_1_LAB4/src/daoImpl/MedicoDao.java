@@ -17,7 +17,7 @@ import entidades.Medico;
 import entidades.Paciente;
 import entidades.Provincia;
 
-public class MedicoDao implements IMedicoDao {
+public class MedicoDao extends GeneralDao implements IMedicoDao {
 	private static final String readall = "SELECT * FROM Medicos";
 
 	public Medico traerMedicoPorNombreUsuario(String username) {		
@@ -67,26 +67,7 @@ public class MedicoDao implements IMedicoDao {
 	
 	@Override
 	public List<String> getColumns() {
-		List<String> nombresColumnas = new ArrayList<>();
-		Connection conexion = Conexion.getConexion().getSQLConexion();
-
-	    try {
-	        DatabaseMetaData metaData = conexion.getMetaData();
-	        ResultSet rs = metaData.getColumns(null, null, "Medicos", null);
-	        
-	        while (rs.next()) {
-	            String nombreColumna = rs.getString("COLUMN_NAME");
-	            
-	            if(!nombreColumna.equals("CodMed_MED")) {
-		            nombresColumnas.add(nombreColumna);
-	            }
-	        }
-	    } 
-	    catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-
-	    return nombresColumnas;
+	    return super.getColumns("medicos", "CodMed_MED");
 	}
 	
 	private Medico getMedico(ResultSet resultSet) throws SQLException {

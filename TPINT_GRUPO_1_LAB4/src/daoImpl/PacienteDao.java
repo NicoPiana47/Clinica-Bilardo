@@ -15,12 +15,10 @@ import entidades.Localidad;
 import entidades.Paciente;
 import entidades.Provincia;
 
-public class PacienteDao implements IPacienteDao {
+public class PacienteDao extends GeneralDao implements IPacienteDao {
 	private static final String insert = "INSERT INTO personas(dni, nombre, apellido) VALUES(?, ?, ?)";
 	private static final String delete = "DELETE FROM personas WHERE dni = ?";
 	private static final String readall = "SELECT * FROM pacientes";
-	private static final String filterWhere = "SELECT * FROM pacientes WHERE ";
-	private static final String filterLike = "LIKE ?";
 	private static final String existeDni = "SELECT * FROM personas WHERE dni = ?";
 	private static final String update = "UPDATE personas SET nombre = ?, apellido = ? WHERE dni = ?";
 
@@ -44,26 +42,7 @@ public class PacienteDao implements IPacienteDao {
 	}
 	
 	public List<String> getColumns() {
-		List<String> nombresColumnas = new ArrayList<>();
-		Connection conexion = Conexion.getConexion().getSQLConexion();
-
-	    try {
-	        DatabaseMetaData metaData = conexion.getMetaData();
-	        ResultSet rs = metaData.getColumns(null, null, "pacientes", null);
-	        
-	        while (rs.next()) {
-	            String nombreColumna = rs.getString("COLUMN_NAME");
-	            
-	            if(!nombreColumna.equals("CodPac_PAC")) {
-		            nombresColumnas.add(nombreColumna);
-	            }
-	        }
-	    } 
-	    catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-
-	    return nombresColumnas;
+	    return super.getColumns("pacientes", "CodPac_PAC");
 	}
 	
 	public List<Paciente> getPacientesByFilter(String column, String text) {

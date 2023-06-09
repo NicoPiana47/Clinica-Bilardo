@@ -1,6 +1,5 @@
 package negImpl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,9 +7,9 @@ import daoImpl.PacienteDao;
 import entidades.Paciente;
 import neg.IPacienteNegocio;
 
-public class PacienteNegocio implements IPacienteNegocio{
+public class PacienteNegocio extends GeneralNegocio implements IPacienteNegocio{
 	
-	PacienteDao pdao = new PacienteDao();
+	PacienteDao pDao = new PacienteDao();
 	
 	@Override
 	public boolean insert(Paciente persona) {
@@ -38,38 +37,18 @@ public class PacienteNegocio implements IPacienteNegocio{
 	
 	@Override
 	public List<Paciente> obtenerPacientes() {
-		return pdao.readAll();
+		return pDao.readAll();
 	}
 	
 	@Override
-	public Map<String, String> obtenerColumnas() {
-	    Map<String, String> columnas = new HashMap<>();
-
-	    try {
-	    	List<String> columnasList = pdao.getColumns();
-	        
-	    	 for (String columna : columnasList) {
-                String descripcion = columna.replaceAll("_PAC$", "")
-                        .replaceAll("([A-Z][a-z]+)([A-Z][a-z]+)", "$1 de $2")
-                        .replaceAll("([A-Z]+)([A-Z][a-z])", "$1 $2")
-                        .replaceAll("([a-z])([A-Z])", "$1 $2");
-
-                if (descripcion.contains("Cod")) {
-                    descripcion = descripcion.replace("Cod", "Codigo");
-                }
-
-                columnas.put(columna, descripcion);
-	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-
-	    return columnas;
-	}
+    public Map<String, String> obtenerColumnas() {
+        List<String> columnasList = pDao.getColumns();
+        return super.obtenerColumnas("_PAC", columnasList);
+    }
 
 	@Override
 	public List<Paciente> obtenerPacientesPorFiltro(String columna, String texto) {
-		return pdao.getPacientesByFilter(columna, texto);
+		return pDao.getPacientesByFilter(columna, texto);
 	}
 
 
