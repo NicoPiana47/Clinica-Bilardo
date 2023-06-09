@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import conexión.Conexion;
 import dao.ILocalidadDao;
@@ -60,6 +62,33 @@ public class LocalidadDao implements ILocalidadDao {
 		}
 		
 		return unaProvincia;
+	}
+
+	@Override
+	public List<Localidad> obtenerLocalidadesPorProvincia(int codProvincia) {
+		 Connection conexion = Conexion.getConexion().getSQLConexion();
+		    List<Localidad> listaLocalidades = new ArrayList<>();
+		    ResultSet resultado = null;
+		    try {
+		        String obtenerLocalidades = "SELECT * FROM localidades WHERE CodProvincia_LOC = ?";
+		        PreparedStatement statement = conexion.prepareStatement(obtenerLocalidades);
+		        statement.setInt(1, codProvincia);
+		        resultado = statement.executeQuery();
+		        
+		        while (resultado.next()) {
+		            Localidad localidad = new Localidad();
+		            localidad.setCodLocalidad(resultado.getInt("CodLocalidad_LOC"));
+		            localidad.setDescripcion(resultado.getString("Descripcion_LOC"));
+		            localidad.setProvincia(obtenerProvinciaPorLocalidad(resultado.getInt("CodProvincia_LOC")));
+		            listaLocalidades.add(localidad);
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    } finally {
+		        
+		        }
+		    
+		    return listaLocalidades;
 	}
 
 }

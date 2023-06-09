@@ -10,8 +10,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="entidades.Medico" %>
-
-
+<%@ page import="entidades.Provincia" %>
+<%@ page import="entidades.Localidad" %>
 <style>
         .modal {
             display: none;
@@ -177,7 +177,8 @@
    		<div class="modal-content">
         	<span class="close" onclick="closeModal('modalMedico', false)" >&times;</span>
         	<div class="d-flex align-items-center justify-content-center">
-	        	<div class="col-6">
+        	
+        	<div class="col-12">
 					<div class="row m-2">
 			        	<div class="col-4">
 					     	<label class="form-label">DNI</label>   	
@@ -224,12 +225,31 @@
 			        	
 			        	<div class="col-4">
 						  <label class="form-label">Provincia</label>
-						  <select class="form-control" name="ddlProvincia" id="ddlProvincia"></select>
+						  <select class="form-control" name="ddlProvincia" id="ddlProvincia"  ">
+						  <% 
+				    if (request.getAttribute("listaProvincias") instanceof List) {
+				        List<Provincia> listaProvincias = (List<Provincia>) request.getAttribute("listaProvincias");
+				        for (Provincia provincia : listaProvincias) { 
+				        
+				    	
+					%>
+					 <option value="<%= provincia.getCodProvincia() %>"><%= provincia.getDescripcion() %></option>				
+						<% 
+			        	} 
+				    }
+					%>
+						  </select>
 						</div>
 			        	<div class="col-4"> 
 			        		<label class="form-label">Localidad</label>
-				        	<select class="form-control" name="ddlLocalidad"  id="ddlLocalidad"></select> 	
+				        	<select class="form-control" name="ddlLocalidad"  id="ddlLocalidad">
+				  
+				        	
+				        	
+				        	</select> 	
 			        	</div>
+			        	
+			        	
 			        </div>
 			        
 			        <div class="row m-2">
@@ -298,6 +318,7 @@
 			        	</div>
 			        </div>
 				</div>
+        	
 			</div>
 		</div>
 	</div>
@@ -472,7 +493,7 @@
     		document.getElementsByName('ddlEspecialidad')[0].selectedIndex = 0;
     	}
     }
-  
+  /*
     function cargarProvincias() {
     	var provincias = [
     		  {
@@ -755,7 +776,7 @@
       document.addEventListener('DOMContentLoaded', function () {
         cargarProvincias();
       });
-    	
+    	*/
       $('#table_id_medicos').DataTable({
     	  language: {
   	        processing: "Tratamiento en curso...",
@@ -781,8 +802,9 @@
   	    "bLengthChange" : false,
   	    "bInfo": false
       });
+    	 
     
-    
+  
 </script>
     
 </body>
