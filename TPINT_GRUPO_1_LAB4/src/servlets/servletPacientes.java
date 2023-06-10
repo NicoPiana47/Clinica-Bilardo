@@ -50,6 +50,10 @@ public class servletPacientes extends HttpServlet {
 		if(request.getParameter("btnLimpiarFiltros")!=null) {
 			listaPacientes = pacienteNegocio.obtenerPacientes();
 		}
+		
+		if(request.getParameter("btnCrearPaciente") != null) {
+			Paciente unPaciente = pacienteNegocio.getPacienteCrear(request);
+		}
 
 		inicializarModuloPacientes(request, pacienteNegocio, listaPacientes);
 	    forwardToPage(request, response, "/AdminPacientes.jsp");

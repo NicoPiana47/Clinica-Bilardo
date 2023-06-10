@@ -40,6 +40,23 @@ public class Paciente {
 		this.telefono = telefono;
 		this.estado = estado;
 	}
+	
+	public Paciente(String dni, Provincia provincia, Localidad localidad, String nombre, String apellido, 
+			String correo, String sexo, String nacionalidad, Date fechaNacimiento, String direccion, String telefono,
+		    boolean estado) {
+		this.DNI = dni;
+		this.provincia = provincia;
+		this.localidad = localidad;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.correo = correo;
+		this.sexo = sexo;
+		this.nacionalidad = nacionalidad;
+		this.fechaNacimiento = fechaNacimiento;
+		this.direccion = direccion;
+		this.telefono = telefono;
+		this.estado = estado;
+	}
 
 	
 	public int getCodPac() {
