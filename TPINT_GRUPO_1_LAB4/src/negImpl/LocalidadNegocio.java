@@ -8,23 +8,27 @@ import entidades.Provincia;
 import neg.ILocalidadNegocio;
 
 public class LocalidadNegocio implements ILocalidadNegocio{
-	LocalidadDao ldao = new LocalidadDao();
+	LocalidadDao localidadDao = new LocalidadDao();
 	
 
 	@Override
 	public Localidad obtenerLocalidadPorCodigo(int codLocalidad) {
-		return ldao.obtenerLocalidadPorCodigo(codLocalidad);
+		return localidadDao.obtenerLocalidadPorCodigo(codLocalidad);
 	}
 	
 	@Override
 	public Provincia obtenerProvinciaPorLocalidad(int codLocalidad) {
-		return ldao.obtenerProvinciaPorLocalidad(codLocalidad);
+		return localidadDao.obtenerProvinciaPorLocalidad(codLocalidad);
 	}
 
 	@Override
 	public List<Localidad> obtenerLocalidades(int codProvincia) {
-		// TODO Auto-generated method stub
-		return ldao.obtenerLocalidadesPorProvincia(codProvincia);
+		return localidadDao.obtenerLocalidadesPorProvincia(codProvincia);
+	}
+	
+	@Override
+	public List<Localidad> obtenerLocalidades() {
+		return localidadDao.obtenerLocalidades();
 	}
 
 	

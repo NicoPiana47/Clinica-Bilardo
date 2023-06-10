@@ -11,8 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import entidades.Localidad;
 import entidades.Paciente;
+import entidades.Provincia;
+import negImpl.LocalidadNegocio;
 import negImpl.PacienteNegocio;
+import negImpl.ProvinciaNegocio;
 
 @WebServlet("/servletPacientes")
 public class servletPacientes extends HttpServlet {
@@ -58,12 +62,22 @@ public class servletPacientes extends HttpServlet {
 	
 	private void inicializarModuloPacientes(HttpServletRequest request, PacienteNegocio pacienteNegocio, List<Paciente> listaPacientes) {
 		inicializarListaFiltros(request, pacienteNegocio);
+		inicializarListaProvinciasLocalidades(request, pacienteNegocio);
 		request.setAttribute("listaPacientes", listaPacientes);
 	}
 	
 	private void inicializarListaFiltros(HttpServletRequest request, PacienteNegocio pacienteNegocio) {
 		Map<String, String> listaFiltros = pacienteNegocio.obtenerColumnas();
 	    request.setAttribute("listaFiltros", listaFiltros);
+	}
+	
+	private void inicializarListaProvinciasLocalidades(HttpServletRequest request, PacienteNegocio pacienteNegocio) {
+	    LocalidadNegocio localidadNegocio = new LocalidadNegocio();
+	    ProvinciaNegocio provinciaNegocio = new ProvinciaNegocio();
+        List<Localidad> listaLocalidades = localidadNegocio.obtenerLocalidades();
+        List<Provincia> listaProvincias = provinciaNegocio.obtenerProvincias();
+		request.setAttribute("listaLocalidades", listaLocalidades);
+		request.setAttribute("listaProvincias", listaProvincias);
 	}
 	
 }

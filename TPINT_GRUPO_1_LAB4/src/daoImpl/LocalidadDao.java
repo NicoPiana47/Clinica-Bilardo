@@ -15,6 +15,7 @@ import entidades.Provincia;
 public class LocalidadDao implements ILocalidadDao {
 	private static final String obtenerLocalidad = "SELECT * FROM localidades WHERE CodLocalidad_LOC = ?";
 	private static final String obtenerProvincia = "SELECT * FROM provincias WHERE CodProvincia_PROV = ?";
+	private static final String readall = "SELECT * FROM localidades";
 
 	@Override
 	public Localidad obtenerLocalidadPorCodigo(int codLocalidad) {
@@ -89,6 +90,31 @@ public class LocalidadDao implements ILocalidadDao {
 		        }
 		    
 		    return listaLocalidades;
+	}
+
+	public List<Localidad> obtenerLocalidades() {
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+	    List<Localidad> localidades = new ArrayList<>();
+		ResultSet resultado = null;
+		try{
+			PreparedStatement statement = conexion.prepareStatement(readall);
+	        resultado = statement.executeQuery();      
+			
+	        
+			while(resultado.next()) {
+				Localidad unaLocalidad = new Localidad();
+	        	unaLocalidad.setCodLocalidad(resultado.getInt("CodLocalidad_LOC"));
+	            unaLocalidad.setDescripcion(resultado.getString("Descripcion_LOC"));
+	            unaLocalidad.setProvincia(obtenerProvinciaPorLocalidad(resultado.getInt("CodProvincia_LOC")));
+	            localidades.add(unaLocalidad);
+			}
+
+		}
+		catch (Exception e) {
+			
+		}
+	
+		return localidades;
 	}
 
 }

@@ -8,9 +8,13 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="./src/Style/estilos.css">
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Locale" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="entidades.Paciente" %>
+<%@ page import="entidades.Provincia" %>
+<%@ page import="entidades.Localidad" %>
 </head>
 
 
@@ -28,7 +32,7 @@
 	<form method="post" action="servletPacientes">
 		<div class="row m-4">
 			<div class="col-4">
-				<input class="form-control" name="txtFiltro" placeholder="Ingrese para filtrar"> 
+				<input class="form-control" name="txtFiltro" id="txtFiltro" placeholder="Ingrese para filtrar"> 
 			</div>
 			<div class="col-4"> 
 			    <select class="form-control" name="ddlFiltros">
@@ -47,7 +51,7 @@
 			    </select>
 			</div>
 			<div class="col-2"> 
-				<button  class="form-control" name="btnFiltrar">Filtrar</button>
+				<button  class="form-control" name="btnFiltrar" id="btnFiltrar">Filtrar</button>
 			</div>
 			<div class="col-2"> 
 				<button  class="form-control" name="btnLimpiarFiltros">Limpiar Filtro</button>
@@ -87,6 +91,9 @@
 				        for (Paciente paciente : listaPacientes) { 
 					%>
 				    <tr onclick="openModal('modalPaciente', true)">
+				    		
+				    		<% SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy"); %>
+				    	
 				            <td scope="row">
 				                <button style="position:relative;" type="submit" name="idPaciente" value="<%= paciente.getCodPac() %>" class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Estás paciente de que quieres eliminar al paciente?')">
 				                    <i class="fa-solid fa-trash"></i>
@@ -97,7 +104,7 @@
 					        <td><%= paciente.getApellido()%></td>
 					        <td><%= paciente.getSexo() %></td>
 					        <td><%= paciente.getNacionalidad() %></td>
-					        <td><%= paciente.getFechaNacimiento() %></td>
+							<td><%= formatter.format(paciente.getFechaNacimiento()) %></td>
 					        <td><%= paciente.getDireccion() %></td>
 					        <td><%= paciente.getProvincia() %></td>
 					        <td><%= paciente.getLocalidad() %></td>
@@ -119,114 +126,138 @@
 		</div>
 	</div>
       
-	<div id="modalPaciente" class="modal">
-   		<div class="modal-content">
-        	<span class="close" onclick="closeModal('modalPaciente')" >&times;</span>
-        	<div class="d-flex align-items-center justify-content-center">
-	        	<div class="col-6">
-					<div class="row m-2">
-			        	<div class="col-4">
-					     	<label class="form-label">DNI</label>   	
-			                <input class="form-control" type="number"  min="0" name="txtDNI" required>
-			            </div>
-			            
-			            <div class="col-4">
-				     		<label class="form-label">Nombre</label> 
-			                <input class="form-control" name="txtNombre" oninput="validarLetras(this)" required>
-			            </div>
-			            
-			            <div class="col-4">
-				     		<label class="form-label">Apellido</label>
-			                <input class="form-control" name="txtApellido" oninput="validarLetras(this)" required>
-			            </div>
+    <form method="post" action="servletPacientes">
+		<div id="modalPaciente" class="modal">
+	   		<div class="modal-content">
+	        	<span class="close" onclick="closeModal('modalPaciente')" >&times;</span>
+	        	<div class="d-flex align-items-center justify-content-center">
+		        	<div class="col-12">
+						<div class="row m-2">
+				        	<div class="col-4">
+						     	<label class="form-label">DNI</label>   	
+				                <input class="form-control" type="number"  min="0" name="txtDNI" required>
+				            </div>
+				            
+				            <div class="col-4">
+					     		<label class="form-label">Nombre</label> 
+				                <input class="form-control" name="txtNombre" oninput="validarLetras(this)" required>
+				            </div>
+				            
+				            <div class="col-4">
+					     		<label class="form-label">Apellido</label>
+				                <input class="form-control" name="txtApellido" oninput="validarLetras(this)" required>
+				            </div>
+						</div>
+				        
+				        <div class="row m-2">
+				        	<div class="col-4">
+				        	<label class="form-label">Sexo</label>
+				        		<select class="form-control" name="txtSexo">
+				        			<option>Masculino</option>
+				        			<option>Femenino</option>
+				        			<option>Otro</option>
+				        		</select> 
+				        	</div>
+				        	
+				        	<div class="col-4">
+				        		<label class="form-label">Nacionalidad</label> 
+				        		<input class="form-control" name="txtNacionalidad" oninput="validarLetras(this)" required> 
+				        	</div>
+				        	<div class="col-4"> 
+				        		<label class="form-label">Fecha de nacimiento</label>
+					        	<input class="form-control" type="date" name="txtFechaNacimiento" required>
+				        	
+				        	</div>
+				        </div>
+				        
+				        <div class="row m-2">
+				        	<div class="col-4">
+					        	<label class="form-label">Dirección</label>
+								<input class="form-control" name="txtDireccion" required>
+				        	</div>
+				        	
+				        	<div class="col-4">
+				        		<label class="form-label">Provincia</label> 
+				        		<select class="form-control" name="ddlProvincia" id="ddlProvincia">
+					        		<% 
+							        if (request.getAttribute("listaProvincias") instanceof List) {
+							            List<Provincia> listaProvincias = (List<Provincia>) request.getAttribute("listaProvincias");
+							            for (Provincia provincia : listaProvincias) { 
+							        %>
+							            <option value="<%= provincia.getCodProvincia() %>"><%= provincia.getDescripcion() %></option>				
+							        <% 
+							            } 
+							        }
+							        %>
+				        		</select> 
+				        	</div>
+				        	<div class="col-4"> 
+				        		<label class="form-label">Localidad</label>
+					        	<select class="form-control" name="ddlLocalidad" id="ddlLocalidad">
+							        <% 
+							        if (request.getAttribute("listaLocalidades") instanceof List) {
+							            List<Localidad> listaLocalidades = (List<Localidad>) request.getAttribute("listaLocalidades");
+							            for (Localidad localidad : listaLocalidades) { 
+							        %>
+							            <option value="<%= localidad.getCodLocalidad() %>"><%= localidad.getDescripcion() %></option>				
+							        <% 
+							            } 
+							        }
+							        %>
+							    </select> 	
+				        	</div>
+				        </div>
+				        
+				        <div class="row m-2">
+				        	<div class="col-6">
+				        		<label class="form-label">Correo</label>
+				        		<input class="form-control" type="email" name="txtCorreo" required>
+				        	</div>
+				        	
+				        	<div class="col-6">
+				        		<label class="form-label">Telefono</label> 
+				        		<input class="form-control" type="number"  min="0" name="txtTelefono" required> 
+				        	</div>					
+				        </div>
+				        
+				        <div class="row m-2">
+				        	<div class="col-6">
+				        		<label class="form-label">Normal</label>
+					        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdTipo" value="0" checked>
+				        	</div>
+				        	<div class="col-6">
+				        		<label class="form-label">Admin</label>
+				        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdTipo" value="1">
+				        	</div>
+				        </div>
+				        
+				       <div class="row m-2">
+				        	<div class="col-6 edit">
+				        		<label class="form-label">Activo</label>
+					        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstado" value="1" checked>
+				        	</div>
+				        	<div class="col-6 edit">
+				        		<label class="form-label">Inactivo</label>
+				        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstado" value="0">
+				        	</div>
+				        </div>
+				        
+				        <div class="row m-2 create">
+				        	<div class="col-12">
+					        	<button class="form-control" type="submit" style="margin-top:10px">Crear Paciente</button>
+				        	</div>
+				        </div>
+				        
+				        <div class="row m-2 edit">
+				        	<div class="col-12">
+					        	<button class="form-control" type="submit" style="margin-top:10px">Editar Paciente</button>
+				        	</div>
+				        </div>
 					</div>
-			        
-			        <div class="row m-2">
-			        	<div class="col-4">
-			        	<label class="form-label">Sexo</label>
-			        		<select class="form-control" name="txtSexo">
-			        			<option>Masculino</option>
-			        			<option>Femenino</option>
-			        			<option>Otro</option>
-			        		</select> 
-			        	</div>
-			        	
-			        	<div class="col-4">
-			        		<label class="form-label">Nacionalidad</label> 
-			        		<input class="form-control" name="txtNacionalidad" oninput="validarLetras(this)" required> 
-			        	</div>
-			        	<div class="col-4"> 
-			        		<label class="form-label">Fecha de nacimiento</label>
-				        	<input class="form-control" type="date" name="txtFechaNacimiento" required>
-			        	
-			        	</div>
-			        </div>
-			        
-			        <div class="row m-2">
-			        	<div class="col-4">
-				        	<label class="form-label">Dirección</label>
-							<input class="form-control" name="txtDireccion" required>
-			        	</div>
-			        	
-			        	<div class="col-4">
-			        		<label class="form-label">Provincia</label> 
-			        		<select class="form-control" name="ddlProvincia" id="ddlProvincia"></select> 
-			        	</div>
-			        	<div class="col-4"> 
-			        		<label class="form-label">Localidad</label>
-				        	<select class="form-control" name="ddlLocalidad" id="ddlLocalidad"></select> 	
-			        	</div>
-			        </div>
-			        
-			        <div class="row m-2">
-			        	<div class="col-6">
-			        		<label class="form-label">Correo</label>
-			        		<input class="form-control" type="email" name="txtCorreo" required>
-			        	</div>
-			        	
-			        	<div class="col-6">
-			        		<label class="form-label">Telefono</label> 
-			        		<input class="form-control" type="number"  min="0" name="txtTelefono" required> 
-			        	</div>					
-			        </div>
-			        
-			        <div class="row m-2">
-			        	<div class="col-6">
-			        		<label class="form-label">Normal</label>
-				        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdTipo" value="0" checked>
-			        	</div>
-			        	<div class="col-6">
-			        		<label class="form-label">Admin</label>
-			        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdTipo" value="1">
-			        	</div>
-			        </div>
-			        
-			       <div class="row m-2">
-			        	<div class="col-6 edit">
-			        		<label class="form-label">Activo</label>
-				        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstado" value="1" checked>
-			        	</div>
-			        	<div class="col-6 edit">
-			        		<label class="form-label">Inactivo</label>
-			        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstado" value="0">
-			        	</div>
-			        </div>
-			        
-			        <div class="row m-2 create">
-			        	<div class="col-12">
-				        	<button class="form-control" type="submit" style="margin-top:10px">Crear Paciente</button>
-			        	</div>
-			        </div>
-			        
-			        <div class="row m-2 edit">
-			        	<div class="col-12">
-				        	<button class="form-control" type="submit" style="margin-top:10px">Editar Paciente</button>
-			        	</div>
-			        </div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</form>
       
 <script>
 	function validarLetras(input) {
@@ -261,17 +292,19 @@
 	function closeModal(modal) {
 		document.getElementById(modal).style.display = "none";
     	
-   		document.getElementsByName('txtDNI')[0].selectedIndex = 0;
-   		document.getElementsByName('txtNombre')[0].value = "";
-   		document.getElementsByName('txtApellido')[0].value = "";
-   		document.getElementsByName('ddlSexo')[0].selectedIndex = 0;
-   		document.getElementsByName('txtNacionalidad')[0].value = "";
-   		document.getElementsByName('txtFechaNacimiento')[0].value = "";
-   		document.getElementsByName('txtDireccion')[0].value = "";
-   		document.getElementsByName('ddlProvincia')[0].selectedIndex = 0;
-   		document.getElementsByName('ddlLocalidad')[0].selectedIndex = 0;
-   		document.getElementsByName('txtCorreo')[0].value = "";
-   		document.getElementsByName('txtTelefono')[0].value = "";
+   		document.getElementById('txtDNI').value = "";
+   		document.getElementById('txtNombre').value = "";
+   		document.getElementById('txtApellido').value = "";
+   		document.getElementById('ddlSexo').selectedIndex = 0;
+   		document.getElementById('txtNacionalidad').value = "";
+   		document.getElementById('txtFechaNacimiento').value = "";
+   		document.getElementById('txtDireccion').value = "";
+   		document.getElementById('ddlProvincia').selectedIndex = 0;
+   		document.getElementById('ddlLocalidad').selectedIndex = 0;
+   		document.getElementById('txtCorreo').value = "";
+   		document.getElementById('txtTelefono').value = "";
+		document.querySelector('input[name="rdEstado"][value="1"]').checked = true;
+        document.querySelector('input[name="rdTipo"][value="0"]').checked = true;
     }
 	
 	$(document).ready(function() {
@@ -313,6 +346,22 @@
 	        table.search(searchValue).draw();
 	    });
 	});
+	
+	document.addEventListener('DOMContentLoaded', function() {
+        var txtFiltro = document.getElementById('txtFiltro');
+        var btnFiltrar = document.getElementById('btnFiltrar');
+
+        function toggleFiltrarButton() {
+            if (txtFiltro.value.trim() === '') {
+                btnFiltrar.disabled = true;
+            } else {
+                btnFiltrar.disabled = false;
+            }
+        }
+
+        txtFiltro.addEventListener('input', toggleFiltrarButton);
+        toggleFiltrarButton();
+    });
 
 </script>
     

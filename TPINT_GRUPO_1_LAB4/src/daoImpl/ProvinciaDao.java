@@ -17,7 +17,8 @@ import entidades.Provincia;
 
 public class ProvinciaDao implements IProvinciaDao{
 	private static final String obtenerProvincia = "SELECT * FROM provincias WHERE CodProvincia_PROV = ?";
-	private static final String obtenerProvincias = "SELECT * FROM provincias";
+	private static final String readall = "SELECT * FROM provincias";
+	
 	public Provincia obtenerProvinciaPorCodigo(int codProvincia) {
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		Provincia unaProvincia = new Provincia();
@@ -44,32 +45,34 @@ public class ProvinciaDao implements IProvinciaDao{
 		
 		return unaProvincia;
 	}
-	
-private Provincia getProvincia(ResultSet resultSet) throws SQLException {
-		
-    Provincia provincia = new Provincia();
-    provincia.setCodProvincia(resultSet.getInt("CodProvincia_PROV"));
-    provincia.setDescripcion(resultSet.getString("Descripcion_PROV"));
-    return provincia;
-	}
 
 	@Override
 	public List<Provincia> readAll() {
 		PreparedStatement statement;
 		ResultSet resultSet; 
-		ArrayList<Provincia> Provincias = new ArrayList<Provincia>();
+		ArrayList<Provincia> provincias = new ArrayList<Provincia>();
 
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		try {
-			statement = conexion.prepareStatement(obtenerProvincias);
+			statement = conexion.prepareStatement(readall);
 			resultSet = statement.executeQuery();
 			while(resultSet.next()) {
-				Provincias.add(getProvincia(resultSet));
+				provincias.add(getProvincia(resultSet));
 			}
 		} 
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return Provincias;
+		
+		return provincias;
+	}
+
+	
+	private Provincia getProvincia(ResultSet resultSet) throws SQLException {
+		
+	    Provincia provincia = new Provincia();
+	    provincia.setCodProvincia(resultSet.getInt("CodProvincia_PROV"));
+	    provincia.setDescripcion(resultSet.getString("Descripcion_PROV"));
+	    return provincia;
 	}
 }

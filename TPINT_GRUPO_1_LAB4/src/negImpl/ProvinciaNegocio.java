@@ -16,7 +16,6 @@ public class ProvinciaNegocio implements IProvinciaNegocio{
 
 	@Override
 	public List<Provincia> obtenerProvincias() {
-		// TODO Auto-generated method stub{
 		return pdao.readAll();
 		
 	}
