@@ -54,7 +54,7 @@
 				<button  class="form-control" name="btnFiltrar" id="btnFiltrar">Filtrar</button>
 			</div>
 			<div class="col-2"> 
-				<button  class="form-control" name="btnLimpiarFiltros">Limpiar Filtro</button>
+				<button  class="form-control" name="btnLimpiarFiltros" id="btnLimpiarFiltros">Limpiar Filtro</button>
 			</div>
 		</div>
 	</form>
@@ -134,25 +134,25 @@
 		        	<div class="col-12">
 						<div class="row m-2">
 				        	<div class="col-4">
-						     	<label class="form-label">DNI</label>   	
-				                <input class="form-control" type="number"  min="0" name="txtDNI" required>
-				            </div>
-				            
-				            <div class="col-4">
-					     		<label class="form-label">Nombre</label> 
-				                <input class="form-control" name="txtNombre" oninput="validarLetras(this)" required>
-				            </div>
-				            
-				            <div class="col-4">
-					     		<label class="form-label">Apellido</label>
-				                <input class="form-control" name="txtApellido" oninput="validarLetras(this)" required>
-				            </div>
+							    <label class="form-label">DNI</label>
+							    <input class="form-control" type="number" min="0" name="txtDNI" id="txtDNI" required>
+							</div>
+							
+							<div class="col-4">
+							    <label class="form-label">Nombre</label>
+							    <input class="form-control" name="txtNombre" id="txtNombre" oninput="validarLetras(this)" required>
+							</div>
+							
+							<div class="col-4">
+							    <label class="form-label">Apellido</label>
+							    <input class="form-control" name="txtApellido" id="txtApellido" oninput="validarLetras(this)" required>
+							</div>
 						</div>
 				        
 				        <div class="row m-2">
 				        	<div class="col-4">
-				        	<label class="form-label">Sexo</label>
-				        		<select class="form-control" name="txtSexo">
+				        		<label class="form-label">Sexo</label>
+				        		<select class="form-control" name="ddlSexo" id="ddlSexo">
 				        			<option>Masculino</option>
 				        			<option>Femenino</option>
 				        			<option>Otro</option>
@@ -161,24 +161,23 @@
 				        	
 				        	<div class="col-4">
 				        		<label class="form-label">Nacionalidad</label> 
-				        		<input class="form-control" name="txtNacionalidad" oninput="validarLetras(this)" required> 
+				        		<input class="form-control" name="txtNacionalidad" id="txtNacionalidad" oninput="validarLetras(this)" required> 
 				        	</div>
 				        	<div class="col-4"> 
 				        		<label class="form-label">Fecha de nacimiento</label>
-					        	<input class="form-control" type="date" name="txtFechaNacimiento" required>
-				        	
+					        	<input class="form-control" type="date" name="txtFechaNacimiento" id="txtFechaNacimiento" required>
 				        	</div>
 				        </div>
 				        
 				        <div class="row m-2">
 				        	<div class="col-4">
 					        	<label class="form-label">Dirección</label>
-								<input class="form-control" name="txtDireccion" required>
+								<input class="form-control" name="txtDireccion" id="txtDireccion" required>
 				        	</div>
 				        	
 				        	<div class="col-4">
 				        		<label class="form-label">Provincia</label> 
-				        		<select class="form-control" name="ddlProvincia" id="ddlProvincia">
+				        		<select class="form-control" name="ddlProvincia" id="ddlProvincia" onchange="filtrarLocalidades()">
 					        		<% 
 							        if (request.getAttribute("listaProvincias") instanceof List) {
 							            List<Provincia> listaProvincias = (List<Provincia>) request.getAttribute("listaProvincias");
@@ -199,7 +198,10 @@
 							            List<Localidad> listaLocalidades = (List<Localidad>) request.getAttribute("listaLocalidades");
 							            for (Localidad localidad : listaLocalidades) { 
 							        %>
-							            <option value="<%= localidad.getCodLocalidad() %>"><%= localidad.getDescripcion() %></option>				
+							            <option value="<%= localidad.getCodLocalidad() %>"
+							            		data-provincia-id="<%= localidad.getProvincia().getCodProvincia() %>">
+						            		<%= localidad.getDescripcion() %>
+						            	</option>				
 							        <% 
 							            } 
 							        }
@@ -211,12 +213,12 @@
 				        <div class="row m-2">
 				        	<div class="col-6">
 				        		<label class="form-label">Correo</label>
-				        		<input class="form-control" type="email" name="txtCorreo" required>
+				        		<input class="form-control" type="email" name="txtCorreo" id="txtCorreo" required>
 				        	</div>
 				        	
 				        	<div class="col-6">
 				        		<label class="form-label">Telefono</label> 
-				        		<input class="form-control" type="number"  min="0" name="txtTelefono" required> 
+				        		<input class="form-control" type="number"  min="0" name="txtTelefono" id="txtTelefono" required> 
 				        	</div>					
 				        </div>
 				        
@@ -244,13 +246,13 @@
 				        
 				        <div class="row m-2 create">
 				        	<div class="col-12">
-					        	<button class="form-control" type="submit" style="margin-top:10px">Crear Paciente</button>
+					        	<button class="form-control" type="submit" name="btnCrearPaciente" style="margin-top:10px"> Crear Paciente </button>
 				        	</div>
 				        </div>
 				        
 				        <div class="row m-2 edit">
 				        	<div class="col-12">
-					        	<button class="form-control" type="submit" style="margin-top:10px">Editar Paciente</button>
+					        	<button class="form-control" type="submit" name="btnEditarPaciente" style="margin-top:10px"> Editar Paciente </button>
 				        	</div>
 				        </div>
 					</div>
@@ -362,6 +364,22 @@
         txtFiltro.addEventListener('input', toggleFiltrarButton);
         toggleFiltrarButton();
     });
+	
+	function filtrarLocalidades() {
+	    var provinciaSeleccionada = document.getElementById('ddlProvincia').value;
+	    var ddlLocalidad = document.getElementById('ddlLocalidad');
+	    
+	    for (var i = 0; i < ddlLocalidad.options.length; i++) {
+	        var option = ddlLocalidad.options[i];
+	        var codProvincia = option.getAttribute('data-provincia-id');
+	        
+	        if (codProvincia === provinciaSeleccionada) {
+	            option.style.display = 'block'; // Mostrar opción si coincide con la provincia seleccionada
+	        } else {
+	            option.style.display = 'none'; // Ocultar opción si no coincide con la provincia seleccionada
+	        }
+	    }
+	}
 
 </script>
     
