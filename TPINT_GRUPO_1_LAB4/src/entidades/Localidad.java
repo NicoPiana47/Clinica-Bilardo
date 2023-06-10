@@ -9,6 +9,12 @@ public class Localidad {
 		provincia = new Provincia();
 	}
 
+	public Localidad(int codLocalidad, String descripcion, Provincia provincia) {
+		this.codLocalidad = codLocalidad;
+		this.descripcion = descripcion;
+		this.provincia = provincia;
+	}
+
 	public int getCodLocalidad() {
 		return codLocalidad;
 	}

@@ -70,9 +70,9 @@ public class ProvinciaDao implements IProvinciaDao{
 	
 	private Provincia getProvincia(ResultSet resultSet) throws SQLException {
 		
-	    Provincia provincia = new Provincia();
-	    provincia.setCodProvincia(resultSet.getInt("CodProvincia_PROV"));
-	    provincia.setDescripcion(resultSet.getString("Descripcion_PROV"));
-	    return provincia;
+	    int codProvincia = resultSet.getInt("CodProvincia_PROV");
+	    String descripcion = resultSet.getString("Descripcion_PROV");
+	    
+	    return new Provincia(codProvincia, descripcion);
 	}
 }

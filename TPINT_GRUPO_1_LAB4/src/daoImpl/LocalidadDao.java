@@ -21,16 +21,16 @@ public class LocalidadDao implements ILocalidadDao {
 	public Localidad obtenerLocalidadPorCodigo(int codLocalidad) {
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		Localidad unaLocalidad = new Localidad();
-		ResultSet resultado = null;
+		ResultSet resultSet = null;
 		try{
 			PreparedStatement statement = conexion.prepareStatement(obtenerLocalidad);
 	        statement.setInt(1, codLocalidad);
-	        resultado = statement.executeQuery();      
+	        resultSet = statement.executeQuery();      
 			
-	        if (resultado.next()) {
-	        	unaLocalidad.setCodLocalidad(resultado.getInt("CodLocalidad_LOC"));
-	            unaLocalidad.setDescripcion(resultado.getString("Descripcion_LOC"));
-	            unaLocalidad.setProvincia(obtenerProvinciaPorLocalidad(resultado.getInt("CodProvincia_LOC")));
+	        if (resultSet.next()) {
+	        	unaLocalidad.setCodLocalidad(resultSet.getInt("CodLocalidad_LOC"));
+	            unaLocalidad.setDescripcion(resultSet.getString("Descripcion_LOC"));
+	            unaLocalidad.setProvincia(obtenerProvinciaPorLocalidad(resultSet.getInt("CodProvincia_LOC")));
 	        }
 
 		}
@@ -44,15 +44,15 @@ public class LocalidadDao implements ILocalidadDao {
 	public Provincia obtenerProvinciaPorLocalidad(int codLocalidad) {
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		Provincia unaProvincia = new Provincia();
-		ResultSet resultado = null;
+		ResultSet resultSet = null;
 		try{
 			PreparedStatement statement = conexion.prepareStatement(obtenerProvincia);
 	        statement.setInt(1, codLocalidad);
-	        resultado = statement.executeQuery();      
+	        resultSet = statement.executeQuery();      
 			
-	        if (resultado.next()) {
-	            unaProvincia.setCodProvincia(resultado.getInt("CodProvincia_PROV"));
-	            unaProvincia.setDescripcion(resultado.getString("Descripcion_PROV"));
+	        if (resultSet.next()) {
+	            unaProvincia.setCodProvincia(resultSet.getInt("CodProvincia_PROV"));
+	            unaProvincia.setDescripcion(resultSet.getString("Descripcion_PROV"));
 	        }
 		} 
 		catch (Exception e) {
@@ -69,18 +69,18 @@ public class LocalidadDao implements ILocalidadDao {
 	public List<Localidad> obtenerLocalidadesPorProvincia(int codProvincia) {
 		 Connection conexion = Conexion.getConexion().getSQLConexion();
 		    List<Localidad> listaLocalidades = new ArrayList<>();
-		    ResultSet resultado = null;
+		    ResultSet resultSet = null;
 		    try {
 		        String obtenerLocalidades = "SELECT * FROM localidades WHERE CodProvincia_LOC = ?";
 		        PreparedStatement statement = conexion.prepareStatement(obtenerLocalidades);
 		        statement.setInt(1, codProvincia);
-		        resultado = statement.executeQuery();
+		        resultSet = statement.executeQuery();
 		        
-		        while (resultado.next()) {
+		        while (resultSet.next()) {
 		            Localidad localidad = new Localidad();
-		            localidad.setCodLocalidad(resultado.getInt("CodLocalidad_LOC"));
-		            localidad.setDescripcion(resultado.getString("Descripcion_LOC"));
-		            localidad.setProvincia(obtenerProvinciaPorLocalidad(resultado.getInt("CodProvincia_LOC")));
+		            localidad.setCodLocalidad(resultSet.getInt("CodLocalidad_LOC"));
+		            localidad.setDescripcion(resultSet.getString("Descripcion_LOC"));
+		            localidad.setProvincia(obtenerProvinciaPorLocalidad(resultSet.getInt("CodProvincia_LOC")));
 		            listaLocalidades.add(localidad);
 		        }
 		    } catch (SQLException e) {
@@ -95,18 +95,13 @@ public class LocalidadDao implements ILocalidadDao {
 	public List<Localidad> obtenerLocalidades() {
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 	    List<Localidad> localidades = new ArrayList<>();
-		ResultSet resultado = null;
+		ResultSet resultSet = null;
 		try{
 			PreparedStatement statement = conexion.prepareStatement(readall);
-	        resultado = statement.executeQuery();      
+	        resultSet = statement.executeQuery();      
 			
-	        
-			while(resultado.next()) {
-				Localidad unaLocalidad = new Localidad();
-	        	unaLocalidad.setCodLocalidad(resultado.getInt("CodLocalidad_LOC"));
-	            unaLocalidad.setDescripcion(resultado.getString("Descripcion_LOC"));
-	            unaLocalidad.setProvincia(obtenerProvinciaPorLocalidad(resultado.getInt("CodProvincia_LOC")));
-	            localidades.add(unaLocalidad);
+			while(resultSet.next()) {
+	            localidades.add(getLocalidad(resultSet));
 			}
 
 		}
@@ -115,6 +110,15 @@ public class LocalidadDao implements ILocalidadDao {
 		}
 	
 		return localidades;
+	}
+	
+	private Localidad getLocalidad(ResultSet resultSet) throws SQLException {
+		
+	    int codLocalidad = resultSet.getInt("CodLocalidad_LOC");
+	    String descripcion = resultSet.getString("Descripcion_LOC");
+	    Provincia provincia = obtenerProvinciaPorLocalidad(resultSet.getInt("CodProvincia_LOC"));
+	    
+	    return new Localidad(codLocalidad, descripcion, provincia);
 	}
 
 }

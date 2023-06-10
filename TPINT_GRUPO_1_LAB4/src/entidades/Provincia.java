@@ -8,6 +8,11 @@ public class Provincia {
 		
 	}
 	
+	public Provincia(int codProvincia, String descripcion) {
+		this.codProvincia = codProvincia;
+		this.descripcion = descripcion;
+	}
+
 	public int getCodProvincia() {
 		return codProvincia;
 	}
