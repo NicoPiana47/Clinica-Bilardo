@@ -39,7 +39,7 @@ public class servletMedicos extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		inicializarModuloMedicos(request, response);
+		inicializarModuloMedicos(request, response, null);
 	
 	}
 
@@ -47,18 +47,7 @@ public class servletMedicos extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		iniciarSesion(request, response);
 		listarMedicosConFiltro(request, response);
-		 if (request.getParameter("btnFiltrar") != null || request.getParameter("btnLimpiarFiltros") != null) {
-		        listarMedicosConFiltro(request, response);
-
-		        int codProvincia = Integer.parseInt(request.getParameter("ddlProvincia"));
-
-		        // Filtrar la lista de localidades según la provincia seleccionada
-		        List<Localidad> listaLocalidadesFiltrada = lNeg.obtenerLocalidades(codProvincia);
-
-		        // Actualizar la lista de localidades en el objeto request
-		        request.setAttribute("listaLocalidades", listaLocalidadesFiltrada);
-		    }
-	    }
+	}
 
 		
 	
@@ -83,7 +72,7 @@ public class servletMedicos extends HttpServlet {
         	
         	if(filas) {
         		if(med.getTipo()) {
-        			inicializarModuloMedicos(request, response);
+        			inicializarModuloMedicos(request, response, null);
         			return;
         		}
         		else rd = request.getRequestDispatcher("/Inicio.jsp");
@@ -96,28 +85,29 @@ public class servletMedicos extends HttpServlet {
         }
 	}
 	
-	public void inicializarModuloMedicos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
-		List<Medico> listaMedicos = mNeg.obtenerMedicos();
-		List<Provincia> listaProvincias = pNeg.obtenerProvincias(); 
-		Map<String, String> listaFiltros = inicializarListaFiltros(request);
+	public void inicializarModuloMedicos(HttpServletRequest request, HttpServletResponse response, List<Medico> listaMedicos) throws ServletException, IOException {
 		
-		
-		
+		if(listaMedicos == null) {		
+			List<Medico> listaMedicosCompleta = mNeg.obtenerMedicos();
+			request.setAttribute("listaMedicos", listaMedicosCompleta); 
+		}
+		else {
+			request.setAttribute("listaMedicos", listaMedicos); 
+		}
+		inicializarListaFiltros(request);
+		inicializarListaProvinciasLocalidades(request);
+			
     	
     	RequestDispatcher rd = request.getRequestDispatcher("/AdminMedicos.jsp");    	
-    	request.setAttribute("listaMedicos", listaMedicos);
-    	request.setAttribute("listaFiltros", listaFiltros);  
-	    request.setAttribute("listaProvincias", listaProvincias);	   
 	
 		rd.forward(request, response);
 		
 		
 	}
 	
-	private Map<String, String> inicializarListaFiltros(HttpServletRequest request) {
+	private void inicializarListaFiltros(HttpServletRequest request) {
 		Map<String, String> listaFiltros = mNeg.obtenerColumnas();
-		return listaFiltros;
+		request.setAttribute("listaFiltros", listaFiltros);  
 	}
 	
 	public void listarMedicosConFiltro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -135,15 +125,17 @@ public class servletMedicos extends HttpServlet {
 	    		listaMedicos = mNeg.obtenerMedicos();
 	    	}
 	    	
-	    	Map<String, String> listaFiltros = inicializarListaFiltros(request);
-	    	
-	    	RequestDispatcher rd = request.getRequestDispatcher("/AdminMedicos.jsp");   
-	    	
-	    	request.setAttribute("listaMedicos", listaMedicos);
-	    	request.setAttribute("listaFiltros", listaFiltros);
-	    	
-	    	rd.forward(request, response);
+	    	inicializarModuloMedicos(request, response, listaMedicos);
 	    }
+	}
+	
+	private void inicializarListaProvinciasLocalidades(HttpServletRequest request) {
+	    LocalidadNegocio localidadNegocio = new LocalidadNegocio();
+	    ProvinciaNegocio provinciaNegocio = new ProvinciaNegocio();
+        List<Localidad> listaLocalidades = localidadNegocio.obtenerLocalidades();
+        List<Provincia> listaProvincias = provinciaNegocio.obtenerProvincias();
+		request.setAttribute("listaLocalidades", listaLocalidades);
+		request.setAttribute("listaProvincias", listaProvincias);
 	}
 }
 
