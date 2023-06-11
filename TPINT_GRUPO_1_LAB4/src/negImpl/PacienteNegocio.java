@@ -73,7 +73,8 @@ public class PacienteNegocio extends GeneralNegocio implements IPacienteNegocio{
 		String correo = request.getParameter("txtCorreo");
 		String sexo = request.getParameter("txtSexo");
 		String nacionalidad = request.getParameter("txtNacionalidad");
-		Date fechaNac = dateFormat.format(request.getParameter("txtFechaNac"));
+		//Date fechaNac = dateFormat.format(request.getParameter("txtFechaNac"));
+		Date fechaNac = null;
 		String direccion = request.getParameter("txtDireccion");
 		String telefono = request.getParameter("txtTelefono");
 		boolean estado = Boolean.parseBoolean(request.getParameter("txtEstado"));

@@ -309,6 +309,7 @@
         document.querySelector('input[name="rdTipo"][value="0"]').checked = true;
     }
 	
+	
 	$(document).ready(function() {
 	    var table = $('#table_id_usuarios').DataTable({
 	        language: {
@@ -365,21 +366,31 @@
         toggleFiltrarButton();
     });
 	
+	
+	var localidades = ddlLocalidad.options;
 	function filtrarLocalidades() {
-	    var provinciaSeleccionada = document.getElementById('ddlProvincia').value;
-	    var ddlLocalidad = document.getElementById('ddlLocalidad');
-	    
-	    for (var i = 0; i < ddlLocalidad.options.length; i++) {
-	        var option = ddlLocalidad.options[i];
-	        var codProvincia = option.getAttribute('data-provincia-id');
-	        
-	        if (codProvincia === provinciaSeleccionada) {
-	            option.style.display = 'block'; // Mostrar opción si coincide con la provincia seleccionada
-	        } else {
-	            option.style.display = 'none'; // Ocultar opción si no coincide con la provincia seleccionada
-	        }
-	    }
-	}
+		  var provinciaSeleccionada = document.getElementById('ddlProvincia').value;
+		  var ddlLocalidad = document.getElementById('ddlLocalidad');
+		  var opcionesFiltradas = [];
+
+		  for (var i = 0; i < localidades.length; i++) {
+		    var option = localidades[i];
+		    var codProvincia = option.getAttribute('data-provincia-id');
+
+		    if (codProvincia === provinciaSeleccionada) {
+		      opcionesFiltradas.push(option.outerHTML);
+		    }
+		  }
+
+		  // Crear un nuevo elemento select
+		  var nuevoSelect = document.createElement('select');
+		  nuevoSelect.innerHTML = opcionesFiltradas.join('');
+		  nuevoSelect.id = 'ddlLocalidad';
+		  nuevoSelect.className = "form-control";
+
+		  // Reemplazar el elemento select existente con el nuevo
+		  ddlLocalidad.parentNode.replaceChild(nuevoSelect, ddlLocalidad);
+		}
 
 </script>
     
