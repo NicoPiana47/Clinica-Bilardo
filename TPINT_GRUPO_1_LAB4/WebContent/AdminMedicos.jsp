@@ -71,12 +71,6 @@
 		</div>
 	</div>
 	
-	<script>
-		$(document).ready(function () {
-			$('#table_id_usuarios').DataTable()             
-		});
-	</script>
-	
 	<div class="container-fluid" style="width:95%; margin-bottom:20px">
 		<div class="card text-center" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 100px;">
 			<div class="card-header "><h5>Médicos</h5></div>
