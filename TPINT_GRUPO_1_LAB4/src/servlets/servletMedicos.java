@@ -46,6 +46,7 @@ public class servletMedicos extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		iniciarSesion(request, response);
+		eliminarMedico(request, response);
 		listarMedicosConFiltro(request, response);
 	}
 
@@ -136,6 +137,17 @@ public class servletMedicos extends HttpServlet {
         List<Provincia> listaProvincias = provinciaNegocio.obtenerProvincias();
 		request.setAttribute("listaLocalidades", listaLocalidades);
 		request.setAttribute("listaProvincias", listaProvincias);
+	}
+	
+	private void eliminarMedico(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		if(request.getParameter("btnEliminar") != null) {
+			int codMed = Integer.parseInt(request.getParameter("CodMed").toString());
+			boolean elimino = mNeg.eliminarMedico(codMed);
+			request.setAttribute("elimino", elimino);
+		
+			inicializarModuloMedicos(request, response, null);
+		}
 	}
 }
 

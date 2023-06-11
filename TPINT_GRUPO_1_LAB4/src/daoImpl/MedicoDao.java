@@ -19,6 +19,7 @@ import entidades.Provincia;
 
 public class MedicoDao extends GeneralDao implements IMedicoDao {
 	private static final String readall = "SELECT * FROM Medicos";
+	private static final String delete = "UPDATE Medicos SET Estado_MED = 0 WHERE CodMed_MED = ?";
 
 	public Medico traerMedicoPorNombreUsuario(String username) {		
 		Connection cn = Conexion.getConexion().getSQLConexion();
@@ -123,6 +124,26 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 		}
 		
 		return medicos;
+	}
+
+	@Override
+	public boolean delete(int codMed) {
+		Connection cn = null;
+		try {
+			cn = Conexion.getConexion().getSQLConexion();
+			PreparedStatement st = cn.prepareStatement(delete);
+			st.setInt(1, codMed);
+			int filasAfectadas = st.executeUpdate();
+			
+			if(filasAfectadas > 0) 
+				return true;
+			return false;
+			
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 }

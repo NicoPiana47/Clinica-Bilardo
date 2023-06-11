@@ -11,4 +11,6 @@ public interface IMedicoNegocio {
 	public List<Medico> obtenerMedicos();
 	public List<Medico>obtenerMedicosPorFiltro(String columna, String texto);
 	Map<String, String> obtenerColumnas();
+	
+	public boolean eliminarMedico(int codMed);
 }

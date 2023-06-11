@@ -45,4 +45,11 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 		return mDao.getMedicosByFilter(columna, texto);
 	}
 
+
+	@Override
+	public boolean eliminarMedico(int codMed) {
+		boolean elimino = mDao.delete(codMed);
+		return elimino;
+	}
+
 }
