@@ -157,7 +157,7 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 	    try {
 	        connection = Conexion.getConexion().getSQLConexion();
 	        String query = "INSERT INTO Medicos (DNI_MED, CodEspecialidad_MED, CodLocalidad_MED, CodProvincia_MED, Nombre_MED, Apellido_MED, Correo_MED, Sexo_MED, Nacionalidad_MED, FechaNacimiento_MED, Direccion_MED, Telefono_MED, Username_MED, Contraseña_MED, Tipo_MED) "
-	                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	        statement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 
 	        statement.setString(1, medico.getDNI());
