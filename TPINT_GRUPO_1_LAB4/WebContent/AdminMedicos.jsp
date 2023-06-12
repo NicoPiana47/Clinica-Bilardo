@@ -94,29 +94,6 @@
 			</div>
 		</div>
 	</form>
-	
-	<script>
-		$(document).ready(function () {
-			$('#table_id_usuarios').DataTable()             
-		});
-	</script>
-	
-	<%
-		if((Boolean)request.getAttribute("CrearMedico") != null){
-			boolean crearMedico = (boolean)request.getAttribute("CrearMedico");
-			if(crearMedico==true){
-	%>  
-			<div class="alert alert-success alert-dismissible d-flex align-items-center fade show  m-auto " style="width:50%; margin-bottom:20px">
-				<div class="m-auto">
-					<i class="bi-check-circle-fill text-center"></i>
-					<strong class="mx-2">Registro Creado!</strong> El registro fue creado exitosamente.
-					<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-				</div>			
-			</div>      
-	<% 
-			}    
-		}                                             	
-	%>
 
     <div class="input-group col-6 m-auto">
   		<input type="search" class="form-control rounded" placeholder="Buscar en la grilla" aria-label="Search" id="search-input" aria-describedby="search-addon" />
@@ -487,6 +464,23 @@
 			    <% 
 			}
 		}
+	%>
+	
+	<%
+		if((Boolean)request.getAttribute("CrearMedico") != null){
+			boolean crearMedico = (boolean)request.getAttribute("CrearMedico");
+			if(crearMedico==true){
+	%>  
+			<div class="alert alert-success alert-dismissible d-flex align-items-center fade show  m-auto " style="width:50%; margin-bottom:20px">
+				<div class="m-auto">
+					<i class="bi-check-circle-fill text-center"></i>
+					<strong class="mx-2">Registro Creado!</strong> El registro fue creado exitosamente.
+					<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+				</div>			
+			</div>      
+	<% 
+			}    
+		}                                             	
 	%>
      	
 <script>	
