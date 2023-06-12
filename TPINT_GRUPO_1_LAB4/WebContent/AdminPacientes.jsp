@@ -335,6 +335,7 @@
 	        // Aplicar el filtro de búsqueda al DataTable
 	        table.search(searchValue).draw();
 	    });
+	    filtrarLocalidades(); 
 	});
 	
 	document.addEventListener('DOMContentLoaded', function() {
@@ -353,35 +354,21 @@
         toggleFiltrarButton();
     });
 	
-	
-	$(document).ready(function () {
-  		filtrarLocalidades();            
-	});
-	
-	var localidades = ddlLocalidad.options;
+	var localidades = document.querySelectorAll('#ddlLocalidad option');
 	function filtrarLocalidades() {
 		  var provinciaSeleccionada = document.getElementById('ddlProvincia').value;
 		  var ddlLocalidad = document.getElementById('ddlLocalidad');
-		  var opcionesFiltradas = [];
-
+		  
+		  ddlLocalidad.innerHTML = '';
 		  for (var i = 0; i < localidades.length; i++) {
 		    var option = localidades[i];
 		    var codProvincia = option.getAttribute('data-provincia-id');
 
 		    if (codProvincia === provinciaSeleccionada) {
-		      opcionesFiltradas.push(option.outerHTML);
+		      ddlLocalidad.appendChild(option.cloneNode(true));
 		    }
 		  }
-
-		  // Crear un nuevo elemento select
-		  var nuevoSelect = document.createElement('select');
-		  nuevoSelect.innerHTML = opcionesFiltradas.join('');
-		  nuevoSelect.id = 'ddlLocalidad';
-		  nuevoSelect.className = "form-control";
-
-		  // Reemplazar el elemento select existente con el nuevo
-		  ddlLocalidad.parentNode.replaceChild(nuevoSelect, ddlLocalidad);
-	}
+		}
 
 </script>
     

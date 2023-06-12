@@ -489,7 +489,7 @@
 		}
 	%>
      	
-<script>
+<script>	
 	function validarLetras(input) {
 	  	var regex = /[^a-zA-Z]/g;
 	  	input.value = input.value.replace(regex, '');
@@ -566,7 +566,7 @@
     	}
     }
       
-  	$(document).ready(function() {
+  	$(document).ready(function() {     		
 	    var table = $('#table_id_medicos').DataTable({
 	        language: {
 	            processing: "Tratamiento en curso...",
@@ -603,11 +603,8 @@
 
 	        // Aplicar el filtro de búsqueda al DataTable
 	        table.search(searchValue).draw();
-	    });
-	});
-    
-  	$(document).ready(function () {
-  		filtrarLocalidades();            
+	    });	 	
+        filtrarLocalidades();
 	});
   	
 	document.addEventListener('DOMContentLoaded', function() {
@@ -627,30 +624,21 @@
     });
 	
     	 
-    var localidades = ddlLocalidad.options;
-  	function filtrarLocalidades() {
-  		  var provinciaSeleccionada = document.getElementById('ddlProvincia').value;
-  		  var ddlLocalidad = document.getElementById('ddlLocalidad');
-  		  var opcionesFiltradas = [];
+  	var localidades = document.querySelectorAll('#ddlLocalidad option');
+	function filtrarLocalidades() {
+		  var provinciaSeleccionada = document.getElementById('ddlProvincia').value;
+		  var ddlLocalidad = document.getElementById('ddlLocalidad');
+		  
+		  ddlLocalidad.innerHTML = '';
+		  for (var i = 0; i < localidades.length; i++) {
+		    var option = localidades[i];
+		    var codProvincia = option.getAttribute('data-provincia-id');
 
-  		  for (var i = 0; i < localidades.length; i++) {
-  		    var option = localidades[i];
-  		    var codProvincia = option.getAttribute('data-provincia-id');
-
-  		    if (codProvincia === provinciaSeleccionada) {
-  		      opcionesFiltradas.push(option.outerHTML);
-  		    }
-  		  }
-
-  		  // Crear un nuevo elemento select
-  		  var nuevoSelect = document.createElement('select');
-  		  nuevoSelect.innerHTML = opcionesFiltradas.join('');
-  		  nuevoSelect.id = 'ddlLocalidad';
-  		  nuevoSelect.className = "form-control";
-
-  		  // Reemplazar el elemento select existente con el nuevo
-  		  ddlLocalidad.parentNode.replaceChild(nuevoSelect, ddlLocalidad);
-  		}
+		    if (codProvincia === provinciaSeleccionada) {
+		      ddlLocalidad.appendChild(option.cloneNode(true));
+		    }
+		  }
+		}
   
 </script>
     
