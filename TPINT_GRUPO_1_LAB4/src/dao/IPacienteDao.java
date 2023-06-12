@@ -12,6 +12,7 @@ public interface IPacienteDao {
     public List<Paciente> readAll();
     public List<Paciente> getPacientesByFilter(String column, String text);
     public List<String> getColumns();
+	public boolean insert(Paciente paciente);
     
     
 }

@@ -60,27 +60,40 @@ public class PacienteNegocio extends GeneralNegocio implements IPacienteNegocio{
 		return pacienteDao.getPacientesByFilter(columna, texto);
 	}
 
+	@Override
 	public Paciente getPacienteCrear(HttpServletRequest request) {
 		
+		String aa = request.getParameter("ddlLocalidad");
 		int codigoLocalidad = Integer.parseInt(request.getParameter("ddlLocalidad"));
 		Localidad localidad = localidadNegocio.obtenerLocalidadPorCodigo(codigoLocalidad);
 		Provincia provincia = localidad.getProvincia();
-	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
 		String dni = request.getParameter("txtDNI");
 		String nombre = request.getParameter("txtNombre");
 		String apellido = request.getParameter("txtApellido");
 		String correo = request.getParameter("txtCorreo");
-		String sexo = request.getParameter("txtSexo");
+		String sexo = request.getParameter("ddlSexo");
 		String nacionalidad = request.getParameter("txtNacionalidad");
-		//Date fechaNac = dateFormat.format(request.getParameter("txtFechaNac"));
 		Date fechaNac = null;
 		String direccion = request.getParameter("txtDireccion");
 		String telefono = request.getParameter("txtTelefono");
 		boolean estado = Boolean.parseBoolean(request.getParameter("txtEstado"));
-
+		
+		try {
+		    String fechaNacString = request.getParameter("txtFechaNacimiento");
+		    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		    fechaNac = dateFormat.parse(fechaNacString);
+		} catch (ParseException e) {
+		    e.printStackTrace();
+		}
+		
 	    return new Paciente(dni, provincia, localidad, nombre, apellido, correo, 
 	    					sexo, nacionalidad, fechaNac, direccion, telefono, estado);
+	}
+	
+	@Override
+	public boolean guardar(Paciente unPaciente) {
+		return pacienteDao.insert(unPaciente);
 	}
 
 

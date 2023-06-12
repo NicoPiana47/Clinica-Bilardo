@@ -18,9 +18,9 @@ import negImpl.LocalidadNegocio;
 import negImpl.PacienteNegocio;
 import negImpl.ProvinciaNegocio;
 
+@SuppressWarnings("serial")
 @WebServlet("/servletPacientes")
 public class servletPacientes extends HttpServlet {
-	private static final long serialVersionUID = 1L;
        
     public servletPacientes() {
         super();
@@ -53,6 +53,8 @@ public class servletPacientes extends HttpServlet {
 		
 		if(request.getParameter("btnCrearPaciente") != null) {
 			Paciente unPaciente = pacienteNegocio.getPacienteCrear(request);
+			pacienteNegocio.guardar(unPaciente);
+			listaPacientes = pacienteNegocio.obtenerPacientes();
 		}
 
 		inicializarModuloPacientes(request, pacienteNegocio, listaPacientes);

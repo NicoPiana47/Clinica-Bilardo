@@ -222,17 +222,6 @@
 				        	</div>					
 				        </div>
 				        
-				        <div class="row m-2">
-				        	<div class="col-6">
-				        		<label class="form-label">Normal</label>
-					        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdTipo" value="0" checked>
-				        	</div>
-				        	<div class="col-6">
-				        		<label class="form-label">Admin</label>
-				        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdTipo" value="1">
-				        	</div>
-				        </div>
-				        
 				       <div class="row m-2">
 				        	<div class="col-6 edit">
 				        		<label class="form-label">Activo</label>
@@ -306,7 +295,6 @@
    		document.getElementById('txtCorreo').value = "";
    		document.getElementById('txtTelefono').value = "";
 		document.querySelector('input[name="rdEstado"][value="1"]').checked = true;
-        document.querySelector('input[name="rdTipo"][value="0"]').checked = true;
     }
 	
 	
@@ -394,7 +382,7 @@
 
 		  // Reemplazar el elemento select existente con el nuevo
 		  ddlLocalidad.parentNode.replaceChild(nuevoSelect, ddlLocalidad);
-		}
+	}
 
 </script>
     
