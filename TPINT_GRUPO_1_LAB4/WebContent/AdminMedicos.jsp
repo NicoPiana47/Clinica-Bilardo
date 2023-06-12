@@ -551,6 +551,10 @@
   	    "bLengthChange" : false,
   	    "bInfo": false
       });
+    
+  	$(document).ready(function () {
+  		filtrarLocalidades();            
+	});
     	 
     var localidades = ddlLocalidad.options;
   	function filtrarLocalidades() {

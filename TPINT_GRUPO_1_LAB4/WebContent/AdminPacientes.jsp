@@ -367,6 +367,10 @@
     });
 	
 	
+	$(document).ready(function () {
+  		filtrarLocalidades();            
+	});
+	
 	var localidades = ddlLocalidad.options;
 	function filtrarLocalidades() {
 		  var provinciaSeleccionada = document.getElementById('ddlProvincia').value;
