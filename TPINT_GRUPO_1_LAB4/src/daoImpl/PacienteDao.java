@@ -16,7 +16,7 @@ import entidades.Provincia;
 
 public class PacienteDao extends GeneralDao implements IPacienteDao {
 	private static final String insert = "INSERT INTO pacientes(DNI_PAC, CodProvincia_PAC, CodLocalidad_PAC, Nombre_PAC, Apellido_PAC, Correo_PAC, Sexo_PAC, Nacionalidad_PAC, FechaNacimiento_PAC, Direccion_PAC, Telefono_PAC, Estado_PAC) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	private static final String delete = "DELETE FROM pacientes WHERE dni = ?";
+	private static final String delete = "UPDATE pacientes SET Estado_PAC = 0 WHERE CodPac_PAC = ?";
 	private static final String readall = "SELECT * FROM pacientes";
 	private static final String existeDni = "SELECT * FROM pacientes WHERE dni = ?";
 	private static final String update = "UPDATE pacientes SET nombre = ?, apellido = ? WHERE dni = ?";
@@ -103,8 +103,8 @@ public class PacienteDao extends GeneralDao implements IPacienteDao {
 	    try {
 	        statement = conexion.prepareStatement(insert);
 	        statement.setString(1, paciente.getDNI());
-	        statement.setLong(2, paciente.getLocalidad().getCodLocalidad());
-	        statement.setLong(3, paciente.getProvincia().getCodProvincia());
+	        statement.setLong(2, paciente.getProvincia().getCodProvincia());
+	        statement.setLong(3, paciente.getLocalidad().getCodLocalidad());
 	        statement.setString(4, paciente.getNombre());
 	        statement.setString(5, paciente.getApellido());
 	        statement.setString(6, paciente.getCorreo());
@@ -124,6 +124,27 @@ public class PacienteDao extends GeneralDao implements IPacienteDao {
 	    }
 
 	    return isInsertExitoso;
+	}
+
+	@Override
+	public boolean delete(int codPaciente) {
+		Connection cn = null;
+		try {
+			cn = Conexion.getConexion().getSQLConexion();
+			PreparedStatement st = cn.prepareStatement(delete);
+			st.setInt(1, codPaciente);
+			int filasAfectadas = st.executeUpdate();
+			
+			if(filasAfectadas > 0) 
+				return true;
+			else
+				return false;
+			
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	

@@ -56,6 +56,13 @@ public class servletPacientes extends HttpServlet {
 			pacienteNegocio.guardar(unPaciente);
 			listaPacientes = pacienteNegocio.obtenerPacientes();
 		}
+		
+		if(request.getParameter("btnEliminar") != null) {
+			int codPac = Integer.parseInt(request.getParameter("CodPac").toString());
+			boolean elimino = pacienteNegocio.eliminarPaciente(codPac);
+			request.setAttribute("elimino", elimino);
+			listaPacientes = pacienteNegocio.obtenerPacientes();
+		}
 
 		inicializarModuloPacientes(request, pacienteNegocio, listaPacientes);
 	    forwardToPage(request, response, "/AdminPacientes.jsp");

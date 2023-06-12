@@ -21,30 +21,6 @@ public class PacienteNegocio extends GeneralNegocio implements IPacienteNegocio{
 	LocalidadNegocio localidadNegocio = new LocalidadNegocio();
 	
 	@Override
-	public boolean insert(Paciente persona) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean update(Paciente persona) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean delete(String dni) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean existeDni(String dni) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-	@Override
 	public List<Paciente> obtenerPacientes() {
 		return pacienteDao.readAll();
 	}
@@ -62,38 +38,58 @@ public class PacienteNegocio extends GeneralNegocio implements IPacienteNegocio{
 
 	@Override
 	public Paciente getPacienteCrear(HttpServletRequest request) {
-		
-		String aa = request.getParameter("ddlLocalidad");
-		int codigoLocalidad = Integer.parseInt(request.getParameter("ddlLocalidad"));
-		Localidad localidad = localidadNegocio.obtenerLocalidadPorCodigo(codigoLocalidad);
-		Provincia provincia = localidad.getProvincia();
-		
-		String dni = request.getParameter("txtDNI");
+
+		String dni = request.getParameter("txtDNI");    
+		Provincia provincia = createProvinciaFromRequest(request);
+	    Localidad localidad = createLocalidadFromRequest(request);
 		String nombre = request.getParameter("txtNombre");
 		String apellido = request.getParameter("txtApellido");
 		String correo = request.getParameter("txtCorreo");
 		String sexo = request.getParameter("ddlSexo");
 		String nacionalidad = request.getParameter("txtNacionalidad");
-		Date fechaNac = null;
+		Date fechaNac = parseDate(request);
 		String direccion = request.getParameter("txtDireccion");
 		String telefono = request.getParameter("txtTelefono");
 		boolean estado = Boolean.parseBoolean(request.getParameter("txtEstado"));
-		
-		try {
-		    String fechaNacString = request.getParameter("txtFechaNacimiento");
-		    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		    fechaNac = dateFormat.parse(fechaNacString);
-		} catch (ParseException e) {
-		    e.printStackTrace();
-		}
 		
 	    return new Paciente(dni, provincia, localidad, nombre, apellido, correo, 
 	    					sexo, nacionalidad, fechaNac, direccion, telefono, estado);
 	}
 	
+	private Provincia createProvinciaFromRequest(HttpServletRequest request) {
+	    int codigoProvincia = Integer.parseInt(request.getParameter("ddlProvincia"));
+	    Provincia provincia = new Provincia();
+	    provincia.setCodProvincia(codigoProvincia);
+	    return provincia;
+	}
+
+	private Localidad createLocalidadFromRequest(HttpServletRequest request) {
+	    int codigoLocalidad = Integer.parseInt(request.getParameter("ddlLocalidad"));
+	    Localidad localidad = new Localidad();
+	    localidad.setCodLocalidad(codigoLocalidad);
+	    return localidad;
+	}
+	
+	private Date parseDate(HttpServletRequest request) {
+	    try {
+	        String fechaNacString = request.getParameter("txtFechaNacimiento");
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	        return dateFormat.parse(fechaNacString);
+	    } catch (ParseException e) {
+	        e.printStackTrace();
+	    }
+	    return null;
+	}
+
+	
 	@Override
 	public boolean guardar(Paciente unPaciente) {
 		return pacienteDao.insert(unPaciente);
+	}
+
+	@Override
+	public boolean eliminarPaciente(int codMed) {
+		return pacienteDao.delete(codMed);
 	}
 
 
