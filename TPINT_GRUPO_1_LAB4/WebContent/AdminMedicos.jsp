@@ -307,7 +307,7 @@
 							            List<Especialidad> listaEspecialidades = (List<Especialidad>) request.getAttribute("listaEspecialidades");
 							            for (Especialidad especialidad : listaEspecialidades) { 
 							        %>
-							            <option value="<%= especialidad.getCodEspecialidad_ESP() %>"><%= especialidad.getDescripcion_ESP()%>
+							            <option value="<%= especialidad.getCodEspecialidad() %>"><%= especialidad.getDescripcion()%>
 						            	</option>				
 							        <% 
 							            } 

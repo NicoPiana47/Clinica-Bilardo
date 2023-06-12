@@ -159,7 +159,7 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 	        statement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 
 	        statement.setString(1, medico.getDNI());
-	        statement.setInt(2, medico.getEspecialidad().getCodEspecialidad_ESP());
+	        statement.setInt(2, medico.getEspecialidad().getCodEspecialidad());
 	        statement.setInt(3, medico.getLocalidad().getCodLocalidad());
 	        statement.setInt(4, medico.getProvincia().getCodProvincia());
 	        statement.setString(5, medico.getNombre());

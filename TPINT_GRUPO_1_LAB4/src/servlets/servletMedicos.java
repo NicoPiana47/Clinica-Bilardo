@@ -198,7 +198,7 @@ public class servletMedicos extends HttpServlet {
 	    // Crear el objeto Medico con los valores proporcionados
 	    Medico medico = new Medico();
 	    medico.setDNI(dni);
-	    medico.getEspecialidad().setCodEspecialidad_ESP(codEspecialidad); // Aquí deberías asignar el objeto Especialidad correspondiente en lugar del ID
+	    medico.getEspecialidad().setCodEspecialidad(codEspecialidad); // Aquí deberías asignar el objeto Especialidad correspondiente en lugar del ID
 	    medico.getLocalidad().setCodLocalidad(codLocalidad); // Aquí deberías asignar el objeto Localidad correspondiente en lugar del ID
 	    medico.getProvincia().setCodProvincia(codProvincia); // Aquí deberías asignar el objeto Provincia correspondiente en lugar del ID
 	    medico.setCorreo(correo);

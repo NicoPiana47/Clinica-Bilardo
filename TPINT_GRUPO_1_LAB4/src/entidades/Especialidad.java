@@ -1,34 +1,32 @@
 package entidades;
 
 public class Especialidad {
-	private int codEspecialidad_ESP;
-	private String descripcion_ESP;
+	private int codEspecialidad;
+	private String descripcion;
 	
 	public Especialidad() {
 		
 	}
-	public Especialidad(int codEspecialidad_ESP, String descripcion_ESP) {
-		this.codEspecialidad_ESP = codEspecialidad_ESP;
-		this.descripcion_ESP = descripcion_ESP;
+	public Especialidad(int codEspecialidad, String descripcion) {
+		this.codEspecialidad = codEspecialidad;
+		this.descripcion = descripcion;
 	}
 
-	
-	public int getCodEspecialidad_ESP() {
-		return codEspecialidad_ESP;
+	public int getCodEspecialidad() {
+		return codEspecialidad;
 	}
-	public void setCodEspecialidad_ESP(int codEspecialidad_ESP) {
-		this.codEspecialidad_ESP = codEspecialidad_ESP;
+	public void setCodEspecialidad(int codEspecialidad) {
+		this.codEspecialidad = codEspecialidad;
 	}
-	public String getDescripcion_ESP() {
-		return descripcion_ESP;
+	public String getDescripcion() {
+		return descripcion;
 	}
-	public void setDescripcion_ESP(String descripcion_ESP) {
-		this.descripcion_ESP = descripcion_ESP;
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 	@Override
 	public String toString() {
-		return "Especialidad [codEspecialidad_ESP=" + codEspecialidad_ESP + ", descripcion_ESP=" + descripcion_ESP
-				+ "]";
+		return descripcion;
 	}
 }

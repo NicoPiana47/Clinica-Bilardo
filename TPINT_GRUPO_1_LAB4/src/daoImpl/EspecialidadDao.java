@@ -28,8 +28,8 @@ public class EspecialidadDao implements IEspecialidadDao{
 	        resultado = statement.executeQuery();      
 			
 	        if (resultado.next()) {
-	        	unaEspecialidad.setCodEspecialidad_ESP(resultado.getInt("CodEspecialidad_ESP"));
-	        	unaEspecialidad.setDescripcion_ESP(resultado.getString("Descripcion_ESP"));
+	        	unaEspecialidad.setCodEspecialidad(resultado.getInt("CodEspecialidad_ESP"));
+	        	unaEspecialidad.setDescripcion(resultado.getString("Descripcion_ESP"));
 	        }
 
 		}
