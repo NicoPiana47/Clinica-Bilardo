@@ -180,7 +180,7 @@
 						<td><%=medico.getLocalidad()%></td>
 						<td><%=medico.getCorreo()%></td>
 						<td><%=medico.getTelefono()%></td> 
-						<td><%=medico.getEspecialidad().getDescripcion_ESP()%></td>
+						<td><%=medico.getEspecialidad()%></td>
 						<td>Ver registro</td>  
 						<td><%=medico.getUsername()%></td>
 						<td><%=medico.getContraseña()%></td>
@@ -302,17 +302,18 @@
 			        	<div class="col-4"> 
 			        		<label class="form-label">Especialidad</label>
 				        	<select class="form-control" name="ddlEspecialidad">
-				        	 <% 
+					        	<% 
 							        if (request.getAttribute("listaEspecialidades") instanceof List) {
 							            List<Especialidad> listaEspecialidades = (List<Especialidad>) request.getAttribute("listaEspecialidades");
 							            for (Especialidad especialidad : listaEspecialidades) { 
 							        %>
-							            <option value="<%= especialidad.getCodEspecialidad() %>"><%= especialidad.getDescripcion()%>
+							            <option value="<%= especialidad.getCodEspecialidad() %>">
+							            	<%= especialidad.getDescripcion()%>
 						            	</option>				
 							        <% 
 							            } 
 							        } 
-							        %>
+								%>
 				        	</select> 	
 			        	</div>
 			        </div>
