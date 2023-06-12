@@ -12,5 +12,4 @@ public interface IMedicoDao {
 	public List<Medico> getMedicosByFilter(String column, String text);
 	
 	public boolean delete(int codMed);
-	public boolean create(Medico medico);
 }

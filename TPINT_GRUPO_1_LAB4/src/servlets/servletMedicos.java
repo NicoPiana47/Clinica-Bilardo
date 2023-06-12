@@ -2,8 +2,6 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -14,8 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 import entidades.Especialidad;
 import entidades.Localidad;
@@ -55,8 +51,6 @@ public class servletMedicos extends HttpServlet {
 		iniciarSesion(request, response);
 		eliminarMedico(request, response);
 		listarMedicosConFiltro(request, response);
-		crearMedico(request, response);
-
 	}
 
 		
@@ -160,75 +154,5 @@ public class servletMedicos extends HttpServlet {
 			inicializarModuloMedicos(request, response, null);
 		}
 	}
-	
-	private void crearMedico(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-	    // Obtener los valores del formulario
-		if(request.getParameter("btnCrearMedico") != null) {
-	    String dni = request.getParameter("txtDNI");
-	    int codEspecialidad =  Integer.parseInt(request.getParameter("ddlEspecialidad").toString());
-	    int  codLocalidad = Integer.parseInt(request.getParameter("ddlLocalidad").toString());
-	    int codProvincia = Integer.parseInt(request.getParameter("ddlProvincia").toString());
-	    String correo = request.getParameter("txtCorreo");
-	    String username = request.getParameter("txtUsuario");
-	    String contrasena = request.getParameter("txtContraseña");
-	    String nombre = request.getParameter("txtNombre");
-	    String apellido = request.getParameter("txtApellido");
-	    String sexo = request.getParameter("ddlSexo");
-	    String nacionalidad = request.getParameter("txtNacionalidad");
-	    String fechaNacimientoStr = request.getParameter("txtFechaNacimiento");
-	    String direccion = request.getParameter("txtDireccion");
-	    String telefono = request.getParameter("txtTelefono");
-	    boolean tipo = request.getParameter("rdTipo").equals("1");
-	    
-
-	    // Realizar las conversiones necesarias, como parsear la fecha de nacimiento
-	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	    java.util.Date utilFechaNacimiento = null;
-	    
-	     try {
-			utilFechaNacimiento = dateFormat.parse(fechaNacimientoStr);
-		} catch (java.text.ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	   
-
-	    // Convertir java.util.Date a java.sql.Date
-	    java.sql.Date sqlFechaNacimiento = new java.sql.Date(utilFechaNacimiento.getTime());
-	    // Crear el objeto Medico con los valores proporcionados
-	    Medico medico = new Medico();
-	    medico.setDNI(dni);
-	    medico.getEspecialidad().setCodEspecialidad_ESP(codEspecialidad); // Aquí deberías asignar el objeto Especialidad correspondiente en lugar del ID
-	    medico.getLocalidad().setCodLocalidad(codLocalidad); // Aquí deberías asignar el objeto Localidad correspondiente en lugar del ID
-	    medico.getProvincia().setCodProvincia(codProvincia); // Aquí deberías asignar el objeto Provincia correspondiente en lugar del ID
-	    medico.setCorreo(correo);
-	    medico.setUsername(username);
-	    medico.setContraseña(contrasena);
-	    medico.setNombre(nombre);
-	    medico.setApellido(apellido);
-	    medico.setSexo(sexo);
-	    medico.setNacionalidad(nacionalidad);
-	    medico.setFechaNacimiento(sqlFechaNacimiento);
-	    medico.setDireccion(direccion);
-	    medico.setTelefono(telefono);
-	    medico.setTipo(tipo);
-	    medico.setEstado(true);
-
-	    // Aquí puedes llamar al método de tu lógica de negocio para crear el médico en la base de datos
-	    Boolean CrearMedico= mNeg.crearMedico(medico);
-	    request.setAttribute("CrearMedico", CrearMedico);
-	    // Redireccionar o realizar cualquier CrearMedico adicional según sea necesario
-	    
-	    
-	    
-	    inicializarModuloMedicos(request, response, null);
-	    
-	    
-	    
-	    
-	}
-
-	
 }
-	}
 

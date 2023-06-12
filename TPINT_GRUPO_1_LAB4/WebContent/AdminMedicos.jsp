@@ -7,7 +7,6 @@
 <title>AdminMedicos</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="entidades.Medico" %>
@@ -99,25 +98,7 @@
 			$('#table_id_usuarios').DataTable()             
 		});
 	</script>
-		 <%if((Boolean)request.getAttribute("CrearMedico") != null){
-                	  
-                	  boolean crearMedico = (boolean)request.getAttribute("CrearMedico");
-
-                	  if(crearMedico==true){
-                		  %>  <div class="alert alert-success alert-dismissible d-flex align-items-center fade show  m-auto " style="width:50%; margin-bottom:20px">
-                  <div class="m-auto">
-                  	 <i class="bi-check-circle-fill text-center"></i>
-   								 <strong class="mx-2">Registro Creado!</strong> El registro fue creado exitosamente.
-    							<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                 			 </div>			
-									</div>
-                  
-					    <% 
-					    }    
-                	  }                                             	
-                  %>
-                  
-                
+	
 	<div class="container-fluid" style="width:95%; margin-bottom:20px">
 		<div class="card text-center" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 100px;">
 			<div class="card-header "><h5>Médicos</h5></div>
@@ -202,7 +183,7 @@
    		<div class="modal-content">
         	<span class="close" onclick="closeModal('modalMedico', false)" >&times;</span>
         	<div class="d-flex align-items-center justify-content-center">
-        	<form action="servletMedicos" method="POST">
+        	
         	<div class="col-12">
 					<div class="row m-2">
 			        	<div class="col-4">
@@ -224,7 +205,7 @@
 			        <div class="row m-2">
 			        	<div class="col-4">
 			        	<label class="form-label">Sexo</label>
-			        		<select class="form-control" name="ddlSexo">
+			        		<select class="form-control" name="txtSexo">
 			        			<option>Masculino</option>
 			        			<option>Femenino</option>
 			        			<option>Otro</option>
@@ -353,7 +334,7 @@
 			        
 			        <div class="row m-2 createM" >
 			        	<div class="col-12">
-				        	<button class="form-control" name="btnCrearMedico" type="submit" style="margin-top:10px">Crear Médico</button>
+				        	<button class="form-control" type="submit" style="margin-top:10px">Crear Médico</button>
 			        	</div>
 			        </div>
 			        
@@ -363,7 +344,7 @@
 			        	</div>
 			        </div>
 				</div>
-        	 </form>
+        	
 			</div>
 		</div>
 	</div>
@@ -460,15 +441,11 @@
 		</div>
 	</div>
 	
-
-	
-	
-	<% if((Boolean) request.getAttribute("elimino") != null){
-			boolean elimino =(boolean)request.getAttribute("elimino");
+	<% if(request.getParameter("elimino") != null){
+			boolean elimino = Boolean.parseBoolean(request.getParameter("elimino"));
 			if(elimino == true){
 				%><div style="display: flex; justify-content: center; visibility="hidden";>
-				        <div ID="MsgSuccesDiv" class="col-md-4 alert alert-success text-center">
-				         <i class="bi-check-circle-fill text-center"></i>
+				        <div ID="MsgSuccesDiv" class="col-md-4 alert alert-success">
 				            <strong>Éxito</strong> Médico eliminado!
 				            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 				        </div>
@@ -477,7 +454,7 @@
 			}
 			else{
 				%><div style="display: flex; justify-content: center; visibility="hidden";>
-				        <div ID="MsgErrorDiv" class="col-md-4 alert alert-danger  text-center">
+				        <div ID="MsgErrorDiv" class="col-md-4 alert alert-danger">
 				            <strong>Error</strong> No se pudo eliminar al médico!
 				            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 				        </div>
