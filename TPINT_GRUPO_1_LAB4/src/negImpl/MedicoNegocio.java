@@ -52,4 +52,11 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 		return elimino;
 	}
 
+
+	@Override
+	public boolean crearMedico(Medico medico) {
+		boolean agregado = mDao.create(medico);
+		return agregado;
+	}
+
 }
