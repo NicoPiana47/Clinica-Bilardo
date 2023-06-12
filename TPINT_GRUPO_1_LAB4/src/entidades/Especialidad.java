@@ -7,6 +7,11 @@ public class Especialidad {
 	public Especialidad() {
 		
 	}
+	public Especialidad(int codEspecialidad_ESP, String descripcion_ESP) {
+		this.codEspecialidad_ESP = codEspecialidad_ESP;
+		this.descripcion_ESP = descripcion_ESP;
+	}
+
 	
 	public int getCodEspecialidad_ESP() {
 		return codEspecialidad_ESP;

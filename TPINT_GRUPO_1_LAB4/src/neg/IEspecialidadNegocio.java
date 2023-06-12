@@ -1,5 +1,11 @@
 package neg;
 
-public interface IEspecialidadNegocio {
+import java.util.List;
 
+import entidades.Especialidad;
+
+public interface IEspecialidadNegocio {
+	
+	public List<Especialidad>obtenerEspecialidades();
+	
 }

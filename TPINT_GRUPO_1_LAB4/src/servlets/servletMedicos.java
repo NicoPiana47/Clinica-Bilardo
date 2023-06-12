@@ -13,10 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import entidades.Especialidad;
 import entidades.Localidad;
 import entidades.Medico;
 import entidades.Paciente;
 import entidades.Provincia;
+import negImpl.EspecialidadNegocio;
 import negImpl.LocalidadNegocio;
 import negImpl.MedicoNegocio;
 import negImpl.PacienteNegocio;
@@ -33,6 +35,7 @@ public class servletMedicos extends HttpServlet {
 	MedicoNegocio mNeg = new MedicoNegocio();
 	ProvinciaNegocio pNeg = new ProvinciaNegocio();
     LocalidadNegocio lNeg=new LocalidadNegocio();
+    EspecialidadNegocio eNeg=new EspecialidadNegocio();
     public servletMedicos() {
         super();
     }
@@ -95,8 +98,8 @@ public class servletMedicos extends HttpServlet {
 		else {
 			request.setAttribute("listaMedicos", listaMedicos); 
 		}
-		inicializarListaFiltros(request);
-		inicializarListaProvinciasLocalidades(request);
+		
+		inicializarListas(request);
 			
     	
     	RequestDispatcher rd = request.getRequestDispatcher("/AdminMedicos.jsp");    	
@@ -106,10 +109,7 @@ public class servletMedicos extends HttpServlet {
 		
 	}
 	
-	private void inicializarListaFiltros(HttpServletRequest request) {
-		Map<String, String> listaFiltros = mNeg.obtenerColumnas();
-		request.setAttribute("listaFiltros", listaFiltros);  
-	}
+
 	
 	public void listarMedicosConFiltro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    
@@ -130,13 +130,18 @@ public class servletMedicos extends HttpServlet {
 	    }
 	}
 	
-	private void inicializarListaProvinciasLocalidades(HttpServletRequest request) {
+	private void inicializarListas(HttpServletRequest request) {
 	    LocalidadNegocio localidadNegocio = new LocalidadNegocio();
 	    ProvinciaNegocio provinciaNegocio = new ProvinciaNegocio();
+	    EspecialidadNegocio especialidadNegocio = new EspecialidadNegocio();
         List<Localidad> listaLocalidades = localidadNegocio.obtenerLocalidades();
         List<Provincia> listaProvincias = provinciaNegocio.obtenerProvincias();
+        List<Especialidad> listaEspecialidades = especialidadNegocio.obtenerEspecialidades();
+        Map<String, String> listaFiltros = mNeg.obtenerColumnas();
 		request.setAttribute("listaLocalidades", listaLocalidades);
 		request.setAttribute("listaProvincias", listaProvincias);
+		request.setAttribute("listaEspecialidades", listaEspecialidades);	
+		request.setAttribute("listaFiltros", listaFiltros); 
 	}
 	
 	private void eliminarMedico(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
