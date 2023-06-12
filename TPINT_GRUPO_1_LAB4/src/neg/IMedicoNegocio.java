@@ -13,4 +13,5 @@ public interface IMedicoNegocio {
 	Map<String, String> obtenerColumnas();
 	
 	public boolean eliminarMedico(int codMed);
+	public boolean crearMedico(Medico medico);
 }
