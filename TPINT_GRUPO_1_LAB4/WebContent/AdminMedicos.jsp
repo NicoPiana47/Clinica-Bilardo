@@ -8,6 +8,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="entidades.Medico" %>
@@ -67,10 +68,10 @@
 	<form method="post" action="servletMedicos">
 		<div class="row m-4">
 			<div class="col-4">
-				<input class="form-control" name="txtFiltro" placeholder="Ingrese para filtrar"> 
+				<input class="form-control" name="txtFiltro" id="txtFiltro" placeholder="Ingrese para filtrar"> 
 			</div>
 			<div class="col-4"> 
-			    <select class="form-control" name="ddlFiltros">
+			    <select class="form-control" name="ddlFiltros" >
 			        <% 
 				    if (request.getAttribute("listaFiltros") instanceof Map) {
 				        Map<String, String> listaFiltros = (Map<String, String>) request.getAttribute("listaFiltros");
@@ -86,7 +87,7 @@
 			    </select>
 			</div>
 			<div class="col-2"> 
-				<button  class="form-control" name="btnFiltrar">Filtrar</button>
+				<button  class="form-control" name="btnFiltrar" id="btnFiltrar">Filtrar</button>
 			</div>
 			<div class="col-2"> 
 				<button  class="form-control" name="btnLimpiarFiltros">Limpiar Filtro</button>
@@ -99,26 +100,29 @@
 			$('#table_id_usuarios').DataTable()             
 		});
 	</script>
-		 <%if((Boolean)request.getAttribute("CrearMedico") != null){
-                	  
-                	  boolean crearMedico = (boolean)request.getAttribute("CrearMedico");
+	
+	<%
+		if((Boolean)request.getAttribute("CrearMedico") != null){
+			boolean crearMedico = (boolean)request.getAttribute("CrearMedico");
+			if(crearMedico==true){
+	%>  
+			<div class="alert alert-success alert-dismissible d-flex align-items-center fade show  m-auto " style="width:50%; margin-bottom:20px">
+				<div class="m-auto">
+					<i class="bi-check-circle-fill text-center"></i>
+					<strong class="mx-2">Registro Creado!</strong> El registro fue creado exitosamente.
+					<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+				</div>			
+			</div>      
+	<% 
+			}    
+		}                                             	
+	%>
 
-                	  if(crearMedico==true){
-                		  %>  <div class="alert alert-success alert-dismissible d-flex align-items-center fade show  m-auto " style="width:50%; margin-bottom:20px">
-                  <div class="m-auto">
-                  	 <i class="bi-check-circle-fill text-center"></i>
-   								 <strong class="mx-2">Registro Creado!</strong> El registro fue creado exitosamente.
-    							<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                 			 </div>			
-									</div>
-                  
-					    <% 
-					    }    
-                	  }                                             	
-                  %>
-                  
+    <div class="input-group col-6 m-auto">
+  		<input type="search" class="form-control rounded" placeholder="Buscar en la grilla" aria-label="Search" id="search-input" aria-describedby="search-addon" />
+	</div>             
                 
-	<div class="container-fluid" style="width:95%; margin-bottom:20px">
+	<div class="container-fluid mt-5" style="width:95%; margin-bottom:20px">
 		<div class="card text-center" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 100px;">
 			<div class="card-header "><h5>Médicos</h5></div>
 			<table class="table table-hover" id="table_id_medicos" style="font-size: 11px;">
@@ -153,6 +157,9 @@
 				    	
 					%>
 					<tr onclick="openModal('modalMedico', true)">
+					
+						<% SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy"); %>
+					
 						<th scope="row">
 							<form method="post" action="servletMedicos">						
 								<button type="submit"  name ="btnEliminar"class="btn btn-outline-danger btn-sm" onclick="event.stopPropagation(); return confirm('¿Esta seguro de que quiere eliminar el médico?')">
@@ -167,10 +174,10 @@
 						<td><%=medico.getApellido()%></td>
 						<td><%=medico.getSexo()%></td> 
 						<td><%=medico.getNacionalidad()%></td> 
-						<td><%=medico.getFechaNacimiento()%></td> 
+						<td><%=formatter.format(medico.getFechaNacimiento()) %></td>
 						<td><%=medico.getDireccion()%></td>
-						<td><%=medico.getProvincia().getDescripcion()%></td>
-						<td><%=medico.getLocalidad().getDescripcion()%></td>
+						<td><%=medico.getProvincia()%></td>
+						<td><%=medico.getLocalidad()%></td>
 						<td><%=medico.getCorreo()%></td>
 						<td><%=medico.getTelefono()%></td> 
 						<td><%=medico.getEspecialidad().getDescripcion_ESP()%></td>
@@ -306,9 +313,6 @@
 							            } 
 							        } 
 							        %>
-				        			
-				        			
-				        			
 				        	</select> 	
 			        	</div>
 			        </div>
@@ -460,9 +464,6 @@
 		</div>
 	</div>
 	
-
-	
-	
 	<% if((Boolean) request.getAttribute("elimino") != null){
 			boolean elimino =(boolean)request.getAttribute("elimino");
 			if(elimino == true){
@@ -484,7 +485,6 @@
 				    </div>
 			    <% 
 			}
-		
 		}
 	%>
      	
@@ -564,36 +564,67 @@
     		document.getElementsByName('ddlEspecialidad')[0].selectedIndex = 0;
     	}
     }
+      
+  	$(document).ready(function() {
+	    var table = $('#table_id_medicos').DataTable({
+	        language: {
+	            processing: "Tratamiento en curso...",
+	            infoEmpty: "No existen datos.",
+	            infoPostFix: "",
+	            loadingRecords: "Cargando...",
+	            zeroRecords: "No se encontraron datos con tu búsqueda",
+	            emptyTable: "No hay datos disponibles en la tabla.",
+	            paginate: {
+	                first: "Primero",
+	                previous: "Anterior",
+	                next: "Siguiente",
+	                last: "Último"
+	            },
+	            aria: {
+	                sortAscending: ": activar para ordenar la columna en orden ascendente",
+	                sortDescending: ": activar para ordenar la columna en orden descendente"
+	            }
+	        },
+	        scrollY: "auto",
+	        lengthMenu: [[5, 25, -1], [10, 25, "Todos"]],
+	        "bLengthChange": false,
+	        "bInfo": false,
+	        dom: 'lrtip', // Mostrar solo los componentes necesarios
+	        initComplete: function(settings, json) {
+	            // Ocultar el campo de búsqueda predeterminado
+	            $('.dataTables_filter').hide();
+	        }
+	    });
 
-      $('#table_id_medicos').DataTable({
-    	  language: {
-  	        processing: "Tratamiento en curso...",
-  	        search: "Buscar&nbsp;:",
-  	        infoEmpty: "No existen datos.",
-  	        infoPostFix: "",
-  	        loadingRecords: "Cargando...",
-  	        zeroRecords: "No se encontraron datos con tu busqueda",
-  	        emptyTable: "No hay datos disponibles en la tabla.",
-  	        paginate: {
-  	            first: "Primero",
-  	            previous: "Anterior",
-  	            next: "Siguiente",
-  	            last: "Ultimo"
-  	        },
-  	        aria: {
-  	            sortAscending: ": active para ordenar la columna en orden ascendente",
-  	            sortDescending: ": active para ordenar la columna en orden descendente"
-  	        }
-  	    },
-  	    scrollY: "auto",
-  	    lengthMenu: [ [5, 25, -1], [10, 25, "All"] ],
-  	    "bLengthChange" : false,
-  	    "bInfo": false
-      });
+	 	// Agregar evento de cambio al campo de búsqueda
+	    $('#search-input').on('input', function() {
+	        var searchValue = $(this).val();
+
+	        // Aplicar el filtro de búsqueda al DataTable
+	        table.search(searchValue).draw();
+	    });
+	});
     
   	$(document).ready(function () {
   		filtrarLocalidades();            
 	});
+  	
+	document.addEventListener('DOMContentLoaded', function() {
+        var txtFiltro = document.getElementById('txtFiltro');
+        var btnFiltrar = document.getElementById('btnFiltrar');
+
+        function toggleFiltrarButton() {
+            if (txtFiltro.value.trim() === '') {
+                btnFiltrar.disabled = true;
+            } else {
+                btnFiltrar.disabled = false;
+            }
+        }
+
+        txtFiltro.addEventListener('input', toggleFiltrarButton);
+        toggleFiltrarButton();
+    });
+	
     	 
     var localidades = ddlLocalidad.options;
   	function filtrarLocalidades() {

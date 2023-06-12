@@ -297,7 +297,6 @@
 		document.querySelector('input[name="rdEstado"][value="1"]').checked = true;
     }
 	
-	
 	$(document).ready(function() {
 	    var table = $('#table_id_usuarios').DataTable({
 	        language: {
