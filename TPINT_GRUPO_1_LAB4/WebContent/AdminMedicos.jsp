@@ -12,6 +12,7 @@
 <%@ page import="entidades.Medico" %>
 <%@ page import="entidades.Provincia" %>
 <%@ page import="entidades.Localidad" %>
+<%@ page import="entidades.Especialidad" %>
 <style>
         .modal {
             display: none;
@@ -274,7 +275,22 @@
 			        	</div>
 			        	<div class="col-4"> 
 			        		<label class="form-label">Especialidad</label>
-				        	<select class="form-control" name="ddlEspecialidad"></select> 	
+				        	<select class="form-control" name="ddlEspecialidad">
+				        	 <% 
+							        if (request.getAttribute("listaEspecialidades") instanceof List) {
+							            List<Especialidad> listaEspecialidades = (List<Especialidad>) request.getAttribute("listaEspecialidades");
+							            for (Especialidad especialidad : listaEspecialidades) { 
+							        %>
+							            <option value="<%= especialidad.getCodEspecialidad_ESP() %>"><%= especialidad.getDescripcion_ESP()%>
+						            	</option>				
+							        <% 
+							            } 
+							        } 
+							        %>
+				        			
+				        			
+				        			
+				        	</select> 	
 			        	</div>
 			        </div>
 			        
