@@ -100,14 +100,14 @@
 					
 						<% SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy"); %>
 					
-						<th scope="row">
+						<td scope="row">
 							<form method="post" action="servletMedicos">						
 								<button type="submit"  name ="btnEliminar" class="btn btn-outline-danger btn-sm" onclick="event.stopPropagation(); return confirm('¿Esta seguro de que quiere eliminar el médico?')">
 								<input type="hidden" name="CodMed" value="<%= medico.getCodMed() %>">
 									<i class="fa-solid fa-trash"></i>
 								</button>
 							</form>
-	                	</th>
+	                	</td>
 	                	<td><%=medico.getCodMed()%></td>  
 	                	<td><%=medico.getDNI()%></td>   
 						<td><%=medico.getNombre()%></td> 
@@ -152,6 +152,7 @@
 	        	<div class="d-flex align-items-center justify-content-center">
 	        		<div class="col-12">
 						<div class="row m-2">
+							<input type="hidden" name="codMed" id="codMed" >
 				        	<div class="col-4">
 						     	<label class="form-label">DNI</label>   	
 				                <input class="form-control" type="number"  min="0" name="txtDNI" id="txtDNI" required>
@@ -259,7 +260,7 @@
 				        
 				        <div class="row m-2">
 				        	<div class="col-4">
-				        		<label class="form-label">Ver</label> 			        		
+				        		<label class="">Ver</label> 			        		
 				        		<button class="form-control" onclick="openModal('modalHorarios')">Horarios</button>
 				        	</div>
 				        	
@@ -339,16 +340,16 @@
 					        <tbody>
 								<tr onclick="selectHorario(this)">
 									<form >
-										<th scope="row">
+										<td scope="row">
 											<button type="submit" name ="btnEliminar"class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Esta seguro de que quiere eliminar el horario?')">
 												<i class="fa-solid fa-trash"></i>
 											</button>
-					                	</th>
-										<th>Dia</th>   
-										<th>Horario Desde</th> 
-										<th>Horario Hasta</th>
-										<th>Horas</th> 
-										<th>Estado</th>
+					                	</td>
+										<td>Dia</td>   
+										<td>Horario Desde</td> 
+										<td>Horario Hasta</td>
+										<td>Horas</td> 
+										<td>Estado</td>
 				   					</form>
 					         	</tr>
 					    	</tbody>                                             
@@ -459,6 +460,34 @@
 			}
 		}                                             	
 	%>
+	
+	<%
+		if((Boolean)request.getAttribute("edito") != null){
+			boolean edito = (boolean)request.getAttribute("edito");
+			if(edito==true){
+	%>  
+				<div class="alert alert-success alert-dismissible d-flex align-items-center fade show  m-auto " style="width:50%; margin-bottom:20px">
+					<div class="m-auto">
+						<i class="bi-check-circle-fill text-center"></i>
+						<strong class="mx-2">Éxito!</strong> Usuario modificado con éxito!
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>			
+				</div>      
+		<% 
+			}    
+			else{
+				%><div style="display: flex; justify-content: center; visibility="hidden";>
+				        <div ID="MsgErrorDiv" class="col-md-4 alert alert-danger  text-center">
+				            <strong>Error</strong> No se pudo modificar al Usuario!
+				            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+				        </div>
+				    </div>
+			    <% 
+			}
+		}                                             	
+	%>
+	
+	
      	
 <script>	
 	function validarLetras(input) {
@@ -482,7 +511,7 @@
 	function chargeRow(row) {
 		var cells = row.cells;
 		
-		
+		document.getElementById('codMed').value = cells[0].querySelector('input[name="CodMed"]').value
    		document.getElementById('txtDNI').value = cells[2].innerText;
    		document.getElementById('txtNombre').value = cells[3].innerText;
    		document.getElementById('txtApellido').value = cells[4].innerText;

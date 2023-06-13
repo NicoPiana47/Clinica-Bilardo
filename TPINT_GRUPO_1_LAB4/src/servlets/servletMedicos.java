@@ -19,6 +19,7 @@ import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 import entidades.Especialidad;
 import entidades.Localidad;
 import entidades.Medico;
+import entidades.Paciente;
 import entidades.Provincia;
 import negImpl.EspecialidadNegocio;
 import negImpl.LocalidadNegocio;
@@ -52,6 +53,7 @@ public class servletMedicos extends HttpServlet {
 		eliminarMedico(request, response);
 		listarMedicosConFiltro(request, response);
 		crearMedico(request, response);
+		editarMedico(request, response);
 
 	}
 	
@@ -179,7 +181,7 @@ public class servletMedicos extends HttpServlet {
 		    medico.setDireccion(request.getParameter("txtDireccion"));
 		    medico.setTelefono(request.getParameter("txtTelefono"));
 		    medico.setTipo(request.getParameter("rdTipo").equals("1"));
-	
+		    medico.setEstado(request.getParameter("rdEstado").equals("1"));
 		    
 		    Boolean CrearMedico= mNeg.crearMedico(medico);
 		    request.setAttribute("CrearMedico", CrearMedico);
@@ -187,5 +189,16 @@ public class servletMedicos extends HttpServlet {
 		    inicializarModuloMedicos(request, response, null);		        	  	    
 		}	
 	}
+	private void editarMedico(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		if(request.getParameter("btnEditarMedico") != null) {
+				Medico medico = mNeg.getMedicoEditar(request);
+				boolean edito = mNeg.editarMedico(medico);
+				request.setAttribute("edito", edito);
+				inicializarModuloMedicos(request, response, null);
+							
+	}
+	
+	
+			}
 }
 

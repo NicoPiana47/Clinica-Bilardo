@@ -20,7 +20,7 @@ import entidades.Provincia;
 public class MedicoDao extends GeneralDao implements IMedicoDao {
 	private static final String readall = "SELECT * FROM Medicos";
 	private static final String delete = "UPDATE Medicos SET Estado_MED = 0 WHERE CodMed_MED = ?";
-
+	private static final String update = "UPDATE Medicos SET DNI_MED = ?, CodEspecialidad_MED = ?, CodLocalidad_MED = ?, CodProvincia_MED = ?, Nombre_MED = ?, Apellido_MED = ?, Correo_MED = ?, Sexo_MED = ?, Nacionalidad_MED = ?, FechaNacimiento_MED = ?, Direccion_MED = ?, Telefono_MED = ?, Username_MED = ?, Contraseña_MED = ?, Tipo_MED = ? WHERE CodMed_MED = ?";
 	public Medico traerMedicoPorNombreUsuario(String username) {		
 		Connection cn = Conexion.getConexion().getSQLConexion();
 		Medico x = new Medico();
@@ -194,6 +194,45 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 	    } finally {
 	       
 	    }
+		
+		
+		
+	}
+
+	@Override
+	public boolean update(Medico medico) {
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean isUpdate = false;
+		try{
+			statement = conexion.prepareStatement(update);
+			    statement.setString(1, medico.getDNI());
+		        statement.setInt(2, medico.getEspecialidad().getCodEspecialidad());
+		        statement.setInt(3, medico.getLocalidad().getCodLocalidad());
+		        statement.setInt(4, medico.getProvincia().getCodProvincia());
+		        statement.setString(5, medico.getNombre());
+		        statement.setString(6, medico.getApellido());
+		        statement.setString(7, medico.getCorreo());
+		        statement.setString(8, medico.getSexo());
+		        statement.setString(9, medico.getNacionalidad());
+		        statement.setDate(10, new java.sql.Date(medico.getFechaNacimiento().getTime()));
+		        statement.setString(11, medico.getDireccion());
+		        statement.setString(12, medico.getTelefono());
+		        statement.setString(13, medico.getUsername());
+		        statement.setString(14, medico.getContraseña());
+		        statement.setBoolean(15, medico.getTipo());
+		        statement.setInt(16, medico.getCodMed());
+			if(statement.executeUpdate() > 0){
+				conexion.commit();
+				isUpdate = true;
+			}
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return isUpdate;
+		
 		
 		
 		

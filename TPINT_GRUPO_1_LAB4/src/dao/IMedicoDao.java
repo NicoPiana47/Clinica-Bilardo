@@ -13,4 +13,5 @@ public interface IMedicoDao {
 	
 	public boolean delete(int codMed);
 	public boolean create(Medico medico);
+	public boolean update(Medico medico);
 }
