@@ -20,7 +20,7 @@ import entidades.Provincia;
 public class MedicoDao extends GeneralDao implements IMedicoDao {
 	private static final String readall = "SELECT * FROM Medicos";
 	private static final String delete = "UPDATE Medicos SET Estado_MED = 0 WHERE CodMed_MED = ?";
-	private static final String update = "UPDATE Medicos SET DNI_MED = ?, CodEspecialidad_MED = ?, CodLocalidad_MED = ?, CodProvincia_MED = ?, Nombre_MED = ?, Apellido_MED = ?, Correo_MED = ?, Sexo_MED = ?, Nacionalidad_MED = ?, FechaNacimiento_MED = ?, Direccion_MED = ?, Telefono_MED = ?, Username_MED = ?, Contraseña_MED = ?, Tipo_MED = ? WHERE CodMed_MED = ?";
+	private static final String update = "UPDATE Medicos SET DNI_MED = ?, CodEspecialidad_MED = ?, CodLocalidad_MED = ?, CodProvincia_MED = ?, Nombre_MED = ?, Apellido_MED = ?, Correo_MED = ?, Sexo_MED = ?, Nacionalidad_MED = ?, FechaNacimiento_MED = ?, Direccion_MED = ?, Telefono_MED = ?, Username_MED = ?, Contraseña_MED = ?, Tipo_MED = ?, Estado_MED = ? WHERE CodMed_MED = ?";
 	public Medico traerMedicoPorNombreUsuario(String username) {		
 		Connection cn = Conexion.getConexion().getSQLConexion();
 		Medico x = new Medico();
@@ -221,7 +221,8 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 		        statement.setString(13, medico.getUsername());
 		        statement.setString(14, medico.getContraseña());
 		        statement.setBoolean(15, medico.getTipo());
-		        statement.setInt(16, medico.getCodMed());
+		        statement.setBoolean(16, medico.getEstado());
+		        statement.setInt(17, medico.getCodMed());
 			if(statement.executeUpdate() > 0){
 				conexion.commit();
 				isUpdate = true;

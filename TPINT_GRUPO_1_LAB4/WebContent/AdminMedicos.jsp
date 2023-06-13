@@ -260,7 +260,7 @@
 				        
 				        <div class="row m-2">
 				        	<div class="col-4">
-				        		<label class="">Ver</label> 			        		
+				        		<label class="form-label">Ver</label> 			        		
 				        		<button class="form-control" onclick="openModal('modalHorarios')">Horarios</button>
 				        	</div>
 				        	
@@ -602,7 +602,7 @@
     		document.getElementsByName('txtHorarioHasta')[0].value = "";
     	}
     	else{
-    		document.getElementsByName('txtDNI')[0].selectedIndex = 0;
+    		document.getElementsByName('txtDNI')[0].selectedIndex = "";
     		document.getElementsByName('txtNombre')[0].value = "";
     		document.getElementsByName('txtApellido')[0].value = "";
     		document.getElementsByName('ddlSexo')[0].selectedIndex = 0;
