@@ -154,24 +154,24 @@
 						<div class="row m-2">
 				        	<div class="col-4">
 						     	<label class="form-label">DNI</label>   	
-				                <input class="form-control" type="number"  min="0" name="txtDNI" required>
+				                <input class="form-control" type="number"  min="0" name="txtDNI" id="txtDNI" required>
 				            </div>
 				            
 				            <div class="col-4">
 					     		<label class="form-label">Nombre</label> 
-				                <input class="form-control" name="txtNombre" oninput="validarLetras(this)" required>
+				                <input class="form-control" name="txtNombre" oninput="validarLetras(this)" id="txtNombre"  required>
 				            </div>
 				            
 				            <div class="col-4">
 					     		<label class="form-label">Apellido</label>
-				                <input class="form-control" name="txtApellido" oninput="validarLetras(this)" required>
+				                <input class="form-control" name="txtApellido" oninput="validarLetras(this)"id="txtApellido"  required>
 				            </div>
 						</div>
 				        
 				        <div class="row m-2">
 				        	<div class="col-4">
 				        	<label class="form-label">Sexo</label>
-				        		<select class="form-control" name="ddlSexo">
+				        		<select class="form-control" name="ddlSexo" id="ddlSexo">
 				        			<option>Masculino</option>
 				        			<option>Femenino</option>
 				        			<option>Otro</option>
@@ -180,18 +180,18 @@
 				        	
 				        	<div class="col-4">
 				        		<label class="form-label">Nacionalidad</label> 
-				        		<input class="form-control" name="txtNacionalidad" oninput="validarLetras(this)" required> 
+				        		<input class="form-control" name="txtNacionalidad" id="txtNacionalidad" oninput="validarLetras(this)" required> 
 				        	</div>
 				        	<div class="col-4"> 
 				        		<label class="form-label">Fecha de nacimiento</label>
-					        	<input class="form-control" type="date" name="txtFechaNacimiento" required>
+					        	<input class="form-control" type="date" name="txtFechaNacimiento" id="txtFechaNacimiento" required>
 				        	</div>
 				        </div>
 				        
 				        <div class="row m-2">
 				        	<div class="col-4">
 					        	<label class="form-label">Dirección</label>
-								<input class="form-control" name="txtDireccion" required>
+								<input class="form-control" name="txtDireccion" id="txtDireccion" required>
 				        	</div>
 				        	
 				        	<div class="col-4">
@@ -231,16 +231,16 @@
 				        <div class="row m-2">
 				        	<div class="col-4">
 				        		<label class="form-label">Correo</label>
-				        		<input class="form-control" type="email" name="txtCorreo" required>
+				        		<input class="form-control" type="email" name="txtCorreo" id="txtCorreo" required>
 				        	</div>
 				        	
 				        	<div class="col-4">
 				        		<label class="form-label">Telefono</label> 
-				        		<input class="form-control" type="number"  min="0" name="txtTelefono" required> 
+				        		<input class="form-control" type="number"  min="0" name="txtTelefono" id="txtTelefono" required> 
 				        	</div>
 				        	<div class="col-4"> 
 				        		<label class="form-label">Especialidad</label>
-					        	<select class="form-control" name="ddlEspecialidad">
+					        	<select class="form-control" name="ddlEspecialidad" id="ddlEspecialidad">
 						        	<% 
 								        if (request.getAttribute("listaEspecialidades") instanceof List) {
 								            List<Especialidad> listaEspecialidades = (List<Especialidad>) request.getAttribute("listaEspecialidades");
@@ -265,11 +265,17 @@
 				        	
 				        	<div class="col-4">
 				        		<label class="form-label">Usuario</label> 
-				        		<input class="form-control" name="txtUsuario" required> 
+				        		<input class="form-control" name="txtUsuario" id="txtUsuario" required> 
 				        	</div>
 				        	<div class="col-4"> 
 				        		<label class="form-label">Contraseña</label>
-					        	<input class="form-control" type="password" name="txtContraseña" required> 			 	
+					        
+					        	 <div class="input-group">
+       							 <input class="form-control" type="text" name="txtContraseña" id="txtContraseña" required> 
+        						
+    							</div>
+					        	
+					        				 	
 				        	</div>
 				        </div>
 				        
@@ -303,7 +309,7 @@
 				        
 				        <div class="row m-2 editM" >
 				        	<div class="col-12">
-					        	<button class="form-control" type="submit" style="margin-top:10px">Editar Médico</button>
+					        	<button class="form-control" name="btnEditarMedico" type="submit" style="margin-top:10px">Editar Médico</button>
 				        	</div>
 				        </div>
 					</div>
@@ -467,11 +473,61 @@
 		
 	 	if (isEdit) {
 	        hideElements(true, cName);
+	        chargeRow(row);
 		} 
     	else {
     		hideElements(false, cName);
     	}
 	}
+	function chargeRow(row) {
+		var cells = row.cells;
+		
+		
+   		document.getElementById('txtDNI').value = cells[2].innerText;
+   		document.getElementById('txtNombre').value = cells[3].innerText;
+   		document.getElementById('txtApellido').value = cells[4].innerText;
+   	 	document.getElementById('ddlSexo').value = cells[5].innerText;
+   		document.getElementById('txtNacionalidad').value = cells[6].innerText;
+   		document.getElementById('txtFechaNacimiento').value = convertDateFormat(cells[7].innerText, "dd/MM/yyyy", "yyyy-MM-dd");
+   		document.getElementById('txtDireccion').value = cells[8].innerText;
+   		document.getElementById('ddlProvincia').selectedIndex =  getSelectedIndexByText(ddlProvincia, cells[9].innerText);
+   		filtrarLocalidades();
+   		document.getElementById('ddlLocalidad').selectedIndex = getSelectedIndexByText(ddlLocalidad, cells[10].innerText);
+   		document.getElementById('txtCorreo').value = cells[11].innerText;
+   		document.getElementById('txtTelefono').value = cells[12].innerText;
+   		document.getElementById('ddlEspecialidad').selectedIndex =  getSelectedIndexByText(ddlEspecialidad, cells[13].innerText);
+   		document.getElementById('txtUsuario').value = cells[15].innerText;
+   		document.getElementById('txtContraseña').value = cells[16].innerText;
+   		
+   		var isChecked = cells[17].querySelector('input[type="checkbox"]').checked;
+	  	var radioButtons = document.querySelectorAll('input[name="rdTipo"]');
+	  	isChecked ? radioButtons[1].checked = true : radioButtons[0].checked = true
+	  			
+	  			
+   		  isChecked = cells[18].querySelector('input[type="checkbox"]').checked;
+	  	  radioButtons = document.querySelectorAll('input[name="rdEstado"]');
+	  	isChecked ? radioButtons[0].checked = true : radioButtons[1].checked = true
+
+   		
+	  
+    }
+	
+	function getSelectedIndexByText(selectElement, text) {
+	    for (var i = 0; i < selectElement.options.length; i++) {
+	        if (selectElement.options[i].text === text) {
+	            return i;
+	        }
+	    }
+	    return -1; 
+	}
+	
+	function convertDateFormat(dateString, inputFormat, outputFormat) {
+	    var parts = dateString.split("/");
+	    var formattedDate = parts[2] + "-" + parts[1] + "-" + parts[0];
+	    return formattedDate;
+	}
+	
+	
 	
 	function hideElements(isEdit, cName) {
 		var createElements = document.querySelectorAll(".create" + cName);
@@ -608,6 +664,7 @@
 		    }
 		  }
 		}
+
   
 </script>
     
