@@ -8,6 +8,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+<link rel="stylesheet" type="text/css" href="./src/Style/estilos.css">
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
@@ -15,46 +16,8 @@
 <%@ page import="entidades.Provincia" %>
 <%@ page import="entidades.Localidad" %>
 <%@ page import="entidades.Especialidad" %>
-<style>
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-        
-        .modal-content {
-            background-color: #fefefe;
-            margin: 10% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            max-width: 80%;
-        }
-        
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        
-		.selected-row {
-		  background-color: #e0e0e0;
-		}
-</style>
 </head>
+
 <body>
 	<%@ include file="/MasterPage.jsp" %>
 	<h1 class="text-center">Administración de médicos</h1>
@@ -101,10 +64,10 @@
                 
 	<div class="container-fluid mt-5" style="width:95%; margin-bottom:20px">
 		<div class="card text-center" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 100px;">
-			<div class="card-header "><h5>Médicos</h5></div>
-			<table class="table table-hover" id="table_id_medicos" style="font-size: 11px;">
+			<div class="card-header" style="width: 100%;"><h5>Médicos</h5></div>
+			<table class="table table-hover text-center" id="table_id_medicos" style="width: 100%; font-size: 11px;">
 				<thead>
-					<tr>
+					<tr class="center-header">
 						<th> </th> 
 						<th>Código</th> 
 						<th>DNI</th>   
@@ -581,6 +544,7 @@
 	            }
 	        },
 	        scrollY: "auto",
+	        scrollX: true,
 	        lengthMenu: [[5, 25, -1], [10, 25, "Todos"]],
 	        "bLengthChange": false,
 	        "bInfo": false,

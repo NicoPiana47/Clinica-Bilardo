@@ -65,8 +65,8 @@
 	
 	<div class="container-fluid mt-5" style="width:95%; margin-bottom:20px">
 		<div class="card text-center" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 100px;">
-			<div class="card-header "><h5>Pacientes</h5></div>
-			<table class="table table-hover text-center" id="table_id_usuarios" style="font-size: 11px;">
+			<div class="card-header" style="width: 100%;"><h5>Pacientes</h5></div>
+			<table class="table table-hover text-center" id="table_id_usuarios" style="width: 100%; font-size: 11px;">
 				<thead>
 					<tr class="center-header">
 						<th></th> 
@@ -94,7 +94,7 @@
 				    		
 				    		<% SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy"); %>
 				    	
-				            <td scope="row">
+				            <td scope="row" >
 				                <button style="position:relative;" type="submit" name="idPaciente" value="<%= paciente.getCodPac() %>" class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Estás paciente de que quieres eliminar al paciente?')">
 				                    <i class="fa-solid fa-trash"></i>
 				                </button>
@@ -318,6 +318,7 @@
 	            }
 	        },
 	        scrollY: "auto",
+	        scrollX: true,
 	        lengthMenu: [[5, 25, -1], [10, 25, "Todos"]],
 	        "bLengthChange": false,
 	        "bInfo": false,
