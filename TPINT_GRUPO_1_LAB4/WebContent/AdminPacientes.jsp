@@ -65,8 +65,8 @@
 	
 	<div class="container-fluid mt-5" style="width:95%; margin-bottom:20px">
 		<div class="card text-center" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 100px;">
-			<div class="card-header "><h5>Pacientes</h5></div>
-			<table class="table table-hover text-center" id="table_id_usuarios" style="font-size: 11px;">
+			<div class="card-header" style="width: 100%;"><h5>Pacientes</h5></div>
+			<table class="table table-hover text-center" id="table_id_usuarios" style="width: 100%; font-size: 11px;">
 				<thead>
 					<tr class="center-header">
 						<th></th> 
@@ -90,14 +90,17 @@
 				        List<Paciente> listaPacientes = (List<Paciente>) request.getAttribute("listaPacientes");
 				        for (Paciente paciente : listaPacientes) { 
 					%>
-				    <tr onclick="openModal('modalPaciente', true)">
+				    <tr onclick="openModal('modalPaciente', this)">
 				    		
 				    		<% SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy"); %>
 				    	
-				            <td scope="row">
-				                <button style="position:relative;" type="submit" name="idPaciente" value="<%= paciente.getCodPac() %>" class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Estás paciente de que quieres eliminar al paciente?')">
-				                    <i class="fa-solid fa-trash"></i>
-				                </button>
+				            <td scope="row" >
+				               	<form method="post" action="servletPacientes">						
+									<button type="submit"  name="btnEliminar" class="btn btn-outline-danger btn-sm" onclick="event.stopPropagation(); return confirm('¿Esta seguro de que quiere eliminar el paciente?')">
+										<input type="hidden" name="CodPac" value="<%= paciente.getCodPac() %>">
+										<i class="fa-solid fa-trash"></i>
+									</button>
+								</form>
 				            </td>
 					        <td><%= paciente.getDNI() %></td>
 					        <td><%= paciente.getNombre() %></td>
@@ -132,6 +135,9 @@
 	        	<span class="close" onclick="closeModal('modalPaciente')" >&times;</span>
 	        	<div class="d-flex align-items-center justify-content-center">
 		        	<div class="col-12">
+		        	
+						<input type="hidden" name="codPac" id="codPac" >
+		        		
 						<div class="row m-2">
 				        	<div class="col-4">
 							    <label class="form-label">DNI</label>
@@ -222,17 +228,6 @@
 				        	</div>					
 				        </div>
 				        
-				        <div class="row m-2">
-				        	<div class="col-6">
-				        		<label class="form-label">Normal</label>
-					        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdTipo" value="0" checked>
-				        	</div>
-				        	<div class="col-6">
-				        		<label class="form-label">Admin</label>
-				        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdTipo" value="1">
-				        	</div>
-				        </div>
-				        
 				       <div class="row m-2">
 				        	<div class="col-6 edit">
 				        		<label class="form-label">Activo</label>
@@ -260,6 +255,84 @@
 			</div>
 		</div>
 	</form>
+	
+	<%
+		if((Boolean)request.getAttribute("guardo") != null){
+			boolean creo = (boolean)request.getAttribute("guardo");
+			if(creo==true){
+	%>  
+				<div class="alert alert-success alert-dismissible d-flex align-items-center fade show  m-auto " style="width:50%; margin-bottom:20px">
+					<div class="m-auto">
+						<i class="bi-check-circle-fill text-center"></i>
+						<strong class="mx-2">Éxito!</strong> Paciente creado con éxito!
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>			
+				</div>      
+		<% 
+			}    
+			else{
+				%><div style="display: flex; justify-content: center; visibility="hidden";>
+				        <div ID="MsgErrorDiv" class="col-md-4 alert alert-danger  text-center">
+				            <strong>Error</strong> No se pudo crear al paciente!
+				            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+				        </div>
+				    </div>
+			    <% 
+			}
+		}                                             	
+	%>
+	
+	<%
+		if((Boolean)request.getAttribute("elimino") != null){
+			boolean elimino = (boolean)request.getAttribute("elimino");
+			if(elimino==true){
+	%>  
+				<div class="alert alert-success alert-dismissible d-flex align-items-center fade show  m-auto " style="width:50%; margin-bottom:20px">
+					<div class="m-auto">
+						<i class="bi-check-circle-fill text-center"></i>
+						<strong class="mx-2">Éxito!</strong> Paciente eliminado con éxito!
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>			
+				</div>      
+		<% 
+			}    
+			else{
+				%><div style="display: flex; justify-content: center; visibility="hidden";>
+				        <div ID="MsgErrorDiv" class="col-md-4 alert alert-danger  text-center">
+				            <strong>Error</strong> No se pudo eliminar al Paciente!
+				            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+				        </div>
+				    </div>
+			    <% 
+			}
+		}                                             	
+	%>
+	
+	<%
+		if((Boolean)request.getAttribute("edito") != null){
+			boolean edito = (boolean)request.getAttribute("edito");
+			if(edito==true){
+	%>  
+				<div class="alert alert-success alert-dismissible d-flex align-items-center fade show  m-auto " style="width:50%; margin-bottom:20px">
+					<div class="m-auto">
+						<i class="bi-check-circle-fill text-center"></i>
+						<strong class="mx-2">Éxito!</strong> Paciente modificado con éxito!
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>			
+				</div>      
+		<% 
+			}    
+			else{
+				%><div style="display: flex; justify-content: center; visibility="hidden";>
+				        <div ID="MsgErrorDiv" class="col-md-4 alert alert-danger  text-center">
+				            <strong>Error</strong> No se pudo modificar al Paciente!
+				            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+				        </div>
+				    </div>
+			    <% 
+			}
+		}                                             	
+	%>
       
 <script>
 	function validarLetras(input) {
@@ -267,11 +340,13 @@
 	  	input.value = input.value.replace(regex, '');
 	}
 	
-	function openModal(modal, isEdit) {
+	function openModal(modal, row) {
 		document.getElementById(modal).style.display = "block";
+		var isEdit = row !== undefined;
 		
 	 	if (isEdit) {
 	        hideElements(true);
+	        chargeRow(row);
 		} 
     	else {
     		hideElements(false);
@@ -291,6 +366,44 @@
 		});
 	}
 	
+	function chargeRow(row) {
+		var cells = row.cells;
+		
+		document.getElementById('codPac').value = cells[0].querySelector('input[name="CodPac"]').value;
+   		document.getElementById('txtDNI').value = cells[1].innerText;
+   		document.getElementById('txtNombre').value = cells[2].innerText;
+   		document.getElementById('txtApellido').value = cells[3].innerText;
+   	 	document.getElementById('ddlSexo').value = cells[4].innerText;
+   		document.getElementById('txtNacionalidad').value = cells[5].innerText;
+   		document.getElementById('txtFechaNacimiento').value = convertDateFormat(cells[6].innerText, "dd/MM/yyyy", "yyyy-MM-dd");
+   		document.getElementById('txtDireccion').value = cells[7].innerText;
+   		document.getElementById('ddlProvincia').selectedIndex =  getSelectedIndexByText(ddlProvincia, cells[8].innerText);
+   		filtrarLocalidades();
+   		document.getElementById('ddlLocalidad').selectedIndex = getSelectedIndexByText(ddlLocalidad, cells[9].innerText);
+   		document.getElementById('txtCorreo').value = cells[10].innerText;
+   		document.getElementById('txtTelefono').value = cells[11].innerText;
+   		
+	    var isChecked = cells[12].querySelector('input[type="checkbox"]').checked;
+	  	var radioButtons = document.querySelectorAll('input[name="rdEstado"]');
+	  	isChecked ? radioButtons[0].checked = true : radioButtons[1].checked = true
+	  
+    }
+	
+	function getSelectedIndexByText(selectElement, text) {
+	    for (var i = 0; i < selectElement.options.length; i++) {
+	        if (selectElement.options[i].text === text) {
+	            return i;
+	        }
+	    }
+	    return -1; 
+	}
+	
+	function convertDateFormat(dateString, inputFormat, outputFormat) {
+	    var parts = dateString.split("/");
+	    var formattedDate = parts[2] + "-" + parts[1] + "-" + parts[0];
+	    return formattedDate;
+	}
+	
 	function closeModal(modal) {
 		document.getElementById(modal).style.display = "none";
     	
@@ -306,9 +419,7 @@
    		document.getElementById('txtCorreo').value = "";
    		document.getElementById('txtTelefono').value = "";
 		document.querySelector('input[name="rdEstado"][value="1"]').checked = true;
-        document.querySelector('input[name="rdTipo"][value="0"]').checked = true;
     }
-	
 	
 	$(document).ready(function() {
 	    var table = $('#table_id_usuarios').DataTable({
@@ -331,6 +442,7 @@
 	            }
 	        },
 	        scrollY: "auto",
+	        scrollX: true,
 	        lengthMenu: [[5, 25, -1], [10, 25, "Todos"]],
 	        "bLengthChange": false,
 	        "bInfo": false,
@@ -348,6 +460,7 @@
 	        // Aplicar el filtro de búsqueda al DataTable
 	        table.search(searchValue).draw();
 	    });
+	    filtrarLocalidades(); 
 	});
 	
 	document.addEventListener('DOMContentLoaded', function() {
@@ -366,30 +479,20 @@
         toggleFiltrarButton();
     });
 	
-	
-	var localidades = ddlLocalidad.options;
+	var localidades = document.querySelectorAll('#ddlLocalidad option');
 	function filtrarLocalidades() {
 		  var provinciaSeleccionada = document.getElementById('ddlProvincia').value;
 		  var ddlLocalidad = document.getElementById('ddlLocalidad');
-		  var opcionesFiltradas = [];
-
+		  
+		  ddlLocalidad.innerHTML = '';
 		  for (var i = 0; i < localidades.length; i++) {
 		    var option = localidades[i];
 		    var codProvincia = option.getAttribute('data-provincia-id');
 
 		    if (codProvincia === provinciaSeleccionada) {
-		      opcionesFiltradas.push(option.outerHTML);
+		      ddlLocalidad.appendChild(option.cloneNode(true));
 		    }
 		  }
-
-		  // Crear un nuevo elemento select
-		  var nuevoSelect = document.createElement('select');
-		  nuevoSelect.innerHTML = opcionesFiltradas.join('');
-		  nuevoSelect.id = 'ddlLocalidad';
-		  nuevoSelect.className = "form-control";
-
-		  // Reemplazar el elemento select existente con el nuevo
-		  ddlLocalidad.parentNode.replaceChild(nuevoSelect, ddlLocalidad);
 		}
 
 </script>

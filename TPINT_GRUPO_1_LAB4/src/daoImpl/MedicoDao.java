@@ -135,8 +135,10 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 			st.setInt(1, codMed);
 			int filasAfectadas = st.executeUpdate();
 			
-			if(filasAfectadas > 0) 
+			if(filasAfectadas > 0) {
+				cn.commit();
 				return true;
+			}
 			return false;
 			
 		}
@@ -154,12 +156,12 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 
 	    try {
 	        connection = Conexion.getConexion().getSQLConexion();
-	        String query = "INSERT INTO Medicos (DNI_MED, CodEspecialidad_MED, CodLocalidad_MED, CodProvincia_MED, Nombre_MED, Apellido_MED, Correo_MED, Sexo_MED, Nacionalidad_MED, FechaNacimiento_MED, Direccion_MED, Telefono_MED, Username_MED, Contraseña_MED, Tipo_MED, Estado_MED) "
-	                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	        String query = "INSERT INTO Medicos (DNI_MED, CodEspecialidad_MED, CodLocalidad_MED, CodProvincia_MED, Nombre_MED, Apellido_MED, Correo_MED, Sexo_MED, Nacionalidad_MED, FechaNacimiento_MED, Direccion_MED, Telefono_MED, Username_MED, Contraseña_MED, Tipo_MED) "
+	                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	        statement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 
 	        statement.setString(1, medico.getDNI());
-	        statement.setInt(2, medico.getEspecialidad().getCodEspecialidad_ESP());
+	        statement.setInt(2, medico.getEspecialidad().getCodEspecialidad());
 	        statement.setInt(3, medico.getLocalidad().getCodLocalidad());
 	        statement.setInt(4, medico.getProvincia().getCodProvincia());
 	        statement.setString(5, medico.getNombre());
@@ -173,7 +175,6 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 	        statement.setString(13, medico.getUsername());
 	        statement.setString(14, medico.getContraseña());
 	        statement.setBoolean(15, medico.getTipo());
-	        statement.setBoolean(16, medico.getEstado());
 
 	        int filasAfectadas = statement.executeUpdate();
 
@@ -183,6 +184,7 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 	                int codMed = generatedKeys.getInt(1);
 	                medico.setCodMed(codMed);
 	            }
+	            connection.commit();
 	            return true;
 	        }
 	        return false;

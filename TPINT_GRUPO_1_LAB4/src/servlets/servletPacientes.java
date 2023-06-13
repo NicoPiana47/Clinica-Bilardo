@@ -18,9 +18,9 @@ import negImpl.LocalidadNegocio;
 import negImpl.PacienteNegocio;
 import negImpl.ProvinciaNegocio;
 
+@SuppressWarnings("serial")
 @WebServlet("/servletPacientes")
 public class servletPacientes extends HttpServlet {
-	private static final long serialVersionUID = 1L;
        
     public servletPacientes() {
         super();
@@ -53,6 +53,23 @@ public class servletPacientes extends HttpServlet {
 		
 		if(request.getParameter("btnCrearPaciente") != null) {
 			Paciente unPaciente = pacienteNegocio.getPacienteCrear(request);
+			boolean guardo = pacienteNegocio.guardar(unPaciente);
+			request.setAttribute("guardo", guardo);
+			listaPacientes = pacienteNegocio.obtenerPacientes();
+		}
+		
+		if(request.getParameter("btnEliminar") != null) {
+			int codPac = Integer.parseInt(request.getParameter("CodPac").toString());
+			boolean elimino = pacienteNegocio.eliminarPaciente(codPac);
+			request.setAttribute("elimino", elimino);
+			listaPacientes = pacienteNegocio.obtenerPacientes();
+		}
+		
+		if(request.getParameter("btnEditarPaciente") != null) {
+			Paciente unPaciente = pacienteNegocio.getPacienteEditar(request);
+			boolean edito = pacienteNegocio.editarPaciente(unPaciente);
+			request.setAttribute("edito", edito);
+			listaPacientes = pacienteNegocio.obtenerPacientes();
 		}
 
 		inicializarModuloPacientes(request, pacienteNegocio, listaPacientes);

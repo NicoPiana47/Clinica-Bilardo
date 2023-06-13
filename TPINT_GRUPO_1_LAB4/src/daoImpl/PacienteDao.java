@@ -1,7 +1,6 @@
 package daoImpl;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,12 +15,13 @@ import entidades.Paciente;
 import entidades.Provincia;
 
 public class PacienteDao extends GeneralDao implements IPacienteDao {
-	private static final String insert = "INSERT INTO personas(dni, nombre, apellido) VALUES(?, ?, ?)";
-	private static final String delete = "DELETE FROM personas WHERE dni = ?";
+	private static final String insert = "INSERT INTO pacientes(DNI_PAC, CodLocalidad_PAC, CodProvincia_PAC, Nombre_PAC, Apellido_PAC, Correo_PAC, Sexo_PAC, Nacionalidad_PAC, FechaNacimiento_PAC, Direccion_PAC, Telefono_PAC) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String delete = "UPDATE pacientes SET Estado_PAC = 0 WHERE CodPac_PAC = ?";
 	private static final String readall = "SELECT * FROM pacientes";
-	private static final String existeDni = "SELECT * FROM personas WHERE dni = ?";
-	private static final String update = "UPDATE personas SET nombre = ?, apellido = ? WHERE dni = ?";
+	private static final String existeDni = "SELECT * FROM pacientes WHERE dni = ?";
+	private static final String update = "UPDATE pacientes SET DNI_PAC = ?, CodLocalidad_PAC = ?, CodProvincia_PAC = ?, Nombre_PAC = ?, Apellido_PAC = ?, Correo_PAC = ?, Sexo_PAC = ?, Nacionalidad_PAC = ?, FechaNacimiento_PAC = ?, Direccion_PAC = ?, Telefono_PAC = ?, Estado_PAC = ? WHERE CodPac_PAC = ?";
 
+	@Override
 	public List<Paciente> readAll() {
 		PreparedStatement statement;
 		ResultSet resultSet; 
@@ -41,10 +41,12 @@ public class PacienteDao extends GeneralDao implements IPacienteDao {
 		return pacientes;
 	}
 	
+	@Override
 	public List<String> getColumns() {
 	    return super.getColumns("pacientes", "CodPac_PAC");
 	}
 	
+	@Override
 	public List<Paciente> getPacientesByFilter(String column, String text) {
 
 		PreparedStatement statement;
@@ -90,7 +92,97 @@ public class PacienteDao extends GeneralDao implements IPacienteDao {
 		String telefono = resultSet.getString("Telefono_PAC");
 		boolean estado = resultSet.getBoolean("Estado_PAC");
 		
-		return new Paciente(codPac, DNI, provincia, localidad, nombre, apellido, correo, sexo, nacionalidad, fechaNacimiento, direccion, telefono, estado);
+		return new Paciente(codPac, DNI, provincia, localidad, nombre, apellido, correo, 
+						sexo, nacionalidad, fechaNacimiento, direccion, telefono, estado);
 	}
+
+	@Override
+	public boolean insert(Paciente paciente) {
+	    PreparedStatement statement;
+	    Connection conexion = Conexion.getConexion().getSQLConexion();
+	    boolean isInsert = false;
+	    try {
+	        statement = conexion.prepareStatement(insert);
+	        statement.setString(1, paciente.getDNI());
+	        statement.setLong(2, paciente.getLocalidad().getCodLocalidad());
+	        statement.setLong(3, paciente.getProvincia().getCodProvincia());
+	        statement.setString(4, paciente.getNombre());
+	        statement.setString(5, paciente.getApellido());
+	        statement.setString(6, paciente.getCorreo());
+	        statement.setString(7, paciente.getSexo());
+	        statement.setString(8, paciente.getNacionalidad());
+	        statement.setDate(9, new java.sql.Date(paciente.getFechaNacimiento().getTime()));
+	        statement.setString(10, paciente.getDireccion());
+	        statement.setString(11, paciente.getTelefono());
+
+	        if (statement.executeUpdate() > 0) {
+	            conexion.commit();
+	            isInsert = true;
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return isInsert;
+	}
+	
+	@Override
+	public boolean update(Paciente paciente) {
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean isUpdate = false;
+		try{
+			statement = conexion.prepareStatement(update);
+			statement.setString(1, paciente.getDNI());
+		    statement.setInt(2, paciente.getLocalidad().getCodLocalidad());
+		    statement.setInt(3, paciente.getProvincia().getCodProvincia());
+		    statement.setString(4, paciente.getNombre());
+		    statement.setString(5, paciente.getApellido());
+		    statement.setString(6, paciente.getCorreo());
+		    statement.setString(7, paciente.getSexo());
+		    statement.setString(8, paciente.getNacionalidad());
+		    statement.setDate(9, new java.sql.Date(paciente.getFechaNacimiento().getTime()));
+		    statement.setString(10, paciente.getDireccion());
+		    statement.setString(11, paciente.getTelefono());
+		    statement.setBoolean(12, paciente.getEstado());
+		    statement.setLong(13, paciente.getCodPac());
+			
+			if(statement.executeUpdate() > 0){
+				conexion.commit();
+				isUpdate = true;
+			}
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return isUpdate;
+	}
+
+
+	@Override
+	public boolean delete(int codPaciente) {
+		Connection cn = null;
+	    boolean isDelete = false;
+		try {
+			cn = Conexion.getConexion().getSQLConexion();
+			PreparedStatement st = cn.prepareStatement(delete);
+			st.setInt(1, codPaciente);
+			int filasAfectadas = st.executeUpdate();
+			
+			if(filasAfectadas > 0) {
+				cn.commit();
+				isDelete = true;
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return isDelete;
+	}
+
+	
+
 	
 }

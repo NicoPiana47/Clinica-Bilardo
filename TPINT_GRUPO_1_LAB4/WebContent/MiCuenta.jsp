@@ -116,7 +116,7 @@
                 <div class="col-4"> 
                     <label class="form-label">Especialidad</label>
                     <select class="form-control" name="ddlEspecialidades" disabled>
-                        <option value="<%= med.getEspecialidad().getCodEspecialidad_ESP()%>"><%= med.getEspecialidad().getDescripcion_ESP() %></option>
+                        <option value="<%= med.getEspecialidad().getCodEspecialidad()%>"><%= med.getEspecialidad().getDescripcion() %></option>
                       
                     </select>    
                 </div>

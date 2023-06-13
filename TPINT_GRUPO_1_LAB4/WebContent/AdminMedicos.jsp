@@ -8,52 +8,16 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+<link rel="stylesheet" type="text/css" href="./src/Style/estilos.css">
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="entidades.Medico" %>
 <%@ page import="entidades.Provincia" %>
 <%@ page import="entidades.Localidad" %>
 <%@ page import="entidades.Especialidad" %>
-<style>
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-        
-        .modal-content {
-            background-color: #fefefe;
-            margin: 10% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            max-width: 80%;
-        }
-        
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        
-		.selected-row {
-		  background-color: #e0e0e0;
-		}
-</style>
 </head>
+
 <body>
 	<%@ include file="/MasterPage.jsp" %>
 	<h1 class="text-center">Administración de médicos</h1>
@@ -67,10 +31,10 @@
 	<form method="post" action="servletMedicos">
 		<div class="row m-4">
 			<div class="col-4">
-				<input class="form-control" name="txtFiltro" placeholder="Ingrese para filtrar"> 
+				<input class="form-control" name="txtFiltro" id="txtFiltro" placeholder="Ingrese para filtrar"> 
 			</div>
 			<div class="col-4"> 
-			    <select class="form-control" name="ddlFiltros">
+			    <select class="form-control" name="ddlFiltros" >
 			        <% 
 				    if (request.getAttribute("listaFiltros") instanceof Map) {
 				        Map<String, String> listaFiltros = (Map<String, String>) request.getAttribute("listaFiltros");
@@ -86,44 +50,24 @@
 			    </select>
 			</div>
 			<div class="col-2"> 
-				<button  class="form-control" name="btnFiltrar">Filtrar</button>
+				<button  class="form-control" name="btnFiltrar" id="btnFiltrar">Filtrar</button>
 			</div>
 			<div class="col-2"> 
 				<button  class="form-control" name="btnLimpiarFiltros">Limpiar Filtro</button>
 			</div>
 		</div>
 	</form>
-	
-	<script>
-		$(document).ready(function () {
-			$('#table_id_usuarios').DataTable()             
-		});
-	</script>
-		 <%if((Boolean)request.getAttribute("CrearMedico") != null){
-                	  
-                	  boolean crearMedico = (boolean)request.getAttribute("CrearMedico");
 
-                	  if(crearMedico==true){
-                		  %>  <div class="alert alert-success alert-dismissible d-flex align-items-center fade show  m-auto " style="width:50%; margin-bottom:20px">
-                  <div class="m-auto">
-                  	 <i class="bi-check-circle-fill text-center"></i>
-   								 <strong class="mx-2">Registro Creado!</strong> El registro fue creado exitosamente.
-    							<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                 			 </div>			
-									</div>
-                  
-					    <% 
-					    }    
-                	  }                                             	
-                  %>
-                  
+    <div class="input-group col-6 m-auto">
+  		<input type="search" class="form-control rounded" placeholder="Buscar en la grilla" aria-label="Search" id="search-input" aria-describedby="search-addon" />
+	</div>             
                 
-	<div class="container-fluid" style="width:95%; margin-bottom:20px">
+	<div class="container-fluid mt-5" style="width:95%; margin-bottom:20px">
 		<div class="card text-center" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 100px;">
-			<div class="card-header "><h5>Médicos</h5></div>
-			<table class="table table-hover" id="table_id_medicos" style="font-size: 11px;">
+			<div class="card-header" style="width: 100%;"><h5>Médicos</h5></div>
+			<table class="table table-hover text-center" id="table_id_medicos" style="width: 100%; font-size: 11px;">
 				<thead>
-					<tr>
+					<tr class="center-header">
 						<th> </th> 
 						<th>Código</th> 
 						<th>DNI</th>   
@@ -152,10 +96,13 @@
 				        for (Medico medico : listaMedicos) { 
 				    	
 					%>
-					<tr onclick="openModal('modalMedico', true)">
+					<tr onclick="openModal('modalMedico', this)">
+					
+						<% SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy"); %>
+					
 						<th scope="row">
 							<form method="post" action="servletMedicos">						
-								<button type="submit"  name ="btnEliminar"class="btn btn-outline-danger btn-sm" onclick="event.stopPropagation(); return confirm('¿Esta seguro de que quiere eliminar el médico?')">
+								<button type="submit"  name ="btnEliminar" class="btn btn-outline-danger btn-sm" onclick="event.stopPropagation(); return confirm('¿Esta seguro de que quiere eliminar el médico?')">
 								<input type="hidden" name="CodMed" value="<%= medico.getCodMed() %>">
 									<i class="fa-solid fa-trash"></i>
 								</button>
@@ -167,13 +114,13 @@
 						<td><%=medico.getApellido()%></td>
 						<td><%=medico.getSexo()%></td> 
 						<td><%=medico.getNacionalidad()%></td> 
-						<td><%=medico.getFechaNacimiento()%></td> 
+						<td><%=formatter.format(medico.getFechaNacimiento()) %></td>
 						<td><%=medico.getDireccion()%></td>
-						<td><%=medico.getProvincia().getDescripcion()%></td>
-						<td><%=medico.getLocalidad().getDescripcion()%></td>
+						<td><%=medico.getProvincia()%></td>
+						<td><%=medico.getLocalidad()%></td>
 						<td><%=medico.getCorreo()%></td>
 						<td><%=medico.getTelefono()%></td> 
-						<td><%=medico.getEspecialidad().getDescripcion_ESP()%></td>
+						<td><%=medico.getEspecialidad()%></td>
 						<td>Ver registro</td>  
 						<td><%=medico.getUsername()%></td>
 						<td><%=medico.getContraseña()%></td>
@@ -198,175 +145,172 @@
 		</div>
 	</div>
       
-	<div id="modalMedico" class="modal">
-   		<div class="modal-content">
-        	<span class="close" onclick="closeModal('modalMedico', false)" >&times;</span>
-        	<div class="d-flex align-items-center justify-content-center">
-        	<form action="servletMedicos" method="POST">
-        	<div class="col-12">
-					<div class="row m-2">
-			        	<div class="col-4">
-					     	<label class="form-label">DNI</label>   	
-			                <input class="form-control" type="number"  min="0" name="txtDNI" required>
-			            </div>
-			            
-			            <div class="col-4">
-				     		<label class="form-label">Nombre</label> 
-			                <input class="form-control" name="txtNombre" oninput="validarLetras(this)" required>
-			            </div>
-			            
-			            <div class="col-4">
-				     		<label class="form-label">Apellido</label>
-			                <input class="form-control" name="txtApellido" oninput="validarLetras(this)" required>
-			            </div>
-					</div>
-			        
-			        <div class="row m-2">
-			        	<div class="col-4">
-			        	<label class="form-label">Sexo</label>
-			        		<select class="form-control" name="ddlSexo">
-			        			<option>Masculino</option>
-			        			<option>Femenino</option>
-			        			<option>Otro</option>
-			        		</select> 
-			        	</div>
-			        	
-			        	<div class="col-4">
-			        		<label class="form-label">Nacionalidad</label> 
-			        		<input class="form-control" name="txtNacionalidad" oninput="validarLetras(this)" required> 
-			        	</div>
-			        	<div class="col-4"> 
-			        		<label class="form-label">Fecha de nacimiento</label>
-				        	<input class="form-control" type="date" name="txtFechaNacimiento" required>
-			        	
-			        	</div>
-			        </div>
-			        
-			        <div class="row m-2">
-			        	<div class="col-4">
-				        	<label class="form-label">Dirección</label>
-							<input class="form-control" name="txtDireccion" required>
-			        	</div>
-			        	
-			        	<div class="col-4">
-			        		<label class="form-label">Provincia</label> 
-			        		<select class="form-control" name="ddlProvincia" id="ddlProvincia" onchange="filtrarLocalidades()">
-				        		<% 
-						        if (request.getAttribute("listaProvincias") instanceof List) {
-						            List<Provincia> listaProvincias = (List<Provincia>) request.getAttribute("listaProvincias");
-						            for (Provincia provincia : listaProvincias) { 
-						        %>
-						            <option value="<%= provincia.getCodProvincia() %>"><%= provincia.getDescripcion() %></option>				
-						        <% 
-						            } 
-						        }
-						        %>
-			        		</select> 
-			        	</div>
-			        		<div class="col-4"> 
-				        		<label class="form-label">Localidad</label>
-					        	<select class="form-control" name="ddlLocalidad" id="ddlLocalidad">
-							        <% 
-							        if (request.getAttribute("listaLocalidades") instanceof List) {
-							            List<Localidad> listaLocalidades = (List<Localidad>) request.getAttribute("listaLocalidades");
-							            for (Localidad localidad : listaLocalidades) { 
+    <form action="servletMedicos" method="POST">
+		<div id="modalMedico" class="modal">
+	   		<div class="modal-content">
+	        	<span class="close" onclick="closeModal('modalMedico', false)" >&times;</span>
+	        	<div class="d-flex align-items-center justify-content-center">
+	        		<div class="col-12">
+						<div class="row m-2">
+				        	<div class="col-4">
+						     	<label class="form-label">DNI</label>   	
+				                <input class="form-control" type="number"  min="0" name="txtDNI" required>
+				            </div>
+				            
+				            <div class="col-4">
+					     		<label class="form-label">Nombre</label> 
+				                <input class="form-control" name="txtNombre" oninput="validarLetras(this)" required>
+				            </div>
+				            
+				            <div class="col-4">
+					     		<label class="form-label">Apellido</label>
+				                <input class="form-control" name="txtApellido" oninput="validarLetras(this)" required>
+				            </div>
+						</div>
+				        
+				        <div class="row m-2">
+				        	<div class="col-4">
+				        	<label class="form-label">Sexo</label>
+				        		<select class="form-control" name="ddlSexo">
+				        			<option>Masculino</option>
+				        			<option>Femenino</option>
+				        			<option>Otro</option>
+				        		</select> 
+				        	</div>
+				        	
+				        	<div class="col-4">
+				        		<label class="form-label">Nacionalidad</label> 
+				        		<input class="form-control" name="txtNacionalidad" oninput="validarLetras(this)" required> 
+				        	</div>
+				        	<div class="col-4"> 
+				        		<label class="form-label">Fecha de nacimiento</label>
+					        	<input class="form-control" type="date" name="txtFechaNacimiento" required>
+				        	</div>
+				        </div>
+				        
+				        <div class="row m-2">
+				        	<div class="col-4">
+					        	<label class="form-label">Dirección</label>
+								<input class="form-control" name="txtDireccion" required>
+				        	</div>
+				        	
+				        	<div class="col-4">
+				        		<label class="form-label">Provincia</label> 
+				        		<select class="form-control" name="ddlProvincia" id="ddlProvincia" onchange="filtrarLocalidades()">
+					        		<% 
+							        if (request.getAttribute("listaProvincias") instanceof List) {
+							            List<Provincia> listaProvincias = (List<Provincia>) request.getAttribute("listaProvincias");
+							            for (Provincia provincia : listaProvincias) { 
 							        %>
-							            <option value="<%= localidad.getCodLocalidad() %>"
-							            		data-provincia-id="<%= localidad.getProvincia().getCodProvincia() %>">
-						            		<%= localidad.getDescripcion() %>
-						            	</option>				
+							            <option value="<%= provincia.getCodProvincia() %>"><%= provincia.getDescripcion() %></option>				
 							        <% 
 							            } 
 							        }
 							        %>
-							    </select> 	
-			        		</div>		        	
-		        	</div>	        
-			        <div class="row m-2">
-			        	<div class="col-4">
-			        		<label class="form-label">Correo</label>
-			        		<input class="form-control" type="email" name="txtCorreo" required>
-			        	</div>
-			        	
-			        	<div class="col-4">
-			        		<label class="form-label">Telefono</label> 
-			        		<input class="form-control" type="number"  min="0" name="txtTelefono" required> 
-			        	</div>
-			        	<div class="col-4"> 
-			        		<label class="form-label">Especialidad</label>
-				        	<select class="form-control" name="ddlEspecialidad">
-				        	 <% 
-							        if (request.getAttribute("listaEspecialidades") instanceof List) {
-							            List<Especialidad> listaEspecialidades = (List<Especialidad>) request.getAttribute("listaEspecialidades");
-							            for (Especialidad especialidad : listaEspecialidades) { 
-							        %>
-							            <option value="<%= especialidad.getCodEspecialidad_ESP() %>"><%= especialidad.getDescripcion_ESP()%>
-						            	</option>				
-							        <% 
-							            } 
-							        } 
-							        %>
-				        			
-				        			
-				        			
-				        	</select> 	
-			        	</div>
-			        </div>
-			        
-			        <div class="row m-2">
-			        	<div class="col-4">
-			        		<label class="form-label">Ver</label> 			        		
-			        		<button class="form-control" onclick="openModal('modalHorarios')">Horarios</button>
-			        	</div>
-			        	
-			        	<div class="col-4">
-			        		<label class="form-label">Usuario</label> 
-			        		<input class="form-control" name="txtUsuario" required> 
-			        	</div>
-			        	<div class="col-4"> 
-			        		<label class="form-label">Contraseña</label>
-				        	<input class="form-control" type="password" name="txtContraseña" required> 			 	
-			        	</div>
-			        </div>
-			        
-			        <div class="row m-2">
-			        	<div class="col-6">
-			        		<label class="form-label">Normal</label>
-				        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdTipo" value="0" checked>
-			        	</div>
-			        	<div class="col-6">
-			        		<label class="form-label">Admin</label>
-			        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdTipo" value="1">
-			        	</div>
-			        </div>
-			        
-			        <div class="row m-2">
-			        	<div class="col-6 editM">
-			        		<label class="form-label">Activo</label>
-				        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstado" value="1" checked>
-			        	</div>
-			        	<div class="col-6 editM">
-			        		<label class="form-label">Inactivo</label>
-			        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstado" value="0">
-			        	</div>
-			        </div>
-			        
-			        <div class="row m-2 createM" >
-			        	<div class="col-12">
-				        	<button class="form-control" name="btnCrearMedico" type="submit" style="margin-top:10px">Crear Médico</button>
-			        	</div>
-			        </div>
-			        
-			        <div class="row m-2 editM" >
-			        	<div class="col-12">
-				        	<button class="form-control" type="submit" style="margin-top:10px">Editar Médico</button>
-			        	</div>
-			        </div>
+				        		</select> 
+				        	</div>
+				        		<div class="col-4"> 
+					        		<label class="form-label">Localidad</label>
+						        	<select class="form-control" name="ddlLocalidad" id="ddlLocalidad">
+								        <% 
+								        if (request.getAttribute("listaLocalidades") instanceof List) {
+								            List<Localidad> listaLocalidades = (List<Localidad>) request.getAttribute("listaLocalidades");
+								            for (Localidad localidad : listaLocalidades) { 
+								        %>
+								            <option value="<%= localidad.getCodLocalidad() %>"
+								            		data-provincia-id="<%= localidad.getProvincia().getCodProvincia() %>">
+							            		<%= localidad.getDescripcion() %>
+							            	</option>				
+								        <% 
+								            } 
+								        }
+								        %>
+								    </select> 	
+				        		</div>		        	
+			        	</div>	        
+				        <div class="row m-2">
+				        	<div class="col-4">
+				        		<label class="form-label">Correo</label>
+				        		<input class="form-control" type="email" name="txtCorreo" required>
+				        	</div>
+				        	
+				        	<div class="col-4">
+				        		<label class="form-label">Telefono</label> 
+				        		<input class="form-control" type="number"  min="0" name="txtTelefono" required> 
+				        	</div>
+				        	<div class="col-4"> 
+				        		<label class="form-label">Especialidad</label>
+					        	<select class="form-control" name="ddlEspecialidad">
+						        	<% 
+								        if (request.getAttribute("listaEspecialidades") instanceof List) {
+								            List<Especialidad> listaEspecialidades = (List<Especialidad>) request.getAttribute("listaEspecialidades");
+								            for (Especialidad especialidad : listaEspecialidades) { 
+								        %>
+								            <option value="<%= especialidad.getCodEspecialidad() %>">
+								            	<%= especialidad.getDescripcion()%>
+							            	</option>				
+								        <% 
+								            } 
+								        } 
+									%>
+					        	</select> 	
+				        	</div>
+				        </div>
+				        
+				        <div class="row m-2">
+				        	<div class="col-4">
+				        		<label class="form-label">Ver</label> 			        		
+				        		<button class="form-control" onclick="openModal('modalHorarios')">Horarios</button>
+				        	</div>
+				        	
+				        	<div class="col-4">
+				        		<label class="form-label">Usuario</label> 
+				        		<input class="form-control" name="txtUsuario" required> 
+				        	</div>
+				        	<div class="col-4"> 
+				        		<label class="form-label">Contraseña</label>
+					        	<input class="form-control" type="password" name="txtContraseña" required> 			 	
+				        	</div>
+				        </div>
+				        
+				        <div class="row m-2">
+				        	<div class="col-6">
+				        		<label class="form-label">Normal</label>
+					        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdTipo" value="0" checked>
+				        	</div>
+				        	<div class="col-6">
+				        		<label class="form-label">Admin</label>
+				        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdTipo" value="1">
+				        	</div>
+				        </div>
+				        
+				        <div class="row m-2">
+				        	<div class="col-6 editM">
+				        		<label class="form-label">Activo</label>
+					        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstado" value="1" checked>
+				        	</div>
+				        	<div class="col-6 editM">
+				        		<label class="form-label">Inactivo</label>
+				        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstado" value="0">
+				        	</div>
+				        </div>
+				        
+				        <div class="row m-2 createM" >
+				        	<div class="col-12">
+					        	<button class="form-control" name="btnCrearMedico" type="submit" style="margin-top:10px">Crear Médico</button>
+				        	</div>
+				        </div>
+				        
+				        <div class="row m-2 editM" >
+				        	<div class="col-12">
+					        	<button class="form-control" type="submit" style="margin-top:10px">Editar Médico</button>
+				        	</div>
+				        </div>
+					</div>
 				</div>
-        	 </form>
 			</div>
 		</div>
-	</div>
+	</form>
 	
 	<div id="modalHorarios" class="modal">
    		<div class="modal-content">
@@ -387,7 +331,7 @@
 								</tr>
 							</thead>
 					        <tbody>
-								<tr onclick="selectRow(this)">
+								<tr onclick="selectHorario(this)">
 									<form >
 										<th scope="row">
 											<button type="submit" name ="btnEliminar"class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Esta seguro de que quiere eliminar el horario?')">
@@ -460,9 +404,6 @@
 		</div>
 	</div>
 	
-
-	
-	
 	<% if((Boolean) request.getAttribute("elimino") != null){
 			boolean elimino =(boolean)request.getAttribute("elimino");
 			if(elimino == true){
@@ -484,19 +425,45 @@
 				    </div>
 			    <% 
 			}
-		
 		}
 	%>
+	
+	<%
+		if((Boolean)request.getAttribute("CrearMedico") != null){
+			boolean crearMedico = (boolean)request.getAttribute("CrearMedico");
+			if(crearMedico==true){
+	%>  
+				<div class="alert alert-success alert-dismissible d-flex align-items-center fade show  m-auto " style="width:50%; margin-bottom:20px">
+					<div class="m-auto">
+						<i class="bi-check-circle-fill text-center"></i>
+						<strong class="mx-2">Éxito!</strong> Médico creado con éxito!
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>			
+				</div>      
+		<% 
+			}    
+			else{
+				%><div style="display: flex; justify-content: center; visibility="hidden";>
+				        <div ID="MsgErrorDiv" class="col-md-4 alert alert-danger  text-center">
+				            <strong>Error</strong> No se pudo crear al médico!
+				            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+				        </div>
+				    </div>
+			    <% 
+			}
+		}                                             	
+	%>
      	
-<script>
+<script>	
 	function validarLetras(input) {
 	  	var regex = /[^a-zA-Z]/g;
 	  	input.value = input.value.replace(regex, '');
 	}
 	
-	function openModal(modal, isEdit) {
+	function openModal(modal, row) {
 		document.getElementById(modal).style.display = "block";
 		var cName = modal === 'modalMedico' ? 'M' : 'H';
+		var isEdit = row !== undefined;
 		
 	 	if (isEdit) {
 	        hideElements(true, cName);
@@ -519,7 +486,7 @@
 		});
 	}
 
-	function selectRow(row) {
+	function selectHorario(row) {
   		var isSelected = row.classList.contains('selected-row');
   		selectedRows();
       
@@ -562,59 +529,85 @@
     		document.getElementsByName('txtCorreo')[0].value = "";
     		document.getElementsByName('txtTelefono')[0].value = "";
     		document.getElementsByName('ddlEspecialidad')[0].selectedIndex = 0;
+    		document.getElementsByName('txtUsuario')[0].value = "";
+    		document.getElementsByName('txtContraseña')[0].value = "";
     	}
     }
+      
+  	$(document).ready(function() {     		
+	    var table = $('#table_id_medicos').DataTable({
+	        language: {
+	            processing: "Tratamiento en curso...",
+	            infoEmpty: "No existen datos.",
+	            infoPostFix: "",
+	            loadingRecords: "Cargando...",
+	            zeroRecords: "No se encontraron datos con tu búsqueda",
+	            emptyTable: "No hay datos disponibles en la tabla.",
+	            paginate: {
+	                first: "Primero",
+	                previous: "Anterior",
+	                next: "Siguiente",
+	                last: "Último"
+	            },
+	            aria: {
+	                sortAscending: ": activar para ordenar la columna en orden ascendente",
+	                sortDescending: ": activar para ordenar la columna en orden descendente"
+	            }
+	        },
+	        scrollY: "auto",
+	        scrollX: true,
+	        lengthMenu: [[5, 25, -1], [10, 25, "Todos"]],
+	        "bLengthChange": false,
+	        "bInfo": false,
+	        dom: 'lrtip', // Mostrar solo los componentes necesarios
+	        initComplete: function(settings, json) {
+	            // Ocultar el campo de búsqueda predeterminado
+	            $('.dataTables_filter').hide();
+	        }
+	    });
 
-      $('#table_id_medicos').DataTable({
-    	  language: {
-  	        processing: "Tratamiento en curso...",
-  	        search: "Buscar&nbsp;:",
-  	        infoEmpty: "No existen datos.",
-  	        infoPostFix: "",
-  	        loadingRecords: "Cargando...",
-  	        zeroRecords: "No se encontraron datos con tu busqueda",
-  	        emptyTable: "No hay datos disponibles en la tabla.",
-  	        paginate: {
-  	            first: "Primero",
-  	            previous: "Anterior",
-  	            next: "Siguiente",
-  	            last: "Ultimo"
-  	        },
-  	        aria: {
-  	            sortAscending: ": active para ordenar la columna en orden ascendente",
-  	            sortDescending: ": active para ordenar la columna en orden descendente"
-  	        }
-  	    },
-  	    scrollY: "auto",
-  	    lengthMenu: [ [5, 25, -1], [10, 25, "All"] ],
-  	    "bLengthChange" : false,
-  	    "bInfo": false
-      });
+	 	// Agregar evento de cambio al campo de búsqueda
+	    $('#search-input').on('input', function() {
+	        var searchValue = $(this).val();
+
+	        // Aplicar el filtro de búsqueda al DataTable
+	        table.search(searchValue).draw();
+	    });	 	
+        filtrarLocalidades();
+	});
+  	
+	document.addEventListener('DOMContentLoaded', function() {
+        var txtFiltro = document.getElementById('txtFiltro');
+        var btnFiltrar = document.getElementById('btnFiltrar');
+
+        function toggleFiltrarButton() {
+            if (txtFiltro.value.trim() === '') {
+                btnFiltrar.disabled = true;
+            } else {
+                btnFiltrar.disabled = false;
+            }
+        }
+
+        txtFiltro.addEventListener('input', toggleFiltrarButton);
+        toggleFiltrarButton();
+    });
+	
     	 
-    var localidades = ddlLocalidad.options;
-  	function filtrarLocalidades() {
-  		  var provinciaSeleccionada = document.getElementById('ddlProvincia').value;
-  		  var ddlLocalidad = document.getElementById('ddlLocalidad');
-  		  var opcionesFiltradas = [];
+  	var localidades = document.querySelectorAll('#ddlLocalidad option');
+	function filtrarLocalidades() {
+		  var provinciaSeleccionada = document.getElementById('ddlProvincia').value;
+		  var ddlLocalidad = document.getElementById('ddlLocalidad');
+		  
+		  ddlLocalidad.innerHTML = '';
+		  for (var i = 0; i < localidades.length; i++) {
+		    var option = localidades[i];
+		    var codProvincia = option.getAttribute('data-provincia-id');
 
-  		  for (var i = 0; i < localidades.length; i++) {
-  		    var option = localidades[i];
-  		    var codProvincia = option.getAttribute('data-provincia-id');
-
-  		    if (codProvincia === provinciaSeleccionada) {
-  		      opcionesFiltradas.push(option.outerHTML);
-  		    }
-  		  }
-
-  		  // Crear un nuevo elemento select
-  		  var nuevoSelect = document.createElement('select');
-  		  nuevoSelect.innerHTML = opcionesFiltradas.join('');
-  		  nuevoSelect.id = 'ddlLocalidad';
-  		  nuevoSelect.className = "form-control";
-
-  		  // Reemplazar el elemento select existente con el nuevo
-  		  ddlLocalidad.parentNode.replaceChild(nuevoSelect, ddlLocalidad);
-  		}
+		    if (codProvincia === provinciaSeleccionada) {
+		      ddlLocalidad.appendChild(option.cloneNode(true));
+		    }
+		  }
+		}
   
 </script>
     

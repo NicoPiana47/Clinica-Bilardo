@@ -28,7 +28,7 @@ public class LocalidadNegocio implements ILocalidadNegocio{
 	
 	@Override
 	public List<Localidad> obtenerLocalidades() {
-		return localidadDao.obtenerLocalidades();
+		return localidadDao.readAll();
 	}
 
 	

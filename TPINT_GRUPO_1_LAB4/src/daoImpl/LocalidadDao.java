@@ -92,7 +92,7 @@ public class LocalidadDao implements ILocalidadDao {
 		    return listaLocalidades;
 	}
 
-	public List<Localidad> obtenerLocalidades() {
+	public List<Localidad> readAll() {
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 	    List<Localidad> localidades = new ArrayList<>();
 		ResultSet resultSet = null;

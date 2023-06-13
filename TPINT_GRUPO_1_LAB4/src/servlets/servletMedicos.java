@@ -1,9 +1,8 @@
 package servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -20,12 +19,10 @@ import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 import entidades.Especialidad;
 import entidades.Localidad;
 import entidades.Medico;
-import entidades.Paciente;
 import entidades.Provincia;
 import negImpl.EspecialidadNegocio;
 import negImpl.LocalidadNegocio;
 import negImpl.MedicoNegocio;
-import negImpl.PacienteNegocio;
 import negImpl.ProvinciaNegocio;
 
 
@@ -50,7 +47,6 @@ public class servletMedicos extends HttpServlet {
 	
 	}
 
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		iniciarSesion(request, response);
 		eliminarMedico(request, response);
@@ -58,10 +54,6 @@ public class servletMedicos extends HttpServlet {
 		crearMedico(request, response);
 
 	}
-
-		
-	
-	
 	
 	public void iniciarSesion(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -110,12 +102,9 @@ public class servletMedicos extends HttpServlet {
     	
     	RequestDispatcher rd = request.getRequestDispatcher("/AdminMedicos.jsp");    	
 	
-		rd.forward(request, response);
-		
-		
+		rd.forward(request, response);	
 	}
 	
-
 	
 	public void listarMedicosConFiltro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    
@@ -162,73 +151,41 @@ public class servletMedicos extends HttpServlet {
 	}
 	
 	private void crearMedico(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-	    // Obtener los valores del formulario
 		if(request.getParameter("btnCrearMedico") != null) {
-	    String dni = request.getParameter("txtDNI");
-	    int codEspecialidad =  Integer.parseInt(request.getParameter("ddlEspecialidad").toString());
-	    int  codLocalidad = Integer.parseInt(request.getParameter("ddlLocalidad").toString());
-	    int codProvincia = Integer.parseInt(request.getParameter("ddlProvincia").toString());
-	    String correo = request.getParameter("txtCorreo");
-	    String username = request.getParameter("txtUsuario");
-	    String contrasena = request.getParameter("txtContraseña");
-	    String nombre = request.getParameter("txtNombre");
-	    String apellido = request.getParameter("txtApellido");
-	    String sexo = request.getParameter("ddlSexo");
-	    String nacionalidad = request.getParameter("txtNacionalidad");
-	    String fechaNacimientoStr = request.getParameter("txtFechaNacimiento");
-	    String direccion = request.getParameter("txtDireccion");
-	    String telefono = request.getParameter("txtTelefono");
-	    boolean tipo = request.getParameter("rdTipo").equals("1");
-	    
-
-	    // Realizar las conversiones necesarias, como parsear la fecha de nacimiento
-	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	    java.util.Date utilFechaNacimiento = null;
-	    
-	     try {
-			utilFechaNacimiento = dateFormat.parse(fechaNacimientoStr);
-		} catch (java.text.ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	   
-
-	    // Convertir java.util.Date a java.sql.Date
-	    java.sql.Date sqlFechaNacimiento = new java.sql.Date(utilFechaNacimiento.getTime());
-	    // Crear el objeto Medico con los valores proporcionados
-	    Medico medico = new Medico();
-	    medico.setDNI(dni);
-	    medico.getEspecialidad().setCodEspecialidad_ESP(codEspecialidad); // Aquí deberías asignar el objeto Especialidad correspondiente en lugar del ID
-	    medico.getLocalidad().setCodLocalidad(codLocalidad); // Aquí deberías asignar el objeto Localidad correspondiente en lugar del ID
-	    medico.getProvincia().setCodProvincia(codProvincia); // Aquí deberías asignar el objeto Provincia correspondiente en lugar del ID
-	    medico.setCorreo(correo);
-	    medico.setUsername(username);
-	    medico.setContraseña(contrasena);
-	    medico.setNombre(nombre);
-	    medico.setApellido(apellido);
-	    medico.setSexo(sexo);
-	    medico.setNacionalidad(nacionalidad);
-	    medico.setFechaNacimiento(sqlFechaNacimiento);
-	    medico.setDireccion(direccion);
-	    medico.setTelefono(telefono);
-	    medico.setTipo(tipo);
-	    medico.setEstado(true);
-
-	    // Aquí puedes llamar al método de tu lógica de negocio para crear el médico en la base de datos
-	    Boolean CrearMedico= mNeg.crearMedico(medico);
-	    request.setAttribute("CrearMedico", CrearMedico);
-	    // Redireccionar o realizar cualquier CrearMedico adicional según sea necesario
-	    
-	    
-	    
-	    inicializarModuloMedicos(request, response, null);
-	    
-	    
-	    
-	    
-	}
-
+			Date fechaNac = null;
+			try {
+	            String fechaNacString = request.getParameter("txtFechaNacimiento");
+	            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	            fechaNac = dateFormat.parse(fechaNacString);
+	        } 
+			catch (ParseException e) {
+	        } 
+			catch (java.text.ParseException e) {
+			}
+		    // Crear el objeto Medico con los valores proporcionados
+		    Medico medico = new Medico();
+		    medico.setDNI(request.getParameter("txtDNI"));
+		    medico.getEspecialidad().setCodEspecialidad(Integer.parseInt(request.getParameter("ddlEspecialidad").toString()));
+		    medico.getProvincia().setCodProvincia(Integer.parseInt(request.getParameter("ddlProvincia").toString())); 
+		    medico.getLocalidad().setCodLocalidad(Integer.parseInt(request.getParameter("ddlLocalidad").toString()));
+		    medico.setCorreo(request.getParameter("txtCorreo"));
+		    medico.setUsername(request.getParameter("txtUsuario"));
+		    medico.setContraseña(request.getParameter("txtContraseña"));
+		    medico.setNombre(request.getParameter("txtNombre"));
+		    medico.setApellido(request.getParameter("txtApellido"));
+		    medico.setSexo(request.getParameter("ddlSexo"));
+		    medico.setNacionalidad(request.getParameter("txtNacionalidad"));
+		    medico.setFechaNacimiento(fechaNac);
+		    medico.setDireccion(request.getParameter("txtDireccion"));
+		    medico.setTelefono(request.getParameter("txtTelefono"));
+		    medico.setTipo(request.getParameter("rdTipo").equals("1"));
 	
-}
+		    
+		    Boolean CrearMedico= mNeg.crearMedico(medico);
+		    request.setAttribute("CrearMedico", CrearMedico);
+		    		    
+		    inicializarModuloMedicos(request, response, null);		        	  	    
+		}	
 	}
+}
 
