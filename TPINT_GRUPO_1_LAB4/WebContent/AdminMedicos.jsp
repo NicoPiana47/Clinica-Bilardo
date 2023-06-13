@@ -433,15 +433,24 @@
 			boolean crearMedico = (boolean)request.getAttribute("CrearMedico");
 			if(crearMedico==true){
 	%>  
-			<div class="alert alert-success alert-dismissible d-flex align-items-center fade show  m-auto " style="width:50%; margin-bottom:20px">
-				<div class="m-auto">
-					<i class="bi-check-circle-fill text-center"></i>
-					<strong class="mx-2">Registro Creado!</strong> El registro fue creado exitosamente.
-					<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-				</div>			
-			</div>      
-	<% 
+				<div class="alert alert-success alert-dismissible d-flex align-items-center fade show  m-auto " style="width:50%; margin-bottom:20px">
+					<div class="m-auto">
+						<i class="bi-check-circle-fill text-center"></i>
+						<strong class="mx-2">Éxito!</strong> Médico creado con éxito!
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>			
+				</div>      
+		<% 
 			}    
+			else{
+				%><div style="display: flex; justify-content: center; visibility="hidden";>
+				        <div ID="MsgErrorDiv" class="col-md-4 alert alert-danger  text-center">
+				            <strong>Error</strong> No se pudo crear al médico!
+				            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+				        </div>
+				    </div>
+			    <% 
+			}
 		}                                             	
 	%>
      	

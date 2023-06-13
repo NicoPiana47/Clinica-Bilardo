@@ -53,7 +53,8 @@ public class servletPacientes extends HttpServlet {
 		
 		if(request.getParameter("btnCrearPaciente") != null) {
 			Paciente unPaciente = pacienteNegocio.getPacienteCrear(request);
-			pacienteNegocio.guardar(unPaciente);
+			boolean guardo = pacienteNegocio.guardar(unPaciente);
+			request.setAttribute("guardo", guardo);
 			listaPacientes = pacienteNegocio.obtenerPacientes();
 		}
 		

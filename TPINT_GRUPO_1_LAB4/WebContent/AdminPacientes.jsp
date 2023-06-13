@@ -255,6 +255,84 @@
 			</div>
 		</div>
 	</form>
+	
+	<%
+		if((Boolean)request.getAttribute("guardo") != null){
+			boolean creo = (boolean)request.getAttribute("guardo");
+			if(creo==true){
+	%>  
+				<div class="alert alert-success alert-dismissible d-flex align-items-center fade show  m-auto " style="width:50%; margin-bottom:20px">
+					<div class="m-auto">
+						<i class="bi-check-circle-fill text-center"></i>
+						<strong class="mx-2">Éxito!</strong> Paciente creado con éxito!
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>			
+				</div>      
+		<% 
+			}    
+			else{
+				%><div style="display: flex; justify-content: center; visibility="hidden";>
+				        <div ID="MsgErrorDiv" class="col-md-4 alert alert-danger  text-center">
+				            <strong>Error</strong> No se pudo crear al paciente!
+				            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+				        </div>
+				    </div>
+			    <% 
+			}
+		}                                             	
+	%>
+	
+	<%
+		if((Boolean)request.getAttribute("elimino") != null){
+			boolean elimino = (boolean)request.getAttribute("elimino");
+			if(elimino==true){
+	%>  
+				<div class="alert alert-success alert-dismissible d-flex align-items-center fade show  m-auto " style="width:50%; margin-bottom:20px">
+					<div class="m-auto">
+						<i class="bi-check-circle-fill text-center"></i>
+						<strong class="mx-2">Éxito!</strong> Paciente eliminado con éxito!
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>			
+				</div>      
+		<% 
+			}    
+			else{
+				%><div style="display: flex; justify-content: center; visibility="hidden";>
+				        <div ID="MsgErrorDiv" class="col-md-4 alert alert-danger  text-center">
+				            <strong>Error</strong> No se pudo eliminar al Paciente!
+				            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+				        </div>
+				    </div>
+			    <% 
+			}
+		}                                             	
+	%>
+	
+	<%
+		if((Boolean)request.getAttribute("edito") != null){
+			boolean edito = (boolean)request.getAttribute("edito");
+			if(edito==true){
+	%>  
+				<div class="alert alert-success alert-dismissible d-flex align-items-center fade show  m-auto " style="width:50%; margin-bottom:20px">
+					<div class="m-auto">
+						<i class="bi-check-circle-fill text-center"></i>
+						<strong class="mx-2">Éxito!</strong> Paciente modificado con éxito!
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					</div>			
+				</div>      
+		<% 
+			}    
+			else{
+				%><div style="display: flex; justify-content: center; visibility="hidden";>
+				        <div ID="MsgErrorDiv" class="col-md-4 alert alert-danger  text-center">
+				            <strong>Error</strong> No se pudo modificar al Paciente!
+				            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+				        </div>
+				    </div>
+			    <% 
+			}
+		}                                             	
+	%>
       
 <script>
 	function validarLetras(input) {
