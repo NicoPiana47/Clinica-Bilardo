@@ -42,106 +42,113 @@
 
 <body>
     <%@ include file="/MasterPage.jsp" %>
-    <form class="w-100 m-auto" id="form-micuenta">
-        <div class="col-6">
-            <div class="row m-2">
-                <div class="col-4">
-                    <label class="form-label">DNI</label>       
-                    <input class="form-control" type="number" min="0" name="txtDNI" value="<%= med.getDNI() %>" disabled>
-                </div>
-                
-                <div class="col-4">
-                    <label class="form-label">Nombre</label>
-                    <input class="form-control" name="txtNombreCR" value="<%= med.getNombre() %>" disabled>
-                </div>
-                
-                <div class="col-4">
-                    <label class="form-label">Apellido</label>
-                    <input class="form-control" name="txtApellido" value="<%= med.getApellido() %>" disabled>
-                </div>
-            </div>
-            
-            <div class="row m-2">
-                <div class="col-4">
-                    <label class="form-label">Sexo</label>
-                    <select class="form-control" name="txtSexo" disabled>
-                        <option<% if (med.getSexo().equals("Masculino")) { %> selected <% } %>>Masculino</option>
-                        <option<% if (med.getSexo().equals("Femenino")) { %> selected <% } %>>Femenino</option>
-                        <option<% if (med.getSexo().equals("Otro")) { %> selected <% } %>>Otro</option>
-                    </select> 
-                </div>
-                
-                <div class="col-4">
-                    <label class="form-label">Nacionalidad</label> 
-                    <input class="form-control" name="txtNacionalidad" value="<%= med.getNacionalidad() %>" disabled> 
-                </div>
-                <div class="col-4"> 
-                    <label class="form-label">Fecha de nacimiento</label>
-                    <input class="form-control" type="date" name="txtFechaNacimiento" value="<%= med.getFechaNacimiento() %>" disabled>
-                </div>
-            </div>
-            
-            <div class="row m-2">
-                <div class="col-4">
-                    <label class="form-label">Dirección</label>
-                    <input class="form-control" name="txtDireccion" value="<%= med.getDireccion() %>" disabled>
-                </div>
-                
-                <div class="col-4">
-                    <label class="form-label">Provincia</label> 
-                    <select class="form-control" name="ddlProvincia" disabled>
-                        <option value="<%= med.getProvincia().getCodProvincia() %>"><%= med.getProvincia().getDescripcion() %></option>
-                     
-                    </select> 
-                </div>
-                <div class="col-4"> 
-                    <label class="form-label">Localidad</label>
-                    <select class="form-control" name="ddlLocalidad" disabled>
-                        <option value="<%= med.getLocalidad().getCodLocalidad() %>"><%= med.getLocalidad().getDescripcion() %></option>
-                      
-                    </select>    
-                </div>
-            </div>
-            
-            <div class="row m-2">
-                <div class="col-4">
-                    <label class="form-label">Correo</label>
-                    <input class="form-control" type="email" name="txtCorreo" value="<%= med.getCorreo() %>" disabled>
-                </div>
-                
-                <div class="col-4">
-                    <label class="form-label">Telefono</label> 
-                    <input class="form-control" type="number" min="0" name="txtTelefono" value="<%= med.getTelefono() %>" disabled> 
-                </div>
-                <div class="col-4"> 
-                    <label class="form-label">Especialidad</label>
-                    <select class="form-control" name="ddlEspecialidades" disabled>
-                        <option value="<%= med.getEspecialidad().getCodEspecialidad()%>"><%= med.getEspecialidad().getDescripcion() %></option>
-                      
-                    </select>    
-                </div>
-            </div>
-            
-            <div class="row m-2">
-                
-                
-                <div class="col-6">
-                    <label class="form-label">Usuario</label> 
-                    <input class="form-control" name="txtUsuario" value="<%= med.getUsername() %>" disabled> 
-                </div>
-              <div class="col-6"> 
-    <label class="form-label">Contraseña</label>
-    <div class="input-group">
-        <input class="form-control" type="password" name="txtContraseña" value="<%= med.getContraseña() %>" disabled> 
-        <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-            <i class="bi bi-eye"></i>
-        </button>
-    </div>
-</div>
+   <form class="w-100 m-auto" id="form-micuenta">
+  <div class="col-12 col-md-6">
+    <div class="row m-2">
+      <div class="col-12 col-sm-4">
+        <label class="form-label">DNI</label>
+        <input class="form-control" type="number" min="0" name="txtDNI" value="<%= med.getDNI() %>" disabled>
+      </div>
 
-            </div>        
+      <div class="col-12 col-sm-4">
+        <label class="form-label">Nombre</label>
+        <input class="form-control" name="txtNombreCR" value="<%= med.getNombre() %>" disabled>
+      </div>
+
+      <div class="col-12 col-sm-4">
+        <label class="form-label">Apellido</label>
+        <input class="form-control" name="txtApellido" value="<%= med.getApellido() %>" disabled>
+      </div>
+    </div>
+
+    <div class="row m-2">
+      <div class="col-12 col-sm-4">
+        <label class="form-label">Sexo</label>
+        <select class="form-control" name="txtSexo" disabled>
+          <option<% if (med.getSexo().equals("Masculino")) { %> selected <% } %>>Masculino</option>
+          <option<% if (med.getSexo().equals("Femenino")) { %> selected <% } %>>Femenino</option>
+          <option<% if (med.getSexo().equals("Otro")) { %> selected <% } %>>Otro</option>
+        </select>
+      </div>
+
+      <div class="col-12 col-sm-4">
+        <label class="form-label">Nacionalidad</label>
+        <input class="form-control" name="txtNacionalidad" value="<%= med.getNacionalidad() %>" disabled>
+      </div>
+
+      <div class="col-12 col-sm-4">
+        <label class="form-label">Fecha de nacimiento</label>
+        <input class="form-control" type="date" name="txtFechaNacimiento" value="<%= med.getFechaNacimiento() %>"
+          disabled>
+      </div>
+    </div>
+
+    <div class="row m-2">
+      <div class="col-12 col-sm-4">
+        <label class="form-label">Dirección</label>
+        <input class="form-control" name="txtDireccion" value="<%= med.getDireccion() %>" disabled>
+      </div>
+
+      <div class="col-12 col-sm-4">
+        <label class="form-label">Provincia</label>
+        <select class="form-control" name="ddlProvincia" disabled>
+          <option value="<%= med.getProvincia().getCodProvincia() %>"><%= med.getProvincia().getDescripcion() %></option>
+        </select>
+      </div>
+
+      <div class="col-12 col-sm-4">
+        <label class="form-label">Localidad</label>
+        <select class="form-control" name="ddlLocalidad" disabled>
+          <option value="<%= med.getLocalidad().getCodLocalidad() %>"><%= med.getLocalidad().getDescripcion() %></option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row m-2">
+      <div class="col-12 col-sm-4">
+        <label class="form-label">Correo</label>
+        <input class="form-control" type="email" name="txtCorreo" value="<%= med.getCorreo() %>" disabled>
+      </div>
+
+      <div class="col-12 col-sm-4">
+        <label class="form-label">Telefono</label>
+        <input class="form-control" type="number" min="0" name="txtTelefono" value="<%= med.getTelefono() %>"
+          disabled>
+      </div>
+
+      <div class="col-12 col-sm-4">
+        <label class="form-label">Especialidad</label>
+        <select class="form-control" name="ddlEspecialidades" disabled>
+          <option value="<%= med.getEspecialidad().getCodEspecialidad()%>"><%= med.getEspecialidad().getDescripcion() %>
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row m-2">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <label class="form-label">Usuario</label>
+            <input class="form-control" name="txtUsuario" value="<%= med.getUsername() %>" disabled>
+          </div>
+          <div class="col-12 col-sm-6">
+            <label class="form-label">Contraseña</label>
+            <div class="input-group">
+              <input class="form-control" type="password" name="txtContraseña" value="<%= med.getContraseña() %>"
+                disabled>
+              <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                <i class="bi bi-eye"></i>
+              </button>
+            </div>
+          </div>
         </div>
-    </form>
+      </div>
+    </div>
+  </div>
+</form>
+
+   
     <div class="row">
      <div class="col-4 m-auto">
                           		

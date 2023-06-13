@@ -26,76 +26,69 @@
 
 
 <nav class="navbar navbar-expand-lg navbar-light" style="background: #23313e; border: solid 0.5px #e4f6ff">
-<div class="container-fluid">
-	<a class="navbar-brand">
-	    <img src="./src/assets/Clinica.svg" class="logo img-fluid " alt="logo"  />
-	</a>
-	
-	<nav class="navbar navbar-expand-lg" style="font-weight: bold; font-size: 18px;">
-	
-  	<div class="collapse navbar-collapse" id="navbarScroll">
-  	
- 	<ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;"></ul>
-    <%if ( true ){%>
-	    <form class="d-flex">
-	        <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-	            <li class="nav-item">
-	              <a class="nav-link text-white" href="servletPacientes">
-	              	<i class="fa-solid fa-users"></i> Administrar Pacientes
-          			</a>
-	            </li>
-	            <li class="nav-item">
-	              <a class="nav-link text-white" href="servletMedicos">
-	              	<i class="fa-solid fa-hospital"></i> Administrar Médicos
-	              </a>
-	            </li>
-	            <li class="nav-item">
-	              <a class="nav-link text-white" href="">
-	              	<i class="fa-solid fa-calendar"></i> Administrar Asignación de turnos
-              		</a>
-	            </li>
-	            <li class="nav-item">
-	              <a class="nav-link text-white" href="servletTurnos">
-	              	<i class="fa-brands fa-wpforms"></i> Reportes
-	              </a>
-	            </li>
-	            <li class="nav-item">
-	                <a class="nav-link text-white" href="MiCuenta.jsp"> 
-	                	<i class="fa-solid fa-user"></i> <%=med.getNombre()%>
-	                </a>
-	            </li>
-	            <li class="nav-item">
-	                <a class="nav-link text-white" href="Login.jsp" onclick="return confirm('¿Salir?');">
-	                	<i class="fa-solid fa-sign-out"></i> Salir
-	                </a>
-	            </li>
-	          </ul>	          
-	    </form>
-    <% } else { %>
-    	<form class="d-flex">
-	        <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-	            <li class="nav-item">
-	              <a class="nav-link text-white" href="">
-	              	<i class="fa-solid fa-users"></i> Turnos
-	              	</a>
-	            </li>
-	           <li class="nav-item">
-	                <a class="nav-link text-white" href="MiCuenta.jsp"> 
-	                	<i class="fa-solid fa-user"></i> <%=med.getNombre()%>
-	                </a>
-	            </li>
-	           <li class="nav-item">
-	                <a class="nav-link text-white" href="Login.jsp" onclick="return confirm('¿Salir?');">
-	                	<i class="fa-solid fa-sign-out"></i> Salir
-	                </a>
-	            </li>
-	          </ul>
-	    </form>
-     <% } %>
+  <div class="container-fluid">
+    <a class="navbar-brand">
+      <img src="./src/assets/Clinica.svg" class="logo img-fluid " alt="logo" />
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" style="background: white;">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+        <% if (true) { %>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="servletPacientes">
+            <i class="fa-solid fa-users"></i> Administrar Pacientes
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="servletMedicos">
+            <i class="fa-solid fa-hospital"></i> Administrar Médicos
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="">
+            <i class="fa-solid fa-calendar"></i> Administrar Asignación de turnos
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="servletTurnos">
+            <i class="fa-brands fa-wpforms"></i> Reportes
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="MiCuenta.jsp">
+            <i class="fa-solid fa-user"></i> <%=med.getNombre()%>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="Login.jsp" onclick="return confirm('¿Salir?');">
+            <i class="fa-solid fa-sign-out"></i> Salir
+          </a>
+        </li>
+        <% } else { %>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="">
+            <i class="fa-solid fa-users"></i> Turnos
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="MiCuenta.jsp">
+            <i class="fa-solid fa-user"></i> <%=med.getNombre()%>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="Login.jsp" onclick="return confirm('¿Salir?');">
+            <i class="fa-solid fa-sign-out"></i> Salir
+          </a>
+        </li>
+        <% } %>
+      </ul>
+    </div>
   </div>
-</div>
 </nav>
-
-
 </body>
 </html>
