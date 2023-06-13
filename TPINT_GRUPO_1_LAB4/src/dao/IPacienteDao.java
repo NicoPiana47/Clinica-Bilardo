@@ -10,6 +10,7 @@ public interface IPacienteDao {
     public List<String> getColumns();
 	public boolean insert(Paciente paciente);
 	public boolean delete(int codMed);
+	public boolean update(Paciente paciente);
     
     
 }

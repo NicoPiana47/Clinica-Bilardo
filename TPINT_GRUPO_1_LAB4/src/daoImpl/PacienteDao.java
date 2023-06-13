@@ -15,11 +15,11 @@ import entidades.Paciente;
 import entidades.Provincia;
 
 public class PacienteDao extends GeneralDao implements IPacienteDao {
-	private static final String insert = "INSERT INTO pacientes(DNI_PAC, CodProvincia_PAC, CodLocalidad_PAC, Nombre_PAC, Apellido_PAC, Correo_PAC, Sexo_PAC, Nacionalidad_PAC, FechaNacimiento_PAC, Direccion_PAC, Telefono_PAC) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String insert = "INSERT INTO pacientes(DNI_PAC, CodLocalidad_PAC, CodProvincia_PAC, Nombre_PAC, Apellido_PAC, Correo_PAC, Sexo_PAC, Nacionalidad_PAC, FechaNacimiento_PAC, Direccion_PAC, Telefono_PAC) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String delete = "UPDATE pacientes SET Estado_PAC = 0 WHERE CodPac_PAC = ?";
 	private static final String readall = "SELECT * FROM pacientes";
 	private static final String existeDni = "SELECT * FROM pacientes WHERE dni = ?";
-	private static final String update = "UPDATE pacientes SET nombre = ?, apellido = ? WHERE dni = ?";
+	private static final String update = "UPDATE pacientes SET DNI_PAC = ?, CodLocalidad_PAC = ?, CodProvincia_PAC = ?, Nombre_PAC = ?, Apellido_PAC = ?, Correo_PAC = ?, Sexo_PAC = ?, Nacionalidad_PAC = ?, FechaNacimiento_PAC = ?, Direccion_PAC = ?, Telefono_PAC = ?, Estado_PAC = ? WHERE CodPac_PAC = ?";
 
 	@Override
 	public List<Paciente> readAll() {
@@ -92,7 +92,8 @@ public class PacienteDao extends GeneralDao implements IPacienteDao {
 		String telefono = resultSet.getString("Telefono_PAC");
 		boolean estado = resultSet.getBoolean("Estado_PAC");
 		
-		return new Paciente(codPac, DNI, provincia, localidad, nombre, apellido, correo, sexo, nacionalidad, fechaNacimiento, direccion, telefono, estado);
+		return new Paciente(codPac, DNI, provincia, localidad, nombre, apellido, correo, 
+						sexo, nacionalidad, fechaNacimiento, direccion, telefono, estado);
 	}
 
 	@Override
@@ -103,8 +104,8 @@ public class PacienteDao extends GeneralDao implements IPacienteDao {
 	    try {
 	        statement = conexion.prepareStatement(insert);
 	        statement.setString(1, paciente.getDNI());
-	        statement.setLong(2, paciente.getProvincia().getCodProvincia());
-	        statement.setLong(3, paciente.getLocalidad().getCodLocalidad());
+	        statement.setLong(2, paciente.getLocalidad().getCodLocalidad());
+	        statement.setLong(3, paciente.getProvincia().getCodProvincia());
 	        statement.setString(4, paciente.getNombre());
 	        statement.setString(5, paciente.getApellido());
 	        statement.setString(6, paciente.getCorreo());
@@ -124,6 +125,40 @@ public class PacienteDao extends GeneralDao implements IPacienteDao {
 
 	    return isInsert;
 	}
+	
+	@Override
+	public boolean update(Paciente paciente) {
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean isUpdate = false;
+		try{
+			statement = conexion.prepareStatement(update);
+			statement.setString(1, paciente.getDNI());
+		    statement.setInt(2, paciente.getLocalidad().getCodLocalidad());
+		    statement.setInt(3, paciente.getProvincia().getCodProvincia());
+		    statement.setString(4, paciente.getNombre());
+		    statement.setString(5, paciente.getApellido());
+		    statement.setString(6, paciente.getCorreo());
+		    statement.setString(7, paciente.getSexo());
+		    statement.setString(8, paciente.getNacionalidad());
+		    statement.setDate(9, new java.sql.Date(paciente.getFechaNacimiento().getTime()));
+		    statement.setString(10, paciente.getDireccion());
+		    statement.setString(11, paciente.getTelefono());
+		    statement.setBoolean(12, paciente.getEstado());
+		    statement.setLong(13, paciente.getCodPac());
+			
+			if(statement.executeUpdate() > 0){
+				conexion.commit();
+				isUpdate = true;
+			}
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return isUpdate;
+	}
+
 
 	@Override
 	public boolean delete(int codPaciente) {

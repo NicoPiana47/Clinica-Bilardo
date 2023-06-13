@@ -15,4 +15,6 @@ public interface IPacienteNegocio {
 	public boolean guardar(Paciente unPaciente);
 	public Paciente getPacienteCrear(HttpServletRequest request);
 	public boolean eliminarPaciente(int codMed);
+	public Paciente getPacienteEditar(HttpServletRequest request);
+	public boolean editarPaciente(Paciente unPaciente);
 }

@@ -8,7 +8,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import daoImpl.LocalidadDao;
 import daoImpl.PacienteDao;
 import entidades.Localidad;
 import entidades.Paciente;
@@ -55,6 +54,27 @@ public class PacienteNegocio extends GeneralNegocio implements IPacienteNegocio{
 	    					sexo, nacionalidad, fechaNac, direccion, telefono);
 	}
 	
+	@Override
+	public Paciente getPacienteEditar(HttpServletRequest request) {
+
+		int codPac = Integer.parseInt(request.getParameter("codPac"));
+		String dni = request.getParameter("txtDNI");    
+		Provincia provincia = createProvinciaFromRequest(request);
+	    Localidad localidad = createLocalidadFromRequest(request);
+		String nombre = request.getParameter("txtNombre");
+		String apellido = request.getParameter("txtApellido");
+		String correo = request.getParameter("txtCorreo");
+		String sexo = request.getParameter("ddlSexo");
+		String nacionalidad = request.getParameter("txtNacionalidad");
+		Date fechaNac = parseDate(request);
+		String direccion = request.getParameter("txtDireccion");
+		String telefono = request.getParameter("txtTelefono");
+		Boolean estado = request.getParameter("rdEstado").equals("1");
+		
+	    return new Paciente(codPac, dni, provincia, localidad, nombre, apellido, correo, 
+	    					sexo, nacionalidad, fechaNac, direccion, telefono, estado);
+	}
+	
 	private Provincia createProvinciaFromRequest(HttpServletRequest request) {
 	    int codigoProvincia = Integer.parseInt(request.getParameter("ddlProvincia"));
 	    Provincia provincia = new Provincia();
@@ -89,6 +109,11 @@ public class PacienteNegocio extends GeneralNegocio implements IPacienteNegocio{
 	@Override
 	public boolean eliminarPaciente(int codMed) {
 		return pacienteDao.delete(codMed);
+	}
+
+	@Override
+	public boolean editarPaciente(Paciente unPaciente) {
+		return pacienteDao.update(unPaciente);
 	}
 
 

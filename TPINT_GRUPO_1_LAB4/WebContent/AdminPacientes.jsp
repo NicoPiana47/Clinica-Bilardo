@@ -135,6 +135,9 @@
 	        	<span class="close" onclick="closeModal('modalPaciente')" >&times;</span>
 	        	<div class="d-flex align-items-center justify-content-center">
 		        	<div class="col-12">
+		        	
+						<input type="hidden" name="codPac" id="codPac" >
+		        		
 						<div class="row m-2">
 				        	<div class="col-4">
 							    <label class="form-label">DNI</label>
@@ -265,7 +268,7 @@
 		
 	 	if (isEdit) {
 	        hideElements(true);
-	        selectedRow(row);
+	        chargeRow(row);
 		} 
     	else {
     		hideElements(false);
@@ -285,24 +288,43 @@
 		});
 	}
 	
-	function selectedRow(row) {
+	function chargeRow(row) {
 		var cells = row.cells;
-	    /*for (var i = 0; i < cells.length; i++) {
-	        console.log(cells[i].innerText);
-	    }*/
 		
+		document.getElementById('codPac').value = cells[0].querySelector('input[name="CodPac"]').value;
    		document.getElementById('txtDNI').value = cells[1].innerText;
    		document.getElementById('txtNombre').value = cells[2].innerText;
    		document.getElementById('txtApellido').value = cells[3].innerText;
-   		document.getElementById('ddlSexo').selectedIndex = cells[4].innerText;
+   	 	document.getElementById('ddlSexo').value = cells[4].innerText;
    		document.getElementById('txtNacionalidad').value = cells[5].innerText;
-   		document.getElementById('txtFechaNacimiento').value = cells[6].innerText;
+   		document.getElementById('txtFechaNacimiento').value = convertDateFormat(cells[6].innerText, "dd/MM/yyyy", "yyyy-MM-dd");
    		document.getElementById('txtDireccion').value = cells[7].innerText;
-   		document.getElementById('ddlProvincia').selectedIndex = cells[8].innerText;
-   		document.getElementById('ddlLocalidad').selectedIndex = cells[9].innerText;
+   		document.getElementById('ddlProvincia').selectedIndex =  getSelectedIndexByText(ddlProvincia, cells[8].innerText);
+   		filtrarLocalidades();
+   		document.getElementById('ddlLocalidad').selectedIndex = getSelectedIndexByText(ddlLocalidad, cells[9].innerText);
    		document.getElementById('txtCorreo').value = cells[10].innerText;
    		document.getElementById('txtTelefono').value = cells[11].innerText;
+   		
+	    var isChecked = cells[12].querySelector('input[type="checkbox"]').checked;
+	  	var radioButtons = document.querySelectorAll('input[name="rdEstado"]');
+	  	isChecked ? radioButtons[0].checked = true : radioButtons[1].checked = true
+	  
     }
+	
+	function getSelectedIndexByText(selectElement, text) {
+	    for (var i = 0; i < selectElement.options.length; i++) {
+	        if (selectElement.options[i].text === text) {
+	            return i;
+	        }
+	    }
+	    return -1; 
+	}
+	
+	function convertDateFormat(dateString, inputFormat, outputFormat) {
+	    var parts = dateString.split("/");
+	    var formattedDate = parts[2] + "-" + parts[1] + "-" + parts[0];
+	    return formattedDate;
+	}
 	
 	function closeModal(modal) {
 		document.getElementById(modal).style.display = "none";

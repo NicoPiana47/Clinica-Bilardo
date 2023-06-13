@@ -22,7 +22,6 @@ public class Paciente {
 		provincia = new Provincia();
 	}
 
-	
 	public Paciente(int codPac, String dni, Provincia provincia, Localidad localidad, String nombre, String apellido, 
 			String correo, String sexo, String nacionalidad, Date fechaNacimiento, String direccion, String telefono,
 		    boolean estado) {
@@ -56,7 +55,6 @@ public class Paciente {
 		this.telefono = telefono;
 	}
 
-	
 	public int getCodPac() {
 		return codPac;
 	}

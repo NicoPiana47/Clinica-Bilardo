@@ -145,173 +145,172 @@
 		</div>
 	</div>
       
-	<div id="modalMedico" class="modal">
-   		<div class="modal-content">
-        	<span class="close" onclick="closeModal('modalMedico', false)" >&times;</span>
-        	<div class="d-flex align-items-center justify-content-center">
-        	<form action="servletMedicos" method="POST">
-        	<div class="col-12">
-					<div class="row m-2">
-			        	<div class="col-4">
-					     	<label class="form-label">DNI</label>   	
-			                <input class="form-control" type="number"  min="0" name="txtDNI" required>
-			            </div>
-			            
-			            <div class="col-4">
-				     		<label class="form-label">Nombre</label> 
-			                <input class="form-control" name="txtNombre" oninput="validarLetras(this)" required>
-			            </div>
-			            
-			            <div class="col-4">
-				     		<label class="form-label">Apellido</label>
-			                <input class="form-control" name="txtApellido" oninput="validarLetras(this)" required>
-			            </div>
-					</div>
-			        
-			        <div class="row m-2">
-			        	<div class="col-4">
-			        	<label class="form-label">Sexo</label>
-			        		<select class="form-control" name="ddlSexo">
-			        			<option>Masculino</option>
-			        			<option>Femenino</option>
-			        			<option>Otro</option>
-			        		</select> 
-			        	</div>
-			        	
-			        	<div class="col-4">
-			        		<label class="form-label">Nacionalidad</label> 
-			        		<input class="form-control" name="txtNacionalidad" oninput="validarLetras(this)" required> 
-			        	</div>
-			        	<div class="col-4"> 
-			        		<label class="form-label">Fecha de nacimiento</label>
-				        	<input class="form-control" type="date" name="txtFechaNacimiento" required>
-			        	
-			        	</div>
-			        </div>
-			        
-			        <div class="row m-2">
-			        	<div class="col-4">
-				        	<label class="form-label">Dirección</label>
-							<input class="form-control" name="txtDireccion" required>
-			        	</div>
-			        	
-			        	<div class="col-4">
-			        		<label class="form-label">Provincia</label> 
-			        		<select class="form-control" name="ddlProvincia" id="ddlProvincia" onchange="filtrarLocalidades()">
-				        		<% 
-						        if (request.getAttribute("listaProvincias") instanceof List) {
-						            List<Provincia> listaProvincias = (List<Provincia>) request.getAttribute("listaProvincias");
-						            for (Provincia provincia : listaProvincias) { 
-						        %>
-						            <option value="<%= provincia.getCodProvincia() %>"><%= provincia.getDescripcion() %></option>				
-						        <% 
-						            } 
-						        }
-						        %>
-			        		</select> 
-			        	</div>
-			        		<div class="col-4"> 
-				        		<label class="form-label">Localidad</label>
-					        	<select class="form-control" name="ddlLocalidad" id="ddlLocalidad">
-							        <% 
-							        if (request.getAttribute("listaLocalidades") instanceof List) {
-							            List<Localidad> listaLocalidades = (List<Localidad>) request.getAttribute("listaLocalidades");
-							            for (Localidad localidad : listaLocalidades) { 
+    <form action="servletMedicos" method="POST">
+		<div id="modalMedico" class="modal">
+	   		<div class="modal-content">
+	        	<span class="close" onclick="closeModal('modalMedico', false)" >&times;</span>
+	        	<div class="d-flex align-items-center justify-content-center">
+	        		<div class="col-12">
+						<div class="row m-2">
+				        	<div class="col-4">
+						     	<label class="form-label">DNI</label>   	
+				                <input class="form-control" type="number"  min="0" name="txtDNI" required>
+				            </div>
+				            
+				            <div class="col-4">
+					     		<label class="form-label">Nombre</label> 
+				                <input class="form-control" name="txtNombre" oninput="validarLetras(this)" required>
+				            </div>
+				            
+				            <div class="col-4">
+					     		<label class="form-label">Apellido</label>
+				                <input class="form-control" name="txtApellido" oninput="validarLetras(this)" required>
+				            </div>
+						</div>
+				        
+				        <div class="row m-2">
+				        	<div class="col-4">
+				        	<label class="form-label">Sexo</label>
+				        		<select class="form-control" name="ddlSexo">
+				        			<option>Masculino</option>
+				        			<option>Femenino</option>
+				        			<option>Otro</option>
+				        		</select> 
+				        	</div>
+				        	
+				        	<div class="col-4">
+				        		<label class="form-label">Nacionalidad</label> 
+				        		<input class="form-control" name="txtNacionalidad" oninput="validarLetras(this)" required> 
+				        	</div>
+				        	<div class="col-4"> 
+				        		<label class="form-label">Fecha de nacimiento</label>
+					        	<input class="form-control" type="date" name="txtFechaNacimiento" required>
+				        	</div>
+				        </div>
+				        
+				        <div class="row m-2">
+				        	<div class="col-4">
+					        	<label class="form-label">Dirección</label>
+								<input class="form-control" name="txtDireccion" required>
+				        	</div>
+				        	
+				        	<div class="col-4">
+				        		<label class="form-label">Provincia</label> 
+				        		<select class="form-control" name="ddlProvincia" id="ddlProvincia" onchange="filtrarLocalidades()">
+					        		<% 
+							        if (request.getAttribute("listaProvincias") instanceof List) {
+							            List<Provincia> listaProvincias = (List<Provincia>) request.getAttribute("listaProvincias");
+							            for (Provincia provincia : listaProvincias) { 
 							        %>
-							            <option value="<%= localidad.getCodLocalidad() %>"
-							            		data-provincia-id="<%= localidad.getProvincia().getCodProvincia() %>">
-						            		<%= localidad.getDescripcion() %>
-						            	</option>				
+							            <option value="<%= provincia.getCodProvincia() %>"><%= provincia.getDescripcion() %></option>				
 							        <% 
 							            } 
 							        }
 							        %>
-							    </select> 	
-			        		</div>		        	
-		        	</div>	        
-			        <div class="row m-2">
-			        	<div class="col-4">
-			        		<label class="form-label">Correo</label>
-			        		<input class="form-control" type="email" name="txtCorreo" required>
-			        	</div>
-			        	
-			        	<div class="col-4">
-			        		<label class="form-label">Telefono</label> 
-			        		<input class="form-control" type="number"  min="0" name="txtTelefono" required> 
-			        	</div>
-			        	<div class="col-4"> 
-			        		<label class="form-label">Especialidad</label>
-				        	<select class="form-control" name="ddlEspecialidad">
-					        	<% 
-							        if (request.getAttribute("listaEspecialidades") instanceof List) {
-							            List<Especialidad> listaEspecialidades = (List<Especialidad>) request.getAttribute("listaEspecialidades");
-							            for (Especialidad especialidad : listaEspecialidades) { 
-							        %>
-							            <option value="<%= especialidad.getCodEspecialidad() %>">
-							            	<%= especialidad.getDescripcion()%>
-						            	</option>				
-							        <% 
-							            } 
-							        } 
-								%>
-				        	</select> 	
-			        	</div>
-			        </div>
-			        
-			        <div class="row m-2">
-			        	<div class="col-4">
-			        		<label class="form-label">Ver</label> 			        		
-			        		<button class="form-control" onclick="openModal('modalHorarios')">Horarios</button>
-			        	</div>
-			        	
-			        	<div class="col-4">
-			        		<label class="form-label">Usuario</label> 
-			        		<input class="form-control" name="txtUsuario" required> 
-			        	</div>
-			        	<div class="col-4"> 
-			        		<label class="form-label">Contraseña</label>
-				        	<input class="form-control" type="password" name="txtContraseña" required> 			 	
-			        	</div>
-			        </div>
-			        
-			        <div class="row m-2">
-			        	<div class="col-6">
-			        		<label class="form-label">Normal</label>
-				        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdTipo" value="0" checked>
-			        	</div>
-			        	<div class="col-6">
-			        		<label class="form-label">Admin</label>
-			        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdTipo" value="1">
-			        	</div>
-			        </div>
-			        
-			        <div class="row m-2">
-			        	<div class="col-6 editM">
-			        		<label class="form-label">Activo</label>
-				        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstado" value="1" checked>
-			        	</div>
-			        	<div class="col-6 editM">
-			        		<label class="form-label">Inactivo</label>
-			        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstado" value="0">
-			        	</div>
-			        </div>
-			        
-			        <div class="row m-2 createM" >
-			        	<div class="col-12">
-				        	<button class="form-control" name="btnCrearMedico" type="submit" style="margin-top:10px">Crear Médico</button>
-			        	</div>
-			        </div>
-			        
-			        <div class="row m-2 editM" >
-			        	<div class="col-12">
-				        	<button class="form-control" type="submit" style="margin-top:10px">Editar Médico</button>
-			        	</div>
-			        </div>
+				        		</select> 
+				        	</div>
+				        		<div class="col-4"> 
+					        		<label class="form-label">Localidad</label>
+						        	<select class="form-control" name="ddlLocalidad" id="ddlLocalidad">
+								        <% 
+								        if (request.getAttribute("listaLocalidades") instanceof List) {
+								            List<Localidad> listaLocalidades = (List<Localidad>) request.getAttribute("listaLocalidades");
+								            for (Localidad localidad : listaLocalidades) { 
+								        %>
+								            <option value="<%= localidad.getCodLocalidad() %>"
+								            		data-provincia-id="<%= localidad.getProvincia().getCodProvincia() %>">
+							            		<%= localidad.getDescripcion() %>
+							            	</option>				
+								        <% 
+								            } 
+								        }
+								        %>
+								    </select> 	
+				        		</div>		        	
+			        	</div>	        
+				        <div class="row m-2">
+				        	<div class="col-4">
+				        		<label class="form-label">Correo</label>
+				        		<input class="form-control" type="email" name="txtCorreo" required>
+				        	</div>
+				        	
+				        	<div class="col-4">
+				        		<label class="form-label">Telefono</label> 
+				        		<input class="form-control" type="number"  min="0" name="txtTelefono" required> 
+				        	</div>
+				        	<div class="col-4"> 
+				        		<label class="form-label">Especialidad</label>
+					        	<select class="form-control" name="ddlEspecialidad">
+						        	<% 
+								        if (request.getAttribute("listaEspecialidades") instanceof List) {
+								            List<Especialidad> listaEspecialidades = (List<Especialidad>) request.getAttribute("listaEspecialidades");
+								            for (Especialidad especialidad : listaEspecialidades) { 
+								        %>
+								            <option value="<%= especialidad.getCodEspecialidad() %>">
+								            	<%= especialidad.getDescripcion()%>
+							            	</option>				
+								        <% 
+								            } 
+								        } 
+									%>
+					        	</select> 	
+				        	</div>
+				        </div>
+				        
+				        <div class="row m-2">
+				        	<div class="col-4">
+				        		<label class="form-label">Ver</label> 			        		
+				        		<button class="form-control" onclick="openModal('modalHorarios')">Horarios</button>
+				        	</div>
+				        	
+				        	<div class="col-4">
+				        		<label class="form-label">Usuario</label> 
+				        		<input class="form-control" name="txtUsuario" required> 
+				        	</div>
+				        	<div class="col-4"> 
+				        		<label class="form-label">Contraseña</label>
+					        	<input class="form-control" type="password" name="txtContraseña" required> 			 	
+				        	</div>
+				        </div>
+				        
+				        <div class="row m-2">
+				        	<div class="col-6">
+				        		<label class="form-label">Normal</label>
+					        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdTipo" value="0" checked>
+				        	</div>
+				        	<div class="col-6">
+				        		<label class="form-label">Admin</label>
+				        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdTipo" value="1">
+				        	</div>
+				        </div>
+				        
+				        <div class="row m-2">
+				        	<div class="col-6 editM">
+				        		<label class="form-label">Activo</label>
+					        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstado" value="1" checked>
+				        	</div>
+				        	<div class="col-6 editM">
+				        		<label class="form-label">Inactivo</label>
+				        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstado" value="0">
+				        	</div>
+				        </div>
+				        
+				        <div class="row m-2 createM" >
+				        	<div class="col-12">
+					        	<button class="form-control" name="btnCrearMedico" type="submit" style="margin-top:10px">Crear Médico</button>
+				        	</div>
+				        </div>
+				        
+				        <div class="row m-2 editM" >
+				        	<div class="col-12">
+					        	<button class="form-control" type="submit" style="margin-top:10px">Editar Médico</button>
+				        	</div>
+				        </div>
+					</div>
 				</div>
-        	 </form>
 			</div>
 		</div>
-	</div>
+	</form>
 	
 	<div id="modalHorarios" class="modal">
    		<div class="modal-content">
@@ -521,6 +520,8 @@
     		document.getElementsByName('txtCorreo')[0].value = "";
     		document.getElementsByName('txtTelefono')[0].value = "";
     		document.getElementsByName('ddlEspecialidad')[0].selectedIndex = 0;
+    		document.getElementsByName('txtUsuario')[0].value = "";
+    		document.getElementsByName('txtContraseña')[0].value = "";
     	}
     }
       

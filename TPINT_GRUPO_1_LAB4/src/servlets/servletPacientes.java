@@ -63,6 +63,13 @@ public class servletPacientes extends HttpServlet {
 			request.setAttribute("elimino", elimino);
 			listaPacientes = pacienteNegocio.obtenerPacientes();
 		}
+		
+		if(request.getParameter("btnEditarPaciente") != null) {
+			Paciente unPaciente = pacienteNegocio.getPacienteEditar(request);
+			boolean edito = pacienteNegocio.editarPaciente(unPaciente);
+			request.setAttribute("edito", edito);
+			listaPacientes = pacienteNegocio.obtenerPacientes();
+		}
 
 		inicializarModuloPacientes(request, pacienteNegocio, listaPacientes);
 	    forwardToPage(request, response, "/AdminPacientes.jsp");
