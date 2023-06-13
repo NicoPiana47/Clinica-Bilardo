@@ -63,7 +63,7 @@
   		<input type="search" class="form-control rounded" placeholder="Buscar en la grilla" aria-label="Search" id="search-input" aria-describedby="search-addon" />
 	</div>
 	
-	<div class="container-fluid mt-5" style="width:95%; margin-bottom:20px">
+	<div class="container-fluid mt-4" style="width:95%; margin-bottom:20px">
 		<div class="card text-center" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 100px;">
 			<div class="card-header" style="width: 100%;"><h5>Pacientes</h5></div>
 			<table class="table table-hover text-center" id="table_id_usuarios" style="width: 100%; font-size: 11px;">
