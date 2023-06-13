@@ -8,6 +8,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="./src/Style/estilos.css">
+
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.util.List" %>
@@ -257,79 +258,51 @@
 	</form>
 	
 	<%
-		if((Boolean)request.getAttribute("guardo") != null){
-			boolean creo = (boolean)request.getAttribute("guardo");
-			if(creo==true){
-	%>  
-				<div class="alert alert-success alert-dismissible d-flex align-items-center fade show  m-auto " style="width:50%; margin-bottom:20px">
-					<div class="m-auto">
-						<i class="bi-check-circle-fill text-center"></i>
-						<strong class="mx-2">Éxito!</strong> Paciente creado con éxito!
-						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-					</div>			
-				</div>      
-		<% 
+		if((Integer)request.getAttribute("guardo") != null){
+			int creo = (int)request.getAttribute("guardo");
+			
+			if(creo == 1){
+				%><script>Notiflix.Notify.success("Se creo el paciente con éxito!")</script> <% 
 			}    
-			else{
-				%><div style="display: flex; justify-content: center; visibility="hidden";>
-				        <div ID="MsgErrorDiv" class="col-md-4 alert alert-danger  text-center">
-				            <strong>Error</strong> No se pudo crear al paciente!
-				            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-				        </div>
-				    </div>
-			    <% 
+			if(creo == 2){
+				%><script>Notiflix.Notify.failure("DNI repetido")</script> <% 
 			}
-		}                                             	
+			if(creo == 3){
+				%><script>Notiflix.Notify.failure("Correo repetido")</script> <% 
+			}
+			if(creo == 0){
+				%><script>Notiflix.Notify.failure("No se pudo crear al paciente")</script> <% 
+			}
+		}                                      	
 	%>
 	
 	<%
 		if((Boolean)request.getAttribute("elimino") != null){
 			boolean elimino = (boolean)request.getAttribute("elimino");
 			if(elimino==true){
-	%>  
-				<div class="alert alert-success alert-dismissible d-flex align-items-center fade show  m-auto " style="width:50%; margin-bottom:20px">
-					<div class="m-auto">
-						<i class="bi-check-circle-fill text-center"></i>
-						<strong class="mx-2">Éxito!</strong> Paciente eliminado con éxito!
-						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-					</div>			
-				</div>      
-		<% 
+				%><script>Notiflix.Notify.success("Se eliminó el paciente con éxito!")</script> <% 
 			}    
 			else{
-				%><div style="display: flex; justify-content: center; visibility="hidden";>
-				        <div ID="MsgErrorDiv" class="col-md-4 alert alert-danger  text-center">
-				            <strong>Error</strong> No se pudo eliminar al Paciente!
-				            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-				        </div>
-				    </div>
-			    <% 
+				%><script>Notiflix.Notify.success("No se pudo eliminar al paciente")</script> <% 
 			}
 		}                                             	
 	%>
 	
 	<%
-		if((Boolean)request.getAttribute("edito") != null){
-			boolean edito = (boolean)request.getAttribute("edito");
-			if(edito==true){
-	%>  
-				<div class="alert alert-success alert-dismissible d-flex align-items-center fade show  m-auto " style="width:50%; margin-bottom:20px">
-					<div class="m-auto">
-						<i class="bi-check-circle-fill text-center"></i>
-						<strong class="mx-2">Éxito!</strong> Paciente modificado con éxito!
-						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-					</div>			
-				</div>      
-		<% 
+		if((Integer)request.getAttribute("edito") != null){
+			int edito = (int)request.getAttribute("edito");
+			
+			if(edito == 1){
+				%><script>Notiflix.Notify.success("Se editó el paciente con éxito!")</script> <% 
 			}    
-			else{
-				%><div style="display: flex; justify-content: center; visibility="hidden";>
-				        <div ID="MsgErrorDiv" class="col-md-4 alert alert-danger  text-center">
-				            <strong>Error</strong> No se pudo modificar al Paciente!
-				            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-				        </div>
-				    </div>
-			    <% 
+			if(edito == 2){
+				%><script>Notiflix.Notify.failure("DNI repetido")</script> <% 
+			}
+			if(edito == 3){
+				%><script>Notiflix.Notify.failure("Correo repetido")</script> <% 
+			}
+			if(edito == 0){
+				%><script>Notiflix.Notify.failure("No se pudo editar al paciente")</script> <% 
 			}
 		}                                             	
 	%>

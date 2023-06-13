@@ -13,6 +13,8 @@
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
       <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css"> 
+    
+    <script src="notiflix-Notiflix-6936fff/dist/notiflix-notify-aio-3.2.6.min.js"></script>
    
     <title>master</title>
     

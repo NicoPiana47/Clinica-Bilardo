@@ -12,9 +12,9 @@ public interface IPacienteNegocio {
     public List<Paciente> obtenerPacientes();
     public List<Paciente> obtenerPacientesPorFiltro(String columna, String text);
     public Map<String, String> obtenerColumnas();
-	public boolean guardar(Paciente unPaciente);
+	public int guardar(Paciente unPaciente);
 	public Paciente getPacienteCrear(HttpServletRequest request);
 	public boolean eliminarPaciente(int codMed);
 	public Paciente getPacienteEditar(HttpServletRequest request);
-	public boolean editarPaciente(Paciente unPaciente);
+	public int editarPaciente(Paciente unPaciente);
 }

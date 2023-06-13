@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import daoImpl.GeneralDao;
 import daoImpl.PacienteDao;
 import entidades.Localidad;
 import entidades.Paciente;
@@ -16,6 +17,7 @@ import neg.IPacienteNegocio;
 
 public class PacienteNegocio extends GeneralNegocio implements IPacienteNegocio{
 	
+	GeneralDao generalDao = new GeneralDao();
 	PacienteDao pacienteDao = new PacienteDao();
 	LocalidadNegocio localidadNegocio = new LocalidadNegocio();
 	
@@ -102,8 +104,11 @@ public class PacienteNegocio extends GeneralNegocio implements IPacienteNegocio{
 
 	
 	@Override
-	public boolean guardar(Paciente unPaciente) {
-		return pacienteDao.insert(unPaciente);
+	public int guardar(Paciente unPaciente) {
+		if(generalDao.dniRepetido(unPaciente.getDNI(), unPaciente.getCodPac())) return 2;
+		if(generalDao.correoRepetido(unPaciente.getCorreo(), unPaciente.getCodPac())) return 3;
+		if(pacienteDao.insert(unPaciente)) return 1;
+		else return 0;
 	}
 
 	@Override
@@ -112,8 +117,11 @@ public class PacienteNegocio extends GeneralNegocio implements IPacienteNegocio{
 	}
 
 	@Override
-	public boolean editarPaciente(Paciente unPaciente) {
-		return pacienteDao.update(unPaciente);
+	public int editarPaciente(Paciente unPaciente) {
+		if(generalDao.dniRepetido(unPaciente.getDNI(), unPaciente.getCodPac())) return 2;
+		if(generalDao.correoRepetido(unPaciente.getCorreo(), unPaciente.getCodPac())) return 3;
+		if(pacienteDao.update(unPaciente)) return 1;
+		else return 0;
 	}
 
 
