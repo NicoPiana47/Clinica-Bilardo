@@ -166,11 +166,8 @@ public class servletMedicos extends HttpServlet {
 				Medico medico = mNeg.getMedico(request,false);
 				boolean edito = mNeg.editarMedico(medico);
 				request.setAttribute("edito", edito);
-				inicializarModuloMedicos(request, response, null);
-							
+				inicializarModuloMedicos(request, response, null);						
+		}	
 	}
-	
-	
-			}
 }
 

@@ -261,7 +261,7 @@
 				        <div class="row m-2">
 				        	<div class="col-4">
 				        		<label class="form-label">Ver</label> 			        		
-				        		<button class="form-control" onclick="openModal('modalHorarios')">Horarios</button>
+				        		<button type="button" class="form-control" onclick="openModal('modalHorarios')">Horarios</button>
 				        	</div>
 				        	
 				        	<div class="col-4">
@@ -317,99 +317,83 @@
 				</div>
 			</div>
 		</div>
-	</form>
 	
-	<div id="modalHorarios" class="modal">
-   		<div class="modal-content">
-        	<span class="close" onclick="closeModal('modalHorarios', true)" >&times;</span>
-        	<div class="d-flex align-items-center justify-content-center">
-        		<div class="container-fluid" style="width:95%; margin-bottom:20px">
-					<div class="card text-center" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 100px;">
-						<div class="card-header "><h5>Horario</h5></div>
-						<table class="table table-hover" id="table_horarios" style="font-size: 11px;">
-							<thead>
-								<tr>
-									<th> </th> 
-									<th>Dia</th>   
-									<th>Horario Desde</th> 
-									<th>Horario Hasta</th>
-									<th>Horas</th> 
-									<th>Estado</th>
-								</tr>
-							</thead>
-					        <tbody>
-								<tr onclick="selectHorario(this)">
-									<form >
-										<td scope="row">
-											<button type="submit" name ="btnEliminar"class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Esta seguro de que quiere eliminar el horario?')">
-												<i class="fa-solid fa-trash"></i>
-											</button>
-					                	</td>
-										<td>Dia</td>   
-										<td>Horario Desde</td> 
-										<td>Horario Hasta</td>
-										<td>Horas</td> 
-										<td>Estado</td>
-				   					</form>
-					         	</tr>
-					    	</tbody>                                             
-						</table>
-					</div>
-				</div>
-				
-				<div id="divHorario" class="col-6" style="display: block;">
-					<div class="row m-2">
-			        	<div class="col-4">
-					     	<label class="form-label">Dia</label>   	
-			                <select class="form-control" name="ddlDia">
-			                	<option> --- </option>
-			        			<option>Domingo</option>
-			        			<option>Lunes</option>
-			        			<option>Martes</option>
-			        			<option>Miercoles</option>
-			        			<option>Jueves</option>
-			        			<option>Viernes</option>
-			        			<option>Sabado</option>
-			        		</select> 
-			            </div>
-			            
-			            <div class="col-4">
-				     		<label class="form-label">Horario Desde</label> 
-				     		<input type="time" class="form-control form-control-lg" name="txtHorarioDesde"/>
-			            </div>
-			            
-			            <div class="col-4">
-				     		<label class="form-label">Horario Hasta</label>
-				     		<input type="time" class="form-control form-control-lg" name="txtHorarioHasta"/>
-			            </div>
+		<div id="modalHorarios" class="modal">
+	   		<div class="modal-content">
+	        	<span class="close" onclick="closeModal('modalHorarios', true)" >&times;</span>
+	        	<div class="d-flex align-items-center justify-content-center">
+	        		<div class="container-fluid" style="width:95%; margin-bottom:20px">
+						<div class="card text-center" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 100px;">
+							<div class="card-header "><h5>Horario</h5></div>
+							<table class="table table-hover" id="table_horarios" style="font-size: 11px;">
+								<thead>
+									<tr>
+										<th>Dia</th>   
+										<th>Horario Desde</th> 
+										<th>Horario Hasta</th>
+										<th>Estado</th>
+									</tr>
+								</thead>
+						        <tbody id="tablaHorariosBody">
+
+						    	</tbody>                                             
+							</table>
+						</div>
 					</div>
 					
-					<div class="row m-2" >
-			        	<div class="col-6 editH" style="display: none;">
-			        		<label class="form-label">Activo</label>
-				        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstado" value="1" checked>
-			        	</div>
-			        	<div class="col-6 editH" style="display: none;">
-			        		<label class="form-label">Inactivo</label>
-			        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstado" value="0">
-			        	</div>
-			        </div>
-			        
-					<div class="row m-2 createH">
-				        <div class="col-12">
-			        		<button class="form-control btn-success" >Agregar</button>
-				        </div>
-			        </div>
-			        
-			        <div class="row m-2 editH" style="display: none;">
-				        <div class="col-12">
-			        		<button class="form-control btn-primary">Modificar</button>
+					<div id="divHorario" class="col-6" style="display: block;">
+						<div class="row m-2">
+				        	<div class="col-4">
+						     	<label class="form-label">Dia</label>   	
+				                <select class="form-control" name="ddlDia" required>
+				        			<option>Domingo</option>
+				        			<option>Lunes</option>
+				        			<option>Martes</option>
+				        			<option>Miercoles</option>
+				        			<option>Jueves</option>
+				        			<option>Viernes</option>
+				        			<option>Sabado</option>
+				        		</select> 
+				            </div>
+				            
+				            <div class="col-4">
+					     		<label class="form-label">Horario Desde</label> 
+					     		<input type="time" class="form-control form-control-lg" name="txtHorarioDesde" required/>
+				            </div>
+				            
+				            <div class="col-4">
+					     		<label class="form-label">Horario Hasta</label>
+					     		<input type="time" class="form-control form-control-lg" name="txtHorarioHasta" required/>
+				            </div>
 						</div>
-			        </div>
+						
+						<div class="row m-2" >
+				        	<div class="col-6 editH" style="display: none;">
+				        		<label class="form-label">Activo</label>
+					        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstado" value="1" checked>
+				        	</div>
+				        	<div class="col-6 editH" style="display: none;">
+				        		<label class="form-label">Inactivo</label>
+				        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstado" value="0">
+				        	</div>
+				        </div>
+				        
+						<div class="row m-2 createH">
+					        <div class="col-12">
+				        		<button type="button" class="form-control btn-success" >Agregar</button>
+					        </div>
+				        </div>
+				        
+				        <div class="row m-2 editH" style="display: none;">
+					        <div class="col-12">
+				        		<button type="button" class="form-control btn-primary">Modificar</button>
+							</div>
+				        </div>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</form>
 	
 	<% if((Boolean) request.getAttribute("elimino") != null){
 			boolean elimino =(boolean)request.getAttribute("elimino");
@@ -489,7 +473,46 @@
 	
 	
      	
-<script>	
+<script>
+	var botonAgregar = document.querySelector('.createH button');
+	
+
+	botonAgregar.addEventListener('click', function() {	
+		var dia = document.querySelector('select[name="ddlDia"]').value;
+		var horarioDesde = document.querySelector('input[name="txtHorarioDesde"]').value;
+		var horarioHasta = document.querySelector('input[name="txtHorarioHasta"]').value;
+		
+		if(dia && horarioDesde && horarioHasta){		
+			
+			var nuevaFila = document.createElement("tr");
+			nuevaFila.onclick = function() {
+				  selectHorario(this);
+			};
+			
+		    var celdaDia = document.createElement("td");
+		    var celdaHorarioDesde = document.createElement("td");
+		    var celdaHorarioHasta = document.createElement("td");
+		    var celdaEstado = document.createElement("td");
+		    var checkbox = document.createElement("input");
+		    checkbox.type = "checkbox";
+		    checkbox.checked = true;
+		   	celdaEstado.appendChild(checkbox);
+		
+		    celdaDia.textContent = dia;
+		    celdaHorarioDesde.textContent = horarioDesde;
+		    celdaHorarioHasta.textContent = horarioHasta;	
+		    
+		    nuevaFila.appendChild(celdaDia);
+		    nuevaFila.appendChild(celdaHorarioDesde);
+		    nuevaFila.appendChild(celdaHorarioHasta);
+		    nuevaFila.appendChild(celdaEstado);
+		
+		    var tablaBody = document.getElementById("tablaHorariosBody");
+		    tablaBody.appendChild(nuevaFila);
+
+		}
+	});
+
 	function validarLetras(input) {
 	  	var regex = /[^a-zA-Z]/g;
 	  	input.value = input.value.replace(regex, '');
@@ -602,7 +625,7 @@
     		document.getElementsByName('txtHorarioHasta')[0].value = "";
     	}
     	else{
-    		document.getElementsByName('txtDNI')[0].selectedIndex = "";
+    		document.getElementsByName('txtDNI')[0].value = "";
     		document.getElementsByName('txtNombre')[0].value = "";
     		document.getElementsByName('txtApellido')[0].value = "";
     		document.getElementsByName('ddlSexo')[0].selectedIndex = 0;
