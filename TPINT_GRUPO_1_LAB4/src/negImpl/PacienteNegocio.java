@@ -50,10 +50,9 @@ public class PacienteNegocio extends GeneralNegocio implements IPacienteNegocio{
 		Date fechaNac = parseDate(request);
 		String direccion = request.getParameter("txtDireccion");
 		String telefono = request.getParameter("txtTelefono");
-		boolean estado = Boolean.parseBoolean(request.getParameter("txtEstado"));
 		
 	    return new Paciente(dni, provincia, localidad, nombre, apellido, correo, 
-	    					sexo, nacionalidad, fechaNac, direccion, telefono, estado);
+	    					sexo, nacionalidad, fechaNac, direccion, telefono);
 	}
 	
 	private Provincia createProvinciaFromRequest(HttpServletRequest request) {
