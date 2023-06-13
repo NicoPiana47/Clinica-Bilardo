@@ -70,8 +70,14 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 
 
 	@Override
-	public Medico getMedicoEditar(HttpServletRequest request) {
-		int codMed = Integer.parseInt(request.getParameter("codMed"));
+	public Medico getMedico(HttpServletRequest request,boolean isCreating) {
+		int codMed = 0;
+	    if (!isCreating) {
+	        String codMedParam = request.getParameter("codMed");
+	        if (codMedParam != null && !codMedParam.isEmpty()) {
+	            codMed = Integer.parseInt(codMedParam);
+	        }
+	    }		
 		String dni = request.getParameter("txtDNI");    
 		String contraseña = request.getParameter("txtContraseña");    
 		String usuario = request.getParameter("txtUsuario");  

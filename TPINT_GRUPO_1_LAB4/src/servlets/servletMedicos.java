@@ -154,44 +154,16 @@ public class servletMedicos extends HttpServlet {
 	
 	private void crearMedico(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		if(request.getParameter("btnCrearMedico") != null) {
-			Date fechaNac = null;
-			try {
-	            String fechaNacString = request.getParameter("txtFechaNacimiento");
-	            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	            fechaNac = dateFormat.parse(fechaNacString);
-	        } 
-			catch (ParseException e) {
-	        } 
-			catch (java.text.ParseException e) {
-			}
-		    // Crear el objeto Medico con los valores proporcionados
-		    Medico medico = new Medico();
-		    medico.setDNI(request.getParameter("txtDNI"));
-		    medico.getEspecialidad().setCodEspecialidad(Integer.parseInt(request.getParameter("ddlEspecialidad").toString()));
-		    medico.getProvincia().setCodProvincia(Integer.parseInt(request.getParameter("ddlProvincia").toString())); 
-		    medico.getLocalidad().setCodLocalidad(Integer.parseInt(request.getParameter("ddlLocalidad").toString()));
-		    medico.setCorreo(request.getParameter("txtCorreo"));
-		    medico.setUsername(request.getParameter("txtUsuario"));
-		    medico.setContraseña(request.getParameter("txtContraseña"));
-		    medico.setNombre(request.getParameter("txtNombre"));
-		    medico.setApellido(request.getParameter("txtApellido"));
-		    medico.setSexo(request.getParameter("ddlSexo"));
-		    medico.setNacionalidad(request.getParameter("txtNacionalidad"));
-		    medico.setFechaNacimiento(fechaNac);
-		    medico.setDireccion(request.getParameter("txtDireccion"));
-		    medico.setTelefono(request.getParameter("txtTelefono"));
-		    medico.setTipo(request.getParameter("rdTipo").equals("1"));
-		    medico.setEstado(request.getParameter("rdEstado").equals("1"));
-		    
-		    Boolean CrearMedico= mNeg.crearMedico(medico);
-		    request.setAttribute("CrearMedico", CrearMedico);
-		    		    
-		    inicializarModuloMedicos(request, response, null);		        	  	    
+			
+			Medico medico = mNeg.getMedico(request,true);
+			boolean edito = mNeg.crearMedico(medico);
+			request.setAttribute("CrearMedico", edito);
+			inicializarModuloMedicos(request, response, null);			        	  	    
 		}	
 	}
 	private void editarMedico(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		if(request.getParameter("btnEditarMedico") != null) {
-				Medico medico = mNeg.getMedicoEditar(request);
+				Medico medico = mNeg.getMedico(request,false);
 				boolean edito = mNeg.editarMedico(medico);
 				request.setAttribute("edito", edito);
 				inicializarModuloMedicos(request, response, null);

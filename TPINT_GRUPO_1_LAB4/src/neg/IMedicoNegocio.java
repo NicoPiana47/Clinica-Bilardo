@@ -13,7 +13,7 @@ public interface IMedicoNegocio {
 	public List<Medico> obtenerMedicos();
 	public List<Medico>obtenerMedicosPorFiltro(String columna, String texto);
 	Map<String, String> obtenerColumnas();
-	public Medico getMedicoEditar(HttpServletRequest request);
+	public Medico getMedico(HttpServletRequest request,boolean isCreating);
 	public boolean editarMedico(Medico medico);
 	public boolean eliminarMedico(int codMed);
 	public boolean crearMedico(Medico medico);
