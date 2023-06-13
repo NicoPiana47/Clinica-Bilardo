@@ -90,14 +90,17 @@
 				        List<Paciente> listaPacientes = (List<Paciente>) request.getAttribute("listaPacientes");
 				        for (Paciente paciente : listaPacientes) { 
 					%>
-				    <tr onclick="openModal('modalPaciente', true)">
+				    <tr onclick="openModal('modalPaciente', this)">
 				    		
 				    		<% SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy"); %>
 				    	
 				            <td scope="row" >
-				                <button style="position:relative;" type="submit" name="idPaciente" value="<%= paciente.getCodPac() %>" class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Estás paciente de que quieres eliminar al paciente?')">
-				                    <i class="fa-solid fa-trash"></i>
-				                </button>
+				               	<form method="post" action="servletPacientes">						
+									<button type="submit"  name="btnEliminar" class="btn btn-outline-danger btn-sm" onclick="event.stopPropagation(); return confirm('¿Esta seguro de que quiere eliminar el paciente?')">
+										<input type="hidden" name="CodPac" value="<%= paciente.getCodPac() %>">
+										<i class="fa-solid fa-trash"></i>
+									</button>
+								</form>
 				            </td>
 					        <td><%= paciente.getDNI() %></td>
 					        <td><%= paciente.getNombre() %></td>
@@ -256,11 +259,13 @@
 	  	input.value = input.value.replace(regex, '');
 	}
 	
-	function openModal(modal, isEdit) {
+	function openModal(modal, row) {
 		document.getElementById(modal).style.display = "block";
+		var isEdit = row !== undefined;
 		
 	 	if (isEdit) {
 	        hideElements(true);
+	        selectedRow(row);
 		} 
     	else {
     		hideElements(false);
@@ -279,6 +284,25 @@
 		  element.style.display = isEdit ? "block" : "none";
 		});
 	}
+	
+	function selectedRow(row) {
+		var cells = row.cells;
+	    /*for (var i = 0; i < cells.length; i++) {
+	        console.log(cells[i].innerText);
+	    }*/
+		
+   		document.getElementById('txtDNI').value = cells[1].innerText;
+   		document.getElementById('txtNombre').value = cells[2].innerText;
+   		document.getElementById('txtApellido').value = cells[3].innerText;
+   		document.getElementById('ddlSexo').selectedIndex = cells[4].innerText;
+   		document.getElementById('txtNacionalidad').value = cells[5].innerText;
+   		document.getElementById('txtFechaNacimiento').value = cells[6].innerText;
+   		document.getElementById('txtDireccion').value = cells[7].innerText;
+   		document.getElementById('ddlProvincia').selectedIndex = cells[8].innerText;
+   		document.getElementById('ddlLocalidad').selectedIndex = cells[9].innerText;
+   		document.getElementById('txtCorreo').value = cells[10].innerText;
+   		document.getElementById('txtTelefono').value = cells[11].innerText;
+    }
 	
 	function closeModal(modal) {
 		document.getElementById(modal).style.display = "none";

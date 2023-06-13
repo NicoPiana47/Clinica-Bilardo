@@ -96,13 +96,13 @@
 				        for (Medico medico : listaMedicos) { 
 				    	
 					%>
-					<tr onclick="openModal('modalMedico', true)">
+					<tr onclick="openModal('modalMedico', this)">
 					
 						<% SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy"); %>
 					
 						<th scope="row">
 							<form method="post" action="servletMedicos">						
-								<button type="submit"  name ="btnEliminar"class="btn btn-outline-danger btn-sm" onclick="event.stopPropagation(); return confirm('¿Esta seguro de que quiere eliminar el médico?')">
+								<button type="submit"  name ="btnEliminar" class="btn btn-outline-danger btn-sm" onclick="event.stopPropagation(); return confirm('¿Esta seguro de que quiere eliminar el médico?')">
 								<input type="hidden" name="CodMed" value="<%= medico.getCodMed() %>">
 									<i class="fa-solid fa-trash"></i>
 								</button>
@@ -332,7 +332,7 @@
 								</tr>
 							</thead>
 					        <tbody>
-								<tr onclick="selectRow(this)">
+								<tr onclick="selectHorario(this)">
 									<form >
 										<th scope="row">
 											<button type="submit" name ="btnEliminar"class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Esta seguro de que quiere eliminar el horario?')">
@@ -452,9 +452,10 @@
 	  	input.value = input.value.replace(regex, '');
 	}
 	
-	function openModal(modal, isEdit) {
+	function openModal(modal, row) {
 		document.getElementById(modal).style.display = "block";
 		var cName = modal === 'modalMedico' ? 'M' : 'H';
+		var isEdit = row !== undefined;
 		
 	 	if (isEdit) {
 	        hideElements(true, cName);
@@ -477,7 +478,7 @@
 		});
 	}
 
-	function selectRow(row) {
+	function selectHorario(row) {
   		var isSelected = row.classList.contains('selected-row');
   		selectedRows();
       
