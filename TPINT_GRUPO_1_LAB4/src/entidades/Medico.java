@@ -1,7 +1,8 @@
 package entidades;
 
 import java.util.Date;
-import java.util.Set;;
+import java.util.Set;
+import java.util.TreeSet;;
 
 public class Medico {
 	private int codMed;
@@ -25,14 +26,15 @@ public class Medico {
     
     
     public Medico() {
-    	especialidad = new Especialidad();
-    	localidad = new Localidad();
-    	provincia = new Provincia();
+        especialidad = new Especialidad();
+        localidad = new Localidad();
+        provincia = new Provincia();
+        horarios = new TreeSet<>(); 
     }
     
     public Medico(int codMed, String DNI, Especialidad esp, Localidad loc, Provincia prov, String corr, String user,
-	String contr, String nombre, String apell, String sexo, String nac, Date fechaNac, String direc, String tel, 
-	boolean tipo, boolean estado) {
+    			String contr, String nombre, String apell, String sexo, String nac, Date fechaNac, String direc, 
+    			String tel, boolean tipo, boolean estado, Set<Horario> horarios) {
     	this.codMed = codMed;
     	this.DNI = DNI;
     	this.especialidad = esp;
@@ -50,7 +52,7 @@ public class Medico {
     	this.telefono = tel;
     	this.tipo = tipo;
     	this.estado = estado;
-    	
+    	this.horarios = horarios;
     }
     
     //GETTERS AND SETTERS

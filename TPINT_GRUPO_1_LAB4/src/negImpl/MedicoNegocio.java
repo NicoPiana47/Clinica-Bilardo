@@ -72,7 +72,7 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 	        }
 	    }		
 	    
-	    Set<Horario> listaHorarios = (Set<Horario>) request.getAttribute("setHorarios");
+	    Set<Horario> horarios = (Set<Horario>) request.getAttribute("treeSetHorarios");
 		String dni = request.getParameter("txtDNI");    
 		String contraseña = request.getParameter("txtContraseña");    
 		String usuario = request.getParameter("txtUsuario");  
@@ -90,7 +90,9 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 		Boolean estado = request.getParameter("rdEstado").equals("1");
 		Boolean tipo = request.getParameter("rdTipo").equals("1");
 		
-	    return new Medico(codMed,dni,especialidad,localidad,provincia,correo,usuario,contraseña,nombre,apellido,sexo,nacionalidad,fechaNac,direccion,telefono,tipo,estado);
+	    return new Medico(codMed, dni, especialidad, localidad, provincia, correo, usuario, 
+	    			contraseña, nombre, apellido, sexo, nacionalidad, fechaNac, direccion, 
+	    			telefono, tipo, estado, horarios);
 	   
 	}
 	

@@ -2,10 +2,13 @@ package servlets;
 
 import java.io.IOException;
 import java.time.LocalTime;
-import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,6 +17,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
 
 import entidades.Especialidad;
 import entidades.Horario;
@@ -155,16 +162,33 @@ public class servletMedicos extends HttpServlet {
 	private void crearMedico(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		if(request.getParameter("btnCrearMedico") != null) {
 			
-
-
-		    Set<Horario> listaHorarios = (Set<Horario>) request.getAttribute("setHorarios");
-
+			getHorarios(request);
 			Medico medico = mNeg.getMedico(request,true);
 			int edito = mNeg.crearMedico(medico);
 			request.setAttribute("CrearMedico", edito);
 			inicializarModuloMedicos(request, response, null);			        	  	    
 		}	
 	}
+	private void getHorarios(HttpServletRequest request) {
+		String datosJSON;
+		if(request.getParameter("datosHorarios") != null) {
+			datosJSON = request.getParameter("datosHorarios");
+			GsonBuilder gsonBuilder = new GsonBuilder();
+			gsonBuilder.registerTypeAdapter(LocalTime.class, (JsonDeserializer<LocalTime>) (json, type, jsonDeserializationContext) -> {
+			     String timeString = json.getAsJsonPrimitive().getAsString();
+			     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH);
+			     return LocalTime.parse(timeString, formatter);
+			});
+			Gson gson = gsonBuilder.create();
+			
+			Horario[] horariosArray = gson.fromJson(datosJSON, Horario[].class);
+			List<Horario> listaHorarios = Arrays.asList(horariosArray);
+			Set<Horario> treeSetHorarios = new TreeSet<>(listaHorarios);
+			request.setAttribute("treeSetHorarios", treeSetHorarios);
+		}
+	}
+
+
 	private void editarMedico(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		if(request.getParameter("btnEditarMedico") != null) {
 				Medico medico = mNeg.getMedico(request,false);

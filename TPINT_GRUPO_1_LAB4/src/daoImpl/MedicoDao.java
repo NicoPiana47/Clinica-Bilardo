@@ -1,20 +1,20 @@
 package daoImpl;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import conexión.Conexion;
 import dao.IMedicoDao;
 import entidades.Especialidad;
+import entidades.Horario;
 import entidades.Localidad;
 import entidades.Medico;
-import entidades.Paciente;
 import entidades.Provincia;
 
 public class MedicoDao extends GeneralDao implements IMedicoDao {
@@ -99,8 +99,9 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 		String contraseña = resultSet.getString("Contraseña_MED"); 
 		boolean estado = resultSet.getBoolean("Estado_MED");
 		boolean tipo = resultSet.getBoolean("Tipo_MED");
+		Set<Horario> horarios = null;
 		
-		return new Medico(codMed, DNI, especialidad, localidad, provincia, correo, username, contraseña, nombre, apellido, sexo, nacionalidad, fechaNacimiento, direccion, telefono, tipo, estado);
+		return new Medico(codMed, DNI, especialidad, localidad, provincia, correo, username, contraseña, nombre, apellido, sexo, nacionalidad, fechaNacimiento, direccion, telefono, tipo, estado, horarios);
 	}
 
 	@Override
@@ -154,8 +155,9 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 		Connection connection = null;
 	    PreparedStatement statement = null;
 	    ResultSet generatedKeys = null;
-
-	    try {
+	    boolean isInsert = false;
+	    
+		try {
 	        connection = Conexion.getConexion().getSQLConexion();
 	        String query = "INSERT INTO Medicos (DNI_MED, CodEspecialidad_MED, CodLocalidad_MED, CodProvincia_MED, Nombre_MED, Apellido_MED, Correo_MED, Sexo_MED, Nacionalidad_MED, FechaNacimiento_MED, Direccion_MED, Telefono_MED, Username_MED, Contraseña_MED, Tipo_MED) "
 	                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -184,20 +186,32 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 	            if (generatedKeys.next()) {
 	                int codMed = generatedKeys.getInt(1);
 	                medico.setCodMed(codMed);
+	                isInsert = true;
 	            }
-	            connection.commit();
-	            return true;
+	            
+	            MedicosXDiasDao medicoXDiaDao = new MedicosXDiasDao();
+	            boolean allHorariosInserted = true; // Variable auxiliar para rastrear la inserción de todos los horarios
+	            for (Horario horario : medico.getHorarios()) {
+	                if (!medicoXDiaDao.insert(medico.getCodMed(), horario)) {
+	                    allHorariosInserted = false;
+	                    break; // Salir del bucle si un horario falla en la inserción
+	                }
+	            }
+
+	            if (allHorariosInserted) {
+	                connection.commit();
+	            } else {
+	                connection.rollback();
+	                isInsert = false; // Establecer el valor de retorno en false si no se insertaron todos los horarios correctamente
+	            }
 	        }
-	        return false;
 	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        return false;
+	    	e.printStackTrace();
 	    } finally {
 	       
 	    }
-		
-		
-		
+	    
+	    return isInsert;
 	}
 
 	@Override

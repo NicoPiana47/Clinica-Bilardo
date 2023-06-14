@@ -307,87 +307,11 @@
 				        	</div>
 				        </div>
 				        
-				        <%
-   // Verificar si se presionó el botón "crearMedico"
-   boolean crearMedicoPresionado = request.getParameter("crearMedico") != null;
-
-   if (crearMedicoPresionado) {
-      // Obtener los valores de los campos de la tabla y crear la lista de horarios
-      List<Horario> listaHorarios = new ArrayList<>();
-
-      String[] dias = request.getParameterValues("ddlDia");
-      String[] horariosDesde = request.getParameterValues("txtHorarioDesde");
-      String[] horariosHasta = request.getParameterValues("txtHorarioHasta");
-
-      if (dias.length == horariosDesde.length && horariosDesde.length == horariosHasta.length) {
-         // Recorrer los arreglos y crear objetos Horario
-         for (int i = 0; i < dias.length; i++) {
-            String dia = dias[i];
-            String horarioDesdeString = horariosDesde[i];
-            String horarioHastaString = horariosHasta[i];
-
-            // Convertir las cadenas en LocalTime
-            LocalTime horarioDesde = LocalTime.parse(horarioDesdeString);
-            LocalTime horarioHasta = LocalTime.parse(horarioHastaString);
-
-            Horario horario = new Horario(dia, horarioDesde, horarioHasta);
-            listaHorarios.add(horario);
-         }
-      } else {
-         // Manejar el caso de que los arreglos tengan diferentes longitudes
-      }
-
-      // Crear un conjunto de horarios a partir de la lista
-      Set<Horario> setHorarios = new HashSet<>(listaHorarios);
-
-      // Configurar el conjunto de horarios como un atributo de solicitud
-      request.setAttribute("setHorarios", setHorarios);
-   }
-%>
-				        
 				        <div class="row m-2 createM" >
 				        	<div class="col-12">
 					        	<button class="form-control" name="btnCrearMedico" type="submit" style="margin-top:10px">Crear Médico</button>
 				        	</div>
 				        </div>
-				        
-				        <%
-   // Verificar si se presionó el botón "crearMedico"
-   boolean crearMedicoPresionado2 = request.getParameter("crearMedico") != null;
-
-   if (crearMedicoPresionado2) {
-      // Obtener los valores de los campos de la tabla y crear la lista de horarios
-      List<Horario> listaHorarios = new ArrayList<>();
-
-      String[] dias = request.getParameterValues("ddlDia");
-      String[] horariosDesde = request.getParameterValues("txtHorarioDesde");
-      String[] horariosHasta = request.getParameterValues("txtHorarioHasta");
-
-      if (dias.length == horariosDesde.length && horariosDesde.length == horariosHasta.length) {
-         // Recorrer los arreglos y crear objetos Horario
-         for (int i = 0; i < dias.length; i++) {
-            String dia = dias[i];
-            String horarioDesdeString = horariosDesde[i];
-            String horarioHastaString = horariosHasta[i];
-
-            // Convertir las cadenas en LocalTime
-            LocalTime horarioDesde = LocalTime.parse(horarioDesdeString);
-            LocalTime horarioHasta = LocalTime.parse(horarioHastaString);
-
-            Horario horario = new Horario(dia, horarioDesde, horarioHasta);
-            listaHorarios.add(horario);
-         }
-      } else {
-         // Manejar el caso de que los arreglos tengan diferentes longitudes
-      }
-
-      // Crear un conjunto de horarios a partir de la lista
-      Set<Horario> setHorarios = new HashSet<>(listaHorarios);
-
-      // Configurar el conjunto de horarios como un atributo de solicitud
-      request.setAttribute("setHorarios", setHorarios);
-   }
-%>
 				        
 				        <div class="row m-2 editM" >
 				        	<div class="col-12">
@@ -419,6 +343,7 @@
 
 						    	</tbody>                                             
 							</table>
+							 <input type="hidden" name="datosHorarios" id="datosHorarios">
 						</div>
 					</div>
 					
@@ -567,8 +492,34 @@
 		
 		    var tablaBody = document.getElementById("tablaHorariosBody");
 		    tablaBody.appendChild(nuevaFila);
+		    
+		    actualizarValores();
 		}
 	});
+	
+	function actualizarValores() {
+		  var filas = document.querySelectorAll("#tablaHorariosBody tr");
+		  var horarios = [];
+
+		  filas.forEach(function(fila) {
+		    var celdas = fila.querySelectorAll("td");
+		    var dia = celdas[0].textContent;
+		    var horarioDesde = celdas[1].textContent;
+		    var horarioHasta = celdas[2].textContent;
+		    var estado = celdas[3].textContent;
+		    
+		    horarios.push({
+		      dia: dia,
+		      horarioDesde: horarioDesde,
+		      horarioHasta: horarioHasta,
+		      estado: estado
+		    });
+		  });
+
+		  // Actualizar los valores en un campo oculto
+		  var datosHorarios = document.getElementById("datosHorarios");
+		  datosHorarios.value = JSON.stringify(horarios);
+	}
 
 	function validarLetras(input) {
 	  	var regex = /[^a-zA-Z]/g;
@@ -612,13 +563,9 @@
 	  	var radioButtons = document.querySelectorAll('input[name="rdTipo"]');
 	  	isChecked ? radioButtons[1].checked = true : radioButtons[0].checked = true
 	  			
-	  			
-   		  isChecked = cells[18].querySelector('input[type="checkbox"]').checked;
-	  	  radioButtons = document.querySelectorAll('input[name="rdEstado"]');
+   		isChecked = cells[18].querySelector('input[type="checkbox"]').checked;
+	  	radioButtons = document.querySelectorAll('input[name="rdEstado"]');
 	  	isChecked ? radioButtons[0].checked = true : radioButtons[1].checked = true
-
-   		
-	  
     }
 	
 	function getSelectedIndexByText(selectElement, text) {
@@ -635,8 +582,6 @@
 	    var formattedDate = parts[2] + "-" + parts[1] + "-" + parts[0];
 	    return formattedDate;
 	}
-	
-	
 	
 	function hideElements(isEdit, cName) {
 		var createElements = document.querySelectorAll(".create" + cName);
@@ -757,22 +702,21 @@
         toggleFiltrarButton();
     });
 	
-    	 
   	var localidades = document.querySelectorAll('#ddlLocalidad option');
 	function filtrarLocalidades() {
-		  var provinciaSeleccionada = document.getElementById('ddlProvincia').value;
-		  var ddlLocalidad = document.getElementById('ddlLocalidad');
-		  
-		  ddlLocalidad.innerHTML = '';
-		  for (var i = 0; i < localidades.length; i++) {
-		    var option = localidades[i];
-		    var codProvincia = option.getAttribute('data-provincia-id');
-
-		    if (codProvincia === provinciaSeleccionada) {
-		      ddlLocalidad.appendChild(option.cloneNode(true));
-		    }
-		  }
+		var provinciaSeleccionada = document.getElementById('ddlProvincia').value;
+		var ddlLocalidad = document.getElementById('ddlLocalidad');
+		
+		ddlLocalidad.innerHTML = '';
+		for (var i = 0; i < localidades.length; i++) {
+			var option = localidades[i];
+			var codProvincia = option.getAttribute('data-provincia-id');
+			
+			if (codProvincia === provinciaSeleccionada) {
+		  		ddlLocalidad.appendChild(option.cloneNode(true));
+			}
 		}
+	}
 
   
 </script>
