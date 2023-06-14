@@ -1,10 +1,11 @@
 package servlets;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,12 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
-
 import entidades.Especialidad;
+import entidades.Horario;
 import entidades.Localidad;
 import entidades.Medico;
-import entidades.Paciente;
 import entidades.Provincia;
 import negImpl.EspecialidadNegocio;
 import negImpl.LocalidadNegocio;
@@ -54,6 +53,7 @@ public class servletMedicos extends HttpServlet {
 		listarMedicosConFiltro(request, response);
 		crearMedico(request, response);
 		editarMedico(request, response);
+		
 
 	}
 	
@@ -155,6 +155,10 @@ public class servletMedicos extends HttpServlet {
 	private void crearMedico(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		if(request.getParameter("btnCrearMedico") != null) {
 			
+
+
+		    Set<Horario> listaHorarios = (Set<Horario>) request.getAttribute("setHorarios");
+
 			Medico medico = mNeg.getMedico(request,true);
 			boolean edito = mNeg.crearMedico(medico);
 			request.setAttribute("CrearMedico", edito);

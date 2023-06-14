@@ -9,13 +9,18 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 <link rel="stylesheet" type="text/css" href="./src/Style/estilos.css">
+<%@ page import="java.time.LocalTime" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.HashSet" %>
+<%@ page import="java.util.Set" %>
 <%@ page import="entidades.Medico" %>
 <%@ page import="entidades.Provincia" %>
 <%@ page import="entidades.Localidad" %>
 <%@ page import="entidades.Especialidad" %>
+<%@ page import="entidades.Horario" %>
 </head>
 
 <body>
@@ -302,11 +307,87 @@
 				        	</div>
 				        </div>
 				        
+				        <%
+   // Verificar si se presionó el botón "crearMedico"
+   boolean crearMedicoPresionado = request.getParameter("crearMedico") != null;
+
+   if (crearMedicoPresionado) {
+      // Obtener los valores de los campos de la tabla y crear la lista de horarios
+      List<Horario> listaHorarios = new ArrayList<>();
+
+      String[] dias = request.getParameterValues("ddlDia");
+      String[] horariosDesde = request.getParameterValues("txtHorarioDesde");
+      String[] horariosHasta = request.getParameterValues("txtHorarioHasta");
+
+      if (dias.length == horariosDesde.length && horariosDesde.length == horariosHasta.length) {
+         // Recorrer los arreglos y crear objetos Horario
+         for (int i = 0; i < dias.length; i++) {
+            String dia = dias[i];
+            String horarioDesdeString = horariosDesde[i];
+            String horarioHastaString = horariosHasta[i];
+
+            // Convertir las cadenas en LocalTime
+            LocalTime horarioDesde = LocalTime.parse(horarioDesdeString);
+            LocalTime horarioHasta = LocalTime.parse(horarioHastaString);
+
+            Horario horario = new Horario(dia, horarioDesde, horarioHasta);
+            listaHorarios.add(horario);
+         }
+      } else {
+         // Manejar el caso de que los arreglos tengan diferentes longitudes
+      }
+
+      // Crear un conjunto de horarios a partir de la lista
+      Set<Horario> setHorarios = new HashSet<>(listaHorarios);
+
+      // Configurar el conjunto de horarios como un atributo de solicitud
+      request.setAttribute("setHorarios", setHorarios);
+   }
+%>
+				        
 				        <div class="row m-2 createM" >
 				        	<div class="col-12">
 					        	<button class="form-control" name="btnCrearMedico" type="submit" style="margin-top:10px">Crear Médico</button>
 				        	</div>
 				        </div>
+				        
+				        <%
+   // Verificar si se presionó el botón "crearMedico"
+   boolean crearMedicoPresionado2 = request.getParameter("crearMedico") != null;
+
+   if (crearMedicoPresionado2) {
+      // Obtener los valores de los campos de la tabla y crear la lista de horarios
+      List<Horario> listaHorarios = new ArrayList<>();
+
+      String[] dias = request.getParameterValues("ddlDia");
+      String[] horariosDesde = request.getParameterValues("txtHorarioDesde");
+      String[] horariosHasta = request.getParameterValues("txtHorarioHasta");
+
+      if (dias.length == horariosDesde.length && horariosDesde.length == horariosHasta.length) {
+         // Recorrer los arreglos y crear objetos Horario
+         for (int i = 0; i < dias.length; i++) {
+            String dia = dias[i];
+            String horarioDesdeString = horariosDesde[i];
+            String horarioHastaString = horariosHasta[i];
+
+            // Convertir las cadenas en LocalTime
+            LocalTime horarioDesde = LocalTime.parse(horarioDesdeString);
+            LocalTime horarioHasta = LocalTime.parse(horarioHastaString);
+
+            Horario horario = new Horario(dia, horarioDesde, horarioHasta);
+            listaHorarios.add(horario);
+         }
+      } else {
+         // Manejar el caso de que los arreglos tengan diferentes longitudes
+      }
+
+      // Crear un conjunto de horarios a partir de la lista
+      Set<Horario> setHorarios = new HashSet<>(listaHorarios);
+
+      // Configurar el conjunto de horarios como un atributo de solicitud
+      request.setAttribute("setHorarios", setHorarios);
+   }
+%>
 				        
 				        <div class="row m-2 editM" >
 				        	<div class="col-12">
@@ -358,12 +439,12 @@
 				            
 				            <div class="col-4">
 					     		<label class="form-label">Horario Desde</label> 
-					     		<input type="time" class="form-control form-control-lg" name="txtHorarioDesde" required/>
+					     		<input type="time" class="form-control form-control-lg" name="txtHorarioDesde" />
 				            </div>
 				            
 				            <div class="col-4">
 					     		<label class="form-label">Horario Hasta</label>
-					     		<input type="time" class="form-control form-control-lg" name="txtHorarioHasta" required/>
+					     		<input type="time" class="form-control form-control-lg" name="txtHorarioHasta" />
 				            </div>
 						</div>
 						
@@ -471,12 +552,9 @@
 		}                                             	
 	%>
 	
-	
-     	
 <script>
-	var botonAgregar = document.querySelector('.createH button');
-	
 
+	var botonAgregar = document.querySelector('.createH button');
 	botonAgregar.addEventListener('click', function() {	
 		var dia = document.querySelector('select[name="ddlDia"]').value;
 		var horarioDesde = document.querySelector('input[name="txtHorarioDesde"]').value;
@@ -509,7 +587,6 @@
 		
 		    var tablaBody = document.getElementById("tablaHorariosBody");
 		    tablaBody.appendChild(nuevaFila);
-
 		}
 	});
 

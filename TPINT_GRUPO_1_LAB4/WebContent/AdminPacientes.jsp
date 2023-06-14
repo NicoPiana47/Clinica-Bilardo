@@ -454,19 +454,19 @@
 	
 	var localidades = document.querySelectorAll('#ddlLocalidad option');
 	function filtrarLocalidades() {
-		  var provinciaSeleccionada = document.getElementById('ddlProvincia').value;
-		  var ddlLocalidad = document.getElementById('ddlLocalidad');
-		  
-		  ddlLocalidad.innerHTML = '';
-		  for (var i = 0; i < localidades.length; i++) {
-		    var option = localidades[i];
-		    var codProvincia = option.getAttribute('data-provincia-id');
+		var provinciaSeleccionada = document.getElementById('ddlProvincia').value;
+		var ddlLocalidad = document.getElementById('ddlLocalidad');
+		
+		ddlLocalidad.innerHTML = '';
+		for (var i = 0; i < localidades.length; i++) {
+			var option = localidades[i];
+			var codProvincia = option.getAttribute('data-provincia-id');
 
-		    if (codProvincia === provinciaSeleccionada) {
-		      ddlLocalidad.appendChild(option.cloneNode(true));
-		    }
-		  }
+			if (codProvincia === provinciaSeleccionada) {
+				ddlLocalidad.appendChild(option.cloneNode(true));
+			}
 		}
+	}
 
 </script>
     

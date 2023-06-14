@@ -1,6 +1,7 @@
 package entidades;
 
-import java.util.Date;;
+import java.util.Date;
+import java.util.Set;;
 
 public class Medico {
 	private int codMed;
@@ -20,6 +21,7 @@ public class Medico {
     private String telefono;
     private boolean tipo;
     private boolean estado;
+    private Set<Horario> horarios;
     
     
     public Medico() {
@@ -154,15 +156,12 @@ public class Medico {
 	public void setEstado(boolean estado) {
 		this.estado = estado;
 	}
-
-	@Override
-	public String toString() {
-		return "Medico [codMed=" + codMed + ", DNI=" + DNI + ", especialidad=" + especialidad
-				+ ", localidad=" + localidad + ", provincia=" + provincia + ", correo=" + correo
-				+ ", username=" + username + ", contraseña=" + contraseña + ", nombre=" + nombre
-				+ ", apellido=" + apellido + ", sexo=" + sexo + ", nacionalidad=" + nacionalidad
-				+ ", fechaNacimiento=" + fechaNacimiento + ", direccion=" + direccion
-				+ ", telefono=" + telefono + ", tipo=" + tipo + ", estado=" + estado + "]";
+	public Set<Horario> getHorarios() {
+		return horarios;
+	}
+	public void setHorarios(Set<Horario> horarios) {
+		this.horarios = horarios;
 	}
 	
+
 }

@@ -2,17 +2,20 @@ package negImpl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import daoImpl.MedicoDao;
 import entidades.Especialidad;
+import entidades.Horario;
 import entidades.Localidad;
 import entidades.Medico;
-import entidades.Paciente;
 import entidades.Provincia;
 import neg.IMedicoNegocio;
 
@@ -78,6 +81,8 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 	            codMed = Integer.parseInt(codMedParam);
 	        }
 	    }		
+	    
+	    Set<Horario> listaHorarios = (Set<Horario>) request.getAttribute("setHorarios");
 		String dni = request.getParameter("txtDNI");    
 		String contraseña = request.getParameter("txtContraseña");    
 		String usuario = request.getParameter("txtUsuario");  
@@ -93,9 +98,9 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 		String direccion = request.getParameter("txtDireccion");
 		String telefono = request.getParameter("txtTelefono");
 		Boolean estado = request.getParameter("rdEstado").equals("1");
-		Boolean Tipo = request.getParameter("rdTipo").equals("1");
+		Boolean tipo = request.getParameter("rdTipo").equals("1");
 		
-	    return new Medico(codMed,dni,especialidad,localidad,provincia,correo,usuario,contraseña,nombre,apellido,sexo,nacionalidad,fechaNac,direccion,telefono,Tipo,estado);
+	    return new Medico(codMed,dni,especialidad,localidad,provincia,correo,usuario,contraseña,nombre,apellido,sexo,nacionalidad,fechaNac,direccion,telefono,tipo,estado);
 	   
 	}
 	
@@ -130,7 +135,6 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 	    }
 	    return null;
 	}
-
 
 	@Override
 	public boolean editarMedico(Medico medico) {
