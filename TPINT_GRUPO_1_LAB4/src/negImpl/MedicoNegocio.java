@@ -41,7 +41,6 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 		return null;
 	}
 
-
 	@Override
 	public List<Medico> obtenerMedicos() {
 	    List<Medico> medicos = mDao.readAll();
@@ -56,21 +55,16 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 	    return medicos;
 	}
 
-
 	@Override
     public Map<String, String> obtenerColumnas() {
         List<String> columnasList = mDao.getColumns();
         return super.obtenerColumnas("_MED", columnasList);
     }
 
-
 	@Override
 	public List<Medico> obtenerMedicosPorFiltro(String columna, String texto) {
 		return mDao.getMedicosByFilter(columna, texto);
 	}
-
-
-
 
 	@Override
 	public Medico getMedico(HttpServletRequest request,boolean isCreating) {
@@ -144,7 +138,6 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 		return elimino;
 	}
 	
-	
 	@Override
 	public int crearMedico(Medico medico) {
 		if(gDao.dniRepetido(medico.getDNI(), medico.getCodMed())) return 2;
@@ -152,7 +145,6 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 		if(mDao.usernameRepetido(medico.getUsername(), medico.getCodMed())) return 4;
 		if(mDao.create(medico)) return 1;
 		else return 0;
-
 	}
 
 	@Override
@@ -163,8 +155,4 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 		if(mDao.update(medico)) return 1;
 		else return 0;
 	}
-
-	
-	
-
 }

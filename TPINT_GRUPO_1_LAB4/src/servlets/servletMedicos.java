@@ -23,36 +23,29 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
 
 import entidades.Especialidad;
-import entidades.MedicosXDias;
 import entidades.Localidad;
 import entidades.Medico;
+import entidades.MedicosXDias;
 import entidades.Provincia;
 import negImpl.EspecialidadNegocio;
 import negImpl.LocalidadNegocio;
 import negImpl.MedicoNegocio;
-import negImpl.MedicosXDiasNegocio;
 import negImpl.ProvinciaNegocio;
 
-
-/**
- * Servlet implementation class servletMedicos
- */
+@SuppressWarnings("serial")
 @WebServlet("/servletMedicos")
-
 public class servletMedicos extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	MedicoNegocio mNeg = new MedicoNegocio();
-	ProvinciaNegocio pNeg = new ProvinciaNegocio();
-    LocalidadNegocio lNeg=new LocalidadNegocio();
-    EspecialidadNegocio eNeg=new EspecialidadNegocio();
+	MedicoNegocio medicoNegocio = new MedicoNegocio();
+	ProvinciaNegocio provinciaNegocio = new ProvinciaNegocio();
+    LocalidadNegocio localidadNegocio = new LocalidadNegocio();
+    EspecialidadNegocio especialidadNegocio = new EspecialidadNegocio();
+    
     public servletMedicos() {
         super();
     }
 
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		inicializarModuloMedicos(request, response, null);
-	
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -61,19 +54,15 @@ public class servletMedicos extends HttpServlet {
 		listarMedicosConFiltro(request, response);
 		crearMedico(request, response);
 		editarMedico(request, response);
-		
-
 	}
 	
 	public void iniciarSesion(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		HttpSession sessionMedico = request.getSession();
 		Boolean filas = false;
-		if(request.getParameter("btnIngresar")!=null)
-        {
+		if(request.getParameter("btnIngresar")!=null) {
 			sessionMedico.setAttribute("sessionMedico", null);
         	
-			Medico med = mNeg.iniciarSesion(request.getParameter("txtNombreUsuario"), request.getParameter("txtContraseña"));
+			Medico med = medicoNegocio.iniciarSesion(request.getParameter("txtNombreUsuario"), request.getParameter("txtContraseña"));
 			
         	if(med != null) {
         		sessionMedico.setAttribute("sessionMedico", med);
@@ -93,14 +82,12 @@ public class servletMedicos extends HttpServlet {
         	      	
         	request.setAttribute("inicioSesion", filas);
 			rd.forward(request, response);
-
         }
 	}
 	
 	public void inicializarModuloMedicos(HttpServletRequest request, HttpServletResponse response, List<Medico> listaMedicos) throws ServletException, IOException {
-		
 		if(listaMedicos == null) {		
-			List<Medico> listaMedicosCompleta = mNeg.obtenerMedicos();
+			List<Medico> listaMedicosCompleta = medicoNegocio.obtenerMedicos();
 			request.setAttribute("listaMedicos", listaMedicosCompleta); 
 		}
 		else {
@@ -108,27 +95,23 @@ public class servletMedicos extends HttpServlet {
 		}
 		
 		inicializarListas(request);
-			
-    	
-    	RequestDispatcher rd = request.getRequestDispatcher("/AdminMedicos.jsp");    	
-	
+    	RequestDispatcher rd = request.getRequestDispatcher("/AdminMedicos.jsp");  
 		rd.forward(request, response);	
 	}
 	
 	
 	public void listarMedicosConFiltro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    
 	    if(request.getParameter("btnFiltrar")!=null || request.getParameter("btnLimpiarFiltros")!=null) {
 	    	List<Medico> listaMedicos = null;
 	    	
 	    	if(request.getParameter("btnFiltrar")!=null) {
 	    		String texto = request.getParameter("txtFiltro");
 	    		String columna = request.getParameter("ddlFiltros");
-	    		listaMedicos = mNeg.obtenerMedicosPorFiltro(columna, texto);
+	    		listaMedicos = medicoNegocio.obtenerMedicosPorFiltro(columna, texto);
 	    	}
 	    	
 	    	if(request.getParameter("btnLimpiarFiltros")!=null) {
-	    		listaMedicos = mNeg.obtenerMedicos();
+	    		listaMedicos = medicoNegocio.obtenerMedicos();
 	    	}
 	    	
 	    	inicializarModuloMedicos(request, response, listaMedicos);
@@ -136,13 +119,11 @@ public class servletMedicos extends HttpServlet {
 	}
 	
 	private void inicializarListas(HttpServletRequest request) {
-	    LocalidadNegocio localidadNegocio = new LocalidadNegocio();
-	    ProvinciaNegocio provinciaNegocio = new ProvinciaNegocio();
-	    EspecialidadNegocio especialidadNegocio = new EspecialidadNegocio();
         List<Localidad> listaLocalidades = localidadNegocio.obtenerLocalidades();
         List<Provincia> listaProvincias = provinciaNegocio.obtenerProvincias();
         List<Especialidad> listaEspecialidades = especialidadNegocio.obtenerEspecialidades();
-        Map<String, String> listaFiltros = mNeg.obtenerColumnas();
+        Map<String, String> listaFiltros = medicoNegocio.obtenerColumnas();
+        
 		request.setAttribute("listaLocalidades", listaLocalidades);
 		request.setAttribute("listaProvincias", listaProvincias);
 		request.setAttribute("listaEspecialidades", listaEspecialidades);	
@@ -150,24 +131,30 @@ public class servletMedicos extends HttpServlet {
 	}
 	
 	private void eliminarMedico(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		if(request.getParameter("btnEliminar") != null) {
 			int codMed = Integer.parseInt(request.getParameter("CodMed").toString());
-			boolean elimino = mNeg.eliminarMedico(codMed);
+			boolean elimino = medicoNegocio.eliminarMedico(codMed);
 			request.setAttribute("elimino", elimino);
-		
 			inicializarModuloMedicos(request, response, null);
 		}
 	}
 	
 	private void crearMedico(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		if(request.getParameter("btnCrearMedico") != null) {
-			
 			getHorarios(request);
-			Medico medico = mNeg.getMedico(request,true);
-			int edito = mNeg.crearMedico(medico);
+			Medico medico = medicoNegocio.getMedico(request,true);
+			int edito = medicoNegocio.crearMedico(medico);
 			request.setAttribute("CrearMedico", edito);
 			inicializarModuloMedicos(request, response, null);			        	  	    
+		}	
+	}
+	
+	private void editarMedico(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		if(request.getParameter("btnEditarMedico") != null) {
+			Medico medico = medicoNegocio.getMedico(request,false);
+			int edito = medicoNegocio.editarMedico(medico);
+			request.setAttribute("edito", edito);
+			inicializarModuloMedicos(request, response, null);						
 		}	
 	}
 	
@@ -190,14 +177,5 @@ public class servletMedicos extends HttpServlet {
 		}
 	}
 
-
-	private void editarMedico(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		if(request.getParameter("btnEditarMedico") != null) {
-				Medico medico = mNeg.getMedico(request,false);
-				int edito = mNeg.editarMedico(medico);
-				request.setAttribute("edito", edito);
-				inicializarModuloMedicos(request, response, null);						
-		}	
-	}
 }
 

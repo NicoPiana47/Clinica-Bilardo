@@ -21,15 +21,15 @@ import negImpl.ProvinciaNegocio;
 @SuppressWarnings("serial")
 @WebServlet("/servletPacientes")
 public class servletPacientes extends HttpServlet {
+    LocalidadNegocio localidadNegocio = new LocalidadNegocio();
+    ProvinciaNegocio provinciaNegocio = new ProvinciaNegocio();
+	PacienteNegocio pacienteNegocio = new PacienteNegocio();
        
     public servletPacientes() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		PacienteNegocio pacienteNegocio = new PacienteNegocio();
     	List<Paciente> listaPacientes = pacienteNegocio.obtenerPacientes();
 		inicializarModuloPacientes(request, pacienteNegocio, listaPacientes);
 		    
@@ -37,8 +37,6 @@ public class servletPacientes extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		PacienteNegocio pacienteNegocio = new PacienteNegocio();
 	    List<Paciente> listaPacientes = null;
 	    
 		if(request.getParameter("btnFiltrar")!=null) {
@@ -93,8 +91,6 @@ public class servletPacientes extends HttpServlet {
 	}
 	
 	private void inicializarListaProvinciasLocalidades(HttpServletRequest request, PacienteNegocio pacienteNegocio) {
-	    LocalidadNegocio localidadNegocio = new LocalidadNegocio();
-	    ProvinciaNegocio provinciaNegocio = new ProvinciaNegocio();
         List<Localidad> listaLocalidades = localidadNegocio.obtenerLocalidades();
         List<Provincia> listaProvincias = provinciaNegocio.obtenerProvincias();
 		request.setAttribute("listaLocalidades", listaLocalidades);
