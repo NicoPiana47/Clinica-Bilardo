@@ -11,6 +11,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import daoImpl.GeneralDao;
 import daoImpl.MedicoDao;
 import entidades.Especialidad;
 import entidades.Horario;
@@ -21,6 +22,7 @@ import neg.IMedicoNegocio;
 
 public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 	MedicoDao mDao = new MedicoDao();
+	GeneralDao gDao = new GeneralDao();
 	
 	
 	@Override
@@ -58,18 +60,6 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 	}
 
 
-	@Override
-	public boolean eliminarMedico(int codMed) {
-		boolean elimino = mDao.delete(codMed);
-		return elimino;
-	}
-
-
-	@Override
-	public boolean crearMedico(Medico medico) {
-		boolean agregado = mDao.create(medico);
-		return agregado;
-	}
 
 
 	@Override
@@ -135,11 +125,31 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 	    }
 	    return null;
 	}
+	
+	@Override
+	public boolean eliminarMedico(int codMed) {
+		boolean elimino = mDao.delete(codMed);
+		return elimino;
+	}
+	
+	
+	@Override
+	public int crearMedico(Medico medico) {
+		if(gDao.dniRepetido(medico.getDNI(), medico.getCodMed())) return 2;
+		if(gDao.correoRepetido(medico.getCorreo(), medico.getCodMed())) return 3;
+		if(mDao.usernameRepetido(medico.getUsername(), medico.getCodMed())) return 4;
+		if(mDao.create(medico)) return 1;
+		else return 0;
+
+	}
 
 	@Override
-	public boolean editarMedico(Medico medico) {
-		boolean update = mDao.update(medico);
-		return update;
+	public int editarMedico(Medico medico) {
+		if(gDao.dniRepetido(medico.getDNI(), medico.getCodMed())) return 2;
+		if(gDao.correoRepetido(medico.getCorreo(), medico.getCodMed())) return 3;
+		if(mDao.usernameRepetido(medico.getUsername(), medico.getCodMed())) return 4;
+		if(mDao.update(medico)) return 1;
+		else return 0;
 	}
 
 	

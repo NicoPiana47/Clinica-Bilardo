@@ -476,78 +476,58 @@
 		</div>
 	</form>
 	
-	<% if((Boolean) request.getAttribute("elimino") != null){
-			boolean elimino =(boolean)request.getAttribute("elimino");
-			if(elimino == true){
-				%><div style="display: flex; justify-content: center; visibility="hidden";>
-				        <div ID="MsgSuccesDiv" class="col-md-4 alert alert-success text-center">
-				         <i class="bi-check-circle-fill text-center"></i>
-				            <strong>Éxito</strong> Médico eliminado!
-				            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-				        </div>
-				    </div>
-			    <% 
-			}
-			else{
-				%><div style="display: flex; justify-content: center; visibility="hidden";>
-				        <div ID="MsgErrorDiv" class="col-md-4 alert alert-danger  text-center">
-				            <strong>Error</strong> No se pudo eliminar al médico!
-				            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-				        </div>
-				    </div>
-			    <% 
-			}
-		}
-	%>
-	
 	<%
-		if((Boolean)request.getAttribute("CrearMedico") != null){
-			boolean crearMedico = (boolean)request.getAttribute("CrearMedico");
-			if(crearMedico==true){
-	%>  
-				<div class="alert alert-success alert-dismissible d-flex align-items-center fade show  m-auto " style="width:50%; margin-bottom:20px">
-					<div class="m-auto">
-						<i class="bi-check-circle-fill text-center"></i>
-						<strong class="mx-2">Éxito!</strong> Médico creado con éxito!
-						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-					</div>			
-				</div>      
-		<% 
+		if((Boolean)request.getAttribute("elimino") != null){
+			boolean elimino = (boolean)request.getAttribute("elimino");
+			if(elimino==true){
+				%><script>Notiflix.Notify.success("Se eliminó el médico con éxito!")</script> <% 
 			}    
 			else{
-				%><div style="display: flex; justify-content: center; visibility="hidden";>
-				        <div ID="MsgErrorDiv" class="col-md-4 alert alert-danger  text-center">
-				            <strong>Error</strong> No se pudo crear al médico!
-				            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-				        </div>
-				    </div>
-			    <% 
+				%><script>Notiflix.Notify.success("No se pudo eliminar al médico")</script> <% 
 			}
 		}                                             	
 	%>
 	
 	<%
-		if((Boolean)request.getAttribute("edito") != null){
-			boolean edito = (boolean)request.getAttribute("edito");
-			if(edito==true){
-	%>  
-				<div class="alert alert-success alert-dismissible d-flex align-items-center fade show  m-auto " style="width:50%; margin-bottom:20px">
-					<div class="m-auto">
-						<i class="bi-check-circle-fill text-center"></i>
-						<strong class="mx-2">Éxito!</strong> Usuario modificado con éxito!
-						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-					</div>			
-				</div>      
-		<% 
+		if((Integer)request.getAttribute("CrearMedico") != null){
+			int creo = (int)request.getAttribute("CrearMedico");
+			
+			if(creo == 1){
+				%><script>Notiflix.Notify.success("Se creo el médico con éxito!")</script> <% 
 			}    
-			else{
-				%><div style="display: flex; justify-content: center; visibility="hidden";>
-				        <div ID="MsgErrorDiv" class="col-md-4 alert alert-danger  text-center">
-				            <strong>Error</strong> No se pudo modificar al Usuario!
-				            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-				        </div>
-				    </div>
-			    <% 
+			if(creo == 2){
+				%><script>Notiflix.Notify.failure("DNI repetido")</script> <% 
+			}
+			if(creo == 3){
+				%><script>Notiflix.Notify.failure("Correo repetido")</script> <% 
+			}
+			if(creo == 4){
+				%><script>Notiflix.Notify.failure("Usuario repetido")</script> <% 
+			}
+			if(creo == 0){
+				%><script>Notiflix.Notify.failure("No se pudo crear al médico")</script> <% 
+			}
+		}                                      	
+	%>
+	
+	<%
+		if((Integer)request.getAttribute("edito") != null){
+			int edito = (int)request.getAttribute("edito");
+			
+			if(edito == 1){
+				%><script>Notiflix.Notify.success("Se editó el médico con éxito!")</script> <% 
+			}    
+			if(edito == 2){
+				%><script>Notiflix.Notify.failure("DNI repetido")</script> <% 
+			}
+			if(edito == 3){
+				%><script>Notiflix.Notify.failure("Correo repetido")</script> <% 
+			}
+			if(edito == 4){
+				%><script>Notiflix.Notify.failure("Usuario repetido")</script> <% 
+			}
+			if(edito == 0){
+				%><script>Notiflix.Notify.failure("No se pudo editar al médico")</script> <% 
 			}
 		}                                             	
 	%>

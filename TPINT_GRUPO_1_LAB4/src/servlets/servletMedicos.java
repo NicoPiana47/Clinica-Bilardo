@@ -160,7 +160,7 @@ public class servletMedicos extends HttpServlet {
 		    Set<Horario> listaHorarios = (Set<Horario>) request.getAttribute("setHorarios");
 
 			Medico medico = mNeg.getMedico(request,true);
-			boolean edito = mNeg.crearMedico(medico);
+			int edito = mNeg.crearMedico(medico);
 			request.setAttribute("CrearMedico", edito);
 			inicializarModuloMedicos(request, response, null);			        	  	    
 		}	
@@ -168,7 +168,7 @@ public class servletMedicos extends HttpServlet {
 	private void editarMedico(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		if(request.getParameter("btnEditarMedico") != null) {
 				Medico medico = mNeg.getMedico(request,false);
-				boolean edito = mNeg.editarMedico(medico);
+				int edito = mNeg.editarMedico(medico);
 				request.setAttribute("edito", edito);
 				inicializarModuloMedicos(request, response, null);						
 		}	

@@ -14,9 +14,9 @@ public interface IMedicoNegocio {
 	public List<Medico>obtenerMedicosPorFiltro(String columna, String texto);
 	Map<String, String> obtenerColumnas();
 	public Medico getMedico(HttpServletRequest request,boolean isCreating);
-	public boolean editarMedico(Medico medico);
+	public int editarMedico(Medico medico);
 	public boolean eliminarMedico(int codMed);
-	public boolean crearMedico(Medico medico);
+	public int crearMedico(Medico medico);
 	
 	
 	

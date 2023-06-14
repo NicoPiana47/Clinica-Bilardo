@@ -233,11 +233,38 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 			e.printStackTrace();
 		}
 		
-		return isUpdate;
-		
-		
-		
-		
+		return isUpdate;	
+	}
+
+	@Override
+	public boolean usernameRepetido(String username, int cod) {
+		Connection cn = Conexion.getConexion().getSQLConexion();
+		Medico x = new Medico();
+		boolean repetido = true;
+		  try
+		  {
+			 String query = "SELECT CASE "
+			 		+ "WHEN EXISTS (SELECT 1 FROM Medicos WHERE Username_MED = ? AND CodMed_MED <> ?) "
+			 		+ "THEN 1 "
+			 		+ "ELSE 0 "
+			 		+ "END AS Repetido;";
+			 
+			 PreparedStatement st = cn.prepareStatement(query);
+			 st.setString(1, username);
+			 st.setInt(2, cod);
+			 ResultSet rs = st.executeQuery();
+			
+			 while(rs.next()) {
+				 repetido = rs.getBoolean("Repetido");		
+			 }				 
+		  }
+		  catch (Exception e) {
+				e.printStackTrace();
+		  }
+		  finally  {
+			  
+		  }
+		return repetido;
 	}
 
 }
