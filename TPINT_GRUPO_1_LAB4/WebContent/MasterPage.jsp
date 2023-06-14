@@ -40,7 +40,7 @@
 
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-        <% if (true) { %>
+        <% if (med.getTipo()) { %>
         <li class="nav-item">
           <a class="nav-link text-white" href="servletPacientes">
             <i class="fa-solid fa-users"></i> Administrar Pacientes
