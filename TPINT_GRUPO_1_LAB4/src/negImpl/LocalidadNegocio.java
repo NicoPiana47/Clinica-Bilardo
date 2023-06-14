@@ -22,11 +22,6 @@ public class LocalidadNegocio implements ILocalidadNegocio{
 	}
 
 	@Override
-	public List<Localidad> obtenerLocalidades(int codProvincia) {
-		return localidadDao.obtenerLocalidadesPorProvincia(codProvincia);
-	}
-	
-	@Override
 	public List<Localidad> obtenerLocalidades() {
 		return localidadDao.readAll();
 	}

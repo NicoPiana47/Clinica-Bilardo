@@ -28,6 +28,4 @@ public class GeneralNegocio {
 
 	        return columnas;
 	    }
-
-
 }

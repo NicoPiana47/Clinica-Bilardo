@@ -25,7 +25,6 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 	MedicoDao mDao = new MedicoDao();
 	GeneralDao gDao = new GeneralDao();
 	
-	
 	@Override
 	public Medico iniciarSesion(String username, String contraseña) {
 		Medico med = new Medico();

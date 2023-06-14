@@ -16,7 +16,6 @@ import entidades.Provincia;
 import neg.IPacienteNegocio;
 
 public class PacienteNegocio extends GeneralNegocio implements IPacienteNegocio{
-	
 	GeneralDao generalDao = new GeneralDao();
 	PacienteDao pacienteDao = new PacienteDao();
 	LocalidadNegocio localidadNegocio = new LocalidadNegocio();
@@ -58,7 +57,6 @@ public class PacienteNegocio extends GeneralNegocio implements IPacienteNegocio{
 	
 	@Override
 	public Paciente getPacienteEditar(HttpServletRequest request) {
-
 		int codPac = Integer.parseInt(request.getParameter("codPac"));
 		String dni = request.getParameter("txtDNI");    
 		Provincia provincia = createProvinciaFromRequest(request);
@@ -102,7 +100,6 @@ public class PacienteNegocio extends GeneralNegocio implements IPacienteNegocio{
 	    return null;
 	}
 
-	
 	@Override
 	public int guardar(Paciente unPaciente) {
 		if(generalDao.dniRepetido(unPaciente.getDNI(), unPaciente.getCodPac())) return 2;

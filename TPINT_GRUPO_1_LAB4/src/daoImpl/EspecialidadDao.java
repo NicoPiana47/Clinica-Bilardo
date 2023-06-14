@@ -10,7 +10,6 @@ import java.util.List;
 import conexión.Conexion;
 import dao.IEspecialidadDao;
 import entidades.Especialidad;
-import entidades.Provincia;
 
 public class EspecialidadDao implements IEspecialidadDao{
 	private static final String obtenerEspecialidad = " SELECT CodEspecialidad_ESP, Descripcion_ESP FROM Medicos "
@@ -39,6 +38,7 @@ public class EspecialidadDao implements IEspecialidadDao{
 	
 		return unaEspecialidad;
 	}
+	
 	@Override
 	public List<Especialidad> readAll() {
 		PreparedStatement statement;
@@ -61,7 +61,6 @@ public class EspecialidadDao implements IEspecialidadDao{
 	}
 
 	private Especialidad getEspecialidad(ResultSet resultSet) throws SQLException {
-		
 	    int codEspecialidad = resultSet.getInt("CodEspecialidad_ESP");
 	    String descripcion = resultSet.getString("Descripcion_ESP");
 	    

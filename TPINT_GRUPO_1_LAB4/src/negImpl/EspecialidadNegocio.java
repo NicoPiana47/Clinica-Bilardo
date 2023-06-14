@@ -13,5 +13,4 @@ public class EspecialidadNegocio implements IEspecialidadNegocio {
 	public List<Especialidad> obtenerEspecialidades() {
 		return edao.readAll();
 	}
-
 }

@@ -24,27 +24,24 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 	
 	public Medico traerMedicoPorNombreUsuario(String username) {		
 		Connection cn = Conexion.getConexion().getSQLConexion();
-		Medico x = new Medico();
-		  try
-		  {
-			 String query = "select * from Medicos where Username_MED = ?";
-			 
-			 PreparedStatement st = cn.prepareStatement(query);
-			 st.setString(1, username);
-			 ResultSet rs = st.executeQuery();
+		Medico medico = new Medico();
+		  
+		try {
+			String query = "select * from Medicos where Username_MED = ?";
+				 
+			PreparedStatement st = cn.prepareStatement(query);
+			st.setString(1, username);
+			ResultSet rs = st.executeQuery();
 			
-			 while(rs.next()) {
-				x = getMedico(rs);				
-			 }				 
-		  }
-		  catch (Exception e) {
-				e.printStackTrace();
-		  }
-		  finally  {
-			  
-		  }
-		return x;
+			while(rs.next()) {
+				medico = getMedico(rs);				
+			}				 
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		
+		return medico;	
 	}
 
 	@Override
@@ -208,9 +205,7 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 	        }
 	    } catch (SQLException e) {
 	    	e.printStackTrace();
-	    } finally {
-	       
-	    }
+	    } 
 	    
 	    return isInsert;
 	}
@@ -222,23 +217,25 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 		boolean isUpdate = false;
 		try{
 			statement = conexion.prepareStatement(update);
-			    statement.setString(1, medico.getDNI());
-		        statement.setInt(2, medico.getEspecialidad().getCodEspecialidad());
-		        statement.setInt(3, medico.getLocalidad().getCodLocalidad());
-		        statement.setInt(4, medico.getProvincia().getCodProvincia());
-		        statement.setString(5, medico.getNombre());
-		        statement.setString(6, medico.getApellido());
-		        statement.setString(7, medico.getCorreo());
-		        statement.setString(8, medico.getSexo());
-		        statement.setString(9, medico.getNacionalidad());
-		        statement.setDate(10, new java.sql.Date(medico.getFechaNacimiento().getTime()));
-		        statement.setString(11, medico.getDireccion());
-		        statement.setString(12, medico.getTelefono());
-		        statement.setString(13, medico.getUsername());
-		        statement.setString(14, medico.getContraseña());
-		        statement.setBoolean(15, medico.getTipo());
-		        statement.setBoolean(16, medico.getEstado());
-		        statement.setInt(17, medico.getCodMed());
+			
+		    statement.setString(1, medico.getDNI());
+	        statement.setInt(2, medico.getEspecialidad().getCodEspecialidad());
+	        statement.setInt(3, medico.getLocalidad().getCodLocalidad());
+	        statement.setInt(4, medico.getProvincia().getCodProvincia());
+	        statement.setString(5, medico.getNombre());
+	        statement.setString(6, medico.getApellido());
+	        statement.setString(7, medico.getCorreo());
+	        statement.setString(8, medico.getSexo());
+	        statement.setString(9, medico.getNacionalidad());
+	        statement.setDate(10, new java.sql.Date(medico.getFechaNacimiento().getTime()));
+	        statement.setString(11, medico.getDireccion());
+	        statement.setString(12, medico.getTelefono());
+	        statement.setString(13, medico.getUsername());
+	        statement.setString(14, medico.getContraseña());
+	        statement.setBoolean(15, medico.getTipo());
+	        statement.setBoolean(16, medico.getEstado());
+	        statement.setInt(17, medico.getCodMed());
+	        
 			if(statement.executeUpdate() > 0){
 				conexion.commit();
 				isUpdate = true;
@@ -254,31 +251,28 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 	@Override
 	public boolean usernameRepetido(String username, int cod) {
 		Connection cn = Conexion.getConexion().getSQLConexion();
-		Medico x = new Medico();
 		boolean repetido = true;
-		  try
-		  {
-			 String query = "SELECT CASE "
-			 		+ "WHEN EXISTS (SELECT 1 FROM Medicos WHERE Username_MED = ? AND CodMed_MED <> ?) "
-			 		+ "THEN 1 "
-			 		+ "ELSE 0 "
-			 		+ "END AS Repetido;";
+		
+		try {
+			String query = "SELECT CASE "
+				+ "WHEN EXISTS (SELECT 1 FROM Medicos WHERE Username_MED = ? AND CodMed_MED <> ?) "
+				+ "THEN 1 "
+				+ "ELSE 0 "
+				+ "END AS Repetido;";
 			 
-			 PreparedStatement st = cn.prepareStatement(query);
-			 st.setString(1, username);
-			 st.setInt(2, cod);
-			 ResultSet rs = st.executeQuery();
+			PreparedStatement st = cn.prepareStatement(query);
+			st.setString(1, username);
+			st.setInt(2, cod);
+			ResultSet rs = st.executeQuery();
 			
-			 while(rs.next()) {
-				 repetido = rs.getBoolean("Repetido");		
-			 }				 
-		  }
-		  catch (Exception e) {
-				e.printStackTrace();
-		  }
-		  finally  {
-			  
-		  }
+			while(rs.next()) {
+				repetido = rs.getBoolean("Repetido");		
+			}				 
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return repetido;
 	}
 

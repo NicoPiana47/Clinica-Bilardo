@@ -22,6 +22,7 @@ public class LocalidadDao implements ILocalidadDao {
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		Localidad unaLocalidad = new Localidad();
 		ResultSet resultSet = null;
+		
 		try{
 			PreparedStatement statement = conexion.prepareStatement(obtenerLocalidad);
 	        statement.setInt(1, codLocalidad);
@@ -32,7 +33,6 @@ public class LocalidadDao implements ILocalidadDao {
 	            unaLocalidad.setDescripcion(resultSet.getString("Descripcion_LOC"));
 	            unaLocalidad.setProvincia(obtenerProvinciaPorLocalidad(resultSet.getInt("CodProvincia_LOC")));
 	        }
-
 		}
 		catch (Exception e) {
 			
@@ -41,10 +41,12 @@ public class LocalidadDao implements ILocalidadDao {
 		return unaLocalidad;
 	}
 
+	@Override
 	public Provincia obtenerProvinciaPorLocalidad(int codLocalidad) {
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		Provincia unaProvincia = new Provincia();
 		ResultSet resultSet = null;
+		
 		try{
 			PreparedStatement statement = conexion.prepareStatement(obtenerProvincia);
 	        statement.setInt(1, codLocalidad);
@@ -66,32 +68,6 @@ public class LocalidadDao implements ILocalidadDao {
 	}
 
 	@Override
-	public List<Localidad> obtenerLocalidadesPorProvincia(int codProvincia) {
-		 Connection conexion = Conexion.getConexion().getSQLConexion();
-		    List<Localidad> listaLocalidades = new ArrayList<>();
-		    ResultSet resultSet = null;
-		    try {
-		        String obtenerLocalidades = "SELECT * FROM localidades WHERE CodProvincia_LOC = ?";
-		        PreparedStatement statement = conexion.prepareStatement(obtenerLocalidades);
-		        statement.setInt(1, codProvincia);
-		        resultSet = statement.executeQuery();
-		        
-		        while (resultSet.next()) {
-		            Localidad localidad = new Localidad();
-		            localidad.setCodLocalidad(resultSet.getInt("CodLocalidad_LOC"));
-		            localidad.setDescripcion(resultSet.getString("Descripcion_LOC"));
-		            localidad.setProvincia(obtenerProvinciaPorLocalidad(resultSet.getInt("CodProvincia_LOC")));
-		            listaLocalidades.add(localidad);
-		        }
-		    } catch (SQLException e) {
-		        e.printStackTrace();
-		    } finally {
-		        
-		        }
-		    
-		    return listaLocalidades;
-	}
-
 	public List<Localidad> readAll() {
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 	    List<Localidad> localidades = new ArrayList<>();
