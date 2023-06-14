@@ -107,7 +107,7 @@
 					
 						<td scope="row">
 							<form method="post" action="servletMedicos">						
-								<button type="submit"  name ="btnEliminar" class="btn btn-outline-danger btn-sm" onclick="event.stopPropagation(); return confirm('¿Esta seguro de que quiere eliminar el médico?')">
+								<button type="submit" name="btnEliminar" class="btn btn-outline-danger btn-sm" onclick="event.stopPropagation(); return confirm('¿Esta seguro de que quiere eliminar el médico?')">
 								<input type="hidden" name="CodMed" value="<%= medico.getCodMed() %>">
 									<i class="fa-solid fa-trash"></i>
 								</button>
@@ -126,7 +126,8 @@
 						<td><%=medico.getCorreo()%></td>
 						<td><%=medico.getTelefono()%></td> 
 						<td><%=medico.getEspecialidad()%></td>
-						<td>Ver registro</td>  
+						<td>Ver registro <input type="hidden" id="horarios" value='<%= medico.getHorariosJson() %>'> </td>
+
 						<td><%=medico.getUsername()%></td>
 						<td><%=medico.getContraseña()%></td>
 						<td>
@@ -266,7 +267,7 @@
 				        <div class="row m-2">
 				        	<div class="col-4">
 				        		<label class="form-label">Ver</label> 			        		
-				        		<button type="button" class="form-control" onclick="openModal('modalHorarios')">Horarios</button>
+				        		<button type="button" id="btnVerHorario" class="form-control" onclick="openModal('modalHorarios')">Horarios</button>
 				        	</div>
 				        	
 				        	<div class="col-4">
@@ -340,24 +341,7 @@
 									</tr>
 								</thead>
 						        <tbody id="tablaHorariosBody">
-<% 
-				    if (request.getAttribute("listaHorarios") instanceof List) {
-				        List<MedicosXDias> listaHorarios = (List<MedicosXDias>) request.getAttribute("listaHorarios");
-				        for (MedicosXDias horario : listaHorarios) { 
-				    	
-					%>
-					<tr >
-					
-					
-	                	<td><%=horario.getDia()%></td>  
-	                	<td><%=horario.getHorarioDesde()%></td>   
-						<td><%=horario.getHorarioHasta()%></td> 
-						<td><%=horario.isEstado()%></td>
-		         	</tr>
-		         	<% 
-			        	} 
-				    }
-					%>
+
 						    	</tbody>                                             
 							</table>
 							 <input type="hidden" name="datosHorarios" id="datosHorarios">
@@ -476,6 +460,60 @@
 	
 <script>
 
+	var btnVerHorario = document.getElementById('btnVerHorario');
+	btnVerHorario.addEventListener('click', function() {	
+	  cargarTabla();
+	});
+
+	function cargarTabla() {
+  		var horarios = document.getElementById('datosHorarios').value;
+	  	var tablaBody = document.getElementById("tablaHorariosBody");
+
+	  // Limpiar tabla
+	  	tablaBody.innerHTML = "";
+
+	  // Convertir el JSON de horarios a objeto
+	  	var horariosObj = JSON.parse(horarios);
+
+	  // Recorrer los horarios y agregar filas a la tabla
+	  	horariosObj.forEach(function(horario) {
+		    var nuevaFila = document.createElement("tr");
+	
+		    var celdaDia = document.createElement("td");
+		    var celdaHorarioDesde = document.createElement("td");
+		    var celdaHorarioHasta = document.createElement("td");
+		    var celdaEstado = document.createElement("td");
+		    var checkbox = document.createElement("input");
+		    checkbox.type = "checkbox";
+		    checkbox.checked = horario.estado;
+		    celdaEstado.appendChild(checkbox);
+	
+		    celdaDia.textContent = horario.dia;
+		    celdaHorarioDesde.textContent = formatarHora(horario.horarioDesde);
+		    celdaHorarioHasta.textContent = formatarHora(horario.horarioHasta);
+		    
+		    nuevaFila.appendChild(celdaDia);
+		    nuevaFila.appendChild(celdaHorarioDesde);
+		    nuevaFila.appendChild(celdaHorarioHasta);
+		    nuevaFila.appendChild(celdaEstado);
+	
+		    tablaBody.appendChild(nuevaFila);
+	  	});
+	}
+	
+	function formatarHora(horario) {
+		var options = {
+	  		hour: "2-digit",
+		  	minute: "2-digit"
+		};
+		
+		var hora = new Date();
+		hora.setHours(horario.hour);
+		hora.setMinutes(horario.minute);
+		
+		return hora.toLocaleTimeString(undefined, options);
+	}
+
 	var botonAgregar = document.querySelector('.createH button');
 	botonAgregar.addEventListener('click', function() {	
 		var dia = document.querySelector('select[name="ddlDia"]').value;
@@ -515,27 +553,28 @@
 	});
 	
 	function actualizarValores() {
-		  var filas = document.querySelectorAll("#tablaHorariosBody tr");
-		  var horarios = [];
-
-		  filas.forEach(function(fila) {
-		    var celdas = fila.querySelectorAll("td");
-		    var dia = celdas[0].textContent;
-		    var horarioDesde = celdas[1].textContent;
-		    var horarioHasta = celdas[2].textContent;
-		    var estado = celdas[3].textContent;
-		    
-		    horarios.push({
-		      dia: dia,
-		      horarioDesde: horarioDesde,
-		      horarioHasta: horarioHasta,
-		      estado: estado
-		    });
-		  });
-
-		  // Actualizar los valores en un campo oculto
-		  var datosHorarios = document.getElementById("datosHorarios");
-		  datosHorarios.value = JSON.stringify(horarios);
+		var filas = document.querySelectorAll("#tablaHorariosBody tr");
+		var horarios = [];
+		
+		filas.forEach(function(fila) {
+			var celdas = fila.querySelectorAll("td");
+			var dia = celdas[0].textContent;
+			var horarioDesde = celdas[1].textContent;
+			var horarioHasta = celdas[2].textContent;
+			var checkbox = celdas[3].querySelector("input[type='checkbox']");
+			var estado = checkbox.checked;
+			
+			horarios.push({
+				dia: dia,
+				horarioDesde: horarioDesde,
+				horarioHasta: horarioHasta,
+				estado: estado
+			});
+		});
+		
+		// Actualizar los valores en un campo oculto
+		var datosHorarios = document.getElementById("datosHorarios");
+		datosHorarios.value = JSON.stringify(horarios);
 	}
 
 	function validarLetras(input) {
@@ -556,6 +595,7 @@
     		hideElements(false, cName);
     	}
 	}
+	
 	function chargeRow(row) {
 		var cells = row.cells;
 		
@@ -573,6 +613,8 @@
    		document.getElementById('txtCorreo').value = cells[11].innerText;
    		document.getElementById('txtTelefono').value = cells[12].innerText;
    		document.getElementById('ddlEspecialidad').selectedIndex =  getSelectedIndexByText(ddlEspecialidad, cells[13].innerText);
+   	 	var horarios = cells[14].querySelector('#horarios').value;
+   		document.getElementById('datosHorarios').value = horarios;
    		document.getElementById('txtUsuario').value = cells[15].innerText;
    		document.getElementById('txtContraseña').value = cells[16].innerText;
    		

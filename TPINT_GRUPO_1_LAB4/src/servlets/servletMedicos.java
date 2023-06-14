@@ -170,6 +170,7 @@ public class servletMedicos extends HttpServlet {
 			inicializarModuloMedicos(request, response, null);			        	  	    
 		}	
 	}
+	
 	private void getHorarios(HttpServletRequest request) {
 		String datosJSON;
 		if(request.getParameter("datosHorarios") != null) {

@@ -23,6 +23,7 @@ public class Medico {
     private boolean tipo;
     private boolean estado;
     private Set<MedicosXDias> horarios;
+    private String horariosJson;
     
     
     public Medico() {
@@ -164,6 +165,15 @@ public class Medico {
 	public void setHorarios(Set<MedicosXDias> horarios) {
 		this.horarios = horarios;
 	}
+
+	public String getHorariosJson() {
+		return horariosJson;
+	}
+
+	public void setHorariosJson(String horariosJson) {
+		this.horariosJson = horariosJson;
+	}
+
 	
 
 }

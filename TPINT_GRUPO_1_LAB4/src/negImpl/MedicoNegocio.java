@@ -2,21 +2,22 @@ package negImpl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalTime;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import daoImpl.GeneralDao;
 import daoImpl.MedicoDao;
 import entidades.Especialidad;
-import entidades.MedicosXDias;
 import entidades.Localidad;
 import entidades.Medico;
+import entidades.MedicosXDias;
 import entidades.Provincia;
 import neg.IMedicoNegocio;
 
@@ -43,7 +44,16 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 
 	@Override
 	public List<Medico> obtenerMedicos() {
-		return mDao.readAll();
+	    List<Medico> medicos = mDao.readAll();
+	    Gson gson = new GsonBuilder().create();
+
+	    for (Medico medico : medicos) {
+	        Set<MedicosXDias> horarios = medico.getHorarios();
+	        String horariosJson = gson.toJson(horarios);
+	        medico.setHorariosJson(horariosJson);
+	    }
+
+	    return medicos;
 	}
 
 
