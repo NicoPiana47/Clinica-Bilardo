@@ -2,16 +2,21 @@ package entidades;
 
 import java.time.LocalTime;
 
-public class Horario implements Comparable<Horario>{
+public class MedicosXDias implements Comparable<MedicosXDias>{
 	private String dia;
 	private LocalTime horarioDesde;
 	private LocalTime horarioHasta;
 	private boolean estado;
 
-	public Horario(String dia, LocalTime horarioDesde, LocalTime horarioHasta, boolean estado) {
+	public MedicosXDias() {
+		
+	}
+	
+	public MedicosXDias(String dia, LocalTime horarioDesde, LocalTime horarioHasta, boolean estado) {
 		this.dia = dia;
-		this.setHorarioDesde(horarioDesde);
-		this.setHorarioHasta(horarioHasta);
+		this.horarioDesde = horarioDesde;
+		this.horarioHasta = horarioHasta;
+		this.estado = estado;
 	}
 
 	public String getDia() {
@@ -47,7 +52,7 @@ public class Horario implements Comparable<Horario>{
 	}
 
 	@Override
-	public int compareTo(Horario horario) {
+	public int compareTo(MedicosXDias horario) {
 		return this.dia.compareToIgnoreCase(horario.dia);
 	}
 

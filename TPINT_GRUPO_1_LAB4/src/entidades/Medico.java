@@ -22,7 +22,7 @@ public class Medico {
     private String telefono;
     private boolean tipo;
     private boolean estado;
-    private Set<Horario> horarios;
+    private Set<MedicosXDias> horarios;
     
     
     public Medico() {
@@ -34,7 +34,7 @@ public class Medico {
     
     public Medico(int codMed, String DNI, Especialidad esp, Localidad loc, Provincia prov, String corr, String user,
     			String contr, String nombre, String apell, String sexo, String nac, Date fechaNac, String direc, 
-    			String tel, boolean tipo, boolean estado, Set<Horario> horarios) {
+    			String tel, boolean tipo, boolean estado, Set<MedicosXDias> horarios) {
     	this.codMed = codMed;
     	this.DNI = DNI;
     	this.especialidad = esp;
@@ -158,10 +158,10 @@ public class Medico {
 	public void setEstado(boolean estado) {
 		this.estado = estado;
 	}
-	public Set<Horario> getHorarios() {
+	public Set<MedicosXDias> getHorarios() {
 		return horarios;
 	}
-	public void setHorarios(Set<Horario> horarios) {
+	public void setHorarios(Set<MedicosXDias> horarios) {
 		this.horarios = horarios;
 	}
 	

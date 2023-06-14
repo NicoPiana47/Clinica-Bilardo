@@ -12,7 +12,7 @@ import java.util.Set;
 import conexión.Conexion;
 import dao.IMedicoDao;
 import entidades.Especialidad;
-import entidades.Horario;
+import entidades.MedicosXDias;
 import entidades.Localidad;
 import entidades.Medico;
 import entidades.Provincia;
@@ -76,9 +76,10 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 		
 		int codigoMedico = resultSet.getInt("CodMed_MED");
 		LocalidadDao localidadDao = new LocalidadDao();
-		EspecialidadDao espDao = new EspecialidadDao();
+		EspecialidadDao especialidadDao = new EspecialidadDao();
+		MedicosXDiasDao medicosxdiasDao = new MedicosXDiasDao();
 		
-		Especialidad unaEspecialidad = espDao.obtenerEspecialidadPorCodigo(codigoMedico);
+		Especialidad unaEspecialidad = especialidadDao.obtenerEspecialidadPorCodigo(codigoMedico);
 		Localidad unaLocalidad = localidadDao.obtenerLocalidadPorCodigo(resultSet.getInt("CodLocalidad_MED"));
 		Provincia unaProvincia = unaLocalidad.getProvincia();
 		
@@ -99,7 +100,7 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 		String contraseña = resultSet.getString("Contraseña_MED"); 
 		boolean estado = resultSet.getBoolean("Estado_MED");
 		boolean tipo = resultSet.getBoolean("Tipo_MED");
-		Set<Horario> horarios = null;
+		Set<MedicosXDias> horarios = medicosxdiasDao.obtenerHorariosPorMedico(codigoMedico);
 		
 		return new Medico(codMed, DNI, especialidad, localidad, provincia, correo, username, contraseña, nombre, apellido, sexo, nacionalidad, fechaNacimiento, direccion, telefono, tipo, estado, horarios);
 	}
@@ -191,7 +192,7 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 	            
 	            MedicosXDiasDao medicoXDiaDao = new MedicosXDiasDao();
 	            boolean allHorariosInserted = true; // Variable auxiliar para rastrear la inserción de todos los horarios
-	            for (Horario horario : medico.getHorarios()) {
+	            for (MedicosXDias horario : medico.getHorarios()) {
 	                if (!medicoXDiaDao.insert(medico.getCodMed(), horario)) {
 	                    allHorariosInserted = false;
 	                    break; // Salir del bucle si un horario falla en la inserción

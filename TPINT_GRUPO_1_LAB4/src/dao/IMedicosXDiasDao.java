@@ -1,9 +1,12 @@
 package dao;
 
-import entidades.Horario;
+import java.util.Set;
+
+import entidades.MedicosXDias;
 
 public interface IMedicosXDiasDao {
 
-	 public boolean insert(int codMed, Horario horario);
+	 public boolean insert(int codMed, MedicosXDias horario);
+	 public Set<MedicosXDias> obtenerHorariosPorMedico(int codigoMedico);
 
 }

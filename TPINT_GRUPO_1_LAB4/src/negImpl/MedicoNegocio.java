@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import daoImpl.GeneralDao;
 import daoImpl.MedicoDao;
 import entidades.Especialidad;
-import entidades.Horario;
+import entidades.MedicosXDias;
 import entidades.Localidad;
 import entidades.Medico;
 import entidades.Provincia;
@@ -72,7 +72,7 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 	        }
 	    }		
 	    
-	    Set<Horario> horarios = (Set<Horario>) request.getAttribute("treeSetHorarios");
+	    Set<MedicosXDias> horarios = (Set<MedicosXDias>) request.getAttribute("treeSetHorarios");
 		String dni = request.getParameter("txtDNI");    
 		String contraseña = request.getParameter("txtContraseña");    
 		String usuario = request.getParameter("txtUsuario");  

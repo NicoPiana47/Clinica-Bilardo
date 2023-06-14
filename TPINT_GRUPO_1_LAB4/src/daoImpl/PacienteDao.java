@@ -74,8 +74,8 @@ public class PacienteDao extends GeneralDao implements IPacienteDao {
 	private Paciente getPaciente(ResultSet resultSet) throws SQLException {
 		
 		int codigoPaciente = resultSet.getInt("CodPac_PAC");
-		LocalidadDao localidadNeg = new LocalidadDao();
-		Localidad unaLocalidad = localidadNeg.obtenerLocalidadPorCodigo(resultSet.getInt("CodLocalidad_PAC"));
+		LocalidadDao localidadDao = new LocalidadDao();
+		Localidad unaLocalidad = localidadDao.obtenerLocalidadPorCodigo(resultSet.getInt("CodLocalidad_PAC"));
 		Provincia unaProvincia = unaLocalidad.getProvincia();
 		
 		int codPac = codigoPaciente;

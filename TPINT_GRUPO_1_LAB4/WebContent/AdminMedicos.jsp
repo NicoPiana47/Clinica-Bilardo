@@ -20,7 +20,7 @@
 <%@ page import="entidades.Provincia" %>
 <%@ page import="entidades.Localidad" %>
 <%@ page import="entidades.Especialidad" %>
-<%@ page import="entidades.Horario" %>
+<%@ page import="entidades.MedicosXDias" %>
 </head>
 
 <body>
@@ -340,7 +340,24 @@
 									</tr>
 								</thead>
 						        <tbody id="tablaHorariosBody">
-
+<% 
+				    if (request.getAttribute("listaHorarios") instanceof List) {
+				        List<MedicosXDias> listaHorarios = (List<MedicosXDias>) request.getAttribute("listaHorarios");
+				        for (MedicosXDias horario : listaHorarios) { 
+				    	
+					%>
+					<tr >
+					
+					
+	                	<td><%=horario.getDia()%></td>  
+	                	<td><%=horario.getHorarioDesde()%></td>   
+						<td><%=horario.getHorarioHasta()%></td> 
+						<td><%=horario.isEstado()%></td>
+		         	</tr>
+		         	<% 
+			        	} 
+				    }
+					%>
 						    	</tbody>                                             
 							</table>
 							 <input type="hidden" name="datosHorarios" id="datosHorarios">

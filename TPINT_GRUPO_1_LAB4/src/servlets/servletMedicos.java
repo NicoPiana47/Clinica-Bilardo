@@ -23,13 +23,14 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
 
 import entidades.Especialidad;
-import entidades.Horario;
+import entidades.MedicosXDias;
 import entidades.Localidad;
 import entidades.Medico;
 import entidades.Provincia;
 import negImpl.EspecialidadNegocio;
 import negImpl.LocalidadNegocio;
 import negImpl.MedicoNegocio;
+import negImpl.MedicosXDiasNegocio;
 import negImpl.ProvinciaNegocio;
 
 
@@ -181,9 +182,9 @@ public class servletMedicos extends HttpServlet {
 			});
 			Gson gson = gsonBuilder.create();
 			
-			Horario[] horariosArray = gson.fromJson(datosJSON, Horario[].class);
-			List<Horario> listaHorarios = Arrays.asList(horariosArray);
-			Set<Horario> treeSetHorarios = new TreeSet<>(listaHorarios);
+			MedicosXDias[] horariosArray = gson.fromJson(datosJSON, MedicosXDias[].class);
+			List<MedicosXDias> listaHorarios = Arrays.asList(horariosArray);
+			Set<MedicosXDias> treeSetHorarios = new TreeSet<>(listaHorarios);
 			request.setAttribute("treeSetHorarios", treeSetHorarios);
 		}
 	}
