@@ -24,6 +24,11 @@ public class MedicosXDiasDao implements IMedicosXDiasDao{
 	    boolean isInsert = false;
 
 	    try {
+	    	if (existsMedicoXDia(codMed, horario.getDia())) {
+	            // TODO HACER UPDATE A ESTOS QUE YA EXISTAN
+	            return true;
+	        }
+	    	
 	        statement = conexion.prepareStatement(insert);
 
             statement.setLong(1, codMed);
@@ -66,6 +71,30 @@ public class MedicosXDiasDao implements IMedicosXDiasDao{
 	    }
 
 	    return horarios;
+	}
+	
+	@Override
+	public boolean existsMedicoXDia(int codMed, String dia) {
+	    Connection conexion = Conexion.getConexion().getSQLConexion();
+	    PreparedStatement statement = null;
+	    ResultSet resultSet = null;
+	    boolean exists = false;
+
+	    try {
+	        statement = conexion.prepareStatement("SELECT COUNT(*) FROM MedicosXDias WHERE CodMed_MXD = ? AND Dia_MXD = ?");
+	        statement.setInt(1, codMed);
+	        statement.setString(2, dia);
+	        resultSet = statement.executeQuery();
+
+	        if (resultSet.next()) {
+	            int count = resultSet.getInt(1);
+	            exists = count > 0;
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } 
+
+	    return exists;
 	}
 }
 

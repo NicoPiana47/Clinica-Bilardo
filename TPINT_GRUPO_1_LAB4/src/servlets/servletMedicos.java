@@ -143,14 +143,15 @@ public class servletMedicos extends HttpServlet {
 		if(request.getParameter("btnCrearMedico") != null) {
 			getHorarios(request);
 			Medico medico = medicoNegocio.getMedico(request,true);
-			int edito = medicoNegocio.crearMedico(medico);
-			request.setAttribute("CrearMedico", edito);
+			int creo = medicoNegocio.crearMedico(medico);
+			request.setAttribute("CrearMedico", creo);
 			inicializarModuloMedicos(request, response, null);			        	  	    
 		}	
 	}
 	
 	private void editarMedico(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		if(request.getParameter("btnEditarMedico") != null) {
+			getHorarios(request);
 			Medico medico = medicoNegocio.getMedico(request,false);
 			int edito = medicoNegocio.editarMedico(medico);
 			request.setAttribute("edito", edito);
@@ -160,7 +161,7 @@ public class servletMedicos extends HttpServlet {
 	
 	private void getHorarios(HttpServletRequest request) {
 		String datosJSON;
-		if(request.getParameter("datosHorarios") != null) {
+		if(request.getParameter("datosHorarios") != null && !request.getParameter("datosHorarios").isEmpty()) {
 			datosJSON = request.getParameter("datosHorarios");
 			GsonBuilder gsonBuilder = new GsonBuilder();
 			gsonBuilder.registerTypeAdapter(LocalTime.class, (JsonDeserializer<LocalTime>) (json, type, jsonDeserializationContext) -> {
