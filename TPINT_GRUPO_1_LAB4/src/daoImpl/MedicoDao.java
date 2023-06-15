@@ -209,11 +209,9 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 	            } else {
 	                connection.commit(); // No hay horarios para insertar, pero el médico se guarda correctamente
 	            }
-	        } else {
-	            connection.rollback();
-	            isInsert = false; // No se pudo insertar el médico, se establece el valor de retorno en false
 	        }
-	    } catch (SQLException e) {
+	    } 
+		catch (SQLException e) {
 	    	e.printStackTrace();
 	    } 
 	    
@@ -247,17 +245,17 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 	        statement.setInt(17, medico.getCodMed());
 	        
 	        MedicosXDiasDao medicoXDiaDao = new MedicosXDiasDao();
-	        boolean allHorariosUpdated = true; // Variable auxiliar para rastrear la inserción de todos los horarios
+	        boolean allHorariosUpdated = true; // Variable auxiliar para rastrear la actualización de todos los horarios
 
-	        // Insertar el médico
+	        // Actualizar el médico
 	        if (statement.executeUpdate() > 0) {
-	            // Insertar los horarios solo si la lista no está vacía
+	            // Actualizar los horarios solo si la lista no está vacía
 	            if (medico.getHorarios() != null && !medico.getHorarios().isEmpty()) {
 	                for (MedicosXDias horario : medico.getHorarios()) {
-	                    boolean horarioInserted = medicoXDiaDao.insert(medico.getCodMed(), horario);
-	                    if (!horarioInserted) {
-	                        // Si el horario no se inserta, se registra el error, pero se continúa con los demás horarios
+	                    boolean horarioInsertOrUpdated = medicoXDiaDao.insert(medico.getCodMed(), horario);
+	                    if (!horarioInsertOrUpdated) {
 	                        allHorariosUpdated = false;
+	                        break;
 	                    }
 	                }
 
@@ -265,16 +263,13 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 	                    connection.commit();
 	                    isUpdate = true;
 	                } else {
-	                    connection.rollback();
-	                    isUpdate = false; // Establecer el valor de retorno en false si no se insertaron todos los horarios correctamente
+	                	connection.rollback();
+	                    isUpdate = false; // Establecer el valor de retorno en false si no se actualizaron todos los horarios correctamente
 	                }
 	            } else {
-	                connection.commit(); // No hay horarios para insertar, pero el médico se guarda correctamente
+	                connection.commit(); // No hay horarios para actualizar, pero el médico se guarda correctamente
 	                isUpdate = true;
 	            }
-	        } else {
-	            connection.rollback();
-	            isUpdate = false; // No se pudo insertar el médico, se establece el valor de retorno en false
 	        }
 		}
 		catch (SQLException e) {

@@ -16,6 +16,7 @@ import entidades.MedicosXDias;
 public class MedicosXDiasDao implements IMedicosXDiasDao{
 	private static final String insert = "INSERT INTO medicosxdias(CodMed_MXD, Dia_MXD, HoraDesde_MXD, HoraHasta_MXD, Estado_MXD) VALUES(?, ?, ?, ?, ?)";
 	private static final String obtenerHorario = "SELECT * FROM medicosxdias WHERE CodMed_MXD = ?";
+	private static final String update = "UPDATE medicosxdias SET HoraDesde_MXD = ?, HoraHasta_MXD = ? WHERE Dia_MXD = ? AND CodMed_MXD = ?";
 	
 	@Override
 	public boolean insert(int codMed, MedicosXDias horario) {
@@ -25,17 +26,42 @@ public class MedicosXDiasDao implements IMedicosXDiasDao{
 
 	    try {
 	    	if (existsMedicoXDia(codMed, horario.getDia())) {
-	            // TODO HACER UPDATE A ESTOS QUE YA EXISTAN
-	            return true;
+	            isInsert = update(codMed, horario);
 	        }
-	    	
-	        statement = conexion.prepareStatement(insert);
+	    	else {
+	            statement = conexion.prepareStatement(insert);
+	
+	            statement.setLong(1, codMed);
+	            statement.setString(2, horario.getDia());
+	            statement.setTime(3, Time.valueOf(horario.getHorarioDesde()));
+	            statement.setTime(4, Time.valueOf(horario.getHorarioHasta()));
+	            statement.setBoolean(5, horario.isEstado());
+	
+	            if (statement.executeUpdate() > 0) {
+	                conexion.commit();
+	                isInsert = true;
+	            }
+	    	}
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 
-            statement.setLong(1, codMed);
-            statement.setString(2, horario.getDia());
-            statement.setTime(3, Time.valueOf(horario.getHorarioDesde()));
-            statement.setTime(4, Time.valueOf(horario.getHorarioHasta()));
-            statement.setBoolean(5, horario.isEstado());
+	    return isInsert;
+	}
+	
+	@Override
+	public boolean update(int codMed, MedicosXDias horario) {
+	    PreparedStatement statement;
+	    Connection conexion = Conexion.getConexion().getSQLConexion();
+	    boolean isInsert = false;
+
+	    try {
+	        statement = conexion.prepareStatement(update);
+
+            statement.setTime(1, Time.valueOf(horario.getHorarioDesde()));
+            statement.setTime(2, Time.valueOf(horario.getHorarioHasta()));
+            statement.setString(3, horario.getDia());
+            statement.setLong(4, codMed);
 
             if (statement.executeUpdate() > 0) {
 	            conexion.commit();
@@ -47,6 +73,7 @@ public class MedicosXDiasDao implements IMedicosXDiasDao{
 
 	    return isInsert;
 	}
+
 
 	@Override
 	public Set<MedicosXDias> obtenerHorariosPorMedico(int codigoMedico) {
