@@ -11,7 +11,13 @@
 	href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8"
 	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-	
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Locale" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="entidades.Paciente" %>
+<%@ page import="entidades.Especialidad" %>
+<%@ page import="entidades.Medico" %>
 </head>
 <body>
 	<%@ include file="/MasterPage.jsp" %>
@@ -20,12 +26,37 @@
 		
 		<div class="row text-center m-4" >		
 			<label>Especialidad:</label> <br>
-			<select class="form-control" name="ddlEspecialidades"> </select>
+			<select class="form-control" name="ddlEspecialidades" id="ddlEspecialidades" onchange="filtrarMedicos()"> 
+			<% 
+	        if (request.getAttribute("listaEspecialidades") instanceof List) {
+	            List<Especialidad> listaEspecialidades = (List<Especialidad>) request.getAttribute("listaEspecialidades");
+	            for (Especialidad especialidad : listaEspecialidades) { 
+	        %>
+	            <option value="<%= especialidad.getCodEspecialidad() %>"><%= especialidad.getDescripcion() %></option>				
+	        <% 
+	            } 
+	        }
+	        %>
+			</select>
 		</div>
 		
 		<div class="row text-center m-4" >	
 			<label>Médico:</label> <br>
-			<select class="form-control" name="ddlMedicos"> </select>
+			<select class="form-control" name="ddlMedicos" id="ddlMedicos" required> 
+			<% 
+	        if (request.getAttribute("listaMedicos") instanceof List) {
+	            List<Medico> listaMedicos = (List<Medico>) request.getAttribute("listaMedicos");
+	            for (Medico medico : listaMedicos) { 
+	        %>
+	            <option value="<%= medico.getCodMed() %>"
+	            		data-especialidad-id="<%= medico.getEspecialidad().getCodEspecialidad() %>">
+            		<%= medico.getNombre() + " " + medico.getApellido() %>
+            	</option>				
+	        <% 
+	            } 
+	        }
+	        %>
+			</select>
 		</div>
 		
 		<div class="row text-center m-4">
@@ -39,7 +70,18 @@
 		
 		<div class="row text-center m-4">
 			<label>Pacientes:</label> <br>
-			<select class="form-control" name="ddlPacientes"> </select>
+			<select class="form-control" name="ddlPacientes"> 
+			<% 
+	        if (request.getAttribute("listaPacientes") instanceof List) {
+	            List<Paciente> listaPacientes = (List<Paciente>) request.getAttribute("listaPacientes");
+	            for (Paciente paciente : listaPacientes) { 
+	        %>
+	            <option value="<%= paciente.getCodPac() %>"><%= paciente.getNombre() + " " + paciente.getApellido() %></option>				
+	        <% 
+	            } 
+	        }
+	        %>
+			</select>
 		</div>
 		
 		<button class="form-control" type="submit" name="btnAsignar">Asignar turno</button>
@@ -47,35 +89,53 @@
 </body>
 
 <script>
-        function generarHorariosDisponibles() {
-            var fechaSeleccionada = document.getElementById("fecha").value;
+	function generarHorariosDisponibles() {
+	    var fechaSeleccionada = document.getElementById("fecha").value;
+	
+	    var horariosDisponibles = obtenerHorariosDisponibles(fechaSeleccionada);
+	
+	    var ddlHorariosDisponibles = document.getElementById("ddlHorariosDisponibles");
+	    ddlHorariosDisponibles.innerHTML = "";
+	
+	    for (var i = 0; i < horariosDisponibles.length; i++) {
+	        var option = document.createElement("option");
+	        option.value = horariosDisponibles[i];
+	        option.text = horariosDisponibles[i];
+	        ddlHorariosDisponibles.add(option);
+	    }
+	
+	    ddlHorariosDisponibles.disabled = false;
+	}
+	
+	function obtenerHorariosDisponibles(fecha) {
+	   
+	    var horarios = ["10:00 - 11:00"];
+	
+	    return horarios;
+	}
+	
+	function asignarTurno() {
+	   
+	}
+	$(document).ready(function() {
+		filtrarMedicos(); 
+	});
+	
+	var medicos = document.querySelectorAll('#ddlMedicos option');
+	function filtrarMedicos() {
+		debugger;
+		var especialidadSeleccionada = document.getElementById('ddlEspecialidades').value;
+		var ddlMedicos = document.getElementById('ddlMedicos');
+		
+		ddlMedicos.innerHTML = '';
+		for (var i = 0; i < medicos.length; i++) {
+			var option = medicos[i];
+			var codEspecialidad = option.getAttribute('data-especialidad-id');
 
-            var horariosDisponibles = obtenerHorariosDisponibles(fechaSeleccionada);
-
-            var ddlHorariosDisponibles = document.getElementById("ddlHorariosDisponibles");
-            ddlHorariosDisponibles.innerHTML = "";
-
-            for (var i = 0; i < horariosDisponibles.length; i++) {
-                var option = document.createElement("option");
-                option.value = horariosDisponibles[i];
-                option.text = horariosDisponibles[i];
-                ddlHorariosDisponibles.add(option);
-            }
-
-            ddlHorariosDisponibles.disabled = false;
-        }
-
-        function obtenerHorariosDisponibles(fecha) {
-            // Aquí puedes implementar la lógica para obtener los horarios disponibles basados en la fecha seleccionada.
-            // En este caso, se hardcodea el horario disponible de 10 AM a 11 AM.
-            var horarios = ["10:00 - 11:00"];
-
-            return horarios;
-        }
-
-        function asignarTurno() {
-            // Aquí puedes implementar la lógica para asignar el turno seleccionado.
-            // Puedes obtener los valores seleccionados de los campos correspondientes y realizar las acciones necesarias.
-        }
-    </script>
+			if (codEspecialidad === especialidadSeleccionada) {
+				ddlMedicos.appendChild(option.cloneNode(true));
+			}
+		}
+	}
+</script>
 </html>

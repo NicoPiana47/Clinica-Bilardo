@@ -16,9 +16,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-
+import entidades.Especialidad;
+import entidades.Medico;
+import entidades.Paciente;
 import entidades.Turno;
+import negImpl.EspecialidadNegocio;
+import negImpl.MedicoNegocio;
+import negImpl.PacienteNegocio;
 import negImpl.TurnosNegocio;
 
 /**
@@ -34,20 +38,10 @@ public class servletTurnos extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		TurnosNegocio turnoNegocio = new TurnosNegocio();
-    	List<Turno> listaTurnos = turnoNegocio.obtenerTurnos();
-    	String medicoConMasTurnos = listarReportesMedicoConMasTurnos(request, response, listaTurnos);
-    	long cantTurnos = listaTurnos.stream().count();
-    	
-		request.setAttribute("listaTurnos", listaTurnos);
-		request.setAttribute("medicoConMasTurnos", medicoConMasTurnos);
-		request.setAttribute("cantTurnos", cantTurnos);
-		    
-	    RequestDispatcher rd = request.getRequestDispatcher("/AdminReportes.jsp");
-		rd.forward(request, response);
-		
-				
+		if(request.getParameter("rep")!=null)
+			inicializarAdminReportes(request, response);
+		if(request.getParameter("asig")!=null)
+			inicializarAdminAsigTurnos(request, response);	
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -109,5 +103,36 @@ public class servletTurnos extends HttpServlet {
 		}
 	
 		return medicoConMasTurnos;
+	}
+	
+	public void inicializarAdminReportes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		TurnosNegocio turnoNegocio = new TurnosNegocio();
+    	List<Turno> listaTurnos = turnoNegocio.obtenerTurnos();
+    	String medicoConMasTurnos = listarReportesMedicoConMasTurnos(request, response, listaTurnos);
+    	long cantTurnos = listaTurnos.stream().count();
+    	
+		request.setAttribute("listaTurnos", listaTurnos);
+		request.setAttribute("medicoConMasTurnos", medicoConMasTurnos);
+		request.setAttribute("cantTurnos", cantTurnos);
+		    
+	    RequestDispatcher rd = request.getRequestDispatcher("/AdminReportes.jsp");
+		rd.forward(request, response);
+	}
+	
+	public void inicializarAdminAsigTurnos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		EspecialidadNegocio espNeg = new EspecialidadNegocio();
+		MedicoNegocio medNeg = new MedicoNegocio();
+		PacienteNegocio pacNeg = new PacienteNegocio();
+		
+		List<Especialidad> listaEspecialidades = espNeg.obtenerEspecialidades();
+		List<Medico> listaMedicos = medNeg.obtenerMedicos();
+		List<Paciente> listaPacientes = pacNeg.obtenerPacientes();
+    	
+		request.setAttribute("listaEspecialidades", listaEspecialidades);
+		request.setAttribute("listaMedicos", listaMedicos);
+		request.setAttribute("listaPacientes", listaPacientes);
+		    
+	    RequestDispatcher rd = request.getRequestDispatcher("/AdminAsignacionTurnos.jsp");
+		rd.forward(request, response);
 	}
 }

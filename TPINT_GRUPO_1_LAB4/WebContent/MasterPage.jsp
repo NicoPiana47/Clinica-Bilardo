@@ -52,12 +52,12 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="">
+          <a class="nav-link text-white" href="servletTurnos?asig=1">
             <i class="fa-solid fa-calendar"></i> Administrar Asignación de turnos
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="servletTurnos">
+          <a class="nav-link text-white" href="servletTurnos?rep=1">
             <i class="fa-brands fa-wpforms"></i> Reportes
           </a>
         </li>
