@@ -65,7 +65,7 @@
 		
 		<div class="row text-center m-4">
             <label>Fecha:</label><br>
-            <input class="form-control" type="text" name="fecha" id="fecha" required>
+            <input class="form-control" type="text" name="fecha" id="fecha" onchange="cargarHorariosDisponibles()" required>
         </div>
         <div class="row text-center m-4">
             <label>Horarios disponibles:</label><br>
@@ -97,6 +97,7 @@
  	var fpFechas = flatpickr("#fecha", {
 		minDate: "today",
 		maxDate: new Date().setMonth(new Date().getMonth() + 4),
+		required: true,
 	  	 disable: [
 	   		function(date) {
 	   	     	 return filtrarFechas(date);
@@ -120,36 +121,55 @@
 		return true;
 	}
 	ddlMedicos.addEventListener('change', function() {
+	  	document.getElementById('fecha').value = "";
 		var flatpickrInstance = document.getElementById('fecha')._flatpickr;
-		  var minDate = flatpickrInstance.config.minDate;
-		  var maxDate = flatpickrInstance.config.maxDate;
-		  var disabledDates = [];
+	 	var minDate = flatpickrInstance.config.minDate;
+	  	var maxDate = flatpickrInstance.config.maxDate;
+	  	var disabledDates = [];
 		  
-		  for (var date = new Date(minDate); date <= maxDate; date.setDate(date.getDate() + 1)) {
+		  
+	  	for (var date = new Date(minDate); date <= maxDate; date.setDate(date.getDate() + 1)) {
 			  if (filtrarFechas(date)) {
 				  disabledDates.push(new Date(date));
 			    }
-		  }
-		  flatpickrInstance.set('disable', disabledDates);
-		});
+	  	}
+	  	flatpickrInstance.set('disable', disabledDates);
+	  	document.getElementById('fecha').value = "";
+  		document.getElementById('ddlHorariosDisponibles').innerHTML = "";
+	});
 	
 	function obtenerNombreDia(day) {
 	    var dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
 	    return dias[day];
 	  }
 	
+	function cargarHorariosDisponibles() {
+		  var ddlHorarios = document.getElementById('ddlHorariosDisponibles');
+		  ddlHorarios.innerHTML = '';
+
+		  var selectedDia = document.getElementById('fecha').value;
+
+		  var selectedIndex = ddlMedicos.options[ddlMedicos.selectedIndex]
+		  var horarios = JSON.parse(selectedIndex.getAttribute('data-horarios-json'))
+
+		horarios.forEach(function(horario) {
+		    var horaDesde = horario.horarioDesde.hour;
+		    var horaHasta = horario.horarioHasta.hour;
+		    var dia = obtenerNombreDia(new Date(selectedDia + "T00:00:00").getDay())
+		    if(horario.dia == dia){		    	
+    			for (var hora = horaDesde; hora <= horaHasta; hora++) {
+			      var optionText = hora.toString().padStart(2, '0') + ':00';
+		
+			      var option = document.createElement('option');
+			      option.value = optionText;
+			      option.text = optionText;
+			      ddlHorarios.appendChild(option);
+			    }
+		    }
+
+		  });
+		}
 	
-	
-	function obtenerHorariosDisponibles(fecha) {
-	   
-	    var horarios = ["10:00 - 11:00"];
-	
-	    return horarios;
-	}
-	
-	function asignarTurno() {
-	   
-	}
 	$(document).ready(function() {
 		filtrarMedicos(); 
 	});
