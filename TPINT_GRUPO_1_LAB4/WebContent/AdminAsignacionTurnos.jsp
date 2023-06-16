@@ -11,6 +11,8 @@
 	href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8"
 	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.util.List" %>
@@ -19,6 +21,7 @@
 <%@ page import="entidades.Especialidad" %>
 <%@ page import="entidades.Medico" %>
 </head>
+
 <body>
 	<%@ include file="/MasterPage.jsp" %>
 	<h1 class="text-center">Asignación de Turnos</h1> 
@@ -47,12 +50,13 @@
 	        if (request.getAttribute("listaMedicos") instanceof List) {
 	            List<Medico> listaMedicos = (List<Medico>) request.getAttribute("listaMedicos");
 	            for (Medico medico : listaMedicos) { 
-	        %>
-	            <option value="<%= medico.getCodMed() %>"
-	            		data-especialidad-id="<%= medico.getEspecialidad().getCodEspecialidad() %>">
-            		<%= medico.getNombre() + " " + medico.getApellido() %>
-            	</option>				
-	        <% 
+	            	%>
+	            	    <option value="<%= medico.getCodMed() %>"
+	            	            data-especialidad-id="<%= medico.getEspecialidad().getCodEspecialidad() %>"
+	            	            data-horarios-json='<%= medico.getHorariosJson() %>'>
+	            	      	<%= medico.getNombre() + " " + medico.getApellido() %>
+	            	    </option>
+            	    <% 
 	            } 
 	        }
 	        %>
@@ -61,11 +65,11 @@
 		
 		<div class="row text-center m-4">
             <label>Fecha:</label><br>
-            <input class="form-control" type="date" name="fecha" id="fecha" onchange="generarHorariosDisponibles()" required>
+            <input class="form-control" type="text" name="fecha" id="fecha" required>
         </div>
         <div class="row text-center m-4">
             <label>Horarios disponibles:</label><br>
-            <select class="form-control" name="ddlHorariosDisponibles" id="ddlHorariosDisponibles" disabled></select>
+            <select class="form-control" name="ddlHorariosDisponibles" id="ddlHorariosDisponibles" required></select>
         </div>
 		
 		<div class="row text-center m-4">
@@ -89,23 +93,52 @@
 </body>
 
 <script>
-	function generarHorariosDisponibles() {
-	    var fechaSeleccionada = document.getElementById("fecha").value;
-	
-	    var horariosDisponibles = obtenerHorariosDisponibles(fechaSeleccionada);
-	
-	    var ddlHorariosDisponibles = document.getElementById("ddlHorariosDisponibles");
-	    ddlHorariosDisponibles.innerHTML = "";
-	
-	    for (var i = 0; i < horariosDisponibles.length; i++) {
-	        var option = document.createElement("option");
-	        option.value = horariosDisponibles[i];
-	        option.text = horariosDisponibles[i];
-	        ddlHorariosDisponibles.add(option);
-	    }
-	
-	    ddlHorariosDisponibles.disabled = false;
+	var ddlMedicos = document.getElementById('ddlMedicos')
+ 	var fpFechas = flatpickr("#fecha", {
+		minDate: "today",
+		maxDate: new Date().setMonth(new Date().getMonth() + 4),
+	  	 disable: [
+	   		function(date) {
+	   	     	 return filtrarFechas(date);
+	   	    }
+	  	 ] 
+	 });
+ 
+	function filtrarFechas(date) {
+		var day = date.getDay();
+		var options = ddlMedicos.options[ddlMedicos.selectedIndex]
+		var horarios = JSON.parse(options.getAttribute('data-horarios-json'))
+
+		
+		for (var i = 0; i < horarios.length; i++) {
+			var dia = obtenerNombreDia(day)
+		  	if (horarios[i].estado && horarios[i].dia === dia) {
+		    	return false;
+		  }
+		}
+	    
+		return true;
 	}
+	ddlMedicos.addEventListener('change', function() {
+		var flatpickrInstance = document.getElementById('fecha')._flatpickr;
+		  var minDate = flatpickrInstance.config.minDate;
+		  var maxDate = flatpickrInstance.config.maxDate;
+		  var disabledDates = [];
+		  
+		  for (var date = new Date(minDate); date <= maxDate; date.setDate(date.getDate() + 1)) {
+			  if (filtrarFechas(date)) {
+				  disabledDates.push(new Date(date));
+			    }
+		  }
+		  flatpickrInstance.set('disable', disabledDates);
+		});
+	
+	function obtenerNombreDia(day) {
+	    var dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+	    return dias[day];
+	  }
+	
+	
 	
 	function obtenerHorariosDisponibles(fecha) {
 	   
@@ -123,7 +156,6 @@
 	
 	var medicos = document.querySelectorAll('#ddlMedicos option');
 	function filtrarMedicos() {
-		debugger;
 		var especialidadSeleccionada = document.getElementById('ddlEspecialidades').value;
 		var ddlMedicos = document.getElementById('ddlMedicos');
 		
@@ -138,4 +170,5 @@
 		}
 	}
 </script>
+
 </html>
