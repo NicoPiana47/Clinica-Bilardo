@@ -127,7 +127,6 @@
 						<td><%=medico.getTelefono()%></td> 
 						<td><%=medico.getEspecialidad()%></td>
 						<td>Ver registro <input type="hidden" id="horarios" value='<%= medico.getHorariosJson() %>'> </td>
-
 						<td><%=medico.getUsername()%></td>
 						<td><%=medico.getContraseña()%></td>
 						<td>
@@ -352,7 +351,8 @@
 						<div class="row m-2">
 				        	<div class="col-4">
 						     	<label class="form-label">Dia</label>   	
-				                <select class="form-control" name="ddlDia" required>
+				                <select class="form-control" name="ddlDia" >
+  									<option value="" selected hidden></option>
 				        			<option>Domingo</option>
 				        			<option>Lunes</option>
 				        			<option>Martes</option>
@@ -377,11 +377,11 @@
 						<div class="row m-2" >
 				        	<div class="col-6 editH" style="display: none;">
 				        		<label class="form-label">Activo</label>
-					        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstado" value="1" checked>
+					        	<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstadoHorario" value="1" checked>
 				        	</div>
 				        	<div class="col-6 editH" style="display: none;">
 				        		<label class="form-label">Inactivo</label>
-				        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstado" value="0">
+				        		<input class="form-check-input" style="margin-left:20px" type="radio" name="rdEstadoHorario" value="0">
 				        	</div>
 				        </div>
 				        
@@ -460,13 +460,15 @@
 	
 <script>
 
+	//CARGAR TABLA AL PRESIONAR BOTON
 	var btnVerHorario = document.getElementById('btnVerHorario');
 	btnVerHorario.addEventListener('click', function() {	
 	  cargarTabla();
 	});
 
+	// CARGAR TABLA HORARIOS
 	function cargarTabla() {
-  		var horarios = document.getElementById('datosHorarios').value;
+		var horarios = document.getElementById('datosHorarios').value;
 	  	var tablaBody = document.getElementById("tablaHorariosBody");
 
 	  // Limpiar tabla
@@ -475,22 +477,35 @@
 	  // Convertir el JSON de horarios a objeto
 	  	var horariosObj = JSON.parse(horarios);
 
+	  
+	  	// Ordena los horarios
+		horariosObj.sort(function(a, b) {
+	        var diasSemana = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
+	        var diaA = diasSemana.indexOf(a.dia);
+	        var diaB = diasSemana.indexOf(b.dia);
+	        return diaA - diaB;
+		});
+	  
 	  // Recorrer los horarios y agregar filas a la tabla
 	  	horariosObj.forEach(function(horario) {
 		    var nuevaFila = document.createElement("tr");
-	
+			nuevaFila.onclick = function() {
+				  selectHorario(this);
+			};
+		    
 		    var celdaDia = document.createElement("td");
 		    var celdaHorarioDesde = document.createElement("td");
 		    var celdaHorarioHasta = document.createElement("td");
 		    var celdaEstado = document.createElement("td");
 		    var checkbox = document.createElement("input");
+		    checkbox.disabled = true;
 		    checkbox.type = "checkbox";
 		    checkbox.checked = horario.estado;
 		    celdaEstado.appendChild(checkbox);
 	
 		    celdaDia.textContent = horario.dia;
-		    celdaHorarioDesde.textContent = formatarHora(horario.horarioDesde);
-		    celdaHorarioHasta.textContent = formatarHora(horario.horarioHasta);
+		    celdaHorarioDesde.textContent = formatearHora(horario.horarioDesde);
+		    celdaHorarioHasta.textContent = formatearHora(horario.horarioHasta);
 		    
 		    nuevaFila.appendChild(celdaDia);
 		    nuevaFila.appendChild(celdaHorarioDesde);
@@ -501,7 +516,8 @@
 	  	});
 	}
 	
-	function formatarHora(horario) {
+	// FORMATEAR LA HORA AL CARGAR LA TABLA
+	function formatearHora(horario) {
 		var options = {
 	  		hour: "2-digit",
 		  	minute: "2-digit"
@@ -514,6 +530,7 @@
 		return hora.toLocaleTimeString(undefined, options);
 	}
 
+	// AGREGAR HORARIO
 	var botonAgregar = document.querySelector('.createH button');
 	botonAgregar.addEventListener('click', function() {	
 		var dia = document.querySelector('select[name="ddlDia"]').value;
@@ -533,6 +550,7 @@
 		    var celdaEstado = document.createElement("td");
 		    var checkbox = document.createElement("input");
 		    checkbox.type = "checkbox";
+		    checkbox.disabled = true;
 		    checkbox.checked = true;
 		   	celdaEstado.appendChild(checkbox);
 		
@@ -546,12 +564,70 @@
 		    nuevaFila.appendChild(celdaEstado);
 		
 		    var tablaBody = document.getElementById("tablaHorariosBody");
+		    // FUNCIONA BIEN
 		    tablaBody.appendChild(nuevaFila);
+		    
+		    // FALOPA QUE FUNCIONA BIEN E INSERTA ORDENADO.
+		    /*var filas = tablaBody.getElementsByTagName("tr");
+	        var posicionInsercion = -1;
+
+	        // Encontrar la posición de inserción ordenada
+	        for (var i = 0; i < filas.length; i++) {
+	            var fila = filas[i];
+	            var filaDia = fila.getElementsByTagName("td")[0].textContent;
+	            var diasSemana = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
+	            var filaDiaIndex = diasSemana.indexOf(filaDia);
+	            var diaIndex = diasSemana.indexOf(dia);
+
+	            if (filaDiaIndex > diaIndex) {
+	                posicionInsercion = i;
+	                break;
+	            }
+	        }
+
+	        // Insertar la fila en la posición correcta
+	        if (posicionInsercion === -1) {
+	            tablaBody.appendChild(nuevaFila);
+	        } else {
+	            tablaBody.insertBefore(nuevaFila, filas[posicionInsercion]);
+	        }*/
 		    
 		    actualizarValores();
 		}
 	});
 	
+	// MODIFICAR HORARIO
+	var botonModificar = document.querySelector('.editH button');
+	botonModificar.addEventListener('click', function() {
+		var selectedRow = document.querySelector('.selected-row');  
+		var dia = document.querySelector('select[name="ddlDia"]').value;
+		var horarioDesde = document.querySelector('input[name="txtHorarioDesde"]').value;
+		var horarioHasta = document.querySelector('input[name="txtHorarioHasta"]').value;
+		var estadoSeleccionado = document.querySelector('input[name="rdEstadoHorario"]:checked').value;
+		var camposCompletos = dia && horarioDesde && horarioHasta;
+
+		if (selectedRow && camposCompletos) {
+			var celdaDia = selectedRow.querySelector("td:nth-child(1)");
+		    var celdaHorarioDesde = selectedRow.querySelector("td:nth-child(2)");
+		    var celdaHorarioHasta = selectedRow.querySelector("td:nth-child(3)");
+		    var celdaEstado = selectedRow.querySelector("td:nth-child(4)");
+			celdaEstado.textContent = "";
+		    
+		    var checkbox = document.createElement("input");
+			checkbox.type = "checkbox";
+			checkbox.disabled = true;
+			checkbox.checked = estadoSeleccionado === "1" ? true : false;
+			
+		    celdaDia.textContent = dia;
+		    celdaHorarioDesde.textContent = horarioDesde;
+		    celdaHorarioHasta.textContent = horarioHasta;
+			celdaEstado.appendChild(checkbox);
+
+		    actualizarValores();
+		}
+	});
+	
+	// ACTUALIZAR VALORES DE HORARIOS A JSON DESPUES DE AGREGAR
 	function actualizarValores() {
 		var filas = document.querySelectorAll("#tablaHorariosBody tr");
 		var horarios = [];
@@ -575,13 +651,16 @@
 		// Actualizar los valores en un campo oculto
 		var datosHorarios = document.getElementById("datosHorarios");
 		datosHorarios.value = JSON.stringify(horarios);
+		console.log(datosHorarios.value);
 	}
 
+	// VALIDAR QUE SEAN LETRAS
 	function validarLetras(input) {
 	  	var regex = /[^a-zA-Z]/g;
 	  	input.value = input.value.replace(regex, '');
 	}
 	
+	// ABRIR MODAL
 	function openModal(modal, row) {
 		document.getElementById(modal).style.display = "block";
 		var cName = modal === 'modalMedico' ? 'M' : 'H';
@@ -589,14 +668,15 @@
 		
 	 	if (isEdit) {
 	        hideElements(true, cName);
-	        chargeRow(row);
+	        chargeEditMedico(row);
 		} 
     	else {
     		hideElements(false, cName);
     	}
 	}
 	
-	function chargeRow(row) {
+	// CARGAR EDICION DE MEDICO POR FILA
+	function chargeEditMedico(row) {
 		var cells = row.cells;
 		
 		document.getElementById('codMed').value = cells[0].querySelector('input[name="CodMed"]').value
@@ -627,6 +707,19 @@
 	  	isChecked ? radioButtons[0].checked = true : radioButtons[1].checked = true
     }
 	
+	function chargeEditHorario(row) {
+		var cells = row.cells;
+		
+		document.querySelector('select[name="ddlDia"]').value = cells[0].innerText;
+		document.querySelector('input[name="txtHorarioDesde"]').value = cells[1].innerText;
+		document.querySelector('input[name="txtHorarioHasta"]').value = cells[2].innerText;
+	  			
+   		isChecked = cells[3].querySelector('input[type="checkbox"]').checked;
+	  	radioButtons = document.querySelectorAll('input[name="rdEstadoHorario"]');
+	  	isChecked ? radioButtons[0].checked = true : radioButtons[1].checked = true
+    }
+	
+	// OBTENER SELECCION DE DDL
 	function getSelectedIndexByText(selectElement, text) {
 	    for (var i = 0; i < selectElement.options.length; i++) {
 	        if (selectElement.options[i].text === text) {
@@ -636,12 +729,14 @@
 	    return -1; 
 	}
 	
+	// CONVERSOR DE FECHA AL CARGAR EDICION
 	function convertDateFormat(dateString, inputFormat, outputFormat) {
 	    var parts = dateString.split("/");
 	    var formattedDate = parts[2] + "-" + parts[1] + "-" + parts[0];
 	    return formattedDate;
 	}
 	
+	// OCULTAR ELEMENTOS
 	function hideElements(isEdit, cName) {
 		var createElements = document.querySelectorAll(".create" + cName);
 		var editElements = document.querySelectorAll(".edit" + cName);
@@ -655,20 +750,26 @@
 		});
 	}
 
+	// SELECCION DE HORARIO
 	function selectHorario(row) {
   		var isSelected = row.classList.contains('selected-row');
-  		selectedRows();
+  		var ddlDia = document.querySelector('select[name="ddlDia"]')
+  		cleanSelectedRows();
       
     	if (isSelected) {
+			ddlDia.disabled = false;
+    		cleanForm();
     		hideElements(false, 'H');
 		} 
     	else {
+    		ddlDia.disabled = true;
     		row.classList.add('selected-row');
+    		chargeEditHorario(row);
         	hideElements(true, 'H');
     	}
     }
 	
-	function selectedRows() {
+	function cleanSelectedRows(){
 		var selectedRows = document.getElementsByClassName('selected-row');
 	      
       	for (var i = 0; i < selectedRows.length; i++) {
@@ -676,11 +777,18 @@
       	}
 	}
 	
+	function cleanForm(){
+		document.querySelector('select[name="ddlDia"]').value = "";
+		document.querySelector('input[name="txtHorarioDesde"]').value = "";
+		document.querySelector('input[name="txtHorarioHasta"]').value = "";
+	}
+	
+	// CERRAR MODAL
 	function closeModal(modal, isHorarios) {
 		document.getElementById(modal).style.display = "none";
     	
     	if(isHorarios){
-    		selectedRows();
+    		cleanSelectedRows();
     		document.getElementsByName('ddlDia')[0].selectedIndex = 0;
     		document.getElementsByName('txtHorarioDesde')[0].value = "";
     		document.getElementsByName('txtHorarioHasta')[0].value = "";
@@ -703,6 +811,8 @@
     	}
     }
       
+	
+	// TABLA MEDICOS
   	$(document).ready(function() {     		
 	    var table = $('#table_id_medicos').DataTable({
 	        language: {
@@ -745,6 +855,8 @@
         filtrarLocalidades();
 	});
   	
+  	
+  	// DESHABILITACION DE BOTON FILTRAR
 	document.addEventListener('DOMContentLoaded', function() {
         var txtFiltro = document.getElementById('txtFiltro');
         var btnFiltrar = document.getElementById('btnFiltrar');
@@ -761,6 +873,8 @@
         toggleFiltrarButton();
     });
 	
+	
+	// FILTRADO DE LOCALIDADES
   	var localidades = document.querySelectorAll('#ddlLocalidad option');
 	function filtrarLocalidades() {
 		var provinciaSeleccionada = document.getElementById('ddlProvincia').value;

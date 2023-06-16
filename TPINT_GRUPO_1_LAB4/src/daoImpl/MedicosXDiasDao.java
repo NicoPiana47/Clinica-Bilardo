@@ -16,7 +16,7 @@ import entidades.MedicosXDias;
 public class MedicosXDiasDao implements IMedicosXDiasDao{
 	private static final String insert = "INSERT INTO medicosxdias(CodMed_MXD, Dia_MXD, HoraDesde_MXD, HoraHasta_MXD, Estado_MXD) VALUES(?, ?, ?, ?, ?)";
 	private static final String obtenerHorario = "SELECT * FROM medicosxdias WHERE CodMed_MXD = ?";
-	private static final String update = "UPDATE medicosxdias SET HoraDesde_MXD = ?, HoraHasta_MXD = ? WHERE Dia_MXD = ? AND CodMed_MXD = ?";
+	private static final String update = "UPDATE medicosxdias SET HoraDesde_MXD = ?, HoraHasta_MXD = ?, Estado_MXD = ? WHERE Dia_MXD = ? AND CodMed_MXD = ?";
 	
 	@Override
 	public boolean insert(int codMed, MedicosXDias horario) {
@@ -60,8 +60,9 @@ public class MedicosXDiasDao implements IMedicosXDiasDao{
 
             statement.setTime(1, Time.valueOf(horario.getHorarioDesde()));
             statement.setTime(2, Time.valueOf(horario.getHorarioHasta()));
-            statement.setString(3, horario.getDia());
-            statement.setLong(4, codMed);
+            statement.setBoolean(3, horario.isEstado());
+            statement.setString(4, horario.getDia());
+            statement.setLong(5, codMed);
 
             if (statement.executeUpdate() > 0) {
 	            conexion.commit();
