@@ -1,7 +1,7 @@
 package servlets;
 
 import java.io.IOException;
-import java.sql.Date;
+import java.util.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,6 +46,13 @@ public class servletTurnos extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		listarTurnosConFechas(request, response);
+		try {
+			grabarTurno(request, response);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	
@@ -134,5 +141,31 @@ public class servletTurnos extends HttpServlet {
 		    
 	    RequestDispatcher rd = request.getRequestDispatcher("/AdminAsignacionTurnos.jsp");
 		rd.forward(request, response);
+	}
+	
+	public void grabarTurno(HttpServletRequest request, HttpServletResponse response) throws ParseException, ServletException, IOException {
+		if(request.getParameter("btnAsignar") != null) {
+			Turno turno = new Turno();
+			
+			String fechaTurnoS = request.getParameter("fecha");
+			String horaTurnoS = request.getParameter("ddlHorariosDisponibles");
+			String fecha = fechaTurnoS + " " + horaTurnoS;
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	        Date fechaTurno = dateFormat.parse(fecha);
+	        
+	     
+	        int codMed = Integer.parseInt(request.getParameter("ddlMedicos"));
+	        int codPac = Integer.parseInt(request.getParameter("ddlPacientes"));
+	        
+	        turno.setFechaTurno(fechaTurno);
+	        turno.getMedico().setCodMed(codMed);
+	        turno.getPaciente().setCodPac(codPac);
+	        turno.getEstado().setCodEstado_EST(2);
+	        
+	        boolean guardo = turnoNegocio.grabarTurno(turno);
+	        
+	        request.setAttribute("guardo", guardo);
+	        inicializarAdminAsigTurnos(request,  response);
+		}
 	}
 }

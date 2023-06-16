@@ -12,6 +12,7 @@ import conexión.Conexion;
 import dao.ITurnosDao;
 import entidades.EstadoTurno;
 import entidades.Medico;
+import entidades.MedicosXDias;
 import entidades.Paciente;
 import entidades.Turno;
 
@@ -28,6 +29,7 @@ public class TurnosDao implements ITurnosDao{
             "INNER JOIN Pacientes ON CodPac_TURN = CodPac_PAC " +
             "INNER JOIN EstadosTurno ON CodEstado_TURN = CodEstado_EST" +
             " WHERE ";
+	private static final String insert = "INSERT INTO Turnos(CodMed_TURN, CodPac_TURN, CodEstado_TURN, FechaTurno_TURN) VALUES(?, ?, ?, ?)";
 
 	@Override
 	public List<Turno> readAll(String fechaDesde, String fechaHasta) {
@@ -85,5 +87,31 @@ public class TurnosDao implements ITurnosDao{
 			  
 		  }
 		return turnos;
+	}
+
+	@Override
+	public boolean grabarTurno(Turno turno) {
+		 PreparedStatement statement;
+		    Connection conexion = Conexion.getConexion().getSQLConexion();
+		    boolean isInsert = false;
+		    try {
+		        statement = conexion.prepareStatement(insert);
+		        statement.setInt(1, turno.getMedico().getCodMed());
+		        statement.setInt(2, turno.getPaciente().getCodPac());
+		        statement.setInt(3, turno.getEstado().getCodEstado_EST());
+		        java.sql.Timestamp sqlFechaTurno = new java.sql.Timestamp(turno.getFechaTurno().getTime());
+		        
+		        statement.setTimestamp(4, sqlFechaTurno);
+
+
+		        if (statement.executeUpdate() > 0) {
+		            conexion.commit();
+		            isInsert = true;
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+
+		    return isInsert;
 	}	
 }

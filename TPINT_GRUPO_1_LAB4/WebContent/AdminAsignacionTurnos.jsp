@@ -25,7 +25,7 @@
 <body>
 	<%@ include file="/MasterPage.jsp" %>
 	<h1 class="text-center">Asignación de Turnos</h1> 
-	<form class="w-50 m-auto">
+	<form class="w-50 m-auto" method="post" action="servletTurnos">
 		
 		<div class="row text-center m-4" >		
 			<label>Especialidad:</label> <br>
@@ -91,6 +91,19 @@
 		<button class="form-control" type="submit" name="btnAsignar">Asignar turno</button>
 	</form>
 </body>
+
+<%
+		if((Boolean)request.getAttribute("guardo") != null){
+			boolean creo = (boolean)request.getAttribute("guardo");
+			
+			if(creo == true){
+				%><script>Notiflix.Notify.success("Se creo el turno con éxito!")</script> <% 
+			}    
+			else{
+				%><script>Notiflix.Notify.failure("No se pudo crear el turno")</script> <% 
+			}
+		}
+%>
 
 <script>
 	var ddlMedicos = document.getElementById('ddlMedicos')

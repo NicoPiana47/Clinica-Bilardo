@@ -19,4 +19,8 @@ public class TurnosNegocio implements ITurnosNegocio{
 		return tdao.readAll(fechaDesde, fechaHasta);	
 	}
 
+	@Override
+	public boolean grabarTurno(Turno turno) {
+		return tdao.grabarTurno(turno);
+	}
 }
