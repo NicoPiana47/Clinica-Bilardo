@@ -470,13 +470,12 @@
 	function cargarTabla() {
 		var horarios = document.getElementById('datosHorarios').value;
 	  	var tablaBody = document.getElementById("tablaHorariosBody");
-
+	  	
 	  // Limpiar tabla
 	  	tablaBody.innerHTML = "";
 
 	  // Convertir el JSON de horarios a objeto
 	  	var horariosObj = JSON.parse(horarios);
-
 	  
 	  	// Ordena los horarios
 		horariosObj.sort(function(a, b) {
@@ -504,9 +503,9 @@
 		    celdaEstado.appendChild(checkbox);
 	
 		    celdaDia.textContent = horario.dia;
-		    celdaHorarioDesde.textContent = formatearHora(horario.horarioDesde);
-		    celdaHorarioHasta.textContent = formatearHora(horario.horarioHasta);
-		    
+	        celdaHorarioDesde.textContent = formatearHora(horario.horarioDesde);
+			celdaHorarioHasta.textContent = formatearHora(horario.horarioHasta);
+
 		    nuevaFila.appendChild(celdaDia);
 		    nuevaFila.appendChild(celdaHorarioDesde);
 		    nuevaFila.appendChild(celdaHorarioHasta);
@@ -518,26 +517,60 @@
 	
 	// FORMATEAR LA HORA AL CARGAR LA TABLA
 	function formatearHora(horario) {
-		var options = {
-	  		hour: "2-digit",
-		  	minute: "2-digit"
-		};
-		
-		var hora = new Date();
-		hora.setHours(horario.hour);
-		hora.setMinutes(horario.minute);
-		
-		return hora.toLocaleTimeString(undefined, options);
-	}
-
+	    var options = {
+	      hour: "2-digit",
+	      minute: "2-digit"
+	    };
+	
+	    if (typeof horario === 'object') {
+	      var hora = new Date();
+	      hora.setHours(horario.hour);
+	      hora.setMinutes(horario.minute);
+	
+	      return hora.toLocaleTimeString(undefined, options);
+	    } else {
+	      return horario;
+	    }
+  	}
+	
 	// AGREGAR HORARIO
 	var botonAgregar = document.querySelector('.createH button');
+	var ddlDia = document.querySelector('select[name="ddlDia"]');
+
+	// onChange DDLDIA
+	ddlDia.addEventListener('change', function() {
+	    var dia = ddlDia.value;
+        var tablaBody = document.getElementById("tablaHorariosBody");
+        var filas = tablaBody.getElementsByTagName("tr");
+        
+        for (var i = 0; i < filas.length; i++) {
+            var filaDia = filas[i].getElementsByTagName("td")[0].textContent;
+            
+            if (filaDia === dia) {
+                botonAgregar.textContent = "Día existente";
+                return;
+            }
+        }
+	    
+	    botonAgregar.textContent = "Agregar";
+	});
+	
+	// ONCLICK AGREGAR
 	botonAgregar.addEventListener('click', function() {	
 		var dia = document.querySelector('select[name="ddlDia"]').value;
 		var horarioDesde = document.querySelector('input[name="txtHorarioDesde"]').value;
 		var horarioHasta = document.querySelector('input[name="txtHorarioHasta"]').value;
 		
 		if(dia && horarioDesde && horarioHasta){		
+		    var tablaBody = document.getElementById("tablaHorariosBody");
+		    var filas = tablaBody.getElementsByTagName("tr");
+		    
+	        for (var i = 0; i < filas.length; i++) {
+	            var filaDia = filas[i].getElementsByTagName("td")[0].textContent;
+	            if (filaDia === dia) {
+	                return;
+	            }
+	        }
 			
 			var nuevaFila = document.createElement("tr");
 			nuevaFila.onclick = function() {
@@ -563,7 +596,6 @@
 		    nuevaFila.appendChild(celdaHorarioHasta);
 		    nuevaFila.appendChild(celdaEstado);
 		
-		    var tablaBody = document.getElementById("tablaHorariosBody");
 		    // FUNCIONA BIEN
 		    tablaBody.appendChild(nuevaFila);
 		    
@@ -651,7 +683,6 @@
 		// Actualizar los valores en un campo oculto
 		var datosHorarios = document.getElementById("datosHorarios");
 		datosHorarios.value = JSON.stringify(horarios);
-		console.log(datosHorarios.value);
 	}
 
 	// VALIDAR QUE SEAN LETRAS
