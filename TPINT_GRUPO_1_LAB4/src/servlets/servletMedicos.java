@@ -87,7 +87,7 @@ public class servletMedicos extends HttpServlet {
 	
 	public void inicializarModuloMedicos(HttpServletRequest request, HttpServletResponse response, List<Medico> listaMedicos) throws ServletException, IOException {
 		if(listaMedicos == null) {		
-			List<Medico> listaMedicosCompleta = medicoNegocio.obtenerMedicos();
+			List<Medico> listaMedicosCompleta = medicoNegocio.obtenerMedicos(false);
 			request.setAttribute("listaMedicos", listaMedicosCompleta); 
 		}
 		else {
@@ -111,7 +111,7 @@ public class servletMedicos extends HttpServlet {
 	    	}
 	    	
 	    	if(request.getParameter("btnLimpiarFiltros")!=null) {
-	    		listaMedicos = medicoNegocio.obtenerMedicos();
+	    		listaMedicos = medicoNegocio.obtenerMedicos(false);
 	    	}
 	    	
 	    	inicializarModuloMedicos(request, response, listaMedicos);
@@ -163,18 +163,20 @@ public class servletMedicos extends HttpServlet {
 		String datosJSON;
 		if(request.getParameter("datosHorarios") != null && !request.getParameter("datosHorarios").isEmpty()) {
 			datosJSON = request.getParameter("datosHorarios");
-			GsonBuilder gsonBuilder = new GsonBuilder();
-			gsonBuilder.registerTypeAdapter(LocalTime.class, (JsonDeserializer<LocalTime>) (json, type, jsonDeserializationContext) -> {
-			     String timeString = json.getAsJsonPrimitive().getAsString();
-			     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH);
-			     return LocalTime.parse(timeString, formatter);
-			});
-			Gson gson = gsonBuilder.create();
-			
-			MedicosXDias[] horariosArray = gson.fromJson(datosJSON, MedicosXDias[].class);
-			List<MedicosXDias> listaHorarios = Arrays.asList(horariosArray);
-			Set<MedicosXDias> treeSetHorarios = new TreeSet<>(listaHorarios);
-			request.setAttribute("treeSetHorarios", treeSetHorarios);
+			if (!datosJSON.contains("hour")) {
+				GsonBuilder gsonBuilder = new GsonBuilder();
+				gsonBuilder.registerTypeAdapter(LocalTime.class, (JsonDeserializer<LocalTime>) (json, type, jsonDeserializationContext) -> {
+				     String timeString = json.getAsJsonPrimitive().getAsString();
+				     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH);
+				     return LocalTime.parse(timeString, formatter);
+				});
+				Gson gson = gsonBuilder.create();
+				
+				MedicosXDias[] horariosArray = gson.fromJson(datosJSON, MedicosXDias[].class);
+				List<MedicosXDias> listaHorarios = Arrays.asList(horariosArray);
+				Set<MedicosXDias> treeSetHorarios = new TreeSet<>(listaHorarios);
+				request.setAttribute("treeSetHorarios", treeSetHorarios);
+			}
 		}
 	}
 

@@ -41,8 +41,8 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 	}
 
 	@Override
-	public List<Medico> obtenerMedicos() {
-	    List<Medico> medicos = mDao.readAll();
+	public List<Medico> obtenerMedicos(boolean sinInactivos) {
+	    List<Medico> medicos = mDao.readAll(sinInactivos);
 	    Gson gson = new GsonBuilder().create();
 
 	    for (Medico medico : medicos) {

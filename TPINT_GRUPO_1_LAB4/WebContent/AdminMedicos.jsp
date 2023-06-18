@@ -365,7 +365,7 @@
 				            
 				            <div class="col-4">
 					     		<label class="form-label">Horario Desde</label> 
-					     		<input type="time" class="form-control form-control-lg" name="txtHorarioDesde" />
+					     		<input type="time" class="form-control form-control-lg" name="txtHorarioDesde" step="3600000" />
 				            </div>
 				            
 				            <div class="col-4">
@@ -921,7 +921,6 @@
 			}
 		}
 	}
-
   
 </script>
     

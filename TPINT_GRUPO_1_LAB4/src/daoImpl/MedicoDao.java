@@ -45,14 +45,18 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 	}
 
 	@Override
-	public List<Medico> readAll() {
+	public List<Medico> readAll(boolean sinInactivos) {
 		PreparedStatement statement;
 		ResultSet resultSet; 
 		ArrayList<Medico> medicos = new ArrayList<Medico>();
 
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		try {
-			statement = conexion.prepareStatement(readall);
+			if (sinInactivos) {
+	            statement = conexion.prepareStatement(readall + " WHERE Estado_MED = '1'");
+	        } else {
+	            statement = conexion.prepareStatement(readall);
+	        }
 			resultSet = statement.executeQuery();
 			while(resultSet.next()) {
 				medicos.add(getMedico(resultSet));
