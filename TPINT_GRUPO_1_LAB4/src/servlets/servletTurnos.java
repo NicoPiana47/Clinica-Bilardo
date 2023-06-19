@@ -133,7 +133,7 @@ public class servletTurnos extends HttpServlet {
 		
 		List<Especialidad> listaEspecialidades = espNeg.obtenerEspecialidades();
 		List<Medico> listaMedicos = medNeg.obtenerMedicos(true);
-		List<Paciente> listaPacientes = pacNeg.obtenerPacientes();
+		List<Paciente> listaPacientes = pacNeg.obtenerPacientes(true);
     	
 		request.setAttribute("listaEspecialidades", listaEspecialidades);
 		request.setAttribute("listaMedicos", listaMedicos);

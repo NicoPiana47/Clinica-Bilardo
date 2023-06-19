@@ -9,7 +9,7 @@ import entidades.Paciente;
 import entidades.Provincia;
 
 public interface IPacienteNegocio {
-    public List<Paciente> obtenerPacientes();
+    public List<Paciente> obtenerPacientes(boolean sinInactivos);
     public List<Paciente> obtenerPacientesPorFiltro(String columna, String text);
     public Map<String, String> obtenerColumnas();
 	public int guardar(Paciente unPaciente);

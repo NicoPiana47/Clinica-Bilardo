@@ -30,7 +30,7 @@ public class servletPacientes extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	List<Paciente> listaPacientes = pacienteNegocio.obtenerPacientes();
+    	List<Paciente> listaPacientes = pacienteNegocio.obtenerPacientes(false);
 		inicializarModuloPacientes(request, pacienteNegocio, listaPacientes);
 		    
 	    forwardToPage(request, response, "/AdminPacientes.jsp");
@@ -46,28 +46,28 @@ public class servletPacientes extends HttpServlet {
 		}
 		
 		if(request.getParameter("btnLimpiarFiltros")!=null) {
-			listaPacientes = pacienteNegocio.obtenerPacientes();
+			listaPacientes = pacienteNegocio.obtenerPacientes(false);
 		}
 		
 		if(request.getParameter("btnCrearPaciente") != null) {
 			Paciente unPaciente = pacienteNegocio.getPacienteCrear(request);
 			int guardo = pacienteNegocio.guardar(unPaciente);
 			request.setAttribute("guardo", guardo);
-			listaPacientes = pacienteNegocio.obtenerPacientes();
+			listaPacientes = pacienteNegocio.obtenerPacientes(false);
 		}
 		
 		if(request.getParameter("btnEliminar") != null) {
 			int codPac = Integer.parseInt(request.getParameter("CodPac").toString());
 			boolean elimino = pacienteNegocio.eliminarPaciente(codPac);
 			request.setAttribute("elimino", elimino);
-			listaPacientes = pacienteNegocio.obtenerPacientes();
+			listaPacientes = pacienteNegocio.obtenerPacientes(false);
 		}
 		
 		if(request.getParameter("btnEditarPaciente") != null) {
 			Paciente unPaciente = pacienteNegocio.getPacienteEditar(request);
 			int edito = pacienteNegocio.editarPaciente(unPaciente);
 			request.setAttribute("edito", edito);
-			listaPacientes = pacienteNegocio.obtenerPacientes();
+			listaPacientes = pacienteNegocio.obtenerPacientes(false);
 		}
 
 		inicializarModuloPacientes(request, pacienteNegocio, listaPacientes);

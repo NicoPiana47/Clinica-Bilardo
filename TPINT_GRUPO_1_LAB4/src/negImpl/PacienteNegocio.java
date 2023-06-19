@@ -21,8 +21,8 @@ public class PacienteNegocio extends GeneralNegocio implements IPacienteNegocio{
 	LocalidadNegocio localidadNegocio = new LocalidadNegocio();
 	
 	@Override
-	public List<Paciente> obtenerPacientes() {
-		return pacienteDao.readAll();
+	public List<Paciente> obtenerPacientes(boolean sinInactivos) {
+		return pacienteDao.readAll(sinInactivos);
 	}
 	
 	@Override

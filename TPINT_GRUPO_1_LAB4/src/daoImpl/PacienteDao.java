@@ -22,14 +22,18 @@ public class PacienteDao extends GeneralDao implements IPacienteDao {
 	private static final String update = "UPDATE pacientes SET DNI_PAC = ?, CodLocalidad_PAC = ?, CodProvincia_PAC = ?, Nombre_PAC = ?, Apellido_PAC = ?, Correo_PAC = ?, Sexo_PAC = ?, Nacionalidad_PAC = ?, FechaNacimiento_PAC = ?, Direccion_PAC = ?, Telefono_PAC = ?, Estado_PAC = ? WHERE CodPac_PAC = ?";
 
 	@Override
-	public List<Paciente> readAll() {
+	public List<Paciente> readAll(boolean sinInactivos) {
 		PreparedStatement statement;
 		ResultSet resultSet; 
 		ArrayList<Paciente> pacientes = new ArrayList<Paciente>();
 
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		try {
-			statement = conexion.prepareStatement(readall);
+			if (sinInactivos) {
+	            statement = conexion.prepareStatement(readall + " WHERE Estado_PAC = '1'");
+	        } else {
+	            statement = conexion.prepareStatement(readall);
+	        }
 			resultSet = statement.executeQuery();
 			while(resultSet.next()) {
 				pacientes.add(getPaciente(resultSet));
