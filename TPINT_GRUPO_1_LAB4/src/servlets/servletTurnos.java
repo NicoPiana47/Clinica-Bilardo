@@ -44,27 +44,18 @@ public class servletTurnos extends HttpServlet {
 			inicializarAdminAsigTurnos(request, response);	
 	}
 	
-	public boolean buscarTurno(String fechaS, String horarioS, String codMedS) throws ParseException {
-		int codMed = Integer.parseInt(codMedS);
-		
-		String fecha = fechaS + " " + horarioS;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        Date fechaTurno = dateFormat.parse(fecha);
-		
-		return turnoNegocio.buscarTurno(fechaTurno, codMed);
-	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("fechaAjax") != null) {
-			boolean noExisteTurno = false;
+			boolean existe = false;
 			try {
-				noExisteTurno = buscarTurno(request.getParameter("fechaAjax"), request.getParameter("horarioAjax"), request.getParameter("codMedAjax"));
+				existe = buscarTurno(request.getParameter("fechaAjax"), request.getParameter("horarioAjax"), request.getParameter("codMedAjax"));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 			response.setContentType("text/plain");
 		    response.setCharacterEncoding("UTF-8");
-		    response.getWriter().print(noExisteTurno);
+		    response.getWriter().print(existe);
 		    return;
 		}
 		
@@ -78,6 +69,15 @@ public class servletTurnos extends HttpServlet {
 		
 	}
 	
+	public boolean buscarTurno(String fechaS, String horarioS, String codMedS) throws ParseException {
+		int codMed = Integer.parseInt(codMedS);
+		
+		String fecha = fechaS + " " + horarioS;
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		Date fechaTurno = dateFormat.parse(fecha);
+		
+		return turnoNegocio.buscarTurno(fechaTurno, codMed);
+	}
 	
 	public void listarTurnosConFechas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("btnFiltrar") != null) {

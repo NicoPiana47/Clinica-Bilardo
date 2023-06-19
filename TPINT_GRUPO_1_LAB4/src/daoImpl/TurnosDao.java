@@ -119,7 +119,7 @@ public class TurnosDao implements ITurnosDao{
 	@Override
 	public boolean buscarTurno(java.util.Date fecha, int codMed) {
 		Connection cn = Conexion.getConexion().getSQLConexion();
-		boolean noExiste = true;
+		boolean existe = true;
 		  try
 		  {
 	 		 PreparedStatement st = cn.prepareStatement(search);
@@ -130,7 +130,7 @@ public class TurnosDao implements ITurnosDao{
 			 ResultSet rs = st.executeQuery();
 			
 			 while(rs.next()) {
-				 noExiste = rs.getBoolean("Resultado");		
+				 existe = rs.getBoolean("Resultado");		
 			 }				 
 		  }
 		  catch (Exception e) {
@@ -139,6 +139,6 @@ public class TurnosDao implements ITurnosDao{
 		  finally  {
 			  
 		  }
-		return noExiste;	
+		return existe;	
 	}	
 }
