@@ -8,7 +8,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="./src/Style/estilos.css">
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.util.List" %>
@@ -354,7 +354,7 @@
    		document.getElementById('txtApellido').value = cells[3].innerText;
    	 	document.getElementById('ddlSexo').value = cells[4].innerText;
    		document.getElementById('txtNacionalidad').value = cells[5].innerText;
-   		document.getElementById('txtFechaNacimiento').value = convertDateFormat(cells[6].innerText, "dd/MM/yyyy", "yyyy-MM-dd");
+   		document.getElementById('txtFechaNacimiento').value = cells[6].innerText;
    		document.getElementById('txtDireccion').value = cells[7].innerText;
    		document.getElementById('ddlProvincia').selectedIndex =  getSelectedIndexByText(ddlProvincia, cells[8].innerText);
    		filtrarLocalidades();
@@ -377,11 +377,12 @@
 	    return -1; 
 	}
 	
-	function convertDateFormat(dateString, inputFormat, outputFormat) {
-	    var parts = dateString.split("/");
-	    var formattedDate = parts[2] + "-" + parts[1] + "-" + parts[0];
-	    return formattedDate;
-	}
+    var inputFecha = document.getElementById('txtFechaNacimiento');
+   	inputFecha.addEventListener('change', function() {
+      var fechaSeleccionada = inputFecha.value;
+      var fechaFormateada = moment(fechaSeleccionada).format('DD/MM/YYYY');
+      inputFecha.value = fechaFormateada;
+    });
 	
 	function closeModal(modal) {
 		document.getElementById(modal).style.display = "none";

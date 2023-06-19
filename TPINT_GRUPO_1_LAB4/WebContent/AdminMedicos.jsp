@@ -8,16 +8,8 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <link rel="stylesheet" type="text/css" href="./src/Style/estilos.css">
-<style>
-    .hour-selector input[type="time"]::-webkit-datetime-edit-minute-field {
-      display: none;
-    }
-
-    .hour-selector input[type="time"]::-webkit-datetime-edit-ampm-field {
-      display: none;
-    }
-</style>
 <%@ page import="java.time.LocalTime" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.List" %>
@@ -736,7 +728,7 @@
    		document.getElementById('txtApellido').value = cells[4].innerText;
    	 	document.getElementById('ddlSexo').value = cells[5].innerText;
    		document.getElementById('txtNacionalidad').value = cells[6].innerText;
-   		document.getElementById('txtFechaNacimiento').value = convertDateFormat(cells[7].innerText, "dd/MM/yyyy", "yyyy-MM-dd");
+   		document.getElementById('txtFechaNacimiento').value = cells[7].innerText;
    		document.getElementById('txtDireccion').value = cells[8].innerText;
    		document.getElementById('ddlProvincia').selectedIndex =  getSelectedIndexByText(ddlProvincia, cells[9].innerText);
    		filtrarLocalidades();
@@ -780,12 +772,13 @@
 	    return -1; 
 	}
 	
-	// CONVERSOR DE FECHA AL CARGAR EDICION
-	function convertDateFormat(dateString, inputFormat, outputFormat) {
-	    var parts = dateString.split("/");
-	    var formattedDate = parts[2] + "-" + parts[1] + "-" + parts[0];
-	    return formattedDate;
-	}
+	// CONVERSOR DE FECHA AL ELEGIR
+    var inputFecha = document.getElementById('txtFechaNacimiento');
+   	inputFecha.addEventListener('change', function() {
+      var fechaSeleccionada = inputFecha.value;
+      var fechaFormateada = moment(fechaSeleccionada).format('DD/MM/YYYY');
+      inputFecha.value = fechaFormateada;
+    });
 	
 	// OCULTAR ELEMENTOS
 	function hideElements(isEdit, cName) {
@@ -819,6 +812,7 @@
     	}
     }
 	
+	// BORRADO DE SELECCIONADA EN TABLA HORARIOS
 	function cleanSelectedRows(){
 		var selectedRows = document.getElementsByClassName('selected-row');
 	      
@@ -827,6 +821,7 @@
       	}
 	}
 	
+	// LIMPIEZA DEFAULT A FORM DE HORARIOS AL AGREGAR O CERRAR
 	function cleanFormHorarios(){
 		botonAgregar.textContent = "Agregar";
 		ddlDia.disabled = false;
@@ -861,7 +856,6 @@
     	}
     }
       
-	
 	// TABLA MEDICOS
   	$(document).ready(function() {     		
 	    var table = $('#table_id_medicos').DataTable({
@@ -905,7 +899,6 @@
         filtrarLocalidades();
 	});
   	
-  	
   	// DESHABILITACION DE BOTON FILTRAR
 	document.addEventListener('DOMContentLoaded', function() {
         var txtFiltro = document.getElementById('txtFiltro');
@@ -923,7 +916,6 @@
         toggleFiltrarButton();
     });
 	
-	
 	// FILTRADO DE LOCALIDADES
   	var localidades = document.querySelectorAll('#ddlLocalidad option');
 	function filtrarLocalidades() {
@@ -940,8 +932,7 @@
 			}
 		}
 	}
-	
-	
+
 	// CREACION DE HORAS DDL HORARIOS
     var selectDesde = document.getElementById("ddlHorarioDesde");
     var selectHasta = document.getElementById("ddlHorarioHasta");
@@ -959,6 +950,7 @@
         optionHasta.value = hour;
         selectHasta.add(optionHasta);
     }
+    
 </script>
     
 </body>
