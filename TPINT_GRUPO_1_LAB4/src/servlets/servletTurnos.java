@@ -43,8 +43,31 @@ public class servletTurnos extends HttpServlet {
 		if(request.getParameter("asig")!=null)
 			inicializarAdminAsigTurnos(request, response);	
 	}
+	
+	public boolean buscarTurno(String fechaS, String horarioS, String codMedS) throws ParseException {
+		int codMed = Integer.parseInt(codMedS);
+		
+		String fecha = fechaS + " " + horarioS;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date fechaTurno = dateFormat.parse(fecha);
+		
+		return turnoNegocio.buscarTurno(fechaTurno, codMed);
+	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if(request.getParameter("fechaAjax") != null) {
+			boolean noExisteTurno = false;
+			try {
+				noExisteTurno = buscarTurno(request.getParameter("fechaAjax"), request.getParameter("horarioAjax"), request.getParameter("codMedAjax"));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			response.setContentType("text/plain");
+		    response.setCharacterEncoding("UTF-8");
+		    response.getWriter().print(noExisteTurno);
+		    return;
+		}
+		
 		listarTurnosConFechas(request, response);
 		try {
 			grabarTurno(request, response);

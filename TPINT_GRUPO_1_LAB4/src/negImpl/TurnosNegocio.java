@@ -1,5 +1,6 @@
 package negImpl;
 
+import java.util.Date;
 import java.util.List;
 
 import daoImpl.TurnosDao;
@@ -22,5 +23,11 @@ public class TurnosNegocio implements ITurnosNegocio{
 	@Override
 	public boolean grabarTurno(Turno turno) {
 		return tdao.grabarTurno(turno);
+	}
+
+	@Override
+	public boolean buscarTurno(Date fecha, int codMed) {
+		
+		return tdao.buscarTurno(fecha, codMed);
 	}
 }

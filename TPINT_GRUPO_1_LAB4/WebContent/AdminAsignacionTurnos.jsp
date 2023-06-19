@@ -160,24 +160,37 @@
 
 		  var selectedDia = document.getElementById('fecha').value;
 
-		  var selectedIndex = ddlMedicos.options[ddlMedicos.selectedIndex]
-		  var horarios = JSON.parse(selectedIndex.getAttribute('data-horarios-json'))
+		  var selectedIndex = ddlMedicos.options[ddlMedicos.selectedIndex];
+		  var codMed = document.getElementById('ddlMedicos').value;
+		  var horarios = JSON.parse(selectedIndex.getAttribute('data-horarios-json'));
 
-		horarios.forEach(function(horario) {
-		    var horaDesde = horario.horarioDesde.hour;
-		    var horaHasta = horario.horarioHasta.hour;
-		    var dia = obtenerNombreDia(new Date(selectedDia + "T00:00:00").getDay())
-		    if(horario.dia == dia){		    	
-    			for (var hora = horaDesde; hora <= horaHasta; hora++) {
-			      var optionText = hora.toString().padStart(2, '0') + ':00';
-		
-			      var option = document.createElement('option');
-			      option.value = optionText;
-			      option.text = optionText;
-			      ddlHorarios.appendChild(option);
-			    }
+		  var requests = [];
+
+		  horarios.forEach(function(horario) {
+		    const horaDesde = horario.horarioDesde.hour;
+		    const horaHasta = horario.horarioHasta.hour;
+		    const dia = obtenerNombreDia(new Date(selectedDia + "T00:00:00").getDay());
+
+		    if (horario.dia === dia) {
+		      for (let hora = horaDesde; hora <= horaHasta; hora++) {
+		        const optionText = hora.toString().padStart(2, '0') + ':00';
+		        const option = document.createElement('option');
+		        option.value = optionText;
+		        option.text = optionText;
+
+		        const request = $.ajax({
+		          url: "servletTurnos",
+		          method: "POST",
+		          data: { fechaAjax: selectedDia, horarioAjax: option.text, codMedAjax: codMed}
+		        }).then(function(response) {
+		          if (response === "false") {
+		            ddlHorarios.appendChild(option);
+		          }
+		        });
+
+		        requests.push(request);
+		      }
 		    }
-
 		  });
 		}
 	

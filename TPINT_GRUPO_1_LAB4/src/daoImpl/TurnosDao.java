@@ -30,6 +30,7 @@ public class TurnosDao implements ITurnosDao{
             "INNER JOIN EstadosTurno ON CodEstado_TURN = CodEstado_EST" +
             " WHERE ";
 	private static final String insert = "INSERT INTO Turnos(CodMed_TURN, CodPac_TURN, CodEstado_TURN, FechaTurno_TURN) VALUES(?, ?, ?, ?)";
+	private static final String search = "SELECT CASE WHEN EXISTS (SELECT * FROM TURNOS WHERE FechaTurno_TURN = ? AND CodMed_TURN = ?) THEN 1 ELSE 0 END AS Resultado;";
 
 	@Override
 	public List<Turno> readAll(String fechaDesde, String fechaHasta) {
@@ -113,5 +114,31 @@ public class TurnosDao implements ITurnosDao{
 		    }
 
 		    return isInsert;
+	}
+
+	@Override
+	public boolean buscarTurno(java.util.Date fecha, int codMed) {
+		Connection cn = Conexion.getConexion().getSQLConexion();
+		boolean noExiste = true;
+		  try
+		  {
+	 		 PreparedStatement st = cn.prepareStatement(search);
+	 		 java.sql.Timestamp sqlFechaTurno = new java.sql.Timestamp(fecha.getTime());   
+	 		 st.setTimestamp(1, sqlFechaTurno);
+	 		 
+			 st.setInt(2, codMed);
+			 ResultSet rs = st.executeQuery();
+			
+			 while(rs.next()) {
+				 noExiste = rs.getBoolean("Resultado");		
+			 }				 
+		  }
+		  catch (Exception e) {
+				e.printStackTrace();
+		  }
+		  finally  {
+			  
+		  }
+		return noExiste;	
 	}	
 }
