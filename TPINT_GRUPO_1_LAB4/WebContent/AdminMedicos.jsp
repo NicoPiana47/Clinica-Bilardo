@@ -9,6 +9,15 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 <link rel="stylesheet" type="text/css" href="./src/Style/estilos.css">
+<style>
+    .hour-selector input[type="time"]::-webkit-datetime-edit-minute-field {
+      display: none;
+    }
+
+    .hour-selector input[type="time"]::-webkit-datetime-edit-ampm-field {
+      display: none;
+    }
+</style>
 <%@ page import="java.time.LocalTime" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.List" %>
@@ -351,7 +360,7 @@
 						<div class="row m-2">
 				        	<div class="col-4">
 						     	<label class="form-label">Dia</label>   	
-				                <select class="form-control" name="ddlDia" >
+				                <select class="form-control" name="ddlDia" id="ddlDia" >
   									<option value="" selected hidden></option>
 				        			<option>Domingo</option>
 				        			<option>Lunes</option>
@@ -363,14 +372,18 @@
 				        		</select> 
 				            </div>
 				            
-				            <div class="col-4">
+				            <div class="col-4 hour-selector">
 					     		<label class="form-label">Horario Desde</label> 
-					     		<input type="time" class="form-control form-control-lg" name="txtHorarioDesde" />
-				            </div>
+					     		<select class="form-control" name="ddlHorarioDesde" id="ddlHorarioDesde" >
+  									<option value="" selected hidden></option>
+				        		</select> 
+					     	</div>
 				            
-				            <div class="col-4">
+				            <div class="col-4 hour-selector">
 					     		<label class="form-label">Horario Hasta</label>
-					     		<input type="time" class="form-control form-control-lg" name="txtHorarioHasta" />
+					     		<select class="form-control" name="ddlHorarioHasta" id="ddlHorarioHasta" >
+  									<option value="" selected hidden></option>
+				        		</select> 
 				            </div>
 						</div>
 						
@@ -562,8 +575,8 @@
 	// ONCLICK AGREGAR
 	botonAgregar.addEventListener('click', function() {	
 		var dia = document.querySelector('select[name="ddlDia"]').value;
-		var horarioDesde = document.querySelector('input[name="txtHorarioDesde"]').value;
-		var horarioHasta = document.querySelector('input[name="txtHorarioHasta"]').value;
+		var horarioDesde = document.querySelector('select[name="ddlHorarioDesde"]').value;
+		var horarioHasta = document.querySelector('select[name="ddlHorarioHasta"]').value;
 		
 		if(dia && horarioDesde && horarioHasta){		
 		    var tablaBody = document.getElementById("tablaHorariosBody");
@@ -599,7 +612,7 @@
 		    nuevaFila.appendChild(celdaHorarioDesde);
 		    nuevaFila.appendChild(celdaHorarioHasta);
 		    nuevaFila.appendChild(celdaEstado);
-		
+		    
 		    // FUNCIONA BIEN
 		    tablaBody.appendChild(nuevaFila);
 		    
@@ -629,6 +642,7 @@
 	        }*/
 		    
 		    actualizarValores();
+		    cleanFormHorarios();
 		}
 	});
 	
@@ -637,8 +651,8 @@
 	botonModificar.addEventListener('click', function() {
 		var selectedRow = document.querySelector('.selected-row');  
 		var dia = document.querySelector('select[name="ddlDia"]').value;
-		var horarioDesde = document.querySelector('input[name="txtHorarioDesde"]').value;
-		var horarioHasta = document.querySelector('input[name="txtHorarioHasta"]').value;
+		var horarioDesde = document.querySelector('select[name="ddlHorarioDesde"]').value;
+		var horarioHasta = document.querySelector('select[name="ddlHorarioHasta"]').value;
 		var estadoSeleccionado = document.querySelector('input[name="rdEstadoHorario"]:checked').value;
 		var camposCompletos = dia && horarioDesde && horarioHasta;
 
@@ -687,6 +701,8 @@
 		// Actualizar los valores en un campo oculto
 		var datosHorarios = document.getElementById("datosHorarios");
 		datosHorarios.value = JSON.stringify(horarios);
+		
+		console.log(datosHorarios)
 	}
 
 	// VALIDAR QUE SEAN LETRAS
@@ -746,8 +762,8 @@
 		var cells = row.cells;
 		
 		document.querySelector('select[name="ddlDia"]').value = cells[0].innerText;
-		document.querySelector('input[name="txtHorarioDesde"]').value = cells[1].innerText;
-		document.querySelector('input[name="txtHorarioHasta"]').value = cells[2].innerText;
+		document.querySelector('select[name="ddlHorarioDesde"]').value = cells[1].innerText;
+		document.querySelector('select[name="ddlHorarioHasta"]').value = cells[2].innerText;
 	  			
    		isChecked = cells[3].querySelector('input[type="checkbox"]').checked;
 	  	radioButtons = document.querySelectorAll('input[name="rdEstadoHorario"]');
@@ -788,12 +804,11 @@
 	// SELECCION DE HORARIO
 	function selectHorario(row) {
   		var isSelected = row.classList.contains('selected-row');
-  		var ddlDia = document.querySelector('select[name="ddlDia"]')
   		cleanSelectedRows();
       
     	if (isSelected) {
 			ddlDia.disabled = false;
-    		cleanForm();
+    		cleanFormHorarios();
     		hideElements(false, 'H');
 		} 
     	else {
@@ -812,10 +827,12 @@
       	}
 	}
 	
-	function cleanForm(){
-		document.querySelector('select[name="ddlDia"]').value = "";
-		document.querySelector('input[name="txtHorarioDesde"]').value = "";
-		document.querySelector('input[name="txtHorarioHasta"]').value = "";
+	function cleanFormHorarios(){
+		botonAgregar.textContent = "Agregar";
+		ddlDia.disabled = false;
+		document.getElementById('ddlDia').selectedIndex = 0;
+		document.getElementById('ddlHorarioDesde').selectedIndex = 0;
+		document.getElementById('ddlHorarioHasta').selectedIndex = 0;
 	}
 	
 	// CERRAR MODAL
@@ -824,9 +841,7 @@
     	
     	if(isHorarios){
     		cleanSelectedRows();
-    		document.getElementsByName('ddlDia')[0].selectedIndex = 0;
-    		document.getElementsByName('txtHorarioDesde')[0].value = "";
-    		document.getElementsByName('txtHorarioHasta')[0].value = "";
+    		cleanFormHorarios();
     	}
     	else{
     		document.getElementsByName('txtDNI')[0].value = "";
@@ -925,7 +940,25 @@
 			}
 		}
 	}
-  
+	
+	
+	// CREACION DE HORAS DDL HORARIOS
+    var selectDesde = document.getElementById("ddlHorarioDesde");
+    var selectHasta = document.getElementById("ddlHorarioHasta");
+    
+    for (var i = 8; i <= 22; i++) {
+        var hour = i.toString().padStart(2, "0") + ":00";
+        
+        var optionDesde = document.createElement("option");
+        optionDesde.text = hour;
+        optionDesde.value = hour;
+        selectDesde.add(optionDesde);
+        
+        var optionHasta = document.createElement("option");
+        optionHasta.text = hour;
+        optionHasta.value = hour;
+        selectHasta.add(optionHasta);
+    }
 </script>
     
 </body>
