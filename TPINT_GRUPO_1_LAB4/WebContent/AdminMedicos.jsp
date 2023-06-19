@@ -459,7 +459,11 @@
 	%>
 	
 <script>
-
+	var fpFechaNac = flatpickr("#txtFechaNacimiento", {
+		maxDate: new Date().setMonth(new Date().getMonth() - 1),
+		required: true
+	 });
+		
 	//CARGAR TABLA AL PRESIONAR BOTON
 	var btnVerHorario = document.getElementById('btnVerHorario');
 	btnVerHorario.addEventListener('click', function() {	

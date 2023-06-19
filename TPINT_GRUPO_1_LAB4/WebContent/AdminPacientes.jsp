@@ -308,6 +308,12 @@
 	%>
       
 <script>
+	
+	var fpFechaNac = flatpickr("#txtFechaNacimiento", {
+		maxDate: new Date().setMonth(new Date().getMonth() - 1),
+		required: true
+	 });
+	
 	function validarLetras(input) {
 	  	var regex = /[^a-zA-Z]/g;
 	  	input.value = input.value.replace(regex, '');

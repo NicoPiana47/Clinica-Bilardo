@@ -15,6 +15,9 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css"> 
     
     <script src="notiflix-Notiflix-6936fff/dist/notiflix-notify-aio-3.2.6.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
    
     <title>master</title>
     
