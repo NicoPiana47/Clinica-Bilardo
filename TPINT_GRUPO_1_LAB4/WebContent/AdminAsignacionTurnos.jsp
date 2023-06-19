@@ -185,6 +185,7 @@
 		        }).then(function(response) {
 		          if (response === "false") {
 		            ddlHorarios.appendChild(option);
+		            ordenarHorarios();
 		          }
 		        });
 
@@ -197,6 +198,24 @@
 	$(document).ready(function() {
 		filtrarMedicos(); 
 	});
+	
+	function ordenarHorarios(){
+		var ddlHorarios = document.getElementById('ddlHorariosDisponibles');
+		var opciones = Array.from(ddlHorarios.options); 
+
+		opciones.sort(function(a, b) {		  
+		  var fechaA = new Date('2000-01-01 ' + a.value);
+		  var fechaB = new Date('2000-01-01 ' + b.value);
+
+		  return fechaA - fechaB;
+		});
+
+		ddlHorarios.innerHTML = ''; 
+
+		opciones.forEach(function(opcion) {
+		  ddlHorarios.appendChild(opcion); 
+		});
+	}
 	
 	var medicos = document.querySelectorAll('#ddlMedicos option');
 	function filtrarMedicos() {
