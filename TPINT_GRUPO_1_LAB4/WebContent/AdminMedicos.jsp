@@ -88,7 +88,6 @@
 						<th>Correo</th>
 						<th>Teléfono</th> 
 						<th>Especialidad</th>
-						<th>Fecha de atención</th>  
 						<th>Usuario</th>
 						<th>Contraseña</th>
 						<th>Tipo</th>
@@ -107,6 +106,7 @@
 						<% SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy"); %>
 					
 						<td scope="row">
+							<input type="hidden" id="horarios" value='<%= medico.getHorariosJson() %>'>
 							<form method="post" action="servletMedicos">						
 								<button type="submit" name="btnEliminar" class="btn btn-outline-danger btn-sm" onclick="event.stopPropagation(); return confirm('¿Esta seguro de que quiere eliminar el médico?')">
 								<input type="hidden" name="CodMed" value="<%= medico.getCodMed() %>">
@@ -127,7 +127,6 @@
 						<td><%=medico.getCorreo()%></td>
 						<td><%=medico.getTelefono()%></td> 
 						<td><%=medico.getEspecialidad()%></td>
-						<td>Ver registro <input type="hidden" id="horarios" value='<%= medico.getHorariosJson() %>'> </td>
 						<td><%=medico.getUsername()%></td>
 						<td><%=medico.getContraseña()%></td>
 						<td>
@@ -736,16 +735,16 @@
    		document.getElementById('txtCorreo').value = cells[11].innerText;
    		document.getElementById('txtTelefono').value = cells[12].innerText;
    		document.getElementById('ddlEspecialidad').selectedIndex =  getSelectedIndexByText(ddlEspecialidad, cells[13].innerText);
-   	 	var horarios = cells[14].querySelector('#horarios').value;
+   	 	var horarios = cells[0].querySelector('#horarios').value;
    		document.getElementById('datosHorarios').value = horarios;
-   		document.getElementById('txtUsuario').value = cells[15].innerText;
-   		document.getElementById('txtContraseña').value = cells[16].innerText;
+   		document.getElementById('txtUsuario').value = cells[14].innerText;
+   		document.getElementById('txtContraseña').value = cells[15].innerText;
    		
-   		var isChecked = cells[17].querySelector('input[type="checkbox"]').checked;
+   		var isChecked = cells[16].querySelector('input[type="checkbox"]').checked;
 	  	var radioButtons = document.querySelectorAll('input[name="rdTipo"]');
 	  	isChecked ? radioButtons[1].checked = true : radioButtons[0].checked = true
 	  			
-   		isChecked = cells[18].querySelector('input[type="checkbox"]').checked;
+   		isChecked = cells[17].querySelector('input[type="checkbox"]').checked;
 	  	radioButtons = document.querySelectorAll('input[name="rdEstado"]');
 	  	isChecked ? radioButtons[0].checked = true : radioButtons[1].checked = true
     }
