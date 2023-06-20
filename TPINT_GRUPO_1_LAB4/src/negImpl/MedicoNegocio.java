@@ -123,7 +123,7 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 	private Date parseDate(HttpServletRequest request) {
 	    try {
 	        String fechaNacString = request.getParameter("txtFechaNacimiento");
-	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	        return dateFormat.parse(fechaNacString);
 	    } catch (ParseException e) {
 	        e.printStackTrace();
