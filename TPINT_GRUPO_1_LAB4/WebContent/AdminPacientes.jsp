@@ -311,7 +311,8 @@
 	
 	var fpFechaNac = flatpickr("#txtFechaNacimiento", {
 		maxDate: new Date().setMonth(new Date().getMonth() - 1),
-		required: true
+		required: true,
+	    dateFormat: "d/m/Y"
 	 });
 	
 	function validarLetras(input) {
@@ -376,13 +377,6 @@
 	    }
 	    return -1; 
 	}
-	
-    var inputFecha = document.getElementById('txtFechaNacimiento');
-   	inputFecha.addEventListener('change', function() {
-      var fechaSeleccionada = inputFecha.value;
-      var fechaFormateada = moment(fechaSeleccionada).format('DD/MM/YYYY');
-      inputFecha.value = fechaFormateada;
-    });
 	
 	function closeModal(modal) {
 		document.getElementById(modal).style.display = "none";

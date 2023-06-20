@@ -465,8 +465,9 @@
 <script>
 	var fpFechaNac = flatpickr("#txtFechaNacimiento", {
 		maxDate: new Date().setMonth(new Date().getMonth() - 1),
-		required: true
-	 });
+		required: true,
+	    dateFormat: "d/m/Y"
+	});
 		
 	//CARGAR TABLA AL PRESIONAR BOTON
 	var btnVerHorario = document.getElementById('btnVerHorario');
@@ -604,33 +605,7 @@
 		    nuevaFila.appendChild(celdaHorarioHasta);
 		    nuevaFila.appendChild(celdaEstado);
 		    
-		    // FUNCIONA BIEN
 		    tablaBody.appendChild(nuevaFila);
-		    
-		    // FALOPA QUE FUNCIONA BIEN E INSERTA ORDENADO.
-		    /*var filas = tablaBody.getElementsByTagName("tr");
-	        var posicionInsercion = -1;
-
-	        // Encontrar la posición de inserción ordenada
-	        for (var i = 0; i < filas.length; i++) {
-	            var fila = filas[i];
-	            var filaDia = fila.getElementsByTagName("td")[0].textContent;
-	            var diasSemana = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
-	            var filaDiaIndex = diasSemana.indexOf(filaDia);
-	            var diaIndex = diasSemana.indexOf(dia);
-
-	            if (filaDiaIndex > diaIndex) {
-	                posicionInsercion = i;
-	                break;
-	            }
-	        }
-
-	        // Insertar la fila en la posición correcta
-	        if (posicionInsercion === -1) {
-	            tablaBody.appendChild(nuevaFila);
-	        } else {
-	            tablaBody.insertBefore(nuevaFila, filas[posicionInsercion]);
-	        }*/
 		    
 		    actualizarValores();
 		    cleanFormHorarios();
@@ -770,14 +745,6 @@
 	    }
 	    return -1; 
 	}
-	
-	// CONVERSOR DE FECHA AL ELEGIR
-    var inputFecha = document.getElementById('txtFechaNacimiento');
-   	inputFecha.addEventListener('change', function() {
-      var fechaSeleccionada = inputFecha.value;
-      var fechaFormateada = moment(fechaSeleccionada).format('DD/MM/YYYY');
-      inputFecha.value = fechaFormateada;
-    });
 	
 	// OCULTAR ELEMENTOS
 	function hideElements(isEdit, cName) {
