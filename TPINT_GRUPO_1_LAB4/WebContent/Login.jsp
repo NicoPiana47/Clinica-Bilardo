@@ -13,6 +13,7 @@
 <script type="text/javascript" charset="utf8"
 	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 		<script src="https://kit.fontawesome.com/3c33daaf69.js" crossorigin="anonymous"></script>
+ <script src="notiflix-Notiflix-6936fff/dist/notiflix-notify-aio-3.2.6.min.js"></script>
 		
 </head>
 <body>
@@ -62,19 +63,10 @@ background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);">
                 	  boolean inicioSesion = (boolean)request.getAttribute("inicioSesion");
 
                 	  if(!inicioSesion){
-                		  %><div style="display: flex; justify-content: center; visibility="hidden";>
-						        <div ID="MsgErrorDiv" class="col-md-4 alert alert-danger">
-						            <strong>Error</strong> Usuario o contraseña incorrecta!
-						            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-						        </div>
-						    </div>
-					    <% 
+                		  %><script>Notiflix.Notify.failure("Usuario o contraseña incorrecta!")</script> <% 
 					    }    
                 	  }                                             	
-                  %>
-
-                  
-
+                  %>             
               </div>
             </div>
           </div>
