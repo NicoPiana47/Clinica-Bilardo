@@ -105,12 +105,16 @@
 
 <script>
 	var ddlMedicos = document.getElementById('ddlMedicos')
+	var ddlEspecialidades = document.getElementById('ddlEspecialidades')
+	var fechaInput = document.getElementById('fecha');
+	var ddlHorariosDisponibles = document.getElementById('ddlHorariosDisponibles');
+	
  	var fpFechas = flatpickr("#fecha", {
 		minDate: "today",
 		maxDate: new Date().setMonth(new Date().getMonth() + 4),
 		required: true,
-	  	 disable: [
-	   		function(date) {
+  	 	disable: [
+   			function(date) {
 	   	     	 return filtrarFechas(date);
 	   	    }
 	  	 ] 
@@ -119,81 +123,106 @@
 	function filtrarFechas(date) {
 		var day = date.getDay();
 		var options = ddlMedicos.options[ddlMedicos.selectedIndex]
-		var horarios = JSON.parse(options.getAttribute('data-horarios-json'))
 
-		
-		for (var i = 0; i < horarios.length; i++) {
-			var dia = obtenerNombreDia(day)
-		  	if (horarios[i].estado && horarios[i].dia === dia) {
-		    	return false;
-		  }
+		if(options == undefined){
+			ddlMedicos.innerHTML = '<option>No hay médicos de esta especialidad</option>';
+			fechaInput.disabled = true;
+			ddlHorariosDisponibles.disabled = true;
+			return false
 		}
+		
+		var horarios = JSON.parse(options.getAttribute('data-horarios-json'))
+		
+		if(horarios != null){
+			for (var i = 0; i < horarios.length; i++) {
+				var dia = obtenerNombreDia(day)
+			  	if (horarios[i].estado && horarios[i].dia === dia) {
+			    	return false;
+			  }
+			}
+		}
+		
 	    
 		return true;
 	}
+	
 	ddlMedicos.addEventListener('change', function() {
-	  	document.getElementById('fecha').value = "";
+	  	recargarHorarios();
+	});
+	
+	ddlEspecialidades.addEventListener('change', function() {
+		recargarHorarios();
+	});
+	
+	function recargarHorarios(){
+		document.getElementById('fecha').value = "";
 		var flatpickrInstance = document.getElementById('fecha')._flatpickr;
 	 	var minDate = flatpickrInstance.config.minDate;
 	  	var maxDate = flatpickrInstance.config.maxDate;
 	  	var disabledDates = [];
 		  
-		  
 	  	for (var date = new Date(minDate); date <= maxDate; date.setDate(date.getDate() + 1)) {
-			  if (filtrarFechas(date)) {
-				  disabledDates.push(new Date(date));
-			    }
+			if (filtrarFechas(date)) {
+		 		disabledDates.push(new Date(date));
+			}
 	  	}
+	  	
 	  	flatpickrInstance.set('disable', disabledDates);
 	  	document.getElementById('fecha').value = "";
   		document.getElementById('ddlHorariosDisponibles').innerHTML = "";
-	});
+	}
 	
 	function obtenerNombreDia(day) {
 	    var dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
 	    return dias[day];
-	  }
+	}
 	
 	function cargarHorariosDisponibles() {
-		  var ddlHorarios = document.getElementById('ddlHorariosDisponibles');
-		  ddlHorarios.innerHTML = '';
+		var ddlHorarios = document.getElementById('ddlHorariosDisponibles');
+		ddlHorarios.innerHTML = '';
+		
+		var selectedDia = document.getElementById('fecha').value;
+		
+		var selectedIndex = ddlMedicos.options[ddlMedicos.selectedIndex];
+		var codMed = document.getElementById('ddlMedicos').value;
+		var horarios = JSON.parse(selectedIndex.getAttribute('data-horarios-json'));
+		
+		if (selectedDia !== "") {
+		   	ddlHorariosDisponibles.disabled = false;
+	 	} else {
+			ddlHorariosDisponibles.disabled = true;
+		}
+		
+		var requests = [];
 
-		  var selectedDia = document.getElementById('fecha').value;
-
-		  var selectedIndex = ddlMedicos.options[ddlMedicos.selectedIndex];
-		  var codMed = document.getElementById('ddlMedicos').value;
-		  var horarios = JSON.parse(selectedIndex.getAttribute('data-horarios-json'));
-
-		  var requests = [];
-
-		  horarios.forEach(function(horario) {
+	  	horarios.forEach(function(horario) {
 		    const horaDesde = horario.horarioDesde.hour;
 		    const horaHasta = horario.horarioHasta.hour;
 		    const dia = obtenerNombreDia(new Date(selectedDia + "T00:00:00").getDay());
-
+		
 		    if (horario.dia === dia) {
-		      for (let hora = horaDesde; hora <= horaHasta; hora++) {
-		        const optionText = hora.toString().padStart(2, '0') + ':00';
-		        const option = document.createElement('option');
-		        option.value = optionText;
-		        option.text = optionText;
+	      		for (let hora = horaDesde; hora <= horaHasta; hora++) {
+			        const optionText = hora.toString().padStart(2, '0') + ':00';
+			        const option = document.createElement('option');
+			        option.value = optionText;
+			        option.text = optionText;
 
-		        const request = $.ajax({
-		          url: "servletTurnos",
-		          method: "POST",
-		          data: { fechaAjax: selectedDia, horarioAjax: option.text, codMedAjax: codMed}
-		        }).then(function(response) {
-		          if (response === "false") {
-		            ddlHorarios.appendChild(option);
-		            ordenarHorarios();
-		          }
-		        });
+			        const request = $.ajax({
+						url: "servletTurnos",
+						method: "POST",
+						data: { fechaAjax: selectedDia, horarioAjax: option.text, codMedAjax: codMed}
+			        }).then(function(response) {
+			          if (response === "false") {
+			            ddlHorarios.appendChild(option);
+			            ordenarHorarios();
+			          }
+					});
 
-		        requests.push(request);
-		      }
-		    }
-		  });
-		}
+					requests.push(request);
+				}
+			}
+		});
+	}
 	
 	$(document).ready(function() {
 		filtrarMedicos(); 
@@ -221,6 +250,13 @@
 	function filtrarMedicos() {
 		var especialidadSeleccionada = document.getElementById('ddlEspecialidades').value;
 		var ddlMedicos = document.getElementById('ddlMedicos');
+		
+		if (ddlMedicos.options.length > 0) {
+		    fechaInput.disabled = false;
+		    ddlHorariosDisponibles.disabled = true;
+		} else {
+		    fechaInput.disabled = true;
+		}
 		
 		ddlMedicos.innerHTML = '';
 		for (var i = 0; i < medicos.length; i++) {
