@@ -420,18 +420,15 @@
 	        lengthMenu: [[5, 25, -1], [10, 25, "Todos"]],
 	        "bLengthChange": false,
 	        "bInfo": false,
-	        dom: 'lrtip', // Mostrar solo los componentes necesarios
+	        dom: 'lrtip',
 	        initComplete: function(settings, json) {
-	            // Ocultar el campo de búsqueda predeterminado
 	            $('.dataTables_filter').hide();
 	        }
 	    });
 
-	 	// Agregar evento de cambio al campo de búsqueda
 	    $('#search-input').on('input', function() {
 	        var searchValue = $(this).val();
 
-	        // Aplicar el filtro de búsqueda al DataTable
 	        table.search(searchValue).draw();
 	    });
 	    filtrarLocalidades(); 

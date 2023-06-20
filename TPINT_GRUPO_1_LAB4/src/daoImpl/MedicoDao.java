@@ -182,9 +182,8 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 	        statement.setBoolean(15, medico.getTipo());
 
 	        MedicosXDiasDao medicoXDiaDao = new MedicosXDiasDao();
-	        boolean allHorariosInserted = true; // Variable auxiliar para rastrear la inserción de todos los horarios
+	        boolean allHorariosInserted = true;
 
-	        // Insertar el médico
 	        int filasAfectadas = statement.executeUpdate();
 
 	        if (filasAfectadas > 0) {
@@ -195,12 +194,11 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 	                isInsert = true;
 	            }
 
-	            // Insertar los horarios solo si la lista no está vacía
 	            if (medico.getHorarios() != null && !medico.getHorarios().isEmpty()) {
 	                for (MedicosXDias horario : medico.getHorarios()) {
 	                    if (!medicoXDiaDao.insert(medico.getCodMed(), horario)) {
 	                        allHorariosInserted = false;
-	                        break; // Salir del bucle si un horario falla en la inserción
+	                        break; 
 	                    }
 	                }
 
@@ -208,10 +206,10 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 	                    connection.commit();
 	                } else {
 	                    connection.rollback();
-	                    isInsert = false; // Establecer el valor de retorno en false si no se insertaron todos los horarios correctamente
+	                    isInsert = false;
 	                }
 	            } else {
-	                connection.commit(); // No hay horarios para insertar, pero el médico se guarda correctamente
+	                connection.commit();
 	            }
 	        }
 	    } 
@@ -249,11 +247,9 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 	        statement.setInt(17, medico.getCodMed());
 	        
 	        MedicosXDiasDao medicoXDiaDao = new MedicosXDiasDao();
-	        boolean allHorariosUpdated = true; // Variable auxiliar para rastrear la actualización de todos los horarios
+	        boolean allHorariosUpdated = true;
 
-	        // Actualizar el médico
 	        if (statement.executeUpdate() > 0) {
-	            // Actualizar los horarios solo si la lista no está vacía
 	            if (medico.getHorarios() != null && !medico.getHorarios().isEmpty()) {
 	                for (MedicosXDias horario : medico.getHorarios()) {
 	                    boolean horarioInsertOrUpdated = medicoXDiaDao.insert(medico.getCodMed(), horario);
@@ -268,10 +264,10 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 	                    isUpdate = true;
 	                } else {
 	                	connection.rollback();
-	                    isUpdate = false; // Establecer el valor de retorno en false si no se actualizaron todos los horarios correctamente
+	                    isUpdate = false;
 	                }
 	            } else {
-	                connection.commit(); // No hay horarios para actualizar, pero el médico se guarda correctamente
+	                connection.commit();
 	                isUpdate = true;
 	            }
 	        }
