@@ -71,17 +71,19 @@ public class servletMedicos extends HttpServlet {
         	
         	RequestDispatcher rd = null;
         	
-        	if(filas) {
-        		if(med.getTipo()) {
-        			inicializarModuloMedicos(request, response, null);
-        			return;
-        		}
-        		else rd = request.getRequestDispatcher("/Inicio.jsp");
+        	if (filas) {
+        	    if (med.getTipo()) {
+        	        inicializarModuloMedicos(request, response, null);
+        	        return;
+        	    } else {
+        	        rd = request.getRequestDispatcher("/servletTurnos?ini=1");
+        	    }
+        	} else {
+        	    rd = request.getRequestDispatcher("/Login.jsp");
         	}
-        	else rd = request.getRequestDispatcher("/Login.jsp");
-        	      	
+
         	request.setAttribute("inicioSesion", filas);
-			rd.forward(request, response);
+        	rd.forward(request, response);
         }
 	}
 	

@@ -57,7 +57,7 @@
 				<input class="form-control" type="date" name="txtFechaHasta"> 
 			</div>
 			<div class="col-4"> 
-				<button  class="form-control" name="btnFiltrar">Filtrar</button>
+				<button  class="form-control" name="btnFiltrarFechas">Filtrar</button>
 			</div>
 		</div>
 	</form>

@@ -41,7 +41,9 @@ public class servletTurnos extends HttpServlet {
 		if(request.getParameter("rep")!=null)
 			inicializarAdminReportes(request, response);
 		if(request.getParameter("asig")!=null)
-			inicializarAdminAsigTurnos(request, response);	
+			inicializarAdminAsigTurnos(request, response);
+		if(request.getParameter("ini")!=null)
+			inicializarInicio(request, response);	
 	}
 	
 
@@ -59,13 +61,22 @@ public class servletTurnos extends HttpServlet {
 		    return;
 		}
 		
-		listarTurnosConFechas(request, response);
+		if(request.getParameter("btnFiltrarFechas") != null){
+			listarTurnosConFechas(request, response);
+		}
+		
 		try {
 			grabarTurno(request, response);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		if(request.getParameter("btnFiltrar")!=null) {
+			listarTurnosConFiltros(request, response);
+		}
+		
+		if(request.getParameter("ini")!=null)
+			inicializarInicio(request, response);	
 		
 	}
 	
@@ -166,6 +177,13 @@ public class servletTurnos extends HttpServlet {
 		rd.forward(request, response);
 	}
 	
+	public void inicializarInicio(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	List<Turno> listaTurnos = turnoNegocio.obtenerTurnos();
+		request.setAttribute("listaTurnos", listaTurnos);
+		
+		inicializarListas(request, response);
+	}
+	
 	public void grabarTurno(HttpServletRequest request, HttpServletResponse response) throws ParseException, ServletException, IOException {
 		if(request.getParameter("btnAsignar") != null) {
 			Turno turno = new Turno();
@@ -190,5 +208,22 @@ public class servletTurnos extends HttpServlet {
 	        request.setAttribute("guardo", guardo);
 	        inicializarAdminAsigTurnos(request,  response);
 		}
+	}
+	
+	private void inicializarListas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Map<String, String> listaFiltros = turnoNegocio.obtenerColumnas();
+	    request.setAttribute("listaFiltros", listaFiltros);
+	    
+	    RequestDispatcher rd = request.getRequestDispatcher("/Inicio.jsp");
+		rd.forward(request, response);
+	}
+	
+	public void listarTurnosConFiltros(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String texto = request.getParameter("txtFiltro");
+		String columna = request.getParameter("ddlFiltros");
+		List<Turno> listaTurnos = turnoNegocio.obtenerTurnosPorFiltro(columna, texto);
+		
+		request.setAttribute("listaTurnos", listaTurnos);		
+		inicializarListas(request, response);
 	}
 }

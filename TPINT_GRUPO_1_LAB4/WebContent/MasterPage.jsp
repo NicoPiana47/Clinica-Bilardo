@@ -76,7 +76,7 @@
         </li>
         <% } else { %>
         <li class="nav-item">
-          <a class="nav-link text-white" href="">
+          <a class="nav-link text-white" href="servletTurnos?ini=1">
             <i class="fa-solid fa-users"></i> Turnos
           </a>
         </li>

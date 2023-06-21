@@ -2,12 +2,14 @@ package negImpl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import daoImpl.TurnosDao;
+import entidades.Paciente;
 import entidades.Turno;
 import neg.ITurnosNegocio;
 
-public class TurnosNegocio implements ITurnosNegocio{
+public class TurnosNegocio extends GeneralNegocio implements ITurnosNegocio{
 	TurnosDao tdao = new TurnosDao();
 	
 	@Override
@@ -29,5 +31,16 @@ public class TurnosNegocio implements ITurnosNegocio{
 	public boolean buscarTurno(Date fecha, int codMed) {
 		
 		return tdao.buscarTurno(fecha, codMed);
+	}
+
+	@Override
+    public Map<String, String> obtenerColumnas() {
+        List<String> columnasList = tdao.getColumns();
+        return super.obtenerColumnas("_TURN", columnasList);
+    }
+
+	@Override
+	public List<Turno> obtenerTurnosPorFiltro(String columna, String text) {
+		return tdao.getTurnosByFilter(columna, text);
 	}
 }
