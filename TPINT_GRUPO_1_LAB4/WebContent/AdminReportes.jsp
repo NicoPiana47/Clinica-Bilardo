@@ -93,8 +93,8 @@
 					
 					  <tr>
 
-					        <td><%= turno.getMedico().getNombre()%></td>
-					        <td><%= turno.getPaciente().getNombre()%></td>
+					        <td><%= turno.getMedico().getNombre() + " " + turno.getMedico().getApellido()%></td>
+					        <td><%= turno.getPaciente().getNombre() + " " + turno.getPaciente().getApellido()%></td>
 					        <td><%= formatter.format(turno.getFechaTurno())%></td>
 					        <td><%= turno.getEstado().getDescripcion_EST()%></td>
 				    </tr>
