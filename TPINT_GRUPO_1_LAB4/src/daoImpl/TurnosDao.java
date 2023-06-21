@@ -17,7 +17,7 @@ import entidades.Paciente;
 import entidades.Turno;
 
 public class TurnosDao implements ITurnosDao{
-	private static final String consultaSinFechas = "SELECT Nombre_MED, Nombre_PAC, FechaTurno_TURN, Descripcion_EST " +
+	private static final String consultaSinFechas = "SELECT Nombre_MED, Apellido_MED, Nombre_PAC, Apellido_PAC, FechaTurno_TURN, Descripcion_EST " +
             "FROM Turnos " +
             "INNER JOIN Medicos ON CodMed_TURN = CodMed_MED " +
             "INNER JOIN Pacientes ON CodPac_TURN = CodPac_PAC " +
@@ -66,6 +66,8 @@ public class TurnosDao implements ITurnosDao{
 	             while (resultSet.next()) {
 	                 String nombreMedico = resultSet.getString("Nombre_MED");
 	                 String nombrePaciente = resultSet.getString("Nombre_PAC");
+	                 String apellidoMedico = resultSet.getString("Apellido_MED");
+	                 String apellidoPaciente = resultSet.getString("Apellido_PAC");
 	                 java.sql.Timestamp fechaTurnoTimestamp = resultSet.getTimestamp("FechaTurno_TURN");
 	                 String descripcionEstado = resultSet.getString("Descripcion_EST");
 	                 
@@ -73,7 +75,9 @@ public class TurnosDao implements ITurnosDao{
 	                 Turno turno = new Turno();
 	                 
 	                 turno.getMedico().setNombre(nombreMedico);
+	                 turno.getMedico().setApellido(apellidoMedico);
 	                 turno.getPaciente().setNombre(nombrePaciente);
+	                 turno.getPaciente().setApellido(apellidoPaciente);
 	                 turno.getEstado().setDescripcion_EST(descripcionEstado);
 	                 turno.setFechaTurno(fechaTurno);
 	                 
