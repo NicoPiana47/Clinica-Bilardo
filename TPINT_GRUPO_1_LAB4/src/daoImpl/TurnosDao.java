@@ -23,7 +23,7 @@ public class TurnosDao implements ITurnosDao{
             "INNER JOIN Pacientes ON CodPac_TURN = CodPac_PAC " +
             "INNER JOIN EstadosTurno ON CodEstado_TURN = CodEstado_EST";
 	
-	private String consultaConFechas = "SELECT Nombre_MED, Nombre_PAC, FechaTurno_TURN, Descripcion_EST " +
+	private String consultaConFechas = "SELECT Nombre_MED, Apellido_MED, Nombre_PAC, Apellido_PAC, FechaTurno_TURN, Descripcion_EST " +
             "FROM Turnos " +
             "INNER JOIN Medicos ON CodMed_TURN = CodMed_MED " +
             "INNER JOIN Pacientes ON CodPac_TURN = CodPac_PAC " +
@@ -144,5 +144,5 @@ public class TurnosDao implements ITurnosDao{
 			  
 		  }
 		return existe;	
-	}	
+	}
 }
