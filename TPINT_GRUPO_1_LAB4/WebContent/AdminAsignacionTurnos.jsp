@@ -23,7 +23,7 @@
 <body>
 	<%@ include file="/MasterPage.jsp" %>
 	<h1 class="text-center">Asignación de Turnos</h1> 
-	<form class="w-50 m-auto" method="post" action="servletTurnos">
+	<form class="w-50 m-auto" method="post" action="servletTurnos" id="formTurnos">
 		
 		<div class="row text-center m-4" >		
 			<label>Especialidad:</label> <br>
@@ -88,7 +88,7 @@
 			</select>
 		</div>
 		
-		<button class="form-control" type="submit" name="btnAsignar">Asignar turno</button>
+		<button class="form-control" type="submit" name="btnAsignar" id="btnAsignar">Asignar turno</button>
 	</form>
 </body>
 
@@ -238,6 +238,15 @@
 		  ddlHorarios.appendChild(opcion); 
 		});
 	}
+	
+	document.getElementById("btnAsignar").addEventListener('click', function() {
+		
+		  if (fechaInput.value == null || fechaInput.value == "") {
+			event.preventDefault();
+		    Notiflix.Notify.failure("Complete los campos!");
+		  }
+		
+	});
 	
 	var medicos = document.querySelectorAll('#ddlMedicos option');
 	function filtrarMedicos() {
