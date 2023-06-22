@@ -358,7 +358,6 @@
    		document.getElementById('txtFechaNacimiento').value = cells[6].innerText;
    		document.getElementById('txtDireccion').value = cells[7].innerText;
    		document.getElementById('ddlProvincia').selectedIndex =  getSelectedIndexByText(ddlProvincia, cells[8].innerText);
-   		filtrarLocalidades();
    		document.getElementById('ddlLocalidad').selectedIndex = getSelectedIndexByText(ddlLocalidad, cells[9].innerText);
    		document.getElementById('txtCorreo').value = cells[10].innerText;
    		document.getElementById('txtTelefono').value = cells[11].innerText;
@@ -367,6 +366,7 @@
 	  	var radioButtons = document.querySelectorAll('input[name="rdEstado"]');
 	  	isChecked ? radioButtons[0].checked = true : radioButtons[1].checked = true
 	  
+   		filtrarLocalidades();
     }
 	
 	function getSelectedIndexByText(selectElement, text) {
