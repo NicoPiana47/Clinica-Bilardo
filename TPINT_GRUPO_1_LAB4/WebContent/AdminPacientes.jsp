@@ -393,6 +393,8 @@
    		document.getElementById('txtCorreo').value = "";
    		document.getElementById('txtTelefono').value = "";
 		document.querySelector('input[name="rdEstado"][value="1"]').checked = true;
+		
+		filtrarLocalidades();
     }
 	
 	$(document).ready(function() {
