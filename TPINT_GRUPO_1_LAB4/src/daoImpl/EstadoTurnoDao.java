@@ -13,7 +13,7 @@ import entidades.Especialidad;
 import entidades.EstadoTurno;
 
 public class EstadoTurnoDao implements IEstadoTurnoDao {
-	private static final String readall = "SELECT * FROM EstadosTurno";
+	private static final String readall = "SELECT * FROM EstadosTurno WHERE Descripcion_EST <> 'Ocupado' AND Descripcion_EST <> 'Libre'";
 	@Override
 	public List<EstadoTurno> readAll() {
 		PreparedStatement statement;

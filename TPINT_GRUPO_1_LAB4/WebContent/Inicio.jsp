@@ -2,9 +2,11 @@
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.List" %>
 <%@ page import="entidades.Turno" %>
+<%@ page import="entidades.Paciente" %>
 <%@ page import="entidades.EstadoTurno" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="java.util.stream.Collectors" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -100,7 +102,8 @@
 				        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 				        for (Turno turno : listaTurnos) { 
 					%>									 
-					<tr onclick="openModal('modalDatosPaciente')">
+					<tr onclick="setCodPac(this); openModal('modalDatosPaciente', this)" data-codpac="<%= turno.getPaciente().getCodPac() %>">
+						
 						<td scope="row">
 							<button name="btnAbrirEstados" id="btnAbrirEstados" class="btn btn-outline-danger btn-sm" 
 									onclick="event.stopPropagation(); openModal('modalCambiarEstado'); setCodTurno(this)"
@@ -131,24 +134,24 @@
 					<div class="row m-2">
 			        	<div class="col-4">
 					     	<label class="form-label">DNI</label>   	
-			                <input class="form-control" type="number"  min="0" name="txtDNI" disabled required>
+			                <input class="form-control" type="number"  min="0" name="txtDNI" id= "txtDNI" disabled required>
 			            </div>
 			            
 			            <div class="col-4">
 				     		<label class="form-label">Nombre</label> 
-			                <input class="form-control" name="txtNombre" disabled oninput="validarLetras(this)" required>
+			                <input class="form-control" name="txtNombre" id="txtNombre" disabled oninput="validarLetras(this)" required>
 			            </div>
 			            
 			            <div class="col-4">
 				     		<label class="form-label">Apellido</label>
-			                <input class="form-control" name="txtApellido" disabled oninput="validarLetras(this)" required>
+			                <input class="form-control" name="txtApellido" id="txtApellido" disabled oninput="validarLetras(this)" required>
 			            </div>
 					</div>
 			        
 			        <div class="row m-2">
 			        	<div class="col-4">
 			        	<label class="form-label">Sexo</label>
-			        		<select class="form-control" disabled name="txtSexo">
+			        		<select class="form-control" disabled name="txtSexo" id="ddlSexo">
 			        			<option>Masculino</option>
 			        			<option>Femenino</option>
 			        			<option>Otro</option>
@@ -157,11 +160,11 @@
 			        	
 			        	<div class="col-4">
 			        		<label class="form-label">Nacionalidad</label> 
-			        		<input class="form-control" name="txtNacionalidad" disabled oninput="validarLetras(this)" required> 
+			        		<input class="form-control" name="txtNacionalidad" id="txtNacionalidad" disabled oninput="validarLetras(this)" required> 
 			        	</div>
 			        	<div class="col-4"> 
 			        		<label class="form-label">Fecha de nacimiento</label>
-				        	<input class="form-control" type="date" name="txtFechaNacimiento" disabled required>
+				        	<input class="form-control" type="date" name="txtFechaNacimiento" id="txtFechaNacimiento" disabled required>
 			        	
 			        	</div>
 			        </div>
@@ -169,18 +172,18 @@
 			        <div class="row m-2">
 			        	<div class="col-4">
 				        	<label class="form-label">Dirección</label>
-							<input class="form-control" disabled name="txtDireccion" required>
+							<input class="form-control" disabled name="txtDireccion" id="txtDireccion" required>
 			        	</div>
 			        	
 			        	<div class="col-4">
 			        		<label class="form-label">Provincia</label> 
-			        		<select class="form-control" disabled name="ddlProvincia">
+			        		<select class="form-control" disabled name="ddlProvincia" id="ddlProvincia">
 			        			
 			        		</select> 
 			        	</div>
 			        	<div class="col-4"> 
 			        		<label class="form-label">Localidad</label>
-				        	<select class="form-control" disabled  name="ddlLocalidad">
+				        	<select class="form-control" disabled  name="ddlLocalidad" id="ddlLocalidad">
 			        			
 			        		</select> 	
 			        	</div>
@@ -189,12 +192,12 @@
 			        <div class="row m-2">
 			        	<div class="col-6">
 			        		<label class="form-label">Correo</label>
-			        		<input class="form-control" type="email" name="txtCorreo" disabled required>
+			        		<input class="form-control" type="email" name="txtCorreo" id="txtCorreo" disabled required>
 			        	</div>
 			        	
 			        	<div class="col-6">
 			        		<label class="form-label">Telefono</label> 
-			        		<input class="form-control" type="number"  min="0" name="txtTelefono" disabled required> 
+			        		<input class="form-control" type="number"  min="0" name="txtTelefono" id="txtTelefono" disabled required> 
 			        	</div>					
 			        </div>			        			   	       
 				</div>
@@ -232,13 +235,18 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div>        
 	
 <script>
 	var codTurno = null;
+	var codPac = null;
 
 	function setCodTurno(button) {
 		codTurno = button.getAttribute("data-codturno");
+	}
+	
+	function setCodPac(tr) {
+		codPac = tr.getAttribute("data-codpac");
 	}
 
 	document.getElementById("btnCambiarEstado").addEventListener('click', function() {
@@ -263,9 +271,57 @@
 	  	input.value = input.value.replace(regex, '');
 	}
 	
-	function openModal(modal) {
+	function openModal(modal, row) {
 		document.getElementById(modal).style.display = "block";
+		
+		var isEdit = row !== undefined;
+		
+	 	if (isEdit) {
+	        chargeRow(row);
+		} 
 	}
+	
+	function chargeRow(row) {
+		var cells = row.cells;
+	
+	    var xhr = new XMLHttpRequest();
+	    xhr.open("GET", "servletTurnos?codPac=" + codPac, true);
+	    xhr.onreadystatechange = function() {
+	        if (xhr.readyState === 4 && xhr.status === 200) {
+	            var pacientesFiltrados = JSON.parse(xhr.responseText);
+
+	            document.getElementById('txtDNI').value = pacientesFiltrados[0].DNI;
+	            document.getElementById('txtNombre').value = pacientesFiltrados[0].nombre;	          
+	       		document.getElementById('txtApellido').value = pacientesFiltrados[0].apellido;	
+	       	 	document.getElementById('ddlSexo').value = pacientesFiltrados[0].sexo;	
+	       		document.getElementById('txtNacionalidad').value = pacientesFiltrados[0].nacionalidad;
+	       		var fechaObj = new Date(pacientesFiltrados[0].fechaNacimiento);
+	       		var dia = fechaObj.getDate();
+	       		var mes = fechaObj.getMonth() + 1;
+	       		var anio = fechaObj.getFullYear();
+
+	       		dia = (dia < 10) ? '0' + dia : dia;
+	       		mes = (mes < 10) ? '0' + mes : mes;
+	       		
+	       		document.getElementById('txtFechaNacimiento').value = anio + '-' + mes + '-' + dia;
+	       		document.getElementById('txtDireccion').value = pacientesFiltrados[0].direccion;
+	       		
+	       		var optionProv = document.createElement('option');
+	       		optionProv.text = pacientesFiltrados[0].provincia.descripcion;
+	       		document.getElementById('ddlProvincia').innerHTML = ''; 
+	       		document.getElementById('ddlProvincia').appendChild(optionProv);
+	       		
+	       	 	var optionLoc = document.createElement('option');
+	       		optionLoc.text = pacientesFiltrados[0].localidad.descripcion;
+	       		document.getElementById('ddlLocalidad').innerHTML = ''; 
+	       		document.getElementById('ddlLocalidad').appendChild(optionLoc);
+	       		
+	       		document.getElementById('txtCorreo').value = pacientesFiltrados[0].correo;
+	       		document.getElementById('txtTelefono').value = pacientesFiltrados[0].telefono;
+	        }
+	    };
+	    xhr.send();
+    }
 
     function closeModal(modal) {
     	document.getElementById(modal).style.display = "none";

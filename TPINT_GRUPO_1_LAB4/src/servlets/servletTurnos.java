@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,6 +16,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
 
 import entidades.Especialidad;
 import entidades.EstadoTurno;
@@ -46,6 +49,11 @@ public class servletTurnos extends HttpServlet {
 			inicializarAdminAsigTurnos(request, response);
 		if(request.getParameter("ini")!=null)
 			inicializarInicio(request, response);	
+		
+		if(request.getParameter("codPac") != null) {
+			filtrarLista(request, response);
+			return;
+		}
 	}
 	
 
@@ -91,8 +99,7 @@ public class servletTurnos extends HttpServlet {
 		}
 		
 		if(request.getParameter("ini")!=null)
-			inicializarInicio(request, response);	
-		
+			inicializarInicio(request, response);						
 	}
 	
 	public boolean buscarTurno(String fechaS, String horarioS, String codMedS) throws ParseException {
@@ -227,12 +234,15 @@ public class servletTurnos extends HttpServlet {
 	
 	private void inicializarListas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		EstadoTurnosNegocio estNeg = new EstadoTurnosNegocio();
+		PacienteNegocio pacNeg = new PacienteNegocio();
 		
 		Map<String, String> listaFiltros = turnoNegocio.obtenerColumnas();
 	    List<EstadoTurno> listaEstados = estNeg.obtenerEstados();
+	    List<Paciente> listaPacientes = pacNeg.obtenerPacientes(false);
 	    
 	    request.setAttribute("listaFiltros", listaFiltros);
 	    request.setAttribute("listaEstados", listaEstados);
+	    request.setAttribute("listaPacientes", listaPacientes);
 	    
 	    RequestDispatcher rd = request.getRequestDispatcher("/Inicio.jsp");
 		rd.forward(request, response);
@@ -254,5 +264,22 @@ public class servletTurnos extends HttpServlet {
 		
 		return turnoNegocio.cambiarEstado(codEstado, codTurno);
 
+	}
+	
+	public void filtrarLista(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		int codPac = Integer.parseInt(request.getParameter("codPac"));
+		
+		PacienteNegocio pacNeg = new PacienteNegocio();
+		List<Paciente> listaPacientes = pacNeg.obtenerPacientes(false);
+		
+        List<Paciente> pacientesFiltrados = listaPacientes.stream()
+            .filter(paciente -> paciente.getCodPac() == codPac)
+            .collect(Collectors.toList());
+
+        String json = new Gson().toJson(pacientesFiltrados);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(json);
+		
 	}
 }
