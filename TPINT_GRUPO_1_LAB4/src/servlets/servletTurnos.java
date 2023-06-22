@@ -77,6 +77,11 @@ public class servletTurnos extends HttpServlet {
 			listarTurnosConFiltros(request, response);
 		}
 		
+		if(request.getParameter("btnLimpiarFiltros")!=null) {
+			inicializarInicio(request, response);	
+    	}
+    	
+		
 		if(request.getParameter("codTurnoAjax")!=null) {
 			boolean cambio = cambiarEstado(request.getParameter("estado"), request.getParameter("codTurnoAjax"));
 			response.setContentType("text/plain");

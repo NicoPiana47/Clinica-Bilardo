@@ -10,7 +10,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Inicio</title>
- 
 <style>
         .modal {
             display: none;
@@ -46,24 +45,19 @@
             cursor: pointer;
         }
 </style>
-
-
-
-
-
 </head>
 <body>
 <%@ include file="/MasterPage.jsp" %>
 <h1 class="text-center">Administración de Turnos</h1>
 
-<form method="post" action="servletTurnos">
-	<div class="row m-4">
+	<form method="post" action="servletTurnos">
+		<div class="row m-4">
 			<div class="col-4">
-				<input class="form-control" name="txtFiltro"> 
+				<input class="form-control" name="txtFiltro" id="txtFiltro" placeholder="Ingrese para filtrar"> 
 			</div>
 			<div class="col-4"> 
-				<select class="form-control" name="ddlFiltros"> 
-				 <% 
+			    <select class="form-control" name="ddlFiltros" >
+			        <% 
 				    if (request.getAttribute("listaFiltros") instanceof Map) {
 				        Map<String, String> listaFiltros = (Map<String, String>) request.getAttribute("listaFiltros");
 				        for (Map.Entry<String, String> entry : listaFiltros.entrySet()) { 
@@ -75,13 +69,17 @@
 				        } 
 				    }
 					%>
-				</select>
+			    </select>
 			</div>
-		<div class="col-4"> 
-			<button  class="form-control" name="btnFiltrar">Filtrar</button>
+			<div class="col-2"> 
+				<button  class="form-control" name="btnFiltrar" id="btnFiltrar">Filtrar</button>
+			</div>
+			<div class="col-2"> 
+				<button  class="form-control" name="btnLimpiarFiltros" id="btnLimpiarFiltros">Limpiar Filtro</button>
+			</div>
 		</div>
-	</div>
-</form>
+	</form>
+
 	<div class="container-fluid" style="width:95%; margin-bottom:20px">
 		<div class="card text-center" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 100px;">
 			<div class="card-header "><h5>Turnos</h5></div>		
@@ -95,37 +93,36 @@
 						<th>Estado</th>
 					</tr>
 				</thead>
-		        <tbody>
+		        <tbody id="table_body_turnos">
                 	<% 
 				    if (request.getAttribute("listaTurnos") instanceof List) {
 				        List<Turno> listaTurnos = (List<Turno>) request.getAttribute("listaTurnos");
 				        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 				        for (Turno turno : listaTurnos) { 
-				        
 					%>									 
 					<tr onclick="openModal('modalDatosPaciente')">
 						<td scope="row">
-							<button name="btnAbrirEstados" class="btn btn-outline-danger btn-sm" onclick="event.stopPropagation(); openModal('modalCambiarEstado')">
-								 <input type="hidden" class="CodTurno" name="CodTurno" value="<%= turno.getCodTurno() %>">
+							<button name="btnAbrirEstados" id="btnAbrirEstados" class="btn btn-outline-danger btn-sm" 
+									onclick="event.stopPropagation(); openModal('modalCambiarEstado'); setCodTurno(this)"
+									data-codturno="<%= turno.getCodTurno() %>">
 								<i class="fa-solid fa-clock"></i>
 							</button>
 						</td>
-					        <td><%= turno.getMedico().getNombre() + " " + turno.getMedico().getApellido()%></td>
-					        <td><%= turno.getPaciente().getNombre() + " " + turno.getPaciente().getApellido()%></td>
-					        <td><%= formatter.format(turno.getFechaTurno())%></td>
-					        <td><%= turno.getEstado().getDescripcion_EST()%></td>
+				        <td><%= turno.getMedico().getNombre() + " " + turno.getMedico().getApellido()%></td>
+				        <td><%= turno.getPaciente().getNombre() + " " + turno.getPaciente().getApellido()%></td>
+				        <td><%= formatter.format(turno.getFechaTurno())%></td>
+				        <td><%= turno.getEstado().getDescripcion_EST()%></td>
 						    
 		         	</tr>
 					<% 
 			        	} 
 				    }
 					%>
-	                	
-		         	
 		    	</tbody>                                             
 			</table>
 		</div>
 	</div>
+	
      <div id="modalDatosPaciente" class="modal">
    		<div class="modal-content">
         	<span class="close" onclick="closeModal('modalDatosPaciente')" >&times;</span>
@@ -237,7 +234,43 @@
 		</div>
 	</div>
 	
-	<script>
+<script>
+	var codTurno = null;
+
+	function setCodTurno(button) {
+		codTurno = button.getAttribute("data-codturno");
+	}
+
+	document.getElementById("btnCambiarEstado").addEventListener('click', function() {
+		if (codTurno) {
+		    var estado = document.getElementById("ddlEstados").value;
+		    $.ajax({
+		        url: "servletTurnos",
+		        method: "POST",
+		        data: { estado: estado, codTurnoAjax: codTurno}
+		    }).then(function(response) {
+		        if (response === "true") {
+		        	Notiflix.Notify.success("Se cambió el estado con éxito!");
+		        	document.getElementById("btnLimpiarFiltros").click();
+		        }
+		        else Notiflix.Notify.failure("No se pudo cambiar el estado");
+		    });
+		}
+	});
+	
+	function validarLetras(input) {
+	  	var regex = /[^a-zA-Z]/g;
+	  	input.value = input.value.replace(regex, '');
+	}
+	
+	function openModal(modal) {
+		document.getElementById(modal).style.display = "block";
+	}
+
+    function closeModal(modal) {
+    	document.getElementById(modal).style.display = "none";
+    }
+    
 	$('#table_id_turnos').DataTable({
 	    language: {
 	        processing: "Tratamiento en curso...",
@@ -264,35 +297,6 @@
 	    "bInfo": false
 	});
 	
-	document.getElementById("btnCambiarEstado").addEventListener('click', function() {
-	    debugger;
-	    var estado = document.getElementById("ddlEstados").value;
-	    var fila = this.closest('tr');
-	    var codTurno = fila.querySelector('.CodTurno').value;
-	    $.ajax({
-	        url: "servletTurnos",
-	        method: "POST",
-	        data: { estado: estado, codTurnoAjax: codTurno}
-	    }).then(function(response) {
-	        if (response === "true") {
-	        	Notiflix.Notify.success("Se cambió el estado con éxito!");
-	        }
-	        else Notiflix.Notify.failure("No se pudo cambiar el estado");
-	    });
-	});
-	
-	function validarLetras(input) {
-	  	var regex = /[^a-zA-Z]/g;
-	  	input.value = input.value.replace(regex, '');
-	}
-	
-	function openModal(modal, codTurno) {
-		document.getElementById(modal).style.display = "block";
-	}
-
-    function closeModal(modal) {
-    	document.getElementById(modal).style.display = "none";
-    }
 </script>
 
 </body>
