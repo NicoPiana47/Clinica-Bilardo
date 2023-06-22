@@ -65,6 +65,8 @@
             <label>Fecha:</label><br>
             <input class="form-control" type="text" name="fecha" id="fecha" onchange="cargarHorariosDisponibles()" required>
         </div>
+        
+        
         <div class="row text-center m-4">
             <label>Horarios disponibles:</label><br>
             <select class="form-control" name="ddlHorariosDisponibles" id="ddlHorariosDisponibles" required></select>
@@ -192,28 +194,28 @@
 		    const dia = obtenerNombreDia(new Date(selectedDia + "T00:00:00").getDay());
 
 		    if (horario.dia === dia) {
-		      for (let hora = horaDesde; hora <= horaHasta; hora++) {
-		        const optionText = hora.toString().padStart(2, '0') + ':00';
-		        const option = document.createElement('option');
-		        option.value = optionText;
-		        option.text = optionText;
+				for (let hora = horaDesde; hora <= horaHasta; hora++) {
+			        const optionText = hora.toString().padStart(2, '0') + ':00';
+			        const option = document.createElement('option');
+			        option.value = optionText;
+			        option.text = optionText;
+	
+			        const request = $.ajax({
+			          url: "servletTurnos",
+			          method: "POST",
+			          data: { fechaAjax: selectedDia, horarioAjax: option.text, codMedAjax: codMed}
+			        }).then(function(response) {
+			          if (response === "false") {
+			            ddlHorarios.appendChild(option);
+			            ordenarHorarios();
+			          }
+			        });
 
-		        const request = $.ajax({
-		          url: "servletTurnos",
-		          method: "POST",
-		          data: { fechaAjax: selectedDia, horarioAjax: option.text, codMedAjax: codMed}
-		        }).then(function(response) {
-		          if (response === "false") {
-		            ddlHorarios.appendChild(option);
-		            ordenarHorarios();
-		          }
-		        });
-
-		        requests.push(request);
-		      }
-		    }
-		  });
-		}
+		        	requests.push(request);
+				}		
+			}
+		});
+	}
 	
 	$(document).ready(function() {
 		filtrarMedicos(); 
