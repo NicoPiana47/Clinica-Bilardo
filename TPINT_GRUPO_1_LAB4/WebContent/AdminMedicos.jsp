@@ -109,7 +109,7 @@
 							<input type="hidden" id="horarios" value='<%= medico.getHorariosJson() %>'>
 							<form method="post" action="servletMedicos">						
 								<button type="submit" name="btnEliminar" class="btn btn-outline-danger btn-sm" onclick="event.stopPropagation(); return confirm('¿Esta seguro de que quiere eliminar el médico?')">
-								<input type="hidden" name="CodMed" value="<%= medico.getCodMed() %>">
+									<input type="hidden" name="CodMed" value="<%= medico.getCodMed() %>">
 									<i class="fa-solid fa-trash"></i>
 								</button>
 							</form>
@@ -133,7 +133,8 @@
 							<label class="checkbox-label">
 					            <input type="checkbox" <%= medico.getTipo() ? "checked" : "" %> disabled>
 					            <span class="checkmark"></span>
-					        </label></td>
+					        </label>
+					    </td>
 						<td>
 					        <label class="checkbox-label">
 					            <input type="checkbox" <%= medico.getEstado() ? "checked" : "" %> disabled>
@@ -275,13 +276,9 @@
 				        	</div>
 				        	<div class="col-4"> 
 				        		<label class="form-label">Contraseña</label>
-					        
-					        	 <div class="input-group">
-       							 <input class="form-control" type="text" name="txtContraseña" id="txtContraseña" required> 
-        						
-    							</div>
-					        	
-					        				 	
+						        <div class="input-group">
+	       							 <input class="form-control" type="text" name="txtContraseña" id="txtContraseña" required> 
+	    						</div>	 	
 				        	</div>
 				        </div>
 				        
@@ -472,7 +469,7 @@
 	//CARGAR TABLA AL PRESIONAR BOTON
 	var btnVerHorario = document.getElementById('btnVerHorario');
 	btnVerHorario.addEventListener('click', function() {	
-	  cargarTabla();
+		cargarTabla();
 	});
 
 	// CARGAR TABLA HORARIOS
@@ -482,7 +479,7 @@
 	  	
 	  // Limpiar tabla
 	  	tablaBody.innerHTML = "";
-
+	  
 	  // Convertir el JSON de horarios a objeto
 	  	var horariosObj = JSON.parse(horarios);
 	  
@@ -649,11 +646,11 @@
 		var horarios = [];
 		
 		filas.forEach(function(fila) {
-			var celdas = fila.querySelectorAll("td");
-			var dia = celdas[0].textContent;
-			var horarioDesde = celdas[1].textContent;
-			var horarioHasta = celdas[2].textContent;
-			var checkbox = celdas[3].querySelector("input[type='checkbox']");
+			var celda = fila.querySelectorAll("td");
+			var dia = celda[0].textContent;
+			var horarioDesde = celda[1].textContent;
+			var horarioHasta = celda[2].textContent;
+			var checkbox = celda[3].querySelector("input[type='checkbox']");
 			var estado = checkbox.checked;
 			
 			horarios.push({
@@ -667,8 +664,6 @@
 		// Actualizar los valores en un campo oculto
 		var datosHorarios = document.getElementById("datosHorarios");
 		datosHorarios.value = JSON.stringify(horarios);
-		
-		console.log(datosHorarios)
 	}
 
 	// VALIDAR QUE SEAN LETRAS
@@ -696,7 +691,7 @@
 	function chargeEditMedico(row) {
 		var cells = row.cells;
 		
-		document.getElementById('codMed').value = cells[0].querySelector('input[name="CodMed"]').value
+		document.getElementById('codMed').value = cells[0].querySelector('input[name="CodMed"]').value;
    		document.getElementById('txtDNI').value = cells[2].innerText;
    		document.getElementById('txtNombre').value = cells[3].innerText;
    		document.getElementById('txtApellido').value = cells[4].innerText;
@@ -762,10 +757,10 @@
 
 	// SELECCION DE HORARIO
 	function selectHorario(row) {
-  		var isSelected = row.classList.contains('selected-row');
+  		var notSelected = row.classList.contains('selected-row');
   		cleanSelectedRows();
       
-    	if (isSelected) {
+    	if (notSelected) {
 			ddlDia.disabled = false;
     		cleanFormHorarios();
     		hideElements(false, 'H');
@@ -813,12 +808,14 @@
     		document.getElementsByName('txtFechaNacimiento')[0].value = "";
     		document.getElementsByName('txtDireccion')[0].value = "";
     		document.getElementsByName('ddlProvincia')[0].selectedIndex = 0;
+    		filtrarLocalidades();
     		document.getElementsByName('ddlLocalidad')[0].selectedIndex = 0;
     		document.getElementsByName('txtCorreo')[0].value = "";
     		document.getElementsByName('txtTelefono')[0].value = "";
     		document.getElementsByName('ddlEspecialidad')[0].selectedIndex = 0;
     		document.getElementsByName('txtUsuario')[0].value = "";
     		document.getElementsByName('txtContraseña')[0].value = "";
+    		document.getElementById("datosHorarios").value = "";
     	}
     }
       
