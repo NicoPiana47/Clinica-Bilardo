@@ -4,7 +4,11 @@ public class EstadoTurno {
 	private int codEstado_EST;
 	private String descripcion_EST;
 	
-	
+	public EstadoTurno() {}
+	public EstadoTurno(int c, String d) {
+		this.codEstado_EST = c;
+		this.descripcion_EST = d;
+	}
 	
 	public int getCodEstado_EST() {
 		return codEstado_EST;

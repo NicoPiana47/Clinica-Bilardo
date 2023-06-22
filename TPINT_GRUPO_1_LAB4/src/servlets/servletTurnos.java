@@ -17,10 +17,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entidades.Especialidad;
+import entidades.EstadoTurno;
 import entidades.Medico;
 import entidades.Paciente;
 import entidades.Turno;
 import negImpl.EspecialidadNegocio;
+import negImpl.EstadoTurnosNegocio;
 import negImpl.MedicoNegocio;
 import negImpl.PacienteNegocio;
 import negImpl.TurnosNegocio;
@@ -73,6 +75,14 @@ public class servletTurnos extends HttpServlet {
 		
 		if(request.getParameter("btnFiltrar")!=null) {
 			listarTurnosConFiltros(request, response);
+		}
+		
+		if(request.getParameter("codTurnoAjax")!=null) {
+			boolean cambio = cambiarEstado(request.getParameter("estado"), request.getParameter("codTurnoAjax"));
+			response.setContentType("text/plain");
+		    response.setCharacterEncoding("UTF-8");
+		    response.getWriter().print(cambio);
+		    return;	
 		}
 		
 		if(request.getParameter("ini")!=null)
@@ -211,8 +221,13 @@ public class servletTurnos extends HttpServlet {
 	}
 	
 	private void inicializarListas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		EstadoTurnosNegocio estNeg = new EstadoTurnosNegocio();
+		
 		Map<String, String> listaFiltros = turnoNegocio.obtenerColumnas();
+	    List<EstadoTurno> listaEstados = estNeg.obtenerEstados();
+	    
 	    request.setAttribute("listaFiltros", listaFiltros);
+	    request.setAttribute("listaEstados", listaEstados);
 	    
 	    RequestDispatcher rd = request.getRequestDispatcher("/Inicio.jsp");
 		rd.forward(request, response);
@@ -225,5 +240,14 @@ public class servletTurnos extends HttpServlet {
 		
 		request.setAttribute("listaTurnos", listaTurnos);		
 		inicializarListas(request, response);
+	}
+	
+	public boolean cambiarEstado(String estadoS, String codTurnoAjaxS) throws ServletException, IOException {
+		
+		int codEstado = Integer.parseInt(estadoS);
+		int codTurno = Integer.parseInt(codTurnoAjaxS);
+		
+		return turnoNegocio.cambiarEstado(codEstado, codTurno);
+
 	}
 }

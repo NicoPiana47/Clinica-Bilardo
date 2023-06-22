@@ -43,4 +43,9 @@ public class TurnosNegocio extends GeneralNegocio implements ITurnosNegocio{
 	public List<Turno> obtenerTurnosPorFiltro(String columna, String text) {
 		return tdao.getTurnosByFilter(columna, text);
 	}
+
+	@Override
+	public boolean cambiarEstado(int codEstado, int codTurno) {
+		return tdao.cambiarEstado(codEstado, codTurno);
+	}
 }

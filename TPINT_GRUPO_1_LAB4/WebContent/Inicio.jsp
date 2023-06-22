@@ -2,6 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.List" %>
 <%@ page import="entidades.Turno" %>
+<%@ page import="entidades.EstadoTurno" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Map" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -81,7 +82,6 @@
 		</div>
 	</div>
 </form>
-
 	<div class="container-fluid" style="width:95%; margin-bottom:20px">
 		<div class="card text-center" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 100px;">
 			<div class="card-header "><h5>Turnos</h5></div>		
@@ -105,7 +105,8 @@
 					%>									 
 					<tr onclick="openModal('modalDatosPaciente')">
 						<td scope="row">
-							<button name = "btnCambiarEstado" class="btn btn-outline-danger btn-sm"  onclick="event.stopPropagation(); openModal('modalCambiarEstado')">
+							<button name="btnAbrirEstados" class="btn btn-outline-danger btn-sm" onclick="event.stopPropagation(); openModal('modalCambiarEstado')">
+								 <input type="hidden" class="CodTurno" name="CodTurno" value="<%= turno.getCodTurno() %>">
 								<i class="fa-solid fa-clock"></i>
 							</button>
 						</td>
@@ -113,7 +114,7 @@
 					        <td><%= turno.getPaciente().getNombre() + " " + turno.getPaciente().getApellido()%></td>
 					        <td><%= formatter.format(turno.getFechaTurno())%></td>
 					        <td><%= turno.getEstado().getDescripcion_EST()%></td>
-				    
+						    
 		         	</tr>
 					<% 
 			        	} 
@@ -124,7 +125,7 @@
 		    	</tbody>                                             
 			</table>
 		</div>
-	</div>     
+	</div>
      <div id="modalDatosPaciente" class="modal">
    		<div class="modal-content">
         	<span class="close" onclick="closeModal('modalDatosPaciente')" >&times;</span>
@@ -204,19 +205,31 @@
 		</div>
 	</div>
 	
+	
 	 <div id="modalCambiarEstado" class="modal">
    		<div class="modal-content">
         	<span class="close" onclick="closeModal('modalCambiarEstado')" >&times;</span>
         	<div class="d-flex align-items-center justify-content-center">
 	        	<div class="col-6">
 					<div class="row">
-			        	<div class="col-6">
+			        	<div class="col-6">				        		
 					     	<label class="form-label">Estados</label>   	
-			                <select class="form-control" name="ddlEstados" required> </select>
+			                <select class="form-control" name="ddlEstados" id="ddlEstados"required> 
+			                <% 
+					        if (request.getAttribute("listaEstados") instanceof List) {
+					            List<EstadoTurno> listaEstados = (List<EstadoTurno>) request.getAttribute("listaEstados");
+					            for (EstadoTurno estado : listaEstados) { 
+					        %>
+					            <option value="<%= estado.getCodEstado_EST() %>"><%= estado.getDescripcion_EST() %></option>				
+					        <% 
+					            } 
+					        }
+					        %>
+			                </select>
 			            </div>
 			            
 			            <div class="col-6">
-							<button  class="form-control" name="btnCambiarEstado" style="margin-top:32px">Cambiar Estado</button>
+							<button  class="form-control" name="btnCambiarEstado" id="btnCambiarEstado" style="margin-top:32px">Cambiar Estado</button>
 			            </div>			          
 					</div>      			   	       
 				</div>
@@ -251,12 +264,29 @@
 	    "bInfo": false
 	});
 	
+	document.getElementById("btnCambiarEstado").addEventListener('click', function() {
+	    debugger;
+	    var estado = document.getElementById("ddlEstados").value;
+	    var fila = this.closest('tr');
+	    var codTurno = fila.querySelector('.CodTurno').value;
+	    $.ajax({
+	        url: "servletTurnos",
+	        method: "POST",
+	        data: { estado: estado, codTurnoAjax: codTurno}
+	    }).then(function(response) {
+	        if (response === "true") {
+	        	Notiflix.Notify.success("Se cambió el estado con éxito!");
+	        }
+	        else Notiflix.Notify.failure("No se pudo cambiar el estado");
+	    });
+	});
+	
 	function validarLetras(input) {
 	  	var regex = /[^a-zA-Z]/g;
 	  	input.value = input.value.replace(regex, '');
 	}
 	
-	function openModal(modal) {
+	function openModal(modal, codTurno) {
 		document.getElementById(modal).style.display = "block";
 	}
 

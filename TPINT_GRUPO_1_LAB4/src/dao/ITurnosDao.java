@@ -12,4 +12,5 @@ public interface ITurnosDao{
 	  public boolean buscarTurno(Date fecha, int codMed);
 	  public List<String> getColumns();
 	  public List<Turno> getTurnosByFilter(String column, String text);
+	  public boolean cambiarEstado(int codEstado, int codTurno);
 }

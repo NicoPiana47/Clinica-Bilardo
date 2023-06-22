@@ -13,4 +13,5 @@ public interface ITurnosNegocio {
 	 public boolean buscarTurno(Date fecha, int codMed);
 	 public Map<String, String> obtenerColumnas();
 	 public List<Turno> obtenerTurnosPorFiltro(String columna, String text);
+	 public boolean cambiarEstado(int codEstado, int codTurno);
 }

@@ -17,13 +17,13 @@ import entidades.Paciente;
 import entidades.Turno;
 
 public class TurnosDao extends GeneralDao implements ITurnosDao{
-	private static final String consultaSinFechas = "SELECT Nombre_MED, Apellido_MED, Nombre_PAC, Apellido_PAC, FechaTurno_TURN, Descripcion_EST " +
+	private static final String consultaSinFechas = "SELECT CodTurno_TURN, Nombre_MED, Apellido_MED, Nombre_PAC, Apellido_PAC, FechaTurno_TURN, Descripcion_EST " +
             "FROM Turnos " +
             "INNER JOIN Medicos ON CodMed_TURN = CodMed_MED " +
             "INNER JOIN Pacientes ON CodPac_TURN = CodPac_PAC " +
             "INNER JOIN EstadosTurno ON CodEstado_TURN = CodEstado_EST";
 	
-	private String consultaConFechas = "SELECT Nombre_MED, Apellido_MED, Nombre_PAC, Apellido_PAC, FechaTurno_TURN, Descripcion_EST " +
+	private String consultaConFechas = "SELECT CodTurno_TURN, Nombre_MED, Apellido_MED, Nombre_PAC, Apellido_PAC, FechaTurno_TURN, Descripcion_EST " +
             "FROM Turnos " +
             "INNER JOIN Medicos ON CodMed_TURN = CodMed_MED " +
             "INNER JOIN Pacientes ON CodPac_TURN = CodPac_PAC " +
@@ -31,6 +31,7 @@ public class TurnosDao extends GeneralDao implements ITurnosDao{
             " WHERE ";
 	private static final String insert = "INSERT INTO Turnos(CodMed_TURN, CodPac_TURN, CodEstado_TURN, FechaTurno_TURN) VALUES(?, ?, ?, ?)";
 	private static final String search = "SELECT CASE WHEN EXISTS (SELECT * FROM TURNOS WHERE FechaTurno_TURN = ? AND CodMed_TURN = ?) THEN 1 ELSE 0 END AS Resultado;";
+	private static final String changeEstado = "UPDATE Turnos SET CodEstado_TURN = ? WHERE CodTurno_TURN = ?";
 
 	@Override
 	public List<Turno> readAll(String fechaDesde, String fechaHasta) {
@@ -64,6 +65,7 @@ public class TurnosDao extends GeneralDao implements ITurnosDao{
 	        	 	        	 
 	             ResultSet resultSet = statement.executeQuery();
 	             while (resultSet.next()) {
+	            	 int codTurno = resultSet.getInt("CodTurno_TURN");
 	                 String nombreMedico = resultSet.getString("Nombre_MED");
 	                 String nombrePaciente = resultSet.getString("Nombre_PAC");
 	                 String apellidoMedico = resultSet.getString("Apellido_MED");
@@ -74,6 +76,7 @@ public class TurnosDao extends GeneralDao implements ITurnosDao{
 	                 Date fechaTurno = new Date(fechaTurnoTimestamp.getTime());
 	                 Turno turno = new Turno();
 	                 
+	                 turno.setCodTurno(codTurno);
 	                 turno.getMedico().setNombre(nombreMedico);
 	                 turno.getMedico().setApellido(apellidoMedico);
 	                 turno.getPaciente().setNombre(nombrePaciente);
@@ -165,22 +168,24 @@ public class TurnosDao extends GeneralDao implements ITurnosDao{
 	        resultSet = statement.executeQuery();      
 			
 			while(resultSet.next()){
-				 String nombreMedico = resultSet.getString("Nombre_MED");
-                 String nombrePaciente = resultSet.getString("Nombre_PAC");
-                 String apellidoMedico = resultSet.getString("Apellido_MED");
-                 String apellidoPaciente = resultSet.getString("Apellido_PAC");
-                 java.sql.Timestamp fechaTurnoTimestamp = resultSet.getTimestamp("FechaTurno_TURN");
-                 String descripcionEstado = resultSet.getString("Descripcion_EST");
-                 
-                 Date fechaTurno = new Date(fechaTurnoTimestamp.getTime());
-                 Turno turno = new Turno();
-                 
-                 turno.getMedico().setNombre(nombreMedico);
-                 turno.getMedico().setApellido(apellidoMedico);
-                 turno.getPaciente().setNombre(nombrePaciente);
-                 turno.getPaciente().setApellido(apellidoPaciente);
-                 turno.getEstado().setDescripcion_EST(descripcionEstado);
-                 turno.setFechaTurno(fechaTurno);
+				int codTurno = resultSet.getInt("CodTurno_TURN");
+                String nombreMedico = resultSet.getString("Nombre_MED");
+                String nombrePaciente = resultSet.getString("Nombre_PAC");
+                String apellidoMedico = resultSet.getString("Apellido_MED");
+                String apellidoPaciente = resultSet.getString("Apellido_PAC");
+                java.sql.Timestamp fechaTurnoTimestamp = resultSet.getTimestamp("FechaTurno_TURN");
+                String descripcionEstado = resultSet.getString("Descripcion_EST");
+                
+                Date fechaTurno = new Date(fechaTurnoTimestamp.getTime());
+                Turno turno = new Turno();
+                
+                turno.setCodTurno(codTurno);
+                turno.getMedico().setNombre(nombreMedico);
+                turno.getMedico().setApellido(apellidoMedico);
+                turno.getPaciente().setNombre(nombrePaciente);
+                turno.getPaciente().setApellido(apellidoPaciente);
+                turno.getEstado().setDescripcion_EST(descripcionEstado);
+                turno.setFechaTurno(fechaTurno);
                 
                 
                 turnos.add(turno);
@@ -191,5 +196,28 @@ public class TurnosDao extends GeneralDao implements ITurnosDao{
 		}
 		
 		return turnos;
+	}
+
+	@Override
+	public boolean cambiarEstado(int codEstado, int codTurno) {
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean isUpdate = false;
+		try{
+			statement = conexion.prepareStatement(changeEstado);
+			statement.setInt(1, codEstado);
+		    statement.setInt(2, codTurno);
+		   
+			
+			if(statement.executeUpdate() > 0){
+				conexion.commit();
+				isUpdate = true;
+			}
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return isUpdate;
 	}	
 }
