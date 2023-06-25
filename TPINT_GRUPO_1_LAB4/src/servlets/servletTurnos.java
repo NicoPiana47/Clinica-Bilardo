@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
@@ -113,11 +114,11 @@ public class servletTurnos extends HttpServlet {
 	}
 	
 	public void listarTurnosConFechas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(request.getParameter("btnFiltrar") != null) {
+		if(request.getParameter("btnFiltrarFechas") != null) {
 			List<Turno> listaTurnos = null;
 			
 			if(request.getParameter("txtFechaDesde").equals("") && request.getParameter("txtFechaHasta").equals("")) {
-				listaTurnos = turnoNegocio.obtenerTurnos();
+				listaTurnos = turnoNegocio.obtenerTurnos(-1);
 			}
 			else {											
 				listaTurnos = turnoNegocio.obtenerTurnosEntreFechas(request.getParameter("txtFechaDesde"), request.getParameter("txtFechaHasta"));
@@ -170,7 +171,7 @@ public class servletTurnos extends HttpServlet {
 	
 	public void inicializarAdminReportes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		TurnosNegocio turnoNegocio = new TurnosNegocio();
-    	List<Turno> listaTurnos = turnoNegocio.obtenerTurnos();
+    	List<Turno> listaTurnos = turnoNegocio.obtenerTurnos(-1);
     	String medicoConMasTurnos = listarReportesMedicoConMasTurnos(request, response, listaTurnos);
     	long cantTurnos = listaTurnos.stream().count();
     	
@@ -200,7 +201,14 @@ public class servletTurnos extends HttpServlet {
 	}
 	
 	public void inicializarInicio(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	List<Turno> listaTurnos = turnoNegocio.obtenerTurnos();
+		HttpSession session = request.getSession();
+		Medico med = new Medico();
+		if(session.getAttribute("sessionMedico") != null){
+			med = (Medico)session.getAttribute("sessionMedico");
+		} 
+				
+		List<Turno> listaTurnos = turnoNegocio.obtenerTurnos(med.getCodMed());
+		
 		request.setAttribute("listaTurnos", listaTurnos);
 		
 		inicializarListas(request, response);
@@ -251,7 +259,14 @@ public class servletTurnos extends HttpServlet {
 	public void listarTurnosConFiltros(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String texto = request.getParameter("txtFiltro");
 		String columna = request.getParameter("ddlFiltros");
-		List<Turno> listaTurnos = turnoNegocio.obtenerTurnosPorFiltro(columna, texto);
+		
+		HttpSession session = request.getSession();
+		Medico med = new Medico();
+		if(session.getAttribute("sessionMedico") != null){
+			med = (Medico)session.getAttribute("sessionMedico");
+		} 
+		
+		List<Turno> listaTurnos = turnoNegocio.obtenerTurnosPorFiltro(columna, texto, med.getCodMed());
 		
 		request.setAttribute("listaTurnos", listaTurnos);		
 		inicializarListas(request, response);

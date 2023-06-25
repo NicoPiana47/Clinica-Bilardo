@@ -76,7 +76,7 @@ public class servletMedicos extends HttpServlet {
         	        inicializarModuloMedicos(request, response, null);
         	        return;
         	    } else {
-        	        rd = request.getRequestDispatcher("/servletTurnos?ini=1");
+        	        rd = request.getRequestDispatcher("/servletTurnos?ini=" + med.getCodMed());
         	    }
         	} else {
         	    rd = request.getRequestDispatcher("/Login.jsp");

@@ -34,34 +34,45 @@ public class TurnosDao extends GeneralDao implements ITurnosDao{
 	private static final String changeEstado = "UPDATE Turnos SET CodEstado_TURN = ? WHERE CodTurno_TURN = ?";
 
 	@Override
-	public List<Turno> readAll(String fechaDesde, String fechaHasta) {
+	public List<Turno> readAll(String fechaDesde, String fechaHasta, int codMed) {
 		 List<Turno> turnos = new ArrayList<>();
 
 	        try {
 	        	 Connection conexion = Conexion.getConexion().getSQLConexion();
 	        	 PreparedStatement statement = null;
-	        	 if(fechaDesde == null || fechaHasta == null)
+	        	 if(fechaDesde == null || fechaHasta == null) {
 	        		 statement = conexion.prepareStatement(consultaSinFechas);
-	        	 
-	        	 else if(fechaDesde.equals("") && !fechaHasta.equals("") ){
-	        		 Date fechaHastaParam = Date.valueOf(fechaHasta);
-	        		 statement = conexion.prepareStatement(consultaConFechas + "FechaTurno_TURN < ?");
-	        		 statement.setDate(1, fechaHastaParam);
+	        		 if(codMed != -1)
+	        			 statement = conexion.prepareStatement(consultaSinFechas + " WHERE CodMed_MED = " + codMed);
 	        	 }
-	        	 
-	        	 else if(!fechaDesde.equals("") && fechaHasta.equals("") ){
-	        		 Date fechaDesdeParam = Date.valueOf(fechaDesde);
-	        		 statement = conexion.prepareStatement(consultaConFechas + "FechaTurno_TURN > ?");
-	        		 statement.setDate(1, fechaDesdeParam);
-	        	 }
-	        	 
 	        	 else {
-	        		 Date fechaDesdeParam = Date.valueOf(fechaDesde);
-	        		 Date fechaHastaParam = Date.valueOf(fechaHasta);
-	        		 statement = conexion.prepareStatement(consultaConFechas + "FechaTurno_TURN > ? AND FechaTurno_TURN < ?");
-	        		 statement.setDate(1, fechaDesdeParam);
-	        		 statement.setDate(2, fechaHastaParam);
+	        		 if(codMed != -1) 
+	        			 statement = conexion.prepareStatement(consultaConFechas + " CodMed_MED = " + codMed + " AND ");
+	        		 
+	        		 
+	        		 if(fechaDesde.equals("") && !fechaHasta.equals("") ){
+	        			 Date fechaHastaParam = Date.valueOf(fechaHasta);
+	        			 statement = conexion.prepareStatement(consultaConFechas + "FechaTurno_TURN < ?");
+	        			 statement.setDate(1, fechaHastaParam);
+	        		 }
+	        		 
+	        		 else if(!fechaDesde.equals("") && fechaHasta.equals("") ){
+	        			 Date fechaDesdeParam = Date.valueOf(fechaDesde);
+	        			 statement = conexion.prepareStatement(consultaConFechas + "FechaTurno_TURN > ?");
+	        			 statement.setDate(1, fechaDesdeParam);
+	        		 }
+	        		 
+	        		 else {
+	        			 Date fechaDesdeParam = Date.valueOf(fechaDesde);
+	        			 Date fechaHastaParam = Date.valueOf(fechaHasta);
+	        			 statement = conexion.prepareStatement(consultaConFechas + "FechaTurno_TURN > ? AND FechaTurno_TURN < ?");
+	        			 statement.setDate(1, fechaDesdeParam);
+	        			 statement.setDate(2, fechaHastaParam);
+	        		 }
 	        	 }
+	        	 
+	        	 
+	        	 
 	        	 	        	 
 	             ResultSet resultSet = statement.executeQuery();
 	             while (resultSet.next()) {
@@ -156,7 +167,7 @@ public class TurnosDao extends GeneralDao implements ITurnosDao{
 	}
 
 	@Override
-	public List<Turno> getTurnosByFilter(String column, String text) {
+	public List<Turno> getTurnosByFilter(String column, String text, int codMed) {
 		 List<Turno> turnos = new ArrayList<>();
 		PreparedStatement statement;
 		ResultSet resultSet; 
@@ -164,6 +175,10 @@ public class TurnosDao extends GeneralDao implements ITurnosDao{
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		try{
 			String query = consultaSinFechas + " WHERE " + column + " LIKE ?";
+			
+			if(codMed != -1)
+				query = query + " AND CodMed_TURN = " + codMed;
+			
 			statement = conexion.prepareStatement(query);
 	        statement.setString(1, "%" + text + "%");
 	        
