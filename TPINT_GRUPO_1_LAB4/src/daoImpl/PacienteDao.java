@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import conexión.Conexion;
 import dao.IPacienteDao;
@@ -57,8 +59,10 @@ public class PacienteDao extends GeneralDao implements IPacienteDao {
 		ResultSet resultSet; 
 		ArrayList<Paciente> pacientes = new ArrayList<Paciente>();
 		Connection conexion = Conexion.getConexion().getSQLConexion();
+		
 		try{
-			String query = "SELECT * FROM pacientes WHERE " + column + " LIKE ?";
+			String query = createQueryFiltersPacientes(column);
+			
 			statement = conexion.prepareStatement(query);
 	        statement.setString(1, "%" + text + "%");
 	        
@@ -75,6 +79,26 @@ public class PacienteDao extends GeneralDao implements IPacienteDao {
 		return pacientes;
 	}
 	
+	private String createQueryFiltersPacientes(String column) {
+		Map<String, String> columnMappings = new HashMap<>();
+		String query = "SELECT * FROM pacientes p";
+
+		columnMappings.put("CodProvincia_PAC", 
+				" INNER JOIN provincias pr ON p.CodProvincia_PAC = pr.CodProvincia_PROV WHERE pr.Descripcion_PROV LIKE ?");
+		columnMappings.put("CodLocalidad_PAC", 
+				" INNER JOIN localidades lo ON p.CodLocalidad_PAC = lo.CodLocalidad_LOC WHERE lo.Descripcion_LOC LIKE ?");
+		columnMappings.put("CodEspecialidad_PAC", 
+				" INNER JOIN especialidades esp ON p.CodEspecialidad_PAC = esp.CodEspecialidad_ESP WHERE esp.Descripcion_ESP LIKE ?");
+		
+		if (columnMappings.containsKey(column)) {
+		    query += columnMappings.get(column);
+		} else {
+		    query += " WHERE p." + column + " LIKE ?";
+		}
+		
+		return query;
+	}
+
 	private Paciente getPaciente(ResultSet resultSet) throws SQLException {
 		
 		int codigoPaciente = resultSet.getInt("CodPac_PAC");

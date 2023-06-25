@@ -14,13 +14,14 @@ public class GeneralNegocio {
 	        Map<String, String> columnas = new HashMap<>();
 
 	        for (String columna : columnasList) {
-	            String descripcion = columna.replaceAll(text + "$", "")
-	                    .replaceAll("([A-Z][a-z]+)([A-Z][a-z]+)", "$1 de $2")
-	                    .replaceAll("([A-Z]+)([A-Z][a-z])", "$1 $2")
-	                    .replaceAll("([a-z])([A-Z])", "$1 $2");
+	        	String descripcion = columna.replace(text, "");
+	        	
+	        	if (descripcion.contains("Fecha")) {
+	        		descripcion = "Fecha de Nacimiento";
+	        	}
 
 	            if (descripcion.contains("Cod")) {
-	                descripcion = descripcion.replace("Cod", "Codigo");
+	                descripcion = descripcion.replace("Cod", "");
 	            }
 
 	            columnas.put(columna, descripcion);
