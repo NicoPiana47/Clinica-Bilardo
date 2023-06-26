@@ -13,6 +13,8 @@ import daoImpl.PacienteDao;
 import entidades.Localidad;
 import entidades.Paciente;
 import entidades.Provincia;
+import exceptions.DNIInvalidoException;
+import exceptions.MailInvalidoException;
 import neg.IPacienteNegocio;
 
 public class PacienteNegocio extends GeneralNegocio implements IPacienteNegocio{
@@ -101,9 +103,11 @@ public class PacienteNegocio extends GeneralNegocio implements IPacienteNegocio{
 	}
 
 	@Override
-	public int guardar(Paciente unPaciente) {
-		if(generalDao.dniRepetido(unPaciente.getDNI(), unPaciente.getCodPac())) return 2;
-		if(generalDao.correoRepetido(unPaciente.getCorreo(), unPaciente.getCodPac())) return 3;
+	public int guardar(Paciente unPaciente) throws DNIInvalidoException, MailInvalidoException{
+		DNIInvalidoException excDNI = new DNIInvalidoException();
+		MailInvalidoException excMail = new MailInvalidoException();
+		if(generalDao.dniRepetido(unPaciente.getDNI(), unPaciente.getCodPac())) throw excDNI;
+		if(generalDao.correoRepetido(unPaciente.getCorreo(), unPaciente.getCodPac())) throw excMail;
 		if(pacienteDao.insert(unPaciente)) return 1;
 		else return 0;
 	}
@@ -114,9 +118,11 @@ public class PacienteNegocio extends GeneralNegocio implements IPacienteNegocio{
 	}
 
 	@Override
-	public int editarPaciente(Paciente unPaciente) {
-		if(generalDao.dniRepetido(unPaciente.getDNI(), unPaciente.getCodPac())) return 2;
-		if(generalDao.correoRepetido(unPaciente.getCorreo(), unPaciente.getCodPac())) return 3;
+	public int editarPaciente(Paciente unPaciente)  throws DNIInvalidoException, MailInvalidoException{
+		DNIInvalidoException excDNI = new DNIInvalidoException();
+		MailInvalidoException excMail = new MailInvalidoException();
+		if(generalDao.dniRepetido(unPaciente.getDNI(), unPaciente.getCodPac())) throw excDNI;
+		if(generalDao.correoRepetido(unPaciente.getCorreo(), unPaciente.getCodPac())) throw excMail;
 		if(pacienteDao.update(unPaciente)) return 1;
 		else return 0;
 	}

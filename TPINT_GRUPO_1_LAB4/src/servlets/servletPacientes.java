@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import entidades.Localidad;
 import entidades.Paciente;
 import entidades.Provincia;
+import exceptions.DNIInvalidoException;
+import exceptions.MailInvalidoException;
 import negImpl.LocalidadNegocio;
 import negImpl.PacienteNegocio;
 import negImpl.ProvinciaNegocio;
@@ -50,10 +52,20 @@ public class servletPacientes extends HttpServlet {
 		}
 		
 		if(request.getParameter("btnCrearPaciente") != null) {
-			Paciente unPaciente = pacienteNegocio.getPacienteCrear(request);
-			int guardo = pacienteNegocio.guardar(unPaciente);
-			request.setAttribute("guardo", guardo);
-			listaPacientes = pacienteNegocio.obtenerPacientes(false);
+			try {			
+				Paciente unPaciente = pacienteNegocio.getPacienteCrear(request);
+				int guardo = pacienteNegocio.guardar(unPaciente);
+				request.setAttribute("guardo", guardo);
+				listaPacientes = pacienteNegocio.obtenerPacientes(false);
+			}
+			catch(DNIInvalidoException ex) {
+				request.setAttribute("guardo", 2);
+				listaPacientes = pacienteNegocio.obtenerPacientes(false);
+			}
+			catch(MailInvalidoException ex) {
+				request.setAttribute("guardo", 3);
+				listaPacientes = pacienteNegocio.obtenerPacientes(false);
+			}
 		}
 		
 		if(request.getParameter("btnEliminar") != null) {
@@ -64,10 +76,20 @@ public class servletPacientes extends HttpServlet {
 		}
 		
 		if(request.getParameter("btnEditarPaciente") != null) {
-			Paciente unPaciente = pacienteNegocio.getPacienteEditar(request);
-			int edito = pacienteNegocio.editarPaciente(unPaciente);
-			request.setAttribute("edito", edito);
-			listaPacientes = pacienteNegocio.obtenerPacientes(false);
+			try {				
+				Paciente unPaciente = pacienteNegocio.getPacienteEditar(request);
+				int edito = pacienteNegocio.editarPaciente(unPaciente);
+				request.setAttribute("edito", edito);
+				listaPacientes = pacienteNegocio.obtenerPacientes(false);
+			}
+			catch(DNIInvalidoException ex) {
+				request.setAttribute("edito", 2);
+				listaPacientes = pacienteNegocio.obtenerPacientes(false);
+			}
+			catch(MailInvalidoException ex) {
+				request.setAttribute("edito", 3);
+				listaPacientes = pacienteNegocio.obtenerPacientes(false);
+			}
 		}
 
 		inicializarModuloPacientes(request, pacienteNegocio, listaPacientes);

@@ -31,6 +31,10 @@ public class GeneralNegocio {
 	            if (descripcion.contains("Pac")) {
 	                descripcion = "Paciente";
 	            }
+	            
+	            if (descripcion.contains("Est")) {
+	                descripcion = "Estado";
+	            }
 
 	            columnas.put(columna, descripcion);
 	        }

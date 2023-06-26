@@ -220,6 +220,7 @@ public class TurnosDao extends GeneralDao implements ITurnosDao{
 
 	    columnMappings.put("CodMed_TURN", " WHERE m.Nombre_MED LIKE ?");
 	    columnMappings.put("CodPac_TURN", " WHERE p.Nombre_PAC LIKE ?");
+	    columnMappings.put("CodEstado_TURN", " WHERE e.Descripcion_EST LIKE ?");
 	    
 	    if (columnMappings.containsKey(column)) {
 	        query += columnMappings.get(column);
