@@ -24,10 +24,16 @@ public class GeneralDao {
 	        while (rs.next()) {
 	            String nombreColumna = rs.getString("COLUMN_NAME");
 	      
+	            boolean omitirColumna = false;
 	            for (String columnaCodigo : columnasCodigo) {
-	                if (!nombreColumna.equals(columnaCodigo)) {
-		                nombresColumnas.add(nombreColumna);
+	                if (nombreColumna.equals(columnaCodigo)) {
+	                    omitirColumna = true;
+	                    break;
 	                }
+	            }
+
+	            if (!omitirColumna) {
+	                nombresColumnas.add(nombreColumna);
 	            }
 	        }
 	    } 
