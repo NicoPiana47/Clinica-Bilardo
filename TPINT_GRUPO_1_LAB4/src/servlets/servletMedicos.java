@@ -27,6 +27,8 @@ import entidades.Localidad;
 import entidades.Medico;
 import entidades.MedicosXDias;
 import entidades.Provincia;
+import exceptions.DNIInvalidoException;
+import exceptions.MailInvalidoException;
 import negImpl.EspecialidadNegocio;
 import negImpl.LocalidadNegocio;
 import negImpl.MedicoNegocio;
@@ -143,21 +145,41 @@ public class servletMedicos extends HttpServlet {
 	
 	private void crearMedico(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		if(request.getParameter("btnCrearMedico") != null) {
-			getHorarios(request);
-			Medico medico = medicoNegocio.getMedico(request,true);
-			int creo = medicoNegocio.crearMedico(medico);
-			request.setAttribute("CrearMedico", creo);
-			inicializarModuloMedicos(request, response, null);			        	  	    
+			try {			
+				getHorarios(request);
+				Medico medico = medicoNegocio.getMedico(request,true);
+				int creo = medicoNegocio.crearMedico(medico);
+				request.setAttribute("CrearMedico", creo);
+				inicializarModuloMedicos(request, response, null);			        	  	    
+			}
+			catch(DNIInvalidoException ex) {
+				request.setAttribute("CrearMedico", 2);
+				inicializarModuloMedicos(request, response, null);		
+			}
+			catch(MailInvalidoException ex) {
+				request.setAttribute("CrearMedico", 3);
+				inicializarModuloMedicos(request, response, null);		
+			}
 		}	
 	}
 	
 	private void editarMedico(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		if(request.getParameter("btnEditarMedico") != null) {
-			getHorarios(request);
-			Medico medico = medicoNegocio.getMedico(request,false);
-			int edito = medicoNegocio.editarMedico(medico);
-			request.setAttribute("edito", edito);
-			inicializarModuloMedicos(request, response, null);						
+			try {			
+				getHorarios(request);
+				Medico medico = medicoNegocio.getMedico(request,false);
+				int edito = medicoNegocio.editarMedico(medico);
+				request.setAttribute("edito", edito);
+				inicializarModuloMedicos(request, response, null);						
+			}
+			catch(DNIInvalidoException ex) {
+				request.setAttribute("edito", 2);
+				inicializarModuloMedicos(request, response, null);		
+			}
+			catch(MailInvalidoException ex) {
+				request.setAttribute("edito", 3);
+				inicializarModuloMedicos(request, response, null);		
+			}
 		}	
 	}
 	
