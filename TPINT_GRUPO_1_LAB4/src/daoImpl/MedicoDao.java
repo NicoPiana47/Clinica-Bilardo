@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import conexión.Conexion;
@@ -113,7 +115,8 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 		ArrayList<Medico> medicos = new ArrayList<Medico>();
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		try{
-			String query = "SELECT * FROM Medicos WHERE " + column + " LIKE ?";
+			String query = createQueryFiltersMedicos(column);
+			
 			statement = conexion.prepareStatement(query);
 	        statement.setString(1, "%" + text + "%");
 	        
@@ -128,6 +131,26 @@ public class MedicoDao extends GeneralDao implements IMedicoDao {
 		}
 		
 		return medicos;
+	}
+	
+	private String createQueryFiltersMedicos(String column) {
+		Map<String, String> columnMappings = new HashMap<>();
+		String query = "SELECT * FROM medicos m";
+
+		columnMappings.put("CodProvincia_MED", 
+				" INNER JOIN provincias pr ON m.CodProvincia_MED = pr.CodProvincia_PROV WHERE pr.Descripcion_PROV LIKE ?");
+		columnMappings.put("CodLocalidad_MED", 
+				" INNER JOIN localidades lo ON m.CodLocalidad_MED = lo.CodLocalidad_LOC WHERE lo.Descripcion_LOC LIKE ?");
+		columnMappings.put("CodEspecialidad_MED", 
+				" INNER JOIN especialidades esp ON m.CodEspecialidad_MED = esp.CodEspecialidad_ESP WHERE esp.Descripcion_ESP LIKE ?");
+		
+		if (columnMappings.containsKey(column)) {
+		    query += columnMappings.get(column);
+		} else {
+		    query += " WHERE m." + column + " LIKE ?";
+		}
+		
+		return query;
 	}
 
 	@Override

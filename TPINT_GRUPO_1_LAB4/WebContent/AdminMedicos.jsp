@@ -90,7 +90,7 @@
 						<th>Especialidad</th>
 						<th>Usuario</th>
 						<th>Contraseña</th>
-						<th>Tipo</th>
+						<th>Admin</th>
 						<th>Estado</th>
 					</tr>
 				</thead>

@@ -1,27 +1,26 @@
 package daoImpl;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import conexión.Conexion;
 import dao.ITurnosDao;
-import entidades.EstadoTurno;
-import entidades.Medico;
-import entidades.MedicosXDias;
-import entidades.Paciente;
 import entidades.Turno;
 
 public class TurnosDao extends GeneralDao implements ITurnosDao{
-	private static final String consultaSinFechas = "SELECT CodTurno_TURN, CodPac_TURN, Nombre_MED, Apellido_MED, Nombre_PAC, Apellido_PAC, FechaTurno_TURN, Descripcion_EST " +
-            "FROM Turnos " +
-            "INNER JOIN Medicos ON CodMed_TURN = CodMed_MED " +
-            "INNER JOIN Pacientes ON CodPac_TURN = CodPac_PAC " +
-            "INNER JOIN EstadosTurno ON CodEstado_TURN = CodEstado_EST";
+	private static final String consultaSinFechas = 
+				"SELECT t.CodTurno_TURN, t.CodPac_TURN, m.Nombre_MED, m.Apellido_MED, p.Nombre_PAC, p.Apellido_PAC, t.FechaTurno_TURN, e.Descripcion_EST " + 
+				"FROM Turnos t " + 
+				"INNER JOIN Medicos m ON t.CodMed_TURN = m.CodMed_MED " + 
+				"INNER JOIN Pacientes p ON t.CodPac_TURN = p.CodPac_PAC " + 
+				"INNER JOIN EstadosTurno e ON t.CodEstado_TURN = e.CodEstado_EST ";
 	
 	private String consultaConFechas = "SELECT CodTurno_TURN, CodPac_TURN, Nombre_MED, Apellido_MED, Nombre_PAC, Apellido_PAC, FechaTurno_TURN, Descripcion_EST " +
             "FROM Turnos " +
@@ -70,10 +69,7 @@ public class TurnosDao extends GeneralDao implements ITurnosDao{
 	        			 statement.setDate(2, fechaHastaParam);
 	        		 }
 	        	 }
-	        	 
-	        	 
-	        	 
-	        	 	        	 
+	        	   	 
 	             ResultSet resultSet = statement.executeQuery();
 	             while (resultSet.next()) {
 	            	 int codTurno = resultSet.getInt("CodTurno_TURN");
@@ -96,7 +92,6 @@ public class TurnosDao extends GeneralDao implements ITurnosDao{
 	                 turno.getPaciente().setApellido(apellidoPaciente);
 	                 turno.getEstado().setDescripcion_EST(descripcionEstado);
 	                 turno.setFechaTurno(fechaTurno);
-	                 
 	                 
 	                 turnos.add(turno);
 	             }
@@ -161,6 +156,7 @@ public class TurnosDao extends GeneralDao implements ITurnosDao{
 		  }
 		return existe;	
 	}
+	
 	@Override
 	public List<String> getColumns() {
 		return super.getColumns("turnos", "CodTurno_TURN");
@@ -168,16 +164,17 @@ public class TurnosDao extends GeneralDao implements ITurnosDao{
 
 	@Override
 	public List<Turno> getTurnosByFilter(String column, String text, int codMed) {
-		 List<Turno> turnos = new ArrayList<>();
+		
 		PreparedStatement statement;
 		ResultSet resultSet; 
-		ArrayList<Paciente> pacientes = new ArrayList<Paciente>();
+		ArrayList<Turno> turnos = new ArrayList<Turno>();
 		Connection conexion = Conexion.getConexion().getSQLConexion();
+		
 		try{
-			String query = consultaSinFechas + " WHERE " + column + " LIKE ?";
+			String query = createQueryFiltersTurnos(column);
 			
 			if(codMed != -1)
-				query = query + " AND CodMed_TURN = " + codMed;
+				query +=  " AND CodMed_TURN = " + codMed;
 			
 			statement = conexion.prepareStatement(query);
 	        statement.setString(1, "%" + text + "%");
@@ -206,7 +203,6 @@ public class TurnosDao extends GeneralDao implements ITurnosDao{
                  turno.getEstado().setDescripcion_EST(descripcionEstado);
                  turno.setFechaTurno(fechaTurno);
                 
-                
                 turnos.add(turno);
 			}
 		}
@@ -215,6 +211,22 @@ public class TurnosDao extends GeneralDao implements ITurnosDao{
 		}
 		
 		return turnos;
+	}
+	
+	private String createQueryFiltersTurnos(String column) {
+	    Map<String, String> columnMappings = new HashMap<>();
+	    String query = consultaSinFechas;
+
+	    columnMappings.put("CodMed_TURN", " WHERE m.Nombre_MED LIKE ?");
+	    columnMappings.put("CodPac_TURN", " WHERE p.Nombre_PAC LIKE ?");
+	    
+	    if (columnMappings.containsKey(column)) {
+	        query += columnMappings.get(column);
+	    } else {
+	        query += " WHERE " + column + " LIKE ?";
+	    }
+
+	    return query;
 	}
 
 	@Override

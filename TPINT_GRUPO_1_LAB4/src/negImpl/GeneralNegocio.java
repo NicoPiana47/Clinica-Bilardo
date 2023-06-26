@@ -23,6 +23,14 @@ public class GeneralNegocio {
 	            if (descripcion.contains("Cod")) {
 	                descripcion = descripcion.replace("Cod", "");
 	            }
+	            
+	            if (descripcion.contains("Med")) {
+	                descripcion = "Médico";
+	            }
+	            
+	            if (descripcion.contains("Pac")) {
+	                descripcion = "Paciente";
+	            }
 
 	            columnas.put(columna, descripcion);
 	        }

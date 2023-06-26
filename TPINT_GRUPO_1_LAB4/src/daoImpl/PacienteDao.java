@@ -87,8 +87,6 @@ public class PacienteDao extends GeneralDao implements IPacienteDao {
 				" INNER JOIN provincias pr ON p.CodProvincia_PAC = pr.CodProvincia_PROV WHERE pr.Descripcion_PROV LIKE ?");
 		columnMappings.put("CodLocalidad_PAC", 
 				" INNER JOIN localidades lo ON p.CodLocalidad_PAC = lo.CodLocalidad_LOC WHERE lo.Descripcion_LOC LIKE ?");
-		columnMappings.put("CodEspecialidad_PAC", 
-				" INNER JOIN especialidades esp ON p.CodEspecialidad_PAC = esp.CodEspecialidad_ESP WHERE esp.Descripcion_ESP LIKE ?");
 		
 		if (columnMappings.containsKey(column)) {
 		    query += columnMappings.get(column);

@@ -162,9 +162,8 @@ public class servletMedicos extends HttpServlet {
 	}
 	
 	private void getHorarios(HttpServletRequest request) {
-		String datosJSON;
-		if(request.getParameter("datosHorarios") != null && !request.getParameter("datosHorarios").isEmpty()) {
-			datosJSON = request.getParameter("datosHorarios");
+		String datosJSON = request.getParameter("datosHorarios");
+		if(!datosJSON.equals("null") && !datosJSON.isEmpty()) {
 			if (!datosJSON.contains("hour")) {
 				GsonBuilder gsonBuilder = new GsonBuilder();
 				gsonBuilder.registerTypeAdapter(LocalTime.class, (JsonDeserializer<LocalTime>) (json, type, jsonDeserializationContext) -> {

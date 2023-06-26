@@ -18,8 +18,9 @@
 </head>
 <body>
 
-	<section class="vh-100" style="background-color: #2a2a72;
-background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);">
+<section class="vh-100" 
+		 style="background-color: #2a2a72; 
+			    background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);">
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col col-xl-10">
