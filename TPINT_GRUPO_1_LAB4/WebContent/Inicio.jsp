@@ -12,41 +12,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Inicio</title>
-<style>
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-        
-        .modal-content {
-            background-color: #fefefe;
-            margin: 10% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            max-width: 80%;
-        }
-        
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-</style>
+<link rel="stylesheet" type="text/css" href="./src/Style/estilos.css">
 </head>
 <body>
 <%@ include file="/MasterPage.jsp" %>
@@ -81,15 +47,18 @@
 			</div>
 		</div>
 	</form>
+	
+	<div class="input-group col-6 m-auto">
+  		<input type="search" class="form-control rounded" placeholder="Buscar en la grilla" aria-label="Search" id="search-input" aria-describedby="search-addon" />
+	</div>	
 
-	<div class="container-fluid" style="width:95%; margin-bottom:20px">
+	<div class="container-fluid mt-4" style="width:95%; margin-bottom:20px">
 		<div class="card text-center" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 100px;">
 			<div class="card-header "><h5>Turnos</h5></div>		
-			<table class="table table-hover" id="table_id_turnos" style="font-size: 11px;">
+			<table class="table table-hover" id="table_id_turnos" style="width: 100%; font-size: 11px;">
 				<thead>
-					<tr>
-						<th> </th> 
-						<th>Médico</th>   
+					<tr class="center-header">
+						<th> </th>  
 						<th>Paciente</th> 
 						<th>Turno</th>
 						<th>Estado</th>
@@ -111,8 +80,7 @@
 								<i class="fa-solid fa-clock"></i>
 							</button>
 						</td>
-				        <td><%= turno.getMedico().getNombre() + " " + turno.getMedico().getApellido()%></td>
-				        <td><%= turno.getPaciente().getNombre() + " " + turno.getPaciente().getApellido()%></td>
+				       	<td><%= turno.getPaciente().getNombre() + " " + turno.getPaciente().getApellido()%></td>
 				        <td><%= formatter.format(turno.getFechaTurno())%></td>
 				        <td><%= turno.getEstado().getDescripcion_EST()%></td>
 						    
@@ -327,30 +295,43 @@
     	document.getElementById(modal).style.display = "none";
     }
     
-	$('#table_id_turnos').DataTable({
-	    language: {
-	        processing: "Tratamiento en curso...",
-	        search: "Buscar&nbsp;:",
-	        infoEmpty: "No existen datos.",
-	        infoPostFix: "",
-	        loadingRecords: "Cargando...",
-	        zeroRecords: "No se encontraron datos con tu busqueda",
-	        emptyTable: "No hay datos disponibles en la tabla.",
-	        paginate: {
-	            first: "Primero",
-	            previous: "Anterior",
-	            next: "Siguiente",
-	            last: "Ultimo"
-	        },
-	        aria: {
-	            sortAscending: ": active para ordenar la columna en orden ascendente",
-	            sortDescending: ": active para ordenar la columna en orden descendente"
+	$(document).ready(function() {
+	    var table = $('#table_id_turnos').DataTable({
+		    language: {
+		        processing: "Tratamiento en curso...",
+		        search: "Buscar&nbsp;:",
+		        infoEmpty: "No existen datos.",
+		        infoPostFix: "",
+		        loadingRecords: "Cargando...",
+		        zeroRecords: "No se encontraron datos con tu busqueda",
+		        emptyTable: "No hay datos disponibles en la tabla.",
+		        paginate: {
+		            first: "Primero",
+		            previous: "Anterior",
+		            next: "Siguiente",
+		            last: "Ultimo"
+		        },
+		        aria: {
+		            sortAscending: ": active para ordenar la columna en orden ascendente",
+		            sortDescending: ": active para ordenar la columna en orden descendente"
+		        }
+		    },
+		    scrollY: "auto",
+	        scrollX: true,
+	        lengthMenu: [[5, 25, -1], [10, 25, "All"]],
+	        "bLengthChange": false,
+	        "bInfo": false,
+	        dom: 'lrtip',
+	        initComplete: function(settings, json) {
+	            $('.dataTables_filter').hide();
 	        }
-	    },
-	    scrollY: "auto",
-	    lengthMenu: [ [5, 25, -1], [10, 25, "All"] ],
-	    "bLengthChange" : false,
-	    "bInfo": false
+	    });
+
+	    $('#search-input').on('input', function() {
+	        var searchValue = $(this).val();
+	
+	        table.search(searchValue).draw();
+	    });
 	});
 	
 </script>

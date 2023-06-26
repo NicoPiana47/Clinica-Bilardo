@@ -13,7 +13,7 @@ import entidades.Medico;
 
 public class GeneralDao {
 
-	public List<String> getColumns(String tabla, String columnaCodigo) {
+	public List<String> getColumns(String tabla, String... columnasCodigo) {
 		List<String> nombresColumnas = new ArrayList<>();
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 
@@ -23,9 +23,11 @@ public class GeneralDao {
 	        
 	        while (rs.next()) {
 	            String nombreColumna = rs.getString("COLUMN_NAME");
-	            
-	            if(!nombreColumna.equals(columnaCodigo)) {
-		            nombresColumnas.add(nombreColumna);
+	      
+	            for (String columnaCodigo : columnasCodigo) {
+	                if (!nombreColumna.equals(columnaCodigo)) {
+		                nombresColumnas.add(nombreColumna);
+	                }
 	            }
 	        }
 	    } 

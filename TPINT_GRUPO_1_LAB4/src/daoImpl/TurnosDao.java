@@ -159,7 +159,8 @@ public class TurnosDao extends GeneralDao implements ITurnosDao{
 	
 	@Override
 	public List<String> getColumns() {
-		return super.getColumns("turnos", "CodTurno_TURN");
+	    String[] columnasCodigo = {"CodTurno_TURN", "CodMed_TURN"};
+		return super.getColumns("turnos", columnasCodigo);
 	}
 
 	@Override
