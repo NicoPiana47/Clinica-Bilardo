@@ -33,6 +33,7 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
     		
 			med= mDao.traerMedicoPorNombreUsuario(username);
 			if(med != null && med.getContraseña() != null && med.getContraseña().equals(contraseña)) {
+				convertirSetAJson(med);
 				return med;
 			}
     	}
@@ -40,15 +41,19 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 		return null;
 	}
 
+	private void convertirSetAJson(Medico medico) {
+		Gson gson = new GsonBuilder().create();
+		Set<MedicosXDias> horarios = medico.getHorarios();
+        String horariosJson = gson.toJson(horarios);
+        medico.setHorariosJson(horariosJson);
+	}
+
 	@Override
 	public List<Medico> obtenerMedicos(boolean sinInactivos) {
 	    List<Medico> medicos = mDao.readAll(sinInactivos);
-	    Gson gson = new GsonBuilder().create();
 
 	    for (Medico medico : medicos) {
-	        Set<MedicosXDias> horarios = medico.getHorarios();
-	        String horariosJson = gson.toJson(horarios);
-	        medico.setHorariosJson(horariosJson);
+	    	convertirSetAJson(medico);
 	    }
 
 	    return medicos;
