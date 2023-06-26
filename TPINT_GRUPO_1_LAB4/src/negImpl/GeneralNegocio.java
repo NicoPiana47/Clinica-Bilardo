@@ -17,7 +17,7 @@ public class GeneralNegocio {
 	        	String descripcion = columna.replace(text, "");
 	        	
 	        	if (descripcion.contains("Fecha")) {
-	        		descripcion = "Fecha de Nacimiento";
+	        	    descripcion = descripcion.replaceAll("Fecha([A-Z])", "Fecha de $1");
 	        	}
 
 	            if (descripcion.contains("Cod")) {
