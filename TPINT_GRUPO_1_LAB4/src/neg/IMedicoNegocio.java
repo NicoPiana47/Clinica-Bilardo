@@ -19,7 +19,7 @@ public interface IMedicoNegocio {
 	public boolean eliminarMedico(int codMed);
 	public int crearMedico(Medico medico) throws DNIInvalidoException, MailInvalidoException;
 	public List<Medico> obtenerMedicos(boolean sinInactivos);
-	
+	public Medico obtenerMedicoPorUsername(String username);
 	
 	
 	

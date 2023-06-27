@@ -170,6 +170,15 @@ public class servletMedicos extends HttpServlet {
 				Medico medico = medicoNegocio.getMedico(request,false);
 				int edito = medicoNegocio.editarMedico(medico);
 				request.setAttribute("edito", edito);
+				  
+				    HttpSession session = request.getSession();
+		            Medico medicoSession = (Medico) session.getAttribute("sessionMedico");
+
+		            if (edito == 1 && medicoSession != null && medico.getCodMed() == medicoSession.getCodMed()) {
+		            	Medico medicoNuevo = medicoNegocio.obtenerMedicoPorUsername(medico.getUsername());
+		                session.setAttribute("sessionMedico", medicoNuevo);
+		            }
+		            
 			}
 			catch(DNIInvalidoException ex) {
 				request.setAttribute("edito", 2);

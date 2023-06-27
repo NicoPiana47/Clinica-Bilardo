@@ -42,6 +42,10 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 		
 		return null;
 	}
+	@Override
+	public Medico obtenerMedicoPorUsername(String username) {		
+		return mDao.traerMedicoPorNombreUsuario(username);
+	}
 
 	private void convertirSetAJson(Medico medico) {
 		Gson gson = new GsonBuilder().create();
@@ -165,4 +169,6 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 		if(mDao.update(medico)) return 1;
 		else return 0;
 	}
+
+	
 }
