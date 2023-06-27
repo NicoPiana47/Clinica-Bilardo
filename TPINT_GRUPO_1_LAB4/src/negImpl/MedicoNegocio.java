@@ -31,7 +31,10 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 		
 		if (!username.isEmpty() || !contraseña.isEmpty()) {
     		
+			// funcion para obtener el medico por USUARIO
 			med= mDao.traerMedicoPorNombreUsuario(username);
+			
+			// y si la contraseña del medico es igual a la escrita a la pasada por parametro entonces entra y todo ok
 			if(med != null && med.getContraseña() != null && med.getContraseña().equals(contraseña)) {
 				return med;
 			}

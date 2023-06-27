@@ -27,6 +27,8 @@ import entidades.Localidad;
 import entidades.Medico;
 import entidades.MedicosXDias;
 import entidades.Provincia;
+import exceptions.DNIInvalidoException;
+import exceptions.MailInvalidoException;
 import negImpl.EspecialidadNegocio;
 import negImpl.LocalidadNegocio;
 import negImpl.MedicoNegocio;
@@ -58,20 +60,23 @@ public class servletMedicos extends HttpServlet {
 	
 	public void iniciarSesion(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession sessionMedico = request.getSession();
-		Boolean filas = false;
+		Boolean ingreso = false;
 		if(request.getParameter("btnIngresar")!=null) {
+			// setea la session en null por si existia otra antes
 			sessionMedico.setAttribute("sessionMedico", null);
         	
+			// mediante el medicoNegocio entra al metodo iniciar sesion con los parametros de los campos
 			Medico med = medicoNegocio.iniciarSesion(request.getParameter("txtNombreUsuario"), request.getParameter("txtContraseña"));
 			
         	if(med != null) {
+        		// setea el medico a la sessionMedico
         		sessionMedico.setAttribute("sessionMedico", med);
-        		filas = true;
+        		ingreso = true;
         	}
         	
         	RequestDispatcher rd = null;
         	
-        	if (filas) {
+        	if (ingreso) {
         	    if (med.getTipo()) {
         	        inicializarModuloMedicos(request, response, null);
         	        return;
@@ -82,12 +87,13 @@ public class servletMedicos extends HttpServlet {
         	    rd = request.getRequestDispatcher("/Login.jsp");
         	}
 
-        	request.setAttribute("inicioSesion", filas);
+        	request.setAttribute("inicioSesion", ingreso);
         	rd.forward(request, response);
         }
 	}
 	
 	public void inicializarModuloMedicos(HttpServletRequest request, HttpServletResponse response, List<Medico> listaMedicos) throws ServletException, IOException {
+		// si listaMedicos esta vacio (dependiendo de donde se uso) se llena
 		if(listaMedicos == null) {		
 			List<Medico> listaMedicosCompleta = medicoNegocio.obtenerMedicos(false);
 			request.setAttribute("listaMedicos", listaMedicosCompleta); 
@@ -143,22 +149,42 @@ public class servletMedicos extends HttpServlet {
 	
 	private void crearMedico(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		if(request.getParameter("btnCrearMedico") != null) {
-			getHorarios(request);
-			Medico medico = medicoNegocio.getMedico(request,true);
-			int creo = medicoNegocio.crearMedico(medico);
-			request.setAttribute("CrearMedico", creo);
-			inicializarModuloMedicos(request, response, null);			        	  	    
+			try {			
+				getHorarios(request);
+				Medico medico = medicoNegocio.getMedico(request,true);
+				int creo = medicoNegocio.crearMedico(medico);
+				request.setAttribute("CrearMedico", creo);		        	  	    
+			}
+			catch(DNIInvalidoException ex) {
+				request.setAttribute("CrearMedico", 2);
+			}
+			catch(MailInvalidoException ex) {
+				request.setAttribute("CrearMedico", 3);	
+			}
+			
+			inicializarModuloMedicos(request, response, null);	
 		}	
+		
 	}
 	
 	private void editarMedico(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		if(request.getParameter("btnEditarMedico") != null) {
-			getHorarios(request);
-			Medico medico = medicoNegocio.getMedico(request,false);
-			int edito = medicoNegocio.editarMedico(medico);
-			request.setAttribute("edito", edito);
-			inicializarModuloMedicos(request, response, null);						
+			try {			
+				getHorarios(request);
+				Medico medico = medicoNegocio.getMedico(request,false);
+				int edito = medicoNegocio.editarMedico(medico);
+				request.setAttribute("edito", edito);					
+			}
+			catch(DNIInvalidoException ex) {
+				request.setAttribute("edito", 2);
+			}
+			catch(MailInvalidoException ex) {
+				request.setAttribute("edito", 3);	
+			}
+			
+			inicializarModuloMedicos(request, response, null);	
 		}	
+		
 	}
 	
 	private void getHorarios(HttpServletRequest request) {
