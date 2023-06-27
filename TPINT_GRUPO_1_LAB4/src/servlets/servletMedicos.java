@@ -62,8 +62,10 @@ public class servletMedicos extends HttpServlet {
 		HttpSession sessionMedico = request.getSession();
 		Boolean filas = false;
 		if(request.getParameter("btnIngresar")!=null) {
+			// setea la session en null por si existia otra antes
 			sessionMedico.setAttribute("sessionMedico", null);
         	
+			// mediante el medicoNegocio entra al metodo iniciar sesion con los parametros de los campos
 			Medico med = medicoNegocio.iniciarSesion(request.getParameter("txtNombreUsuario"), request.getParameter("txtContraseña"));
 			
         	if(med != null) {
@@ -90,6 +92,8 @@ public class servletMedicos extends HttpServlet {
 	}
 	
 	public void inicializarModuloMedicos(HttpServletRequest request, HttpServletResponse response, List<Medico> listaMedicos) throws ServletException, IOException {
+
+		// si listaMedicos esta vacio (dependiendo de donde se uso) se llena
 		if(listaMedicos == null) {		
 			List<Medico> listaMedicosCompleta = medicoNegocio.obtenerMedicos(false);
 			request.setAttribute("listaMedicos", listaMedicosCompleta); 
