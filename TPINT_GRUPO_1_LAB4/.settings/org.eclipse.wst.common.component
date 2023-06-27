@@ -4,9 +4,6 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
         <wb-resource deploy-path="/" source-path="/WebContent/notiflix-Notiflix-6936fff"/>
         <wb-resource deploy-path="/" source-path="/WebContent/gson-main"/>
-        <dependent-module archiveName="mysql-connector-j-8.0.33.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/C:/Program Files (x86)/MySQL/Connector J 8.0/mysql-connector-j-8.0.33.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <property name="context-root" value="TPINT_GRUPO_1_LAB4"/>
         <property name="java-output-path" value="/TPINT_GRUPO_1_LAB4/build/classes"/>
     </wb-module>

@@ -52,7 +52,11 @@ public class servletTurnos extends HttpServlet {
 			inicializarInicio(request, response);	
 		
 		if(request.getParameter("codPac") != null) {
-			filtrarLista(request, response);
+			try {
+				filtrarLista(request, response);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 			return;
 		}
 	}
@@ -281,7 +285,8 @@ public class servletTurnos extends HttpServlet {
 
 	}
 	
-	public void filtrarLista(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void filtrarLista(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		int codPac = Integer.parseInt(request.getParameter("codPac"));
 		
 		PacienteNegocio pacNeg = new PacienteNegocio();
@@ -290,6 +295,12 @@ public class servletTurnos extends HttpServlet {
         List<Paciente> pacientesFiltrados = listaPacientes.stream()
             .filter(paciente -> paciente.getCodPac() == codPac)
             .collect(Collectors.toList());
+        
+        for (Paciente paciente : pacientesFiltrados) {
+            Date fecha = paciente.getFechaNacimiento();
+            String fechaFormateada = dateFormat.format(fecha);  
+            paciente.setFechaNacimiento(dateFormat.parse(fechaFormateada));
+        }
 
         String json = new Gson().toJson(pacientesFiltrados);
         response.setContentType("application/json");
