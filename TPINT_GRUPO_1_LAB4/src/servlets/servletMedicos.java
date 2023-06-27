@@ -60,23 +60,20 @@ public class servletMedicos extends HttpServlet {
 	
 	public void iniciarSesion(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession sessionMedico = request.getSession();
-		Boolean ingreso = false;
+		Boolean filas = false;
 		if(request.getParameter("btnIngresar")!=null) {
-			// setea la session en null por si existia otra antes
 			sessionMedico.setAttribute("sessionMedico", null);
         	
-			// mediante el medicoNegocio entra al metodo iniciar sesion con los parametros de los campos
 			Medico med = medicoNegocio.iniciarSesion(request.getParameter("txtNombreUsuario"), request.getParameter("txtContraseña"));
 			
         	if(med != null) {
-        		// setea el medico a la sessionMedico
         		sessionMedico.setAttribute("sessionMedico", med);
-        		ingreso = true;
+        		filas = true;
         	}
         	
         	RequestDispatcher rd = null;
         	
-        	if (ingreso) {
+        	if (filas) {
         	    if (med.getTipo()) {
         	        inicializarModuloMedicos(request, response, null);
         	        return;
@@ -87,13 +84,12 @@ public class servletMedicos extends HttpServlet {
         	    rd = request.getRequestDispatcher("/Login.jsp");
         	}
 
-        	request.setAttribute("inicioSesion", ingreso);
+        	request.setAttribute("inicioSesion", filas);
         	rd.forward(request, response);
         }
 	}
 	
 	public void inicializarModuloMedicos(HttpServletRequest request, HttpServletResponse response, List<Medico> listaMedicos) throws ServletException, IOException {
-		// si listaMedicos esta vacio (dependiendo de donde se uso) se llena
 		if(listaMedicos == null) {		
 			List<Medico> listaMedicosCompleta = medicoNegocio.obtenerMedicos(false);
 			request.setAttribute("listaMedicos", listaMedicosCompleta); 
@@ -153,18 +149,17 @@ public class servletMedicos extends HttpServlet {
 				getHorarios(request);
 				Medico medico = medicoNegocio.getMedico(request,true);
 				int creo = medicoNegocio.crearMedico(medico);
-				request.setAttribute("CrearMedico", creo);		        	  	    
+				request.setAttribute("CrearMedico", creo);      	  	    
 			}
 			catch(DNIInvalidoException ex) {
-				request.setAttribute("CrearMedico", 2);
+				request.setAttribute("CrearMedico", 2);	
 			}
 			catch(MailInvalidoException ex) {
-				request.setAttribute("CrearMedico", 3);	
+				request.setAttribute("CrearMedico", 3);
 			}
 			
-			inicializarModuloMedicos(request, response, null);	
+			inicializarModuloMedicos(request, response, null);		
 		}	
-		
 	}
 	
 	private void editarMedico(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
@@ -184,7 +179,6 @@ public class servletMedicos extends HttpServlet {
 			
 			inicializarModuloMedicos(request, response, null);	
 		}	
-		
 	}
 	
 	private void getHorarios(HttpServletRequest request) {

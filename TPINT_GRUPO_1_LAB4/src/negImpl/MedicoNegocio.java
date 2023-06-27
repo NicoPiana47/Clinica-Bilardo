@@ -19,6 +19,8 @@ import entidades.Localidad;
 import entidades.Medico;
 import entidades.MedicosXDias;
 import entidades.Provincia;
+import exceptions.DNIInvalidoException;
+import exceptions.MailInvalidoException;
 import neg.IMedicoNegocio;
 
 public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
@@ -36,6 +38,7 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 			
 			// y si la contraseña del medico es igual a la escrita a la pasada por parametro entonces entra y todo ok
 			if(med != null && med.getContraseña() != null && med.getContraseña().equals(contraseña)) {
+				convertirSetAJson(med);
 				return med;
 			}
     	}
@@ -43,15 +46,19 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 		return null;
 	}
 
+	private void convertirSetAJson(Medico medico) {
+		Gson gson = new GsonBuilder().create();
+		Set<MedicosXDias> horarios = medico.getHorarios();
+        String horariosJson = gson.toJson(horarios);
+        medico.setHorariosJson(horariosJson);
+	}
+
 	@Override
 	public List<Medico> obtenerMedicos(boolean sinInactivos) {
 	    List<Medico> medicos = mDao.readAll(sinInactivos);
-	    Gson gson = new GsonBuilder().create();
 
 	    for (Medico medico : medicos) {
-	        Set<MedicosXDias> horarios = medico.getHorarios();
-	        String horariosJson = gson.toJson(horarios);
-	        medico.setHorariosJson(horariosJson);
+	    	convertirSetAJson(medico);
 	    }
 
 	    return medicos;
@@ -141,18 +148,22 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 	}
 	
 	@Override
-	public int crearMedico(Medico medico) {
-		if(gDao.dniRepetido(medico.getDNI(), medico.getCodMed())) return 2;
-		if(gDao.correoRepetido(medico.getCorreo(), medico.getCodMed())) return 3;
+	public int crearMedico(Medico medico) throws DNIInvalidoException, MailInvalidoException {
+		DNIInvalidoException excDNI = new DNIInvalidoException();
+		MailInvalidoException excMail = new MailInvalidoException();
+		if(gDao.dniRepetido(medico.getDNI(), medico.getCodMed())) throw excDNI;
+		if(gDao.correoRepetido(medico.getCorreo(), medico.getCodMed())) throw excMail;
 		if(mDao.usernameRepetido(medico.getUsername(), medico.getCodMed())) return 4;
 		if(mDao.create(medico)) return 1;
 		else return 0;
 	}
 
 	@Override
-	public int editarMedico(Medico medico) {
-		if(gDao.dniRepetido(medico.getDNI(), medico.getCodMed())) return 2;
-		if(gDao.correoRepetido(medico.getCorreo(), medico.getCodMed())) return 3;
+	public int editarMedico(Medico medico) throws DNIInvalidoException, MailInvalidoException {
+		DNIInvalidoException excDNI = new DNIInvalidoException();
+		MailInvalidoException excMail = new MailInvalidoException();
+		if(gDao.dniRepetido(medico.getDNI(), medico.getCodMed())) throw excDNI;
+		if(gDao.correoRepetido(medico.getCorreo(), medico.getCodMed())) throw excMail;
 		if(mDao.usernameRepetido(medico.getUsername(), medico.getCodMed())) return 4;
 		if(mDao.update(medico)) return 1;
 		else return 0;

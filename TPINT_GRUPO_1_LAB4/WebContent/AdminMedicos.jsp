@@ -336,11 +336,9 @@
 										<th>Estado</th>
 									</tr>
 								</thead>
-						        <tbody id="tablaHorariosBody">
-
-						    	</tbody>                                             
+						        <tbody id="tablaHorariosBody"> </tbody>                                             
 							</table>
-							 <input type="hidden" name="datosHorarios" id="datosHorarios">
+						 	<input type="hidden" name="datosHorarios" id="datosHorarios">
 						</div>
 					</div>
 					
@@ -475,6 +473,7 @@
 	// CARGAR TABLA HORARIOS
 	function cargarTabla() {
 		var horarios = document.getElementById('datosHorarios').value;
+		console.log(horarios)
 	  	var tablaBody = document.getElementById("tablaHorariosBody");
 	  	
 	  // Limpiar tabla
