@@ -56,16 +56,15 @@ public class servletPacientes extends HttpServlet {
 				Paciente unPaciente = pacienteNegocio.getPacienteCrear(request);
 				int guardo = pacienteNegocio.guardar(unPaciente);
 				request.setAttribute("guardo", guardo);
-				listaPacientes = pacienteNegocio.obtenerPacientes(false);
 			}
 			catch(DNIInvalidoException ex) {
 				request.setAttribute("guardo", 2);
-				listaPacientes = pacienteNegocio.obtenerPacientes(false);
 			}
 			catch(MailInvalidoException ex) {
 				request.setAttribute("guardo", 3);
-				listaPacientes = pacienteNegocio.obtenerPacientes(false);
 			}
+			
+			listaPacientes = pacienteNegocio.obtenerPacientes(false);
 		}
 		
 		if(request.getParameter("btnEliminar") != null) {
@@ -80,15 +79,12 @@ public class servletPacientes extends HttpServlet {
 				Paciente unPaciente = pacienteNegocio.getPacienteEditar(request);
 				int edito = pacienteNegocio.editarPaciente(unPaciente);
 				request.setAttribute("edito", edito);
-				listaPacientes = pacienteNegocio.obtenerPacientes(false);
 			}
 			catch(DNIInvalidoException ex) {
 				request.setAttribute("edito", 2);
-				listaPacientes = pacienteNegocio.obtenerPacientes(false);
 			}
 			catch(MailInvalidoException ex) {
 				request.setAttribute("edito", 3);
-				listaPacientes = pacienteNegocio.obtenerPacientes(false);
 			}
 		}
 

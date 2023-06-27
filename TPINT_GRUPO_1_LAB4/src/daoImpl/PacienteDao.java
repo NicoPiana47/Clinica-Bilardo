@@ -20,7 +20,6 @@ public class PacienteDao extends GeneralDao implements IPacienteDao {
 	private static final String insert = "INSERT INTO pacientes(DNI_PAC, CodLocalidad_PAC, CodProvincia_PAC, Nombre_PAC, Apellido_PAC, Correo_PAC, Sexo_PAC, Nacionalidad_PAC, FechaNacimiento_PAC, Direccion_PAC, Telefono_PAC) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String delete = "UPDATE pacientes SET Estado_PAC = 0 WHERE CodPac_PAC = ?";
 	private static final String readall = "SELECT * FROM pacientes";
-	private static final String existeDni = "SELECT * FROM pacientes WHERE dni = ?";
 	private static final String update = "UPDATE pacientes SET DNI_PAC = ?, CodLocalidad_PAC = ?, CodProvincia_PAC = ?, Nombre_PAC = ?, Apellido_PAC = ?, Correo_PAC = ?, Sexo_PAC = ?, Nacionalidad_PAC = ?, FechaNacimiento_PAC = ?, Direccion_PAC = ?, Telefono_PAC = ?, Estado_PAC = ? WHERE CodPac_PAC = ?";
 
 	@Override
