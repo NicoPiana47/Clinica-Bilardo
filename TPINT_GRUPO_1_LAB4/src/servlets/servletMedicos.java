@@ -149,16 +149,17 @@ public class servletMedicos extends HttpServlet {
 				getHorarios(request);
 				Medico medico = medicoNegocio.getMedico(request,true);
 				int creo = medicoNegocio.crearMedico(medico);
-				request.setAttribute("CrearMedico", creo);      	  	    
+				request.setAttribute("CrearMedico", creo);
 			}
 			catch(DNIInvalidoException ex) {
-				request.setAttribute("CrearMedico", 2);	
+				request.setAttribute("CrearMedico", 2);
 			}
 			catch(MailInvalidoException ex) {
 				request.setAttribute("CrearMedico", 3);
 			}
-			
-			inicializarModuloMedicos(request, response, null);		
+			finally {
+				inicializarModuloMedicos(request, response, null);	
+			}
 		}	
 	}
 	
@@ -168,16 +169,17 @@ public class servletMedicos extends HttpServlet {
 				getHorarios(request);
 				Medico medico = medicoNegocio.getMedico(request,false);
 				int edito = medicoNegocio.editarMedico(medico);
-				request.setAttribute("edito", edito);					
+				request.setAttribute("edito", edito);
 			}
 			catch(DNIInvalidoException ex) {
 				request.setAttribute("edito", 2);
 			}
 			catch(MailInvalidoException ex) {
-				request.setAttribute("edito", 3);	
+				request.setAttribute("edito", 3);
 			}
-			
-			inicializarModuloMedicos(request, response, null);	
+			finally {
+				inicializarModuloMedicos(request, response, null);	
+			}
 		}	
 	}
 	

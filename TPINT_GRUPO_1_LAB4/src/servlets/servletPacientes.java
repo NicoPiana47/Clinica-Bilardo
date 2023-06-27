@@ -63,8 +63,9 @@ public class servletPacientes extends HttpServlet {
 			catch(MailInvalidoException ex) {
 				request.setAttribute("guardo", 3);
 			}
-			
-			listaPacientes = pacienteNegocio.obtenerPacientes(false);
+			finally {
+				listaPacientes = pacienteNegocio.obtenerPacientes(false);
+			}
 		}
 		
 		if(request.getParameter("btnEliminar") != null) {
@@ -85,6 +86,9 @@ public class servletPacientes extends HttpServlet {
 			}
 			catch(MailInvalidoException ex) {
 				request.setAttribute("edito", 3);
+			}
+			finally {
+				listaPacientes = pacienteNegocio.obtenerPacientes(false);
 			}
 		}
 
