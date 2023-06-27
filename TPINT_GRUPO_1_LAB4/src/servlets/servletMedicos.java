@@ -176,6 +176,7 @@ public class servletMedicos extends HttpServlet {
 
 		            if (edito == 1 && medicoSession != null && medico.getCodMed() == medicoSession.getCodMed()) {
 		            	Medico medicoNuevo = medicoNegocio.obtenerMedicoPorUsername(medico.getUsername());
+		            	medicoNegocio.convertirSetAJson(medicoNuevo);
 		                session.setAttribute("sessionMedico", medicoNuevo);
 		            }
 		            

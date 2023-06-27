@@ -47,7 +47,7 @@ public class MedicoNegocio extends GeneralNegocio implements IMedicoNegocio{
 		return mDao.traerMedicoPorNombreUsuario(username);
 	}
 
-	private void convertirSetAJson(Medico medico) {
+	public void convertirSetAJson(Medico medico) {
 		Gson gson = new GsonBuilder().create();
 		Set<MedicosXDias> horarios = medico.getHorarios();
         String horariosJson = gson.toJson(horarios);
