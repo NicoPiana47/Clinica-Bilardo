@@ -4,10 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import daoImpl.MedicoDao;
-import entidades.Medico;
-import neg.IMedicoNegocio;
-
 public class GeneralNegocio {
 	
 	 public Map<String, String> obtenerColumnas(String text, List<String> columnasList) {
@@ -24,16 +20,8 @@ public class GeneralNegocio {
 	                descripcion = descripcion.replace("Cod", "");
 	            }
 	            
-	            if (descripcion.contains("Med")) {
-	                descripcion = "Médico";
-	            }
-	            
 	            if (descripcion.contains("Pac")) {
 	                descripcion = "Paciente";
-	            }
-	            
-	            if (descripcion.contains("Est")) {
-	                descripcion = "Estado";
 	            }
 
 	            columnas.put(columna, descripcion);
