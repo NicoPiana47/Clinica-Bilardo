@@ -60,7 +60,7 @@ public class servletMedicos extends HttpServlet {
 	
 	public void iniciarSesion(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession sessionMedico = request.getSession();
-		Boolean filas = false;
+		Boolean iniciosesion = false;
 		if(request.getParameter("btnIngresar")!=null) {
 			sessionMedico.setAttribute("sessionMedico", null);
         	
@@ -68,12 +68,12 @@ public class servletMedicos extends HttpServlet {
 			
         	if(med != null) {
         		sessionMedico.setAttribute("sessionMedico", med);
-        		filas = true;
+        		iniciosesion = true;
         	}
         	
         	RequestDispatcher rd = null;
         	
-        	if (filas) {
+        	if (iniciosesion) {
         	    if (med.getTipo()) {
         	        inicializarModuloMedicos(request, response, null);
         	        return;
@@ -84,7 +84,7 @@ public class servletMedicos extends HttpServlet {
         	    rd = request.getRequestDispatcher("/Login.jsp");
         	}
 
-        	request.setAttribute("inicioSesion", filas);
+        	request.setAttribute("inicioSesion", iniciosesion);
         	rd.forward(request, response);
         }
 	}
