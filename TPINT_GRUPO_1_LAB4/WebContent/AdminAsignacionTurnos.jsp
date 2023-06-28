@@ -167,7 +167,7 @@
 	}
 	
 	function obtenerNombreDia(day) {
-	    var dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+	    var dias = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
 	    return dias[day];
 	  }
 	
